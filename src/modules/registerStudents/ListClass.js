@@ -35,18 +35,19 @@ class ListClass extends React.Component {
                         className="gray-search" onChange={this.onChangeSearch} placeholder="Tìm kiếm"/>
                 {this.props.isLoadingClasses ?
                     <Loading/>
-                    : <div className="table-responsive">
-                        <table className="table">
+                    :
+                    <div className="table-responsive">
+                        <table id="datatables" className="table table-striped table-no-bordered table-hover" cellSpacing="0" width="100%" style={{ width: "100%" }}>
                             <thead className="text-rose">
                             <tr>
                                 <th>Tên</th>
-                                <th>Khóa</th>
+                                <th style={{width:50}}>Khóa</th>
                                 <th>Thời gian</th>
                                 <th>Giảng viên</th>
                                 <th>Trợ giảng</th>
                                 <th>Trạng thái</th>
-                                <th>Học viên đã nộp tiền</th>
-                                <th>Học viên đã đăng kí</th>
+                                <th style={{width:50}}>Học viên đã nộp tiền</th>
+                                <th style={{width:50}}>Học viên đã đăng kí</th>
                                 <th>Đổi lớp</th>
                             </tr>
                             </thead>
@@ -119,7 +120,8 @@ class ListClass extends React.Component {
                                             </td>
                                             <td>
                                                 <h6>{classItem.total_paid + "/" + classItem.target}</h6>
-                                                <div className="progress progress-line-success progress-bar-table">
+                                                <div style={{width:100}}>
+                                                    <div className="progress progress-line-success progress-bar-table">
                                                     <div className="progress-bar progress-bar-success"
                                                          role="progressbar"
                                                          aria-valuenow="60"
@@ -130,10 +132,12 @@ class ListClass extends React.Component {
                                                     className="sr-only">{classItem.total_paid * 100 / classItem.target}%</span>
                                                     </div>
                                                 </div>
+                                                </div>
                                             </td>
                                             <td>
                                                 <h6>{classItem.total_register + "/" + classItem.regis_target}</h6>
-                                                <div className="progress progress-line-danger progress-bar-table">
+                                                <div style={{width:100}}>
+                                                    <div className="progress progress-line-danger progress-bar-table">
                                                     <div className="progress-bar" role="progressbar" aria-valuenow="60"
                                                          aria-valuemin="0"
                                                          aria-valuemax="100"
@@ -141,6 +145,7 @@ class ListClass extends React.Component {
                                                 <span
                                                     className="sr-only">{classItem.total_register * 100 / classItem.regis_target}%</span>
                                                     </div>
+                                                </div>
                                                 </div>
                                             </td>
                                             <td>
