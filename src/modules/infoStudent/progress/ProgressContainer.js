@@ -287,9 +287,10 @@ class ProgressContainer extends React.Component {
                                                     </div>}
                                                     {currentTab == 1 &&
                                                     <div className="col-md-12">
-                                                        <div className="margin-top-10 max-height-400 smooth-scroll-y">
+
                                                             {progressClass.exams.length == 0 && noneGroup.length == 0 &&
                                                             <div><b>Không có dữ liệu</b></div>}
+                                                        <div className="max-height-400 smooth-scroll-y">
                                                             {progressClass.group_exams.map(group => {
                                                                 return (
                                                                     <div className="margin-bottom-10">
