@@ -108,6 +108,37 @@ table tr td .avatar-list-staff {
 //  }
 //}
 
+.max-height-400{
+  max-height: 400px;
+}
+
+.smooth-scroll-y {
+  overflow: hidden;
+  overflow-y: scroll;
+  padding-right: 5px;
+  width: 103%;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+    cursor: pointer;
+  }
+
+
+  &::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 100px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background: #adadad;
+    border-radius: 100px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: #9e9e9e;
+  }
+}
+
 .btn-main {
   width: 100%;
 }

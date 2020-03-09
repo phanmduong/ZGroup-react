@@ -10,24 +10,24 @@ import Attendances from './Attendances';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {OverlayTrigger, Tooltip} from "react-bootstrap";
-import Topics from "./Topics";
 import CreateRegisterOverlay from "../overlays/CreateRegisterOverlay";
 import {isEmptyInput} from "../../../helpers/helper";
 import EmptyData from "../../../components/common/EmptyData";
+import moment from "moment";
+import {DATE_FORMAT_SQL, DATE_VN_FORMAT, LESSON_EVENT_TYPES_OBJECT} from "../../../constants/constants";
+import TooltipButton from "../../../components/common/TooltipButton";
 
 class ProgressContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
         this.state = {
-            selectedTabs:{
-
-            }
+            selectedTabs: {}
         };
         this.tabs = [
-            {label:'Điểm danh', },
-            {label:'Bài kiểm tra', },
-            {label:'Nhận xét', },
+            {label: 'Điểm danh',},
+            {label: 'Bài kiểm tra',},
+            {label: 'Nhận xét',},
         ];
     }
 
@@ -120,7 +120,8 @@ class ProgressContainer extends React.Component {
                                 return (
                                     <li className="timeline-inverted" key={index}>
                                         <div className="timeline-badge">
-                                            <div className="container-dot-bottom-right">
+                                            {/*<div className="container-dot-bottom-right">*/}
+                                            <div>
                                                 <img className="circle" src={progressClass.icon_url} alt=""/>
                                                 {this.renderCup(this.computeCertificate(progressClass.attendances))}
                                             </div>
@@ -171,13 +172,13 @@ class ProgressContainer extends React.Component {
                                                         <Attendances
                                                             attendances={progressClass.attendances}
                                                         />
-                                                        <div className="flex-row-center">
-                                                            <i className="material-icons">assignment_turned_in</i>&nbsp; &nbsp;
-                                                            Bài tập
-                                                        </div>
-                                                        <Topics
-                                                            topics={progressClass.topics}
-                                                        />
+                                                        {/*<div className="flex-row-center">*/}
+                                                        {/*    <i className="material-icons">assignment_turned_in</i>&nbsp; &nbsp;*/}
+                                                        {/*    Bài tập*/}
+                                                        {/*</div>*/}
+                                                        {/*<Topics*/}
+                                                        {/*    topics={progressClass.topics}*/}
+                                                        {/*/>*/}
 
 
                                                     </div>
@@ -193,90 +194,107 @@ class ProgressContainer extends React.Component {
 
                                                     </div>
                                                 </div>
-                                                <div className="row">
+                                                <div className="row margin-top-20">
                                                     <div className="col-md-12">
                                                         <div className="flex flex-wrap">
-                                                            {this.tabs.map((tab,key)=>{
+                                                            {this.tabs.map((tab, key) => {
                                                                 let classNameTab = currentTab == key ? "btn btn-actions" : "btn btn-actions background-transparent";
                                                                 return (
                                                                     <div className={classNameTab}
-                                                                        onClick={()=>{
-                                                                            let {selectedTabs} = this.state;
-                                                                            selectedTabs[index] = key;
-                                                                            this.setState({selectedTabs});
-                                                                        }}
+                                                                         onClick={() => {
+                                                                             let {selectedTabs} = this.state;
+                                                                             selectedTabs[index] = key;
+                                                                             this.setState({selectedTabs});
+                                                                         }}
                                                                     >{tab.label}</div>
                                                                 );
                                                             })}
-                                                            {currentTab == 0 && <div>
 
-                                                            </div>}
-                                                            {currentTab == 1 &&
-                                                            <div className="col-md-12">
-                                                                <div className="margin-top-10">
-                                                                    {progressClass.exams.length == 0 && noneGroup.length == 0 && <div>Không có dữ liệu</div>}
-                                                                    {progressClass.group_exams.map(group => {
-                                                                        return (
-                                                                            <div className="margin-bottom-10">
-                                                                                <div><b>{group.name}</b></div>
-                                                                                <div className="padding-left-15">
-                                                                                    <table id="datatables"
-                                                                                           className="table table-hover table-split"
-                                                                                           cellSpacing="0" width="100%"
-                                                                                           style={{width: "100%"}}>
-                                                                                        <tbody>
-                                                                                        {progressClass.exams.filter(e => e.group_exam_id == group.id).map(exam => {
-                                                                                            return (<tr>
-                                                                                                <td>{exam.title}</td>
-                                                                                                <td>{exam.score}</td>
-                                                                                                <td>{exam.comment}</td>
-                                                                                                {exam.inputTeacher ? <td>Nhập
-                                                                                                    bởi <b>{exam.inputTeacher.name}</b>
-                                                                                                </td> : <td/>}
-                                                                                                <td>{exam.created_at}</td>
-                                                                                            </tr>);
-                                                                                        })}
-                                                                                        </tbody>
-                                                                                    </table>
-                                                                                </div>
-                                                                            </div>
-                                                                        );
-                                                                    })}
-                                                                    {noneGroup && noneGroup.length > 0 &&
-                                                                    <div className="margin-bottom-10">
-                                                                        <div><b>Không có nhóm</b></div>
-                                                                        <div className="padding-left-15">
+
+                                                        </div>
+                                                    </div>
+                                                    {currentTab == 0 && <div className="col-md-12">
+                                                        {!progressClass.attendances || progressClass.attendances.length == 0 &&
+                                                        <div><b>Không có dữ liệu</b></div>}
+                                                        {progressClass.attendances && progressClass.attendances.length > 0 &&
+                                                        <div className="max-height-400 smooth-scroll-y">
+                                                            <table id="datatables"
+                                                                   className="table table-hover table-split"
+                                                                   cellSpacing="0" width="100%"
+                                                                   style={{width: "100%"}}>
+                                                                <tbody>
+                                                                {progressClass.attendances.map((atd, key_atd) => {
+                                                                    let atd_data = atd.status && atd.status.class_lesson && atd.status.class_lesson.lesson ? atd.status.class_lesson.lesson : {};
+                                                                    let atded = atd.status && atd.status.status == 1;
+                                                                    let atd_time = moment(atd.status.class_lesson.time, DATE_FORMAT_SQL).format(DATE_VN_FORMAT);
+                                                                    let atd_note = atd.status ? atd.status.note : '';
+                                                                    return (<tr key={key_atd}>
+                                                                        <td>{`Buổi ${atd_data.order}`}</td>
+                                                                        <td>
+                                                                            <div
+                                                                                style={{color: atded ? '#32CA41' : '#DE0D02'}}>{atded ? 'Có mặt' : 'Vắng mặt'}</div>
+                                                                        </td>
+                                                                        <td>{atd_time}</td>
+                                                                        <td>{atd_note}</td>
+
+                                                                    </tr>);
+                                                                })}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                       }
+                                                    </div>}
+                                                    {currentTab == 2 && <div className="col-md-12">
+                                                        {!progressClass.classLessonEvents || progressClass.classLessonEvents.length == 0 &&
+                                                        <div><b>Không có dữ liệu</b></div>}
+                                                        {progressClass.classLessonEvents && progressClass.classLessonEvents.length > 0 &&
+                                                        <div className="max-height-400 smooth-scroll-y">
+                                                            {Object.keys(LESSON_EVENT_TYPES_OBJECT).map((event_type) => {
+                                                                let event_obj = LESSON_EVENT_TYPES_OBJECT[event_type];
+                                                                let event_arr = progressClass.classLessonEvents.filter(e => e.event_type == event_type) || [];
+                                                                if (event_arr.length > 0)
+                                                                    return (
+                                                                        <div className="margin-bottom-10">
+                                                                            <div><b>{event_obj.name}</b></div>
+                                                                            <div className="">
                                                                             <table id="datatables"
                                                                                    className="table table-hover table-split"
                                                                                    cellSpacing="0" width="100%"
                                                                                    style={{width: "100%"}}>
                                                                                 <tbody>
-                                                                                {noneGroup.map(exam => {
-                                                                                    return (<tr>
-                                                                                        <td>{exam.title}</td>
-                                                                                        <td>{exam.score}</td>
-                                                                                        <td>{exam.comment}</td>
-                                                                                        {exam.inputTeacher ? <td>Nhập
-                                                                                            bởi <b>{exam.inputTeacher.name}</b>
-                                                                                        </td> : <td/>}
-                                                                                        <td>{exam.created_at}</td>
+                                                                                {event_arr.map((event, key_event) => {
+                                                                                    let event_time = moment(event.time, DATE_FORMAT_SQL).format(DATE_VN_FORMAT);
+
+                                                                                    return (<tr key={key_event}>
+                                                                                        <td>{`Buổi ${event.order}`}</td>
+                                                                                        <td>{event_time}</td>
+                                                                                        <td><TooltipButton
+                                                                                            text={`Nhập bởi ${event.creator_name}`}
+                                                                                            placement="top">
+                                                                                            <div>{event.data}</div>
+                                                                                        </TooltipButton>
+                                                                                        </td>
+
                                                                                     </tr>);
                                                                                 })}
                                                                                 </tbody>
                                                                             </table>
                                                                         </div>
-                                                                    </div>}
-                                                                </div>
-                                                            </div>}
-                                                        </div>
-                                                    </div>
+                                                                        </div>
+                                                                    );
+                                                            })}
+                                                        </div>}
+                                                    </div>}
+                                                    {currentTab == 1 &&
                                                     <div className="col-md-12">
-                                                        <div className="margin-top-10">
+                                                        <div className="margin-top-10 max-height-400 smooth-scroll-y">
+                                                            {progressClass.exams.length == 0 && noneGroup.length == 0 &&
+                                                            <div><b>Không có dữ liệu</b></div>}
                                                             {progressClass.group_exams.map(group => {
                                                                 return (
                                                                     <div className="margin-bottom-10">
                                                                         <div><b>{group.name}</b></div>
-                                                                        <div className="padding-left-15">
+                                                                        <div className="">
                                                                             <table id="datatables"
                                                                                    className="table table-hover table-split"
                                                                                    cellSpacing="0" width="100%"
@@ -302,7 +320,7 @@ class ProgressContainer extends React.Component {
                                                             {noneGroup && noneGroup.length > 0 &&
                                                             <div className="margin-bottom-10">
                                                                 <div><b>Không có nhóm</b></div>
-                                                                <div className="padding-left-15">
+                                                                <div className="">
                                                                     <table id="datatables"
                                                                            className="table table-hover table-split"
                                                                            cellSpacing="0" width="100%"
@@ -324,13 +342,14 @@ class ProgressContainer extends React.Component {
                                                                 </div>
                                                             </div>}
                                                         </div>
-                                                    </div>
+                                                    </div>}
+
                                                 </div>
                                             </div>
                                         </div>
                                     </li>
                                 );
-                            }) : <EmptyData title={"Không có dữ liệu học tập"}/>
+                            }) : <EmptyData title={"<b>Không có dữ liệu</b> học tập"}/>
                         }
                     </ul>
                 }

@@ -140,11 +140,11 @@ class HistoryTeachingContainer extends React.Component {
         this.setState({showModalDelayLessons: false});
     };
     openModalLessonEvent = (lessonEvent, lessonEventType, classLessonEvent) => {
-
+        console.log(lessonEvent);
         let lessonEventStudent = this.props.classData.registers.map((r) => {
-            console.log(r.events);
             let {student} = r;
-            let student_class_lesson_event  = r.events.filter(e=>e.event_type == lessonEventType)[0]||{};
+            let student_class_lesson_event  = r.events.filter(e=>e.event_type == lessonEventType && e.lesson_id == lessonEvent.lesson_id)[0]||{};
+            console.log(r.events,student_class_lesson_event);
 
             return {
                 student_class_lesson_event_id: student_class_lesson_event ? student_class_lesson_event.id : null,

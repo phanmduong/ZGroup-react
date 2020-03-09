@@ -417,7 +417,7 @@ class InfoStudentContainer extends React.Component {
 
                                 {!this.props.isLoadingStudent &&
                                 <div className="col-md-12">
-                                    <ul className="timeline timeline-simple time-line-register">
+                                    <ul className="timeline timeline-simple time-line-register none-margin">
                                         <li className="timeline-inverted">
                                             <div className={"timeline-badge warning"}>
                                                 <i className="material-icons">star</i>

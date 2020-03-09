@@ -132,7 +132,7 @@ class TopicDetailContainer extends React.Component {
     }
 
     render() {
-        const {data} = this.props;
+        const data = {...this.props.data};
         return (
             <div>
 
