@@ -131,21 +131,34 @@ class SourceOverlay extends React.Component {
     };
 
     assignSource = (source) => {
-        this.setState({
-            isProcessing: true
-        });
+        let {onChange} = this.props;
         let {student} = this.state;
-        assignSource(source, student)
-            .then(() => {
-                // this.loadSources();
-                this.setState({
-                    isProcessing: false,
-                    student: {
-                        ...student,
-                        source_id: source.id
-                    }
-                });
+        if(isEmptyInput(onChange)){
+            this.setState({
+                isProcessing: true
             });
+            assignSource(source, student)
+                .then(() => {
+                    // this.loadSources();
+                    this.setState({
+                        isProcessing: false,
+                        student: {
+                            ...student,
+                            source_id: source.id
+                        }
+                    });
+                });
+        }else {
+            this.setState({
+                isProcessing: false,
+                show: false,
+                student: {
+                    ...student,
+                    source_id: source.id
+                }
+            });
+            onChange(source);
+        }
     };
 
     close = () => {
@@ -163,31 +176,34 @@ class SourceOverlay extends React.Component {
     };
 
     sourceName = () => {
+        if(this.state.isLoading) return 'Đang tải dữ liệu...';
         let {student} = this.state;
         let s = this.state.sources && this.state.sources.filter(i => i.id == student.source_id)[0];
-        return s ? s.name : "No Source";
+        let defaultText = this.props.defaultText || "No Source";
+        return s ? s.name : defaultText;
     };
 
     render() {
-        let {isDeleting, isLoading, isProcessing, student} = this.state;
-        let {className,style} = this.props;
+        let {isDeleting, isLoading, isProcessing, student,show} = this.state;
+        let {className,styleWrapper,styleOverlay,styleButton} = this.props;
         let showLoading = isLoading || isProcessing;
+        let zIndex = show ? 1 : 0;
         const current = (student && this.state.sources && this.state.sources.filter(s => s.id == student.source_id)[0]) || {};
 
         return (
-            <div style={{position: "relative", backgroundColor: current.color, ...style}} className={className}
+            <div style={{position: "relative", backgroundColor: current.color,zIndex, ...styleWrapper}} className={className}
                  ref="SourceOverlay">
-                <div onClick={() => this.setState({show: true})}>
+                <div onClick={() => this.setState({show: true})} style={styleButton}>
                     {this.sourceName()}
                 </div>
                 <Overlay
                     rootClose={true}
-                    show={this.state.show}
+                    show={show}
                     onHide={this.close}
                     placement="bottom"
                     container={this}
-                    target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay" style={{width: "300px", marginTop: 25}}>
+                    target={() => ReactDOM.findDOMNode(this.refs.SourceOverlay)}>
+                    <div className="kt-overlay" style={{width: "300px", marginTop: 25,...styleOverlay}}>
                         {!showLoading && <div style={{position: "relative"}}>
                             {
                                 this.state.create && (
@@ -219,7 +235,7 @@ class SourceOverlay extends React.Component {
                         <div>{showLoading && <Loading/>}</div>
                         {!this.state.create && !showLoading && <div>
                             <Search
-                                placeholder="Tìm theo tên"
+                                placeholder="Tìm theo tên" className="margin-bottom-10"
                                 value={this.state.search}
                                 onChange={search => this.setState({search})}
                             />

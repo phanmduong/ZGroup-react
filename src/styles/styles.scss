@@ -51,6 +51,9 @@ a {
 .color-white {
   color: white;
 }
+.color-grey {
+  color: grey;
+}
 
 .logo-sidebar {
   height: 40px;
@@ -578,6 +581,9 @@ $starInactive: #c4c5c6;
 
 .position-relative {
   position: relative;
+}
+.position-absolute {
+  position: absolute;
 }
 
 .width-100 {
@@ -1990,7 +1996,7 @@ table tr td .avatar-honor {
   color: white !important;
   font-size: 10px !important;
   //margin: 0 0 10px 0;
-  width: unset !important;
+  //width: unset !important;
   font-weight: 600;
   padding: 4px 15px;
   background-color: #999999;
@@ -4808,6 +4814,21 @@ input[type=search], .form-control {
     border: none;
     margin-bottom: 10px;
   }
+  .panel-body {
+    padding: 0;
+  }
+
+  .panel-heading {
+    border: none;
+    padding-top: 10px;
+    padding-bottom: 0;
+
+    h4 {
+      display: flex;
+      justify-content: center;
+      color: black;
+    }
+  }
 }
 
 .set-kpi-form {
@@ -4921,4 +4942,10 @@ input[type=date]::-webkit-outer-spin-button {
 
 .background-transparent{
   background-color: transparent;
+}
+
+.modal-header{
+  button.close{
+    transform: scale(1.5);
+  }
 }

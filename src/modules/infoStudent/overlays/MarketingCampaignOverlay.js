@@ -112,18 +112,26 @@ class MarketingCampaignOverlay extends React.Component {
     };
 
     assignMarketingCampaign = (campaign) => {
-        this.setState({
-            isProcessing: true
-        });
-        assignMarketingCampaign(this.props.student.id,  campaign.id)
-            .then(() => {
-                this.loadMarketingEmail();
-                let {updateInfoStudent, student} = this.props;
-                if(updateInfoStudent)updateInfoStudent({...student, campaign_id: campaign.id});
-                this.setState({
-                    isProcessing: false
-                });
+        let {updateInfoStudent, student,onChange} = this.props;
+        if(isEmptyInput(onChange)){
+            this.setState({
+                isProcessing: true
             });
+            assignMarketingCampaign(this.props.student.id,  campaign.id)
+                .then(() => {
+                    this.loadMarketingEmail();
+                    if(updateInfoStudent)updateInfoStudent({...student, campaign_id: campaign.id});
+                    this.setState({
+                        isProcessing: false
+                    });
+                });
+        }else {
+            onChange(campaign);
+            this.setState({
+                show: false
+            });
+        }
+
     };
 
     close = () => {
@@ -141,31 +149,34 @@ class MarketingCampaignOverlay extends React.Component {
     };
 
     campaignName = () => {
+        if(this.state.isLoading) return 'Đang tải dữ liệu...';
+        let defaultText = this.props.defaultText || "No Campaign";
         let s = this.state.campaigns && this.state.campaigns.filter(i => i.id == this.props.student.campaign_id)[0];
-        return s ? s.name : "No Campaign";
+        return s ? s.name : defaultText;
     };
 
     render() {
-        let {isDeleting, isLoading, isProcessing} = this.state;
-        let {className} = this.props;
+        let {isDeleting, isLoading, isProcessing,show} = this.state;
+        let {className,styleWrapper,styleOverlay, styleButton} = this.props;
         let showLoading = isLoading || isProcessing;
+        let zIndex = show ? 1 : 0;
         const current = (this.props.student && this.state.campaigns && this.state.campaigns.filter(s => s.id == this.props.student.campaign_id)[0]) || {};
 
         return (
-            <div style={{position: "relative", backgroundColor:  `#${current.color}`}} className={className}
+            <div style={{position: "relative", backgroundColor:  `#${current.color}`,zIndex,...styleWrapper}} className={className}
                  ref="MarketingCampaignOverlay">
-                <div className=""
+                <div style={{...styleButton}}
                      onClick={() => this.setState({show: true})}>
                     {this.campaignName()}
                 </div>
                 <Overlay
                     rootClose={true}
-                    show={this.state.show}
+                    show={show}
                     onHide={this.close}
                     placement="bottom"
                     container={this}
-                    target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay" style={{width: "300px", marginTop: 25}}>
+                    target={() => ReactDOM.findDOMNode(this.refs.MarketingCampaignOverlay)}>
+                    <div className="kt-overlay" style={{width: "300px", marginTop: 25,...styleOverlay}}>
 
 
                         {!showLoading && <div style={{position: "relative"}}>
@@ -192,7 +203,7 @@ class MarketingCampaignOverlay extends React.Component {
                         <div>{showLoading && <Loading/>}</div>
                         {!this.state.create && !showLoading && <div>
                             <Search
-                                placeholder="Tìm theo tên"
+                                placeholder="Tìm theo tên" className="margin-bottom-10"
                                 value={this.state.search}
                                 onChange={search => this.setState({search})}
                             />

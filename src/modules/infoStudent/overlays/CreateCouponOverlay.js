@@ -37,6 +37,7 @@ class CreateCouponOverlay extends React.Component {
 
     loadDiscounts = (singleLoad) => {
         let {discountActions, isLoadedCoupons} = this.props;
+        console.log(isLoadedCoupons);
         if (!isLoadedCoupons || singleLoad)
             discountActions.loadDiscounts({page: 1, limit: -1, search: ''});
     };
@@ -123,17 +124,17 @@ class CreateCouponOverlay extends React.Component {
 
     render() {
         let {isLoading, isProcessing, coupon} = this.state;
-        let {isLoadingCoupons, className} = this.props;
+        let {isLoadingCoupons, className, text,styleWrapper} = this.props;
         let coupons = this.props.coupons || [];
         let showLoading = isLoading || isLoadingCoupons || isProcessing;
         return (
-            <div style={{position: "relative"}}>
+            <div style={{position: "relative",...styleWrapper}}>
                 <div
                     className={className}
                     ref="target" onClick={() => {
                     this.setState({show: !this.state.show});
                 }}>
-                    Mã giảm giá
+                    {isLoadingCoupons ? 'Đang tải dữ liệu...' : (text || 'Mã giảm giá')}
                 </div>
                 <Overlay
                     rootClose={true}
@@ -395,7 +396,7 @@ function mapStateToProps(state) {
     return {
         coupons: state.discounts.discountsList,
         isLoadingCoupons: state.discounts.isLoading,
-        isLoadedCoupons: state.discounts.isLoading,
+        isLoadedCoupons: state.discounts.isLoadedCoupons,
         totalPages: state.discounts.totalPages,
         totalCount: state.discounts.totalCount,
     };

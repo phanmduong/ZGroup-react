@@ -1,40 +1,41 @@
 import React from 'react';
-import {Overlay} from "react-bootstrap";
-import * as ReactDOM from "react-dom";
+import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
 import Loading from "../../../components/common/Loading";
 import {bindActionCreators} from "redux";
 import * as createRegisterActions from "../../registerStudents/createRegisterActions";
 import FormInputText from "../../../components/common/FormInputText";
-import MemberReactSelectOption from "../../registerStudents/MemberReactSelectOption";
-import MemberReactSelectValue from "../../registerStudents/MemberReactSelectValue";
 import ReactSelect from "react-select";
 import * as helper from "../../../helpers/helper";
+import {isEmptyInput} from "../../../helpers/helper";
 import * as studentActions from "../../infoStudent/studentActions";
 import * as registerActions from "../../registerStudents/registerActions";
 import * as leadActions from "../leadActions";
 import {GENDER, STATUS_REFS} from "../../../constants/constants";
-import {isEmptyInput} from "../../../helpers/helper";
+import SourceOverlay from "../../infoStudent/overlays/SourceOverlay";
+import MarketingCampaignOverlay from "../../infoStudent/overlays/MarketingCampaignOverlay";
+import PicOverlay from "../../infoStudent/overlays/PicOverlay";
+import StatusesOverlay from "../../infoStudent/overlays/StatusesOverlay";
 
 
-function getSelectSaler(items) {
-    return items && items.map(item => {
-        return {
-            value: item.id,
-            label: item.name,
-            icon_url: item.avatar_url,
-        };
-    });
-}
+// function getSelectSaler(items) {
+//     return items && items.map(item => {
+//         return {
+//             value: item.id,
+//             label: item.name,
+//             icon_url: item.avatar_url,
+//         };
+//     });
+// }
 
-function getSelectCampaign(items) {
-    return items && items.map(item => {
-        return {
-            value: item.id,
-            label: item.name,
-        };
-    });
-}
+// function getSelectCampaign(items) {
+//     return items && items.map(item => {
+//         return {
+//             value: item.id,
+//             label: item.name,
+//         };
+//     });
+// }
 
 
 class CreateLeadOverlay extends React.Component {
@@ -43,22 +44,23 @@ class CreateLeadOverlay extends React.Component {
         this.statusRef = STATUS_REFS.leads;
         this.initState = {
             show: false,
+            showModal: false,
             lead: {
                 carer_id: this.props.user && this.props.user.id,
                 rate: 5,
                 city: this.props.user.choice_province_id,
-                name:'Không có tên'
+                name: 'Không có tên'
             },
         };
         this.state = this.initState;
     }
 
     componentWillMount() {
-        this.props.createRegisterActions.loadCampaigns();
+        // this.props.createRegisterActions.loadCampaigns();
         this.props.createRegisterActions.loadAllProvinces();
-        this.props.registerActions.loadSalerFilter();
+        // this.props.registerActions.loadSalerFilter();
 
-        this.loadStatuses(false);
+        // this.loadStatuses(false);
     }
 
     loadStatuses = (singleLoad) => {
@@ -75,7 +77,7 @@ class CreateLeadOverlay extends React.Component {
 
     updateCampaign = (e) => {
         let lead = {...this.state.lead};
-        lead["campaign_id"] = e.value;
+        lead["campaign_id"] = e ? e.id : e;
         this.setState({lead});
     };
 
@@ -92,12 +94,12 @@ class CreateLeadOverlay extends React.Component {
 
     updateSaler = (e) => {
         let lead = {...this.state.lead};
-        lead["carer_id"] = e ? e.value : null;
+        lead["carer_id"] = e ? e.id : e;
         this.setState({lead});
     };
     updateSource = (e) => {
         let lead = {...this.state.lead};
-        lead["source_id"] = e ? e.value : null;
+        lead["source_id"] = e ? e.id : e;
         this.setState({lead});
     };
     updateCity = (e) => {
@@ -107,7 +109,7 @@ class CreateLeadOverlay extends React.Component {
     };
     updateStatus = (e) => {
         let lead = {...this.state.lead};
-        lead["status_id"] = e ? e.value : null;
+        lead["status_id"] = e ? e.id : e;
         this.setState({lead});
     };
 
@@ -154,9 +156,9 @@ class CreateLeadOverlay extends React.Component {
         }
         this.props.leadActions.editInfoLead(
             lead,
-            ()=>{
+            () => {
                 this.close;
-                if(this.props.onSuccess){
+                if (this.props.onSuccess) {
                     this.props.onSuccess();
                 }
             }
@@ -173,11 +175,17 @@ class CreateLeadOverlay extends React.Component {
     close = (shouldClose) => {
         if (shouldClose) this.setState(this.initState);
     };
+    closeModal = () => {
+        this.setState({showModal: false});
+    };
+    showModal = () => {
+        this.setState({showModal: true});
+    };
 
     render() {
         let {lead} = this.state;
-        let {isEditing, salers, sources, statuses, className} = this.props;
-        statuses = statuses[this.statusRef];
+        let {isEditing,  className} = this.props;
+        // statuses = statuses[this.statusRef];
         let provinces = this.props.provinces ? this.props.provinces.map((province) => {
             return {value: province.id, label: province.name};
         }) : [];
@@ -186,31 +194,21 @@ class CreateLeadOverlay extends React.Component {
 
             <div style={{position: "relative"}} ref="target">
                 <div className={className} mask="create"
-                     onClick={this.toggle}>
+                     onClick={this.showModal}
+                >
                     Tạo lead <i className="material-icons">add</i>
                 </div>
-                <Overlay
-                    rootClose={true}
-                    show={this.state.show}
-                    onHide={this.close}
-                    placement="bottom"
-                    container={this}
-                    target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay overlay-container" style={{width: 300, marginTop: 0}}
-                         mask="lead">
-                        <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
-                            <div><b>Tạo lead mới</b></div>
-                            <button
-                                onClick={this.close}
-                                type="button" className="close"
-                                style={{color: '#5a5a5a'}}>
-                                <span aria-hidden="true">×</span>
-                                <span className="sr-only">Close</span>
-                            </button>
-                        </div>
-                        {(this.props.isLoadingCourses || this.props.isLoadingCampaigns) && <Loading/>}
+                <Modal show={this.state.showModal} onHide={this.closeModal}>
+                    <Modal.Header closeButton={!isEditing}
+                                  closeplaceholder="Đóng">
+                        <Modal.Title><b>Tạo Lead mới</b></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+
+                        {/*{(this.props.isLoadingCourses || this.props.isLoadingCampaigns) && <Loading/>}*/}
                         {!isEditing && !(this.props.isLoadingCourses || this.props.isLoadingCampaigns) &&
-                        <form role="form" id="form-info-student">
+                        <div className="form-grey">
 
                             <div>
                                 <label>Tên </label>
@@ -295,22 +293,42 @@ class CreateLeadOverlay extends React.Component {
 
                                         <div>
                                             <label>Nguồn</label>
-                                            <ReactSelect
-                                                options={getSelectCampaign(sources)}
+                                            {/*<ReactSelect*/}
+                                            {/*    options={getSelectCampaign(sources)}*/}
+                                            {/*    onChange={this.updateSource}*/}
+                                            {/*    value={lead.source_id}*/}
+                                            {/*    placeholder="Chọn nguồn"*/}
+                                            {/*    name="source_id"*/}
+                                            {/*/>*/}
+                                            <SourceOverlay
+                                                className="btn status-overlay width-100 none-padding"
                                                 onChange={this.updateSource}
-                                                value={lead.source_id}
-                                                placeholder="Chọn nguồn"
-                                                name="source_id"
-                                            /></div>
+                                                defaultText="Chọn nguồn"
+                                                // styleWrapper={{zIndex:1}}
+                                                styleButton={{padding: '10px 15px'}}
+                                                styleOverlay={{marginTop: 35}}
+                                                student={lead}
+                                            />
+                                        </div>
 
                                         <div>
                                             <label>Chiến dịch</label>
-                                            <ReactSelect
-                                                value={lead.campaign_id}
-                                                options={getSelectCampaign(this.props.campaigns)}
+                                            {/*<ReactSelect*/}
+                                            {/*    value={lead.campaign_id}*/}
+                                            {/*    options={getSelectCampaign(this.props.campaigns)}*/}
+                                            {/*    onChange={this.updateCampaign}*/}
+                                            {/*    placeholder="Chọn chiến dịch"*/}
+                                            {/*/>*/}
+                                            <MarketingCampaignOverlay
+                                                student={lead}
+                                                // styleWrapper={{zIndex:1}}
+                                                styleButton={{padding: '10px 15px'}}
+                                                styleOverlay={{marginTop: 35}}
+                                                defaultText="Chọn chiến dịch"
+                                                className="btn status-overlay width-100 none-padding"
                                                 onChange={this.updateCampaign}
-                                                placeholder="Chọn chiến dịch"
-                                            /></div>
+                                            />
+                                        </div>
 
 
                                         <div>
@@ -353,31 +371,48 @@ class CreateLeadOverlay extends React.Component {
 
                                         <div>
                                             <label>P.I.C</label>
-                                            <ReactSelect
-                                                optionComponent={MemberReactSelectOption}
-                                                valueComponent={MemberReactSelectValue}
-                                                options={getSelectSaler(salers)}
+                                            {/*<ReactSelect*/}
+                                            {/*    optionComponent={MemberReactSelectOption}*/}
+                                            {/*    valueComponent={MemberReactSelectValue}*/}
+                                            {/*    options={getSelectSaler(salers)}*/}
+                                            {/*    onChange={this.updateSaler}*/}
+                                            {/*    value={lead.carer_id}*/}
+                                            {/*    placeholder="Chọn saler"*/}
+                                            {/*    name="carer_id"*/}
+                                            {/*/>*/}
+                                            <PicOverlay
+                                                styleButton={{padding: '10px 15px'}}
                                                 onChange={this.updateSaler}
-                                                value={lead.carer_id}
-                                                placeholder="Chọn saler"
-                                                name="carer_id"
+                                                className="btn status-overlay width-100 none-padding"
+                                                defaultText="Chọn P.I.C"
                                             />
                                         </div>
 
 
                                         <div>
                                             <label>Trạng thái</label>
-                                            <ReactSelect
-                                                options={getSelectCampaign(statuses)}
+                                            {/*<ReactSelect*/}
+                                            {/*    options={getSelectCampaign(statuses)}*/}
+                                            {/*    onChange={this.updateStatus}*/}
+                                            {/*    value={lead.status_id}*/}
+                                            {/*    placeholder="Chọn trạng thái"*/}
+                                            {/*    name="status_id"*/}
+                                            {/*/>*/}
+                                            <StatusesOverlay
+                                                data={lead.status || {}}
                                                 onChange={this.updateStatus}
-                                                value={lead.status_id}
-                                                placeholder="Chọn trạng thái"
-                                                name="status_id"
-                                            /></div>
+                                                defaultText="Chọn trạng thái"
+                                                statusRef={this.statusRef}
+                                                className="btn status-overlay width-100 none-padding"
+                                                // styleWrapper={{zIndex:1}}
+                                                styleButton={{padding: '10px 15px'}}
+                                                styleOverlay={{marginTop:35}}
+                                            />
+                                        </div>
                                         <div>
                                             <label>Ghi chú</label>
-                                            <div className="form-group">
-                                                <div className="input-note-overlay">
+                                            <div className="form-group text-area-grey">
+
                                                          <textarea type="text" className="form-control"
                                                                    rows={5}
                                                                    name="note"
@@ -386,13 +421,13 @@ class CreateLeadOverlay extends React.Component {
                                                                        lead.note ? lead.note : ""
                                                                    }
                                                                    onChange={this.updateFormData}/>
-                                                </div>
+
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
 
                         }
                         {isEditing ? <Loading/> :
@@ -414,8 +449,9 @@ class CreateLeadOverlay extends React.Component {
                                 </button>
                             </div>}
 
-                    </div>
-                </Overlay>
+
+                    </Modal.Body>
+                </Modal>
             </div>
 
 

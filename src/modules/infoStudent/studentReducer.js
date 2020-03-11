@@ -256,7 +256,11 @@ export default function studentReducer(state = initialState.infoStudent, action)
                 ...{
                     isEditingStudent: false,
                     errorEditing: false,
-                    student: action.student
+                    student: {
+                        ...action.student,
+                        image_urls: action.student && action.student.image_urls ? JSON.parse(action.student.image_urls) : []
+                    }
+
                 }
             };
         case types.LOAD_EDIT_INFO_STUDENT_ERROR:

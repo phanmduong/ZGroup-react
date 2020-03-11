@@ -14,7 +14,7 @@ export default function discountReducer(state = initialState.discounts, action) 
                 ...state,
                 ...{
                     isLoading: true,
-                    isLoaded: true,
+                    isLoadedCoupons: true,
                 }
             };
         case types.LOADED_DISCOUNT_SUCCESS:

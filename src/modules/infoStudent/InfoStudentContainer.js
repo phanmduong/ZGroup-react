@@ -215,13 +215,17 @@ class InfoStudentContainer extends React.Component {
     };
 
     handleImages = (image_urls, isUploadedAll) => {
-        if (isUploadedAll)
+        if (isUploadedAll) {
             this.props.studentActions.editInfoStudent(
                 {...this.props.student, image_urls},
-                () => this.props.studentActions.loadInfoStudent(this.studentId)
+                () => {
+
+                }
+                // () => this.props.studentActions.loadInfoStudent(this.studentId)
             );
-        else
-            this.props.studentActions.setInfoStudent({...this.props.student, image_urls});
+        }
+
+        this.props.studentActions.setInfoStudent({...this.props.student, image_urls});
 
     };
 
@@ -351,7 +355,7 @@ class InfoStudentContainer extends React.Component {
                                             <div className="source-value"
                                                  style={{background: `#${student.imported_by.color}`}}>{student.imported_by.name}</div>
                                         </div>}
-                                        {!isEmptyInput(student.imported_at) && <div className="source-wrap">
+                                        {!isEmptyInput(student.imported_at) && !isEmptyInput(student.imported_by) && <div className="source-wrap">
                                             <div className="source-name">Import lúc</div>
                                             <div className="source-value"
                                                  style={{background: `#${student.imported_by.color}`}}>{student.imported_at}</div>
@@ -384,17 +388,42 @@ class InfoStudentContainer extends React.Component {
                             <div>
                                 <label className="bold color-black">Ảnh xác thực</label>
                                 <div className="card  margin-top-0" mask="transparent">
-                                    <img className="img-user"
-                                        // onClick={() => this.openModalImageView(student.image1)}
-                                         onClick={() => this.handleFileUpload('image1')}
-                                         src={helper.validateLinkImage(student.image1, dfImg)}/>
-                                    {/*</div>*/}
+                                        <div className="father position-relative">
+                                            <TooltipButton text="Nhấp chọn ảnh" placement="top">
+                                            <img className="img-user"
+                                                 onClick={() => this.handleFileUpload('image1')}
+                                                 src={helper.validateLinkImage(student.image1, dfImg)}/>
+                                            </TooltipButton>
+                                            {!helper.isEmptyInput(student.image1) &&
+                                            <TooltipButton text="Xem ảnh" placement="top">
+                                                <div className="son position-absolute cursor-pointer color-grey"
+                                                     style={{top:5, right:5}}
+                                                     onClick={() => this.openModalImageView(student.image1)}
+                                                >
+                                                    <i className="material-icons">info</i>
+                                                </div>
+                                            </TooltipButton>}
+                                        </div>
 
-                                    {/*<div className="card" mask="transparent">*/}
-                                    <img className="img-user"
-                                        // onClick={() => this.openModalImageView(student.image2)}
-                                         onClick={() => this.handleFileUpload('image2')}
-                                         src={helper.validateLinkImage(student.image2, dfImg)}/>
+
+                                        <div className="father position-relative">
+                                            <TooltipButton text="Nhấp chọn ảnh" placement="top">
+                                            <img className="img-user"
+                                                 onClick={() => this.handleFileUpload('image2')}
+                                                 src={helper.validateLinkImage(student.image2, dfImg)}/>
+                                            </TooltipButton>
+                                            {!helper.isEmptyInput(student.image2) &&
+                                            <TooltipButton text="Xem ảnh" placement="top">
+                                                <div className="son position-absolute cursor-pointer color-grey"
+                                                     style={{top:5, right:5}}
+                                                     onClick={() => this.openModalImageView(student.image2)}
+                                                >
+                                                    <i className="material-icons">info</i>
+                                                </div>
+                                            </TooltipButton>}
+                                        </div>
+
+
                                 </div>
                             </div>
                             }
@@ -492,11 +521,11 @@ class InfoStudentContainer extends React.Component {
                             />
                         </Modal.Body>
                     </Modal>
-                    <Modal show={this.state.showModalViewImage}>
+                    <Modal show={this.state.showModalViewImage} onHide={() => {
+                        this.setState({showModalViewImage: false});
+                    }}>
                         <Modal.Header closeButton
-                                      onHide={() => {
-                                          this.setState({showModalViewImage: false});
-                                      }}
+
                                       closeplaceholder="Đóng">
                             <Modal.Title>Ảnh</Modal.Title>
                         </Modal.Header>
@@ -504,11 +533,11 @@ class InfoStudentContainer extends React.Component {
                             <img style={{height: 'auto', width: '100%'}}
                                  src={helper.validateLinkImage(this.state.imageUrl)}/>
                             <div className="flex flex-col flex-align-items-center flex-justify-content-center">
-                                <button className="btn btn-rose"
+                                <button className="btn button-green"
                                         onClick={() => {
                                             this.setState({showModalViewImage: false});
                                         }}
-                                > Thoát
+                                > Đóng
                                 </button>
                             </div>
                         </Modal.Body>

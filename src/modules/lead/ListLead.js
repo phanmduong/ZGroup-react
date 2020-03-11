@@ -193,25 +193,25 @@ class ListLead extends React.Component {
 
                                                 {/*}*/}
                                                 <SourceOverlay
-                                                    style={{padding: '4px 15px'}}
-                                                    className="btn-xs width-100 source-value margin-bottom-10"
+                                                    styleButton={{padding: '4px 15px'}}
+                                                    className="btn-xs width-100 source-value none-padding margin-bottom-10"
                                                     student={lead}
                                                 />
                                                 <PicOverlay
-                                                    style={{padding: '4px 15px'}}
+                                                    styleButton={{padding: '4px 15px'}}
                                                     student={lead}
-                                                    className="btn-xs width-100 source-value margin-bottom-10"
+                                                    className="btn-xs width-100 source-value none-padding margin-bottom-10"
 
                                                 />
                                             </td>
 
                                             <td>
                                                 <StatusesOverlay
-                                                    style={{padding: '4px 15px'}}
+                                                    styleButton={{padding: '4px 15px'}}
                                                     data={lead.lead_status}
                                                     refId={lead.id}
                                                     statusRef="leads"
-                                                    className="btn-xs status-overlay  margin-bottom-10"
+                                                    className="btn-xs status-overlay none-padding margin-bottom-10"
                                                 />
                                             </td>
                                             <td>
