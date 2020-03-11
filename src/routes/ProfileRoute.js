@@ -1,5 +1,5 @@
-import ProfileContainer from "../modules/profile/ProfileContainer";
-import EditProfileContainer from "../modules/profile/EditProfileContainer";
+// import ProfileContainer from "../modules/profile/ProfileContainer";
+import ProfileEmployee from "../modules/profile2/ProfileEmployee";
 
 /**
  * Tab Profile
@@ -7,10 +7,14 @@ import EditProfileContainer from "../modules/profile/EditProfileContainer";
 export default [
     {
         path: "/",
-        component: ProfileContainer
+        component: ProfileEmployee
     },
     {
-        path: "/profile/edit-profile",
-        component: EditProfileContainer
-    }
+        path: "/profile/my-profile",
+        component: ProfileEmployee
+    },
+    // {
+    //     path: "/profile/edit-profile",
+    //     component: EditProfileContainer
+    // }
 ];

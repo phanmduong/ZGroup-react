@@ -1,6 +1,7 @@
 import {action, observable} from "mobx";
 import {loadClassesApi} from "./dashboardSaleApi";
-import {showErrorNotification} from "../../../helpers/helper";
+import {showErrorNotification, showNotification, showTypeNotification} from "../../../helpers/helper";
+import {changeClassStatus} from "../dashboardApi";
 
 
 export default class DashboardClassStore {
@@ -26,5 +27,20 @@ export default class DashboardClassStore {
             this.isLoading = false;
         });
     };
+
+    @action
+    changeClassStatus = (classId) => {
+        showTypeNotification("Đang thay đổi", "info");
+        this.classes = this.classes.map((item) => {
+            if (item.id == classId) {
+                return {...item, status: item.status == 0 ? 1 : 0}
+            } else return item;
+        });
+        changeClassStatus(classId).then(() => {
+            showNotification("Thay đổi thành công");
+        }).catch(() => {
+            showErrorNotification("Có lỗi xảy ra");
+        });
+    }
 
 }

@@ -5,6 +5,7 @@ import {Modal} from 'react-bootstrap';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as studentActions from "../infoStudent/studentActions";
+import ProfileEmployee from "../manageStaff/profile/ProfileEmployee";
 
 
 class GlobalModalContainer extends React.Component {
@@ -14,6 +15,10 @@ class GlobalModalContainer extends React.Component {
             registerDetail: {
                 studentId: null,
                 showModalRegisterDetail: false,
+            },
+            staffDetail: {
+                staffId: null,
+                showModalStaffDetail: false,
             }
         };
 
@@ -22,12 +27,24 @@ class GlobalModalContainer extends React.Component {
     componentDidMount() {
         window.onpopstate = () => {
             let regexModalInfoStudent = /\/*sales\/info-student\/[0-9]+\/*\S*/;
-            if(regexModalInfoStudent.test(window.location.pathname)){
+            if (regexModalInfoStudent.test(window.location.pathname)) {
                 let studentId = window.location.pathname.match(/[0-9]+/)[0];
                 this.setState({
                     registerDetail: {
                         studentId,
                         showModalRegisterDetail: true,
+                    }
+                });
+            }
+            let regexModalStaffStudent = /\/*hr\/staff\/[0-9]+\/*\S*/;
+
+            if (regexModalStaffStudent.test(window.location.pathname)) {
+                console.log(window.location.pathname);
+                let staffId = window.location.pathname.match(/[0-9]+/)[0];
+                this.setState({
+                    staffDetail: {
+                        staffId,
+                        showModalStaffDetail: true,
                     }
                 });
             }
@@ -43,8 +60,15 @@ class GlobalModalContainer extends React.Component {
 
     };
 
+    closeModalStaffDetail = () => {
+        let {state} = window.history;
+        this.setState({staffDetail: {showModalStaffDetail: false}});
+        history.pushState({}, "modal", state.prevUrl);
+
+    };
+
     render() {
-        let {registerDetail} = this.state;
+        let {registerDetail, staffDetail} = this.state;
         return (<div>
             <Modal show={registerDetail.showModalRegisterDetail}
                    dialogClassName="modal-xlg"
@@ -55,8 +79,29 @@ class GlobalModalContainer extends React.Component {
                     {/*<Modal.Title>Thông tin học viên</Modal.Title>*/}
                 </Modal.Header>
                 <Modal.Body>
-                    <InfoStudentContainer
-                        studentId={registerDetail.studentId}/>
+                    {
+                        registerDetail.showModalRegisterDetail && <InfoStudentContainer
+                            studentId={registerDetail.studentId}/>
+                    }
+                </Modal.Body>
+            </Modal>
+            <Modal show={staffDetail.showModalStaffDetail}
+                   dialogClassName="modal-xlg"
+                   onHide={this.closeModalStaffDetail}
+                   bsSize="lg"
+            >
+                <Modal.Header closeButton>
+                    {/*<Modal.Title>Thông tin học viên</Modal.Title>*/}
+                </Modal.Header>
+                <Modal.Body>
+                    {
+                        staffDetail.showModalStaffDetail &&
+                        <ProfileEmployee
+                            staffId={staffDetail.staffId}
+                        />
+                    }
+                    {/*<InfoStudentContainer*/}
+                    {/*    studentId={registerDetail.studentId}/>*/}
                 </Modal.Body>
             </Modal>
         </div>);

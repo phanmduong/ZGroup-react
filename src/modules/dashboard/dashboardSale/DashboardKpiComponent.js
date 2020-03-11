@@ -35,7 +35,7 @@ class DashboardKpiComponent extends React.Component {
             {
                 Header: <Sort title="Tên nhân viên"/>,
                 accessor: 'name',
-                Cell: props => <div><strong>{props.value}</strong></div>
+                Cell: props => <div onClick={() => this.openLinkRegister({saler_id: props.original.id}, true)}><strong>{props.value}</strong></div>
             },
             {
                 Header: <Sort title="Thành phố"/>,
