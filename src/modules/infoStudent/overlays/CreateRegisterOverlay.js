@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
+import {Link} from "react-router";
 import Loading from "../../../components/common/Loading";
 import {bindActionCreators} from "redux";
 import * as createRegisterActions from "../../registerStudents/createRegisterActions";
@@ -401,7 +402,13 @@ class CreateRegisterOverlay extends React.Component {
                                 /></div>
 
                             <div>
-                                <label>Môn học</label>
+
+                                <div className="flex flex-space-between flex-align-items-center cursor-pointer">
+                                    <label>Môn học</label>
+                                    <Link to="/teaching/courses" target="_blank" className="btn-white btn-xs cursor-pointer">
+                                        <label className="cursor-pointer">Thêm môn học</label>
+                                    </Link>
+                                </div>
                                 <ReactSelect
                                     optionComponent={MemberReactSelectOption}
                                     value={register.course_id}
@@ -411,7 +418,12 @@ class CreateRegisterOverlay extends React.Component {
                                     valueComponent={MemberReactSelectValue}
                                 /></div>
                             <div>
-                                <label>Cơ sở</label>
+                                <div className="flex flex-space-between flex-align-items-center cursor-pointer">
+                                    <label>Cơ sở</label>
+                                    <Link to="/base/bases" target="_blank" className="btn-white btn-xs cursor-pointer">
+                                        <label className="cursor-pointer">Thêm cơ sở</label>
+                                    </Link>
+                                </div>
                                 <ReactSelect
                                     value={register.base_id}
                                     options={getSelectBase(bases, (this.props.classes || []))}
@@ -419,7 +431,12 @@ class CreateRegisterOverlay extends React.Component {
                                     placeholder="Chọn cơ sở"
                                 /></div>
                             <div>
-                                <label>Lớp học</label>
+                                <div className="flex flex-space-between flex-align-items-center cursor-pointer">
+                                    <label>Lớp học</label>
+                                    <Link to="/teaching/classes" target="_blank" className="btn-white btn-xs cursor-pointer">
+                                        <label className="cursor-pointer">Thêm lớp học</label>
+                                    </Link>
+                                </div>
                                 <ReactSelect
                                     value={register.class_id}
                                     options={getSelectClass(classes)}
@@ -496,7 +513,7 @@ class CreateRegisterOverlay extends React.Component {
                                 />
                             </div>
                             <div>
-                                <div className="flex flex-space-between flex-align-items-center margin-bottom-10">
+                                <div className="flex flex-space-between flex-align-items-center ">
                                     <label>Mã khuyến mãi</label>
                                     <CreateCouponOverlay
                                         className="btn-white btn-xs"

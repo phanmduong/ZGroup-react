@@ -93,6 +93,18 @@ class RegisterListContainer extends React.Component {
 
         this.isWaitListPage = false;
         this.timeOut = null;
+        this.tabViews = [
+            {
+                text: 'TẤT CẢ',
+                value: '',
+                label: "TẤT CẢ"
+            },
+            {
+                value: this.props.user.id,
+                label: "CỦA BẠN",
+                text: 'CỦA BẠN',
+            },
+        ];
     }
 
     componentWillMount() {
@@ -227,7 +239,7 @@ class RegisterListContainer extends React.Component {
             gens = _.reverse(gens);
             const genId = this.state.selectGenId ? this.state.selectGenId : nextProps.currentGen.id;
             this.setState({
-                gens: [{id: 0, name: ''}, ...gens],
+                gens: [{id: 0, name: ''},{id: 0, name: ''}, ...gens],
                 selectGenId: genId
             });
 
@@ -363,13 +375,13 @@ class RegisterListContainer extends React.Component {
             selectedClassId, selectedSalerId, registerSourceId, registerStatusId, selectedMoneyFilter, selectedClassStatus, selectedBookmarkStatus,
             selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, time
         } = this.state;
-        current_link += `?class_id=${selectedClassId}&saler_id=${newFilter.saler_id ? newFilter.saler_id : selectedSalerId}&source_id=${registerSourceId}` +
+        current_link += `?class_id=${selectedClassId}&saler_id=${(newFilter.saler_id || newFilter.saler_id === '') ? newFilter.saler_id : selectedSalerId}&source_id=${registerSourceId}` +
             `&status_id=${registerStatusId}&money_filter=${selectedMoneyFilter}&class_status=${selectedClassStatus}&bookmark_status=${selectedBookmarkStatus}` +
             `&call_status=${selectedTeleCallStatus}&student_id=${selectedStudentId}&campaign_id=${campaignId}&gen_id=${selectGenId}` +
             `&base_id=${selectedBaseId}&query=${query}&start_time=${time.startTime}&end_time=${time.endTime}`;
 
         window.open(current_link, "_self");
-    }
+    };
 
     onClassFilterChange = (obj) => {
         let res = '';
@@ -705,7 +717,7 @@ class RegisterListContainer extends React.Component {
         if (!this.props.isLoading) this.props.registerActions.loadRegisterStudent({
             ...this.state,
         });
-    }
+    };
 
 
     changeCallStatusStudent = (callStatus, studentId) => {
@@ -750,7 +762,7 @@ class RegisterListContainer extends React.Component {
             helper.showErrorNotification("Không có dữ liệu");
             return;
         }
-        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22},{"wch": 22},{"wch": 22}, {"wch": 30}, {"wch": 30}, {"wch": 12}, {"wch": 12}, {"wch": 22},{"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22},{"wch": 22},{"wch": 22},{"wch": 22},{"wch": 22},];//độ rộng cột
+        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 30}, {"wch": 30}, {"wch": 12}, {"wch": 12}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22},];//độ rộng cột
         //begin điểm danh
         json = this.props.excel.registers.map((item, index) => {
             if (item) {
@@ -933,6 +945,15 @@ class RegisterListContainer extends React.Component {
                                 </div>
                             </div>
                         </div>
+
+                        <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
+                            {this.tabViews.map((tab, key) => {
+                                let className = tab.value == this.state.selectedSalerId ? 'active' : '';
+                                return (<li className={className} key={key} onClick={() => this.openLinkWithFilter({"saler_id": tab.value})}>
+                                    <a>{tab.text}</a>
+                                </li>);
+                            })}
+                        </ul>
                         <Panel collapsible expanded={
                             this.state.openFilterPanel
                             &&
@@ -1727,6 +1748,8 @@ function mapStateToProps(state) {
         isLoadingStudent: state.infoStudent.isLoadingStudent,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
         selectedBaseId: state.global.selectedBaseId,
+        user: state.login.user,
+
     };
 }
 
