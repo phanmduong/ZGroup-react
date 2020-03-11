@@ -65,7 +65,7 @@ class CreateLeadOverlay extends React.Component {
 
     loadStatuses = (singleLoad) => {
         let {studentActions, isLoadedStatuses} = this.props;
-        if (!isLoadedStatuses || singleLoad)
+        if (!isLoadedStatuses[this.statusRef] || singleLoad)
             studentActions.loadStatuses(this.statusRef);
     };
     updateFormData = (event) => {

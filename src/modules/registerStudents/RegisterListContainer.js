@@ -130,8 +130,11 @@ class RegisterListContainer extends React.Component {
                 selectGenId: this.props.location.query.gen_id ? this.props.location.query.gen_id : '',
                 selectedBaseId: this.props.location.query.base_id ? this.props.location.query.base_id : '',
                 query: this.props.location.query.query ? this.props.location.query.query : '',
+                query_coupon: this.props.location.query.query_coupon ? this.props.location.query.query_coupon : '',
+                query_note: this.props.location.query.query_note ? this.props.location.query.query_note : '',
                 page: 1,
                 time: {
+                    appointmentPayment: this.props.location.query.appointmentPayment ? this.props.location.query.appointmentPayment : '',
                     startTime: this.props.location.query.start_time ? this.props.location.query.start_time : '',
                     endTime: this.props.location.query.end_time ? this.props.location.query.end_time : ''
                 },
@@ -198,8 +201,8 @@ class RegisterListContainer extends React.Component {
                 {
                     ...this.state,
                     page: 1,
-                    selectedClassId: '',
-                    selectedClassStatus: this.state.selectedClassStatus,
+                    // selectedClassId: '',
+                    // selectedClassStatus: this.state.selectedClassStatus,
                 },
             );
         }
@@ -239,7 +242,7 @@ class RegisterListContainer extends React.Component {
             gens = _.reverse(gens);
             const genId = this.state.selectGenId ? this.state.selectGenId : nextProps.currentGen.id;
             this.setState({
-                gens: [{id: 0, name: ''},{id: 0, name: ''}, ...gens],
+                gens: [{id: 0, name: ''}, {id: 0, name: ''}, ...gens],
                 selectGenId: genId
             });
 
@@ -254,12 +257,16 @@ class RegisterListContainer extends React.Component {
 
         if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
             this.props.registerActions.loadRegisterStudent(
-                {...this.state, page: 1, selectedClassId: '', selectedBaseId: nextProps.selectedBaseId},
+                {
+                    ...this.state,
+                    page: 1,
+                    selectedBaseId: this.state.selectedBaseId ? this.state.selectedBaseId : nextProps.selectedBaseId,
+                },
             );
             this.setState({
                 page: 1,
-                selectedClassId: '',
-                selectedBaseId: nextProps.selectedBaseId,
+                // selectedClassId: '',
+                selectedBaseId: this.state.selectedBaseId ? this.state.selectedBaseId : nextProps.selectedBaseId,
                 classFilter: this.getFilter(this.props.classFilter, nextProps.selectedBaseId)
             });
             // this.loadDashboard(this.state.selectGenId, nextProps.selectedBaseId);
@@ -369,17 +376,57 @@ class RegisterListContainer extends React.Component {
         // }
     }
 
-    openLinkWithFilter = (newFilter = {}) => {
+    componentDidUpdate() {
+        //prevProps, prevState
+        let {
+            isLoading,
+            isLoadingGens,
+            isLoadingRegisters,
+            isLoadingRegistersByStudent,
+            isLoadingClassFilter,
+            isLoadingSalerFilter,
+            isLoadingCampaignFilter,
+            isLoadingSources,
+            isLoadingBaseFilter,
+            isLoadingStatuses,
+
+        } = this.props;
+        let doneLoading = !(
+            isLoading ||
+            isLoadingGens ||
+            isLoadingRegisters ||
+            isLoadingRegistersByStudent ||
+            isLoadingClassFilter ||
+            isLoadingSalerFilter ||
+            isLoadingCampaignFilter ||
+            isLoadingSources ||
+            isLoadingBaseFilter ||
+            isLoadingStatuses
+        );
+        if (doneLoading) {
+            let url = this.getFilterUrlWithParams(this.state);
+            history.pushState({
+                prevUrl: window.location.href
+            }, "modal", url);
+
+        }
+    }
+
+    getFilterUrlWithParams = (newFilter = {}) => {
         let current_link = window.location.href.split('?')[0];
         let {
             selectedClassId, selectedSalerId, registerSourceId, registerStatusId, selectedMoneyFilter, selectedClassStatus, selectedBookmarkStatus,
-            selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, time
+            selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, time, query_note,query_coupon
         } = this.state;
         current_link += `?class_id=${selectedClassId}&saler_id=${(newFilter.saler_id || newFilter.saler_id === '') ? newFilter.saler_id : selectedSalerId}&source_id=${registerSourceId}` +
             `&status_id=${registerStatusId}&money_filter=${selectedMoneyFilter}&class_status=${selectedClassStatus}&bookmark_status=${selectedBookmarkStatus}` +
             `&call_status=${selectedTeleCallStatus}&student_id=${selectedStudentId}&campaign_id=${campaignId}&gen_id=${selectGenId}` +
-            `&base_id=${selectedBaseId}&query=${query}&start_time=${time.startTime}&end_time=${time.endTime}`;
+            `&base_id=${selectedBaseId}&query=${query}&start_time=${time.startTime}&end_time=${time.endTime}&query_note=${query_note}&appointmentPayment=${time.appointmentPayment}&query_coupon=${query_coupon}`;
+        return current_link;
+    };
 
+    openLinkWithFilter = (newFilter = {}) => {
+        let current_link = this.getFilterUrlWithParams(newFilter);
         window.open(current_link, "_self");
     };
 
@@ -460,7 +507,7 @@ class RegisterListContainer extends React.Component {
 
         this.setState({
             classFilter: this.getFilter(newfilter),
-            selectedClassId: '',
+            selectedClassId: this.state.selectedClassId ? this.state.selectedClassId : '',
             selectedClassStatus: res,
             page: 1
         });
@@ -476,19 +523,6 @@ class RegisterListContainer extends React.Component {
             selectedTeleCallStatus: res,
             page: 1
         });
-    };
-
-    changeClassStatusFilter = (obj, filter) => {
-        let res = obj ? obj.value : '';
-        this.setState({selectedClassStatus: res, page: 1});
-
-        let newfilter = filter ? filter : this.state.allClassFilter;
-        if (res === 'waiting') {
-            newfilter = newfilter.filter(item => (item.type === 'waiting'));
-        } else if (res === 'active') {
-            newfilter = newfilter.filter(item => (item.type === 'active'));
-        }
-        this.setState({classFilter: this.getFilter(newfilter), selectedClassId: ''});
     };
 
     updateFormDate = (event) => {
@@ -699,7 +733,7 @@ class RegisterListContainer extends React.Component {
             selectGenId: value
         });
         this.props.registerActions.loadRegisterStudent(
-            {...this.state, page: 1, selectGenId: value, selectedClassId: ''},
+            {...this.state, page: 1, selectGenId: value, selectedClassId: this.state.selectedClassId ? this.state.selectedClassId :''},
         );
         this.props.registerActions.loadClassFilter(value);
     };
@@ -949,7 +983,8 @@ class RegisterListContainer extends React.Component {
                         <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
                             {this.tabViews.map((tab, key) => {
                                 let className = tab.value == this.state.selectedSalerId ? 'active' : '';
-                                return (<li className={className} key={key} onClick={() => this.openLinkWithFilter({"saler_id": tab.value})}>
+                                return (<li className={className} key={key}
+                                            onClick={() => this.openLinkWithFilter({"saler_id": tab.value})}>
                                     <a>{tab.text}</a>
                                 </li>);
                             })}

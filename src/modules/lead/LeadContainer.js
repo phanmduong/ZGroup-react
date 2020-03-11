@@ -24,12 +24,12 @@ import Checkbox from "../../components/common/Checkbox";
 class LeadContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.picFilters  =[
+        this.picFilters = [
             // {text:'Tất cả', operator: ()=>true},
             // {text:'Đã phân P.I.C', operator: (lead)=>!isEmptyInput(lead.staff_id)},
             // {text:'Chưa phân P.I.C', operator: (lead)=>isEmptyInput(lead.staff_id)},
             {
-                text:'Tất cả',
+                text: 'Tất cả',
                 avatar_url: NO_AVATAR,
                 value: "",
                 label: "Tất cả"
@@ -38,13 +38,13 @@ class LeadContainer extends React.Component {
                 avatar_url: NO_AVATAR,
                 value: "-1",
                 label: "Có nhân viên",
-                text:'Đã phân P.I.C',
+                text: 'Đã phân P.I.C',
             },
             {
                 avatar_url: NO_AVATAR,
                 value: "-2",
                 label: "Không có nhân viên",
-                text:'Chưa phân P.I.C',
+                text: 'Chưa phân P.I.C',
             },
         ];
         this.state = {
@@ -72,7 +72,7 @@ class LeadContainer extends React.Component {
             campaignFilter: [],
 
             staffs: [],
-            staff: "",
+            staff: {},
             staffId: "",
             isDistribution: false,
             top: "",
@@ -101,31 +101,35 @@ class LeadContainer extends React.Component {
 
         if (!this.props.isLoadedSources) this.props.createRegisterActions.loadSources();
         if (!this.props.isLoadedCampaigns) this.props.createRegisterActions.loadCampaigns();
-        if (!this.props.isLoadedStatuses) this.props.studentActions.loadStatuses(this.statusRef);
+        if (!this.props.isLoadedStatuses[this.statusRef]) this.props.studentActions.loadStatuses(this.statusRef);
 
-        // if (this.props.route.type === "distribution") {
-        if (this.isAdmin) {
-            this.setState({staff: "", page: 1});
-            this.props.leadActions.getLeads({
-                ...this.state,
-                page: 1,
-                staffId: ''
-            });
-        } else {
-            // if (this.props.route.type === "my-leads") {
-            this.setState({staff: this.props.user.id, page: 1});
-            this.props.leadActions.getLeads(
-                {
-                    ...this.state,
-                    staffId: this.props.user.id,
-                    page: 1,
-                }
-            );
-            // } else {
-            //     this.loadData();
-            // }
+        let willMountState = this.state;
+
+        if (this.props.location.query) {
+            console.log(this.props.location.query);
+            let {query} = this.props.location;
+            willMountState = {
+                ...query,
+                staff:JSON.parse(query.staff || '{}'),
+                filter: {
+                    startTime: query.startTime,
+                    endTime: query.endTime,
+                },
+
+            };
         }
 
+        if (this.isAdmin) {
+            willMountState ={...willMountState, page: 1}
+        } else {
+            willMountState ={...willMountState,staff: this.props.user,staffId: this.props.user.id, page: 1}
+        }
+        console.log('urlState',willMountState);
+
+        this.setState(willMountState);
+        this.props.leadActions.getLeads({
+            ...willMountState,
+        });
     }
 
     componentWillReceiveProps(nextProps) {
@@ -246,6 +250,49 @@ class LeadContainer extends React.Component {
         }
     }
 
+    componentDidUpdate() {
+        //prevProps, prevState
+        let {
+            isLoading,
+            isLoadingStatuses,
+            isLoadingSources,
+            isLoadingCampaigns,
+
+        } = this.props;
+        let doneLoading = !(
+            isLoading ||
+            isLoadingStatuses ||
+            isLoadingSources ||
+            isLoadingCampaigns
+        );
+        if (doneLoading) {
+            let url = this.getFilterUrlWithParams(this.state);
+            history.pushState({
+                prevUrl: window.location.href
+            }, "modal", url);
+
+        }
+    }
+
+    getFilterUrlWithParams = (newFilter = {}) => {
+        let current_link = window.location.href.split('?')[0];
+        let {
+            filter, search, leadStatusId, source_id, orderByType, orderBy, rate, staffId, address, campaign_id,staff
+        } = {...this.state, ...newFilter};
+        current_link += `?address=${address || ''}` +
+            `&campaign_id=${campaign_id || ''}` +
+            `&rate=${rate || ''}` +
+            `&source_id=${source_id || ''}` +
+            `&staffId=${staffId || ''}` +
+            `&orderByType=${orderByType}&orderBy=${orderBy || ''}` +
+            `&leadStatusId=${leadStatusId || ''}` +
+            `&search=${search || ''}` +
+            `&staff=${JSON.stringify(staff)}` +
+            `&startTime=${filter.startTime || ''}` +
+            `&endTime=${filter.endTime || ''}`;
+        return current_link;
+    };
+
     getStatusFilter = (arr) => {
         if (!arr) return [];
         let data = arr.map(function (obj) {
@@ -331,15 +378,16 @@ class LeadContainer extends React.Component {
         //     staffId: staff,
         // });
         // this.onFilterChange(staff, 'staffId');
+        console.log('changeStaff',value);
         this.onFilterChange(value, 'staff');
         // this.setState({staff: staff, page: 1});
 
     };
 
-    changePicFilter = (tab)=>{
+    changePicFilter = (tab) => {
         this.changeStaff(tab);
-        this.onDirectFilterChange(tab.value,'staffId');
-    }
+        this.onDirectFilterChange(tab.value, 'staffId');
+    };
 
     changeCarer = value => {
         let staff;
@@ -374,10 +422,10 @@ class LeadContainer extends React.Component {
                 break;
             }
             default: {
-                newState[name] =  value;
+                newState[name] = value;
             }
         }
-        console.log('getNewState',value, name, newState);
+        console.log('getNewState', value, name, newState);
 
         return newState;
     };
@@ -388,7 +436,7 @@ class LeadContainer extends React.Component {
         this.props.leadActions.getLeads({
             ...newState,
             page: 1,
-            startTime: newState.filter  ? newState.filter.startTime : '',
+            startTime: newState.filter ? newState.filter.startTime : '',
             endTime: newState.filter ? newState.filter.endTime : '',
             // staffId: this.isAdmin ? -2 : this.props.user.id,
         });
@@ -397,7 +445,7 @@ class LeadContainer extends React.Component {
     onFilterChange = (value, name) => {
 
         let newState = this.getNewState(value, name);
-        console.log('onFilterChange',value, name,newState);
+        console.log('onFilterChange', value, name, newState);
         this.setState({...newState});
         return newState;
         // this.props.leadActions.getLeads({
@@ -409,7 +457,7 @@ class LeadContainer extends React.Component {
     };
 
     applyFilter = () => {
-        console.log('applyFilter',this.state);
+        console.log('applyFilter', this.state);
         this.props.leadActions.getLeads({
             ...this.state,
             page: 1,
@@ -450,19 +498,19 @@ class LeadContainer extends React.Component {
                 let staffs = [];
 
                 if (isCarer) {
-                //     staffs = [{
-                //         avatar_url: NO_AVATAR,
-                //         value: "",
-                //         label: "Tất cả"
-                //     }, {
-                //         avatar_url: NO_AVATAR,
-                //         value: "-2",
-                //         label: "Không có nhân viên",
-                //     }, {
-                //         avatar_url: NO_AVATAR,
-                //         value: "-1",
-                //         label: "Có nhân viên",
-                //     }];
+                    //     staffs = [{
+                    //         avatar_url: NO_AVATAR,
+                    //         value: "",
+                    //         label: "Tất cả"
+                    //     }, {
+                    //         avatar_url: NO_AVATAR,
+                    //         value: "-2",
+                    //         label: "Không có nhân viên",
+                    //     }, {
+                    //         avatar_url: NO_AVATAR,
+                    //         value: "-1",
+                    //         label: "Có nhân viên",
+                    //     }];
                 }
                 res.data.staffs.map((staff) => {
                     staffs.push({
@@ -627,8 +675,8 @@ class LeadContainer extends React.Component {
         });
     };
 
-    resetLoad = ()=>{
-        this.setState({staff: "", page: 1,isDistribution: false,selectedLeads:[]});
+    resetLoad = () => {
+        this.setState({staff: "", page: 1, isDistribution: false, selectedLeads: []});
         this.props.leadActions.getLeads({
             ...this.state,
             page: 1,
@@ -642,7 +690,7 @@ class LeadContainer extends React.Component {
             return lead.id;
         });
         this.props.leadActions.uploadDistributionLead(leadIds, this.state.carer.id, this.state.isAll, this.state.search,
-            this.state.filter.startTime, this.state.filter.endTime, this.state.staff, this.state.rate, this.state.top, ()=>{
+            this.state.filter.startTime, this.state.filter.endTime, this.state.staff, this.state.rate, this.state.top, () => {
                 this.closeModalSelectedLeadsModal();
                 this.resetLoad();
             });
@@ -682,7 +730,7 @@ class LeadContainer extends React.Component {
     };
 
     render() {
-        console.log('render',this.state);
+        console.log('render', this.props);
         return (
             <div>
                 <CreateRegisterModalContainer/>
@@ -740,7 +788,7 @@ class LeadContainer extends React.Component {
                             {/*</button>*/}
                             <CreateLeadOverlay
                                 className="btn btn-white btn-round btn-icon"
-                                onSuccess={()=>{
+                                onSuccess={() => {
                                     this.setState({staff: "", page: 1});
                                     this.resetLoad();
                                 }}
@@ -786,31 +834,31 @@ class LeadContainer extends React.Component {
                 </div>
                 }
                 <div>
-                {!this.props.isLoading &&
-                <ul className="nav nav-pills nav-pills-dark margin-bottom-10" data-tabs="tabs">
-                    {this.picFilters.map((tab,key)=>{
-                        let className = tab.value == this.state.staffId ? 'active' :'';
-                        return(<li className={className} key={key} onClick={()=>this.changePicFilter(tab)}>
-                            <a>{tab.text}</a>
-                        </li>);
-                    })}
-                    <li className="float-right">
-                        <ReactSelect
-                            disabled={this.props.isLoading}
-                            options={this.state.orderByOptions}
-                            onChange={e => this.onDirectFilterChange(e, 'orderBy')}
-                            value={this.state.orderBy}
-                            placeholder="Sắp xếp theo"
-                            searchable={false}
-                            name="orderBy"
-                            className="react-select-white-round margin-left-auto min-width-200-px"
-                        />
-                    </li>
-                </ul>}
+                    {!this.props.isLoading &&
+                    <ul className="nav nav-pills nav-pills-dark margin-bottom-10" data-tabs="tabs">
+                        {this.picFilters.map((tab, key) => {
+                            let className = tab.value == this.state.staffId ? 'active' : '';
+                            return (<li className={className} key={key} onClick={() => this.changePicFilter(tab)}>
+                                <a>{tab.text}</a>
+                            </li>);
+                        })}
+                        <li style={{float: 'right'}}>
+                            <ReactSelect
+                                disabled={this.props.isLoading}
+                                options={this.state.orderByOptions}
+                                onChange={e => this.onDirectFilterChange(e, 'orderBy')}
+                                value={this.state.orderBy}
+                                placeholder="Sắp xếp theo"
+                                searchable={false}
+                                name="orderBy"
+                                className="react-select-white-round margin-left-auto min-width-200-px"
+                            />
+                        </li>
+                    </ul>}
                 </div>
 
                 <Panel collapsible className="none-margin"
-                       expanded={this.state.openFilterPanel&&!(this.props.isLoading)}>
+                       expanded={this.state.openFilterPanel && !(this.props.isLoading)}>
                     <div className="card card-filter margin-top-0">
                         <div className="card-content">
                             <div className="row">
