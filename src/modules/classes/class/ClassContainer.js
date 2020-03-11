@@ -465,11 +465,23 @@ class ClassContainer extends React.Component {
                                 <div className="card detail-wrap">
                                     <div className="card-content">
                                         <div className="detail-wrap">
-                                            {classData.teacher &&
-                                            <p>Giảng viên<strong>{classData.teacher.name || "Chưa có"}</strong></p>}
-                                            {classData.teacher_assistant &&
-                                            <p>Trợ giảng<strong>{classData.teacher_assistant.name || "Chưa có"}</strong>
-                                            </p>}
+                                            <p>Giảng
+                                                viên<strong>{classData.teacher ? classData.teacher.name : "Chưa có"}
+                                                    {classData.teachers_detail && classData.teachers_detail.map((teacher) => {
+                                                        return <div>
+                                                            {teacher.name}
+                                                        </div>
+                                                    })}
+                                                </strong></p>
+                                            <p>Trợ
+                                                giảng<strong>{classData.teacher_assistant ? classData.teacher_assistant.name : "Chưa có"}
+                                                    {classData.teaching_assistants_detail && classData.teaching_assistants_detail.map((teacher) => {
+                                                        return <div>
+                                                            {teacher.name}
+                                                        </div>
+                                                    })}
+                                            </strong>
+                                            </p>
                                             <p>Lịch học<strong>{classData.study_time || "Chưa có"}</strong></p>
                                             <p>Mô tả<strong>{classData.description || "Chưa có"}</strong></p>
                                             <p>Chỉ tiêu đăng kí<strong>{classData.regis_target || "Chưa có"}</strong>
@@ -518,9 +530,9 @@ class ClassContainer extends React.Component {
 
                                     {classData.attendances &&
                                     <div><h4><strong>Tình trạng điểm danh</strong></h4>
-                                        {classData.attendances.map((attendance,key) => {
+                                        {classData.attendances.map((attendance, key) => {
                                             return (
-                                                <div key={'attendance-'+ key}>
+                                                <div key={'attendance-' + key}>
                                                     <div
                                                         className="flex flex-row-center flex-space-between">
                                                         <h6>
@@ -1273,7 +1285,7 @@ class ClassContainer extends React.Component {
                                                 let avatar = helper.avatarEmpty(teacher.avatar_url) ?
                                                     NO_AVATAR : teacher.avatar_url;
                                                 return (
-                                                    <tr key={'teachingLessons-'+ index}>
+                                                    <tr key={'teachingLessons-' + index}>
                                                         <td>
                                                             <div className="avatar-list-staff"
                                                                  style={{

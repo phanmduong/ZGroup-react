@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FormInputText from "../../components/common/FormInputText";
-import { DOMAIN } from "../../constants/env";
+import {BASE_URL} from "../../constants/env";
 
 class LoginComponent extends React.Component {
     constructor(props, context) {
@@ -21,7 +21,7 @@ class LoginComponent extends React.Component {
             this.props.token !== null &&
             this.props.token !== ""
         ) {
-            window.open(DOMAIN, "_self");
+            window.open(BASE_URL, "_self");
         }
         return (
             <div>
@@ -29,7 +29,7 @@ class LoginComponent extends React.Component {
                     <div className="container">
                         <div className="navbar-header">
                             {/*
-                               
+
                                 <img src={LOGO_LOGIN}
                                     className="logo-header"
                                 />

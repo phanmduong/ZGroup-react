@@ -80,7 +80,7 @@ class ListClass extends React.Component {
                                         {
                                             classItem.teacher ?
                                                 (
-                                                    <Link className="btn btn-sm btn-main text-center"
+                                                    <Link className="btn btn-xs btn-main text-center width-100"
                                                           style={{backgroundColor: '#' + classItem.teacher.color}}
                                                           to={"/teaching/classes/" + classItem.teacher.id}
                                                     >
@@ -96,13 +96,25 @@ class ListClass extends React.Component {
                                                 )
 
                                         }
-
+                                        {
+                                            classItem.teachers_detail && classItem.teachers_detail.map((teacher) => {
+                                                return (
+                                                    <Link className="btn btn-xs btn-main text-center width-100"
+                                                          style={{backgroundColor: '#' + teacher.color}}
+                                                          to={"/teaching/classes/" + teacher.id}
+                                                    >
+                                                        {helper.getShortName(teacher.name)}
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                )
+                                            })
+                                        }
                                     </td>
                                     <td className="text-center">
                                         {
                                             classItem.teacher_assistant ?
                                                 (
-                                                    <Link className="btn btn-sm btn-main text-center"
+                                                    <Link className="btn btn-xs btn-main text-center width-100"
                                                           style={{backgroundColor: '#' + classItem.teacher_assistant.color}}
                                                           to={"/teaching/classes/" + classItem.teacher_assistant.id}
                                                     >
@@ -118,7 +130,19 @@ class ListClass extends React.Component {
                                                 )
 
                                         }
-
+                                        {
+                                            classItem.teaching_assistants_detail && classItem.teaching_assistants_detail.map((teacher) => {
+                                                return (
+                                                    <Link className="btn btn-xs btn-main text-center width-100"
+                                                          style={{backgroundColor: '#' + teacher.color}}
+                                                          to={"/teaching/classes/" + teacher.id}
+                                                    >
+                                                        {helper.getShortName(teacher.name)}
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                )
+                                            })
+                                        }
                                     </td>
                                     <td className="text-center">
                                         {classItem.edit_status ?

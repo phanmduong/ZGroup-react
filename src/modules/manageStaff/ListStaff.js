@@ -3,13 +3,16 @@ import PropTypes from 'prop-types';
 import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import {NO_AVATAR} from '../../constants/env';
-import {Link} from 'react-router';
 import TooltipButton from "../../components/common/TooltipButton";
-
+import * as globalModalActions from "../globalModal/globalModalActions";
 
 class ListStaff extends React.Component {
     constructor(props, context) {
         super(props, context);
+    }
+
+    openModalStaffDetail = (staffId) => {
+        globalModalActions.openModalStaffDetail(staffId);
     }
 
 
@@ -64,7 +67,9 @@ class ListStaff extends React.Component {
                                         />
                                     </td>
                                     <td>
-                                        <Link to={`hr/staff/${staff.id}/info`}>{staff.name}</Link>
+                                        <a
+                                            onClick={() => this.openModalStaffDetail(staff.id)}
+                                        >{staff.name}</a>
                                     </td>
                                     <td>{staff.email}</td>
                                     <td>{staff.phone}</td>
@@ -157,7 +162,7 @@ class ListStaff extends React.Component {
                                         <td>
                                             <ButtonGroupAction
                                                 delete={this.props.deleteStaff}
-                                                editUrl={`/hr/staff/${staff.id}/edit`}
+                                                editUrl={`/hr/staff/${staff.id}?edit=true`}
                                                 object={staff}
                                             />
                                         </td>

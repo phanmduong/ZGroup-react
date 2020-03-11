@@ -7,10 +7,11 @@ import ManageDepartmentContainer from "../modules/manageDepartment/ManageDepartm
 import AttendanceStaffsContainer from "../modules/attendanceStaffs/AttendanceStaffsContainer";
 import JobAssignmentContainer from "../modules/jobAssignment/JobAssignmentContainer";
 import CreateJobAssignmentContainer from "../modules/jobAssignment/CreateJobAssignmentContainer";
-import InfoStaffContainer from "../modules/manageStaff/InfoStaffContainer";
 import ProfileContainer from "../modules/profile/ProfileContainer";
 import HistoryExtensionWorkContainer from "../modules/historyExtensionWork/HistoryExtensionWorkContainer";
 import summaryStaffContainer from "../modules/summaryStaff/SummaryStaffContainer";
+import ProfileEmployee from "../modules/manageStaff/profile/ProfileEmployee";
+
 /**
  * Tab Nhân sự
  */
@@ -69,8 +70,8 @@ export default [
     },
     {
         // path: "/staff/:staffId/edit",
-        path: "/hr/staff/:staffId/info",
-        component: InfoStaffContainer,
+        path: "/hr/staff/:staffId",
+        component: ProfileEmployee,
     },
     {
         // path: "/staff/:staffId/edit",

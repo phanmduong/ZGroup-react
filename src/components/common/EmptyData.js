@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const EmptyData = ({title = "Không có dữ liệu", size = 500, className}) => {
+const EmptyData = ({title = "Không có dữ liệu", size = "90%", className}) => {
     return (
         <div className={"flex flex-col flex-justify-content-center flex-align-items-center " + className}>
-            <h3><strong>{title}</strong></h3>
-            <svg width={size} height={size * 274 / 361} viewBox="0 0 361 274" fill="none"
+            <h3 className="text-center"><strong>{title}</strong></h3>
+            <svg width={size} viewBox="0 0 361 274" fill="none"
                  xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="paint0_linear" x1="166.388" y1="152.036" x2="197.004" y2="249.507"
