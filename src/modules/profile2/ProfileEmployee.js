@@ -154,33 +154,33 @@ class ProfileEmployee extends React.Component {
                                 </div>
                                 <div className="col-md-8">
                                     <div className="row">
-                                        {/*<div className="col-md-12">*/}
-                                        {/*    <ul className="timeline timeline-simple time-line-register">*/}
-                                        {/*        <li className="timeline-inverted">*/}
-                                        {/*            <div className={"timeline-badge warning"}>*/}
-                                        {/*                <i className="material-icons">star</i>*/}
-                                        {/*            </div>*/}
-                                        {/*            <div className="timeline-panel">*/}
-                                        {/*                <div*/}
-                                        {/*                    // className="timeline-heading"*/}
-                                        {/*                >*/}
-                                        {/*                    <ul className="nav nav-pills nav-pills-dark"*/}
-                                        {/*                        data-tabs="tabs">*/}
-                                        {/*                        {this.routes.map((route, index) => {*/}
-                                        {/*                            return this.getRouteItem(route, index);*/}
-                                        {/*                        })}*/}
-                                        {/*                    </ul>*/}
-                                        {/*                </div>*/}
+                                        <div className="col-md-12">
+                                            <ul className="timeline timeline-simple time-line-register">
+                                                <li className="timeline-inverted">
+                                                    <div className={"timeline-badge warning"}>
+                                                        <i className="material-icons">star</i>
+                                                    </div>
+                                                    <div className="timeline-panel">
+                                                        <div
+                                                            // className="timeline-heading"
+                                                        >
+                                                            <ul className="nav nav-pills nav-pills-dark"
+                                                                data-tabs="tabs">
+                                                                {this.routes.map((route, index) => {
+                                                                    return this.getRouteItem(route, index);
+                                                                })}
+                                                            </ul>
+                                                        </div>
 
-                                        {/*            </div>*/}
+                                                    </div>
 
-                                        {/*        </li>*/}
-
-
-                                        {/*    </ul>*/}
+                                                </li>
 
 
-                                        {/*</div>*/}
+                                            </ul>
+
+
+                                        </div>
                                         <div className="col-md-12">
                                             <div className="tab-pane active">
                                                 <ul className="timeline timeline-simple time-line-register">

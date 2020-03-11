@@ -8,13 +8,51 @@ import {observer} from "mobx-react";
 import EditProfileComponent from "./EditProfileComponent";
 import {connect} from "react-redux";
 import {withRouter} from "react-router";
+import EmptyData from "../../../components/common/EmptyData";
 
 @observer
 class ProfileEmployee extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            currentRoute: {}
+        }
         this.store = new ProfileStore();
+        this.path = "";
+        this.routes = [
+            {
+                path: ``, text: 'Quản lý',
+            },
+            {
+                path: `/231`, text: 'Vi phạm',
+            },
+            {
+                path: `/review`,
+                text: 'Học tập',
+            },
+            {
+                path: `/543534`,
+                text: 'Vinh danh',
+            },
+        ];
 
+    }
+
+    getRouteItem(route, index) {
+        const changeRoute = () => {
+            // window.history.pushState({}, "modal", route.path);
+            this.path = route.path;
+            this.setState({currentRoute: route});
+
+        };
+
+
+        return (<li key={index} className={this.path == route.path ? 'active' : ''}>
+            <a onClick={changeRoute}>
+                {route.text}
+            </a>
+        </li>)
+            ;
     }
 
     componentDidMount() {
@@ -103,15 +141,21 @@ class ProfileEmployee extends React.Component {
                                                     {<p>Số TKNH<strong>{bank_number}</strong></p>}
                                                     {<p>Bắt đầu làm việc từ<strong>{start_company}</strong></p>}
                                                 </div>
-                                                <div className="btn width-100 cursor-pointer"
-                                                     onClick={this.openModalEditProfile}
-                                                >Sửa thông tin
-                                                </div>
+                                                {
+                                                    this.props.user.role >= 2 &&
+                                                    <div className="btn width-100 cursor-pointer"
+                                                         onClick={this.openModalEditProfile}
+                                                    >Sửa thông tin
+                                                    </div>
+                                                }
 
-                                                <div className="btn width-100 cursor-pointer"
-                                                     onClick={() => this.store.resetPassword(profile.id)}
-                                                >Thay đổi mật khẩu
-                                                </div>
+                                                {
+                                                    this.props.user.role >= 2 &&
+                                                    <div className="btn width-100 cursor-pointer"
+                                                         onClick={() => this.store.resetPassword(profile.id)}
+                                                    >Khôi phục mật khẩu
+                                                    </div>
+                                                }
                                             </div>
                                         </div>
 
@@ -122,28 +166,53 @@ class ProfileEmployee extends React.Component {
                                 <div className="col-md-8">
                                     <div className="row">
                                         <div className="col-md-12">
-                                            <ul className="timeline timeline-simple time-line-register">
-                                                <li className="timeline-inverted">
-                                                    <div className={"timeline-badge warning"}>
-                                                        <i className="material-icons">star</i>
-                                                    </div>
-                                                    <div className="timeline-panel">
-                                                        <div
-                                                            // className="timeline-heading"
-                                                        >
-                                                            {/*<ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">*/}
-                                                            {/*    {this.routes.map((route, index) => {*/}
-                                                            {/*        return this.getRouteItem(route, index);*/}
-                                                            {/*    })}*/}
-                                                            {/*</ul>*/}
+                                            <div className="col-md-12">
+                                                <ul className="timeline timeline-simple time-line-register">
+                                                    <li className="timeline-inverted">
+                                                        <div className={"timeline-badge warning"}>
+                                                            <i className="material-icons">star</i>
+                                                        </div>
+                                                        <div className="timeline-panel">
+                                                            <div
+                                                                // className="timeline-heading"
+                                                            >
+                                                                <ul className="nav nav-pills nav-pills-dark"
+                                                                    data-tabs="tabs">
+                                                                    {this.routes.map((route, index) => {
+                                                                        return this.getRouteItem(route, index);
+                                                                    })}
+                                                                </ul>
+                                                            </div>
+
                                                         </div>
 
-                                                    </div>
-
-                                                </li>
+                                                    </li>
 
 
-                                            </ul>
+                                                </ul>
+
+
+                                            </div>
+                                            <div className="col-md-12">
+                                                <div className="tab-pane active">
+                                                    <ul className="timeline timeline-simple time-line-register">
+                                                        <li className="timeline-inverted">
+                                                            <div className="timeline-badge"
+                                                                 style={{backgroundColor: '#4855d1'}}>
+                                                                <i className="material-icons">add</i>
+                                                            </div>
+                                                            <div className="timeline-panel">
+                                                                <div className="timeline-body margin-vertical-30">
+
+                                                                    <EmptyData
+                                                                        title={""}/>
+                                                                </div>
+
+                                                            </div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
 
 
                                         </div>

@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import FormInputText from "../../components/common/FormInputText";
-import {BASE_URL} from "../../constants/env";
 
 class LoginComponent extends React.Component {
     constructor(props, context) {
@@ -21,7 +20,7 @@ class LoginComponent extends React.Component {
             this.props.token !== null &&
             this.props.token !== ""
         ) {
-            window.open(BASE_URL, "_self");
+            window.open("http://" + window.location.hostname, "_self");
         }
         return (
             <div>
@@ -122,7 +121,7 @@ class LoginComponent extends React.Component {
                                                     {!(
                                                         !this.props.isLoading &&
                                                         this.props.token !==
-                                                            null &&
+                                                        null &&
                                                         this.props.token !== ""
                                                     ) &&
                                                     this.props.isLoading ? (
@@ -130,11 +129,11 @@ class LoginComponent extends React.Component {
                                                             type="submit"
                                                             className="btn btn-rose btn-simple btn-wd btn-lg disabled"
                                                         >
-                                                            <i className="fa fa-spinner fa-spin" />{" "}
+                                                            <i className="fa fa-spinner fa-spin"/>{" "}
                                                             Đang đăng nhập
                                                         </button>
                                                     ) : this.props.token !==
-                                                        null &&
+                                                    null &&
                                                     this.props.token !== "" ? (
                                                         <button
                                                             type="submit"
