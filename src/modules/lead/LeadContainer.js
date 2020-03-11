@@ -776,16 +776,7 @@ class LeadContainer extends React.Component {
                             {/*    Tải file mẫu*/}
                             {/*</a>*/}
 
-                            <ReactSelect
-                                disabled={this.props.isLoading}
-                                options={this.state.orderByOptions}
-                                onChange={e => this.onDirectFilterChange(e, 'orderBy')}
-                                value={this.state.orderBy}
-                                placeholder="Sắp xếp theo"
-                                searchable={false}
-                                name="orderBy"
-                                className="react-select-white-round margin-left-auto min-width-200-px"
-                            />
+
                         </div>
 
 
@@ -794,6 +785,7 @@ class LeadContainer extends React.Component {
 
                 </div>
                 }
+                <div>
                 {!this.props.isLoading &&
                 <ul className="nav nav-pills nav-pills-dark margin-bottom-10" data-tabs="tabs">
                     {this.picFilters.map((tab,key)=>{
@@ -802,8 +794,21 @@ class LeadContainer extends React.Component {
                             <a>{tab.text}</a>
                         </li>);
                     })}
-                </ul>
-                }
+                    <li className="float-right">
+                        <ReactSelect
+                            disabled={this.props.isLoading}
+                            options={this.state.orderByOptions}
+                            onChange={e => this.onDirectFilterChange(e, 'orderBy')}
+                            value={this.state.orderBy}
+                            placeholder="Sắp xếp theo"
+                            searchable={false}
+                            name="orderBy"
+                            className="react-select-white-round margin-left-auto min-width-200-px"
+                        />
+                    </li>
+                </ul>}
+                </div>
+
                 <Panel collapsible className="none-margin"
                        expanded={this.state.openFilterPanel&&!(this.props.isLoading)}>
                     <div className="card card-filter margin-top-0">

@@ -111,18 +111,29 @@ class StatusesOverlay extends React.Component {
     };
 
     assignStatuses = (status) => {
-        this.setState({
-            isProcessing: true
-        });
-        assignStatuses(status, this.props.refId, this.props.statusRef)
-            .then(() => {
-                // this.loadStatuses(true);
-
-                this.setState({
-                    isProcessing: false,
-                    data:{...status}
-                });
+        if(isEmptyInput(this.props.refId)) {
+            this.props.onChange(status);
+            this.setState({
+                isProcessing: false,
+                show: false,
+                data:{...status}
             });
+            return;
+        }
+        if(!isEmptyInput(this.props.refId)){
+            this.setState({
+                isProcessing: true
+            });
+            assignStatuses(status, this.props.refId, this.props.statusRef)
+                .then(() => {
+                    // this.loadStatuses(true);
+
+                    this.setState({
+                        isProcessing: false,
+                        data:{...status}
+                    });
+                });
+        }
     };
 
     close = () => {
@@ -143,33 +154,35 @@ class StatusesOverlay extends React.Component {
         let statuses =  this.props.statuses[this.props.statusRef] || [];
         let {data}  = this.state;
         let s = statuses && statuses.filter(i => i.id == data.id)[0];
-        return (s && !isEmptyInput(s.name)) ? s.name : "No status";
+        let defaultText = this.props.defaultText || "No status";
+        return (s && !isEmptyInput(s.name)) ? s.name : defaultText;
     };
 
     render() {
-        let {isDeleting, isLoading,data, isProcessing} = this.state;
-        let { isLoadingStatuses, className,style} = this.props;
+        let {isDeleting, isLoading,data, isProcessing,show} = this.state;
+        let { isLoadingStatuses, className,styleWrapper,styleOverlay,styleButton} = this.props;
         let statuses =  this.props.statuses[this.props.statusRef] || [];
         let showLoading = isLoading || isLoadingStatuses || isProcessing;
+        let zIndex = show ? 1 : 0;
         const current = (data && statuses.filter(s => s.id == data.id)[0]) || {};
 
         return (
-            <div style={{position: "relative",backgroundColor: current.color, borderRadius:3, cursor:'pointer', ...style}} className={className} ref="StatusesOverlay">
+            <div style={{position: "relative",backgroundColor: current.color, borderRadius:3, cursor:'pointer',zIndex, ...styleWrapper}} className={className} ref="StatusesOverlay">
                 <div
                      data-toggle="tooltip"
                      rel="tooltip"
                      data-original-title="Trạng thái"
-                     onClick={() => this.setState({show: true})}>
+                     onClick={() => this.setState({show: true})} style={styleButton}>
                     {this.statusName()}
                 </div>
                 <Overlay
                     rootClose={true}
-                    show={this.state.show}
+                    show={show}
                     onHide={this.close}
                     placement="bottom"
                     container={this}
-                    target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay" style={{width: "300px", marginTop: 35}}>
+                    target={() => ReactDOM.findDOMNode(this.refs.StatusesOverlay)}>
+                    <div className="kt-overlay" style={{width: "300px", marginTop: 35,...styleOverlay}}>
 
 
                         {!showLoading && <div style={{position: "relative"}}>
@@ -204,7 +217,7 @@ class StatusesOverlay extends React.Component {
                         <div>{showLoading && <Loading/>}</div>
                         {!this.state.create && !showLoading && <div>
                             <Search
-                                placeholder="Tìm theo tên"
+                                placeholder="Tìm theo tên" className="margin-bottom-10"
                                 value={this.state.search}
                                 onChange={search => this.setState({search})}
                             />

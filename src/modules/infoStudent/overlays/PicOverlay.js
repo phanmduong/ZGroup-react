@@ -21,7 +21,7 @@ class PicOverlay extends React.Component {
             isProcessing: false,
             isDeleting: false,
             search: '',
-            student: this.props.student,
+            student: this.props.student || {},
         };
         this.state = this.initState;
     }
@@ -51,19 +51,32 @@ class PicOverlay extends React.Component {
 
 
     assignLeadStaff = (staff) => {
-        this.setState({
-            isProcessing: true
-        });
-        assignLeadStaff(this.props.student.id, staff.id)
-            .then(() => {
-                this.setState({
-                    isProcessing: false,
-                    student: {
-                        ...this.state.student,
-                        staff_id: staff.id
-                    }
-                });
+        let {onChange} = this.props;
+        if(onChange){
+            onChange(staff);
+            this.setState({
+                isProcessing: false,
+                student: {
+                    ...this.state.student,
+                    staff_id: staff.id
+                }
             });
+        }else {
+            this.setState({
+                isProcessing: true
+            });
+            assignLeadStaff(this.props.student.id, staff.id)
+                .then(() => {
+                    this.setState({
+                        isProcessing: false,
+                        student: {
+                            ...this.state.student,
+                            staff_id: staff.id
+                        }
+                    });
+                });
+        }
+
     };
 
     close = () => {
@@ -72,21 +85,24 @@ class PicOverlay extends React.Component {
 
 
     staffName = () => {
+        if(this.props.isLoading) return 'Đang tải dữ liệu...';
         let{staffs } = this.props;
         let s = staffs && staffs.filter(i => i.id == this.state.student.staff_id)[0];
-        return s ? getShortName(s.name) : "No P.I.C";
+        let defaultText = this.props.defaultText || "No P.I.C";
+
+        return s ? getShortName(s.name) : defaultText;
     };
 
     render() {
         let {isDeleting,  isProcessing, student} = this.state;
-        let {className,isLoading,staffs,style} = this.props;
+        let {className,isLoading,staffs,styleWrapper,styleButton} = this.props;
         let showLoading = isLoading || isProcessing;
         const current = (student && staffs && staffs.filter(s => s.id == student.staff_id)[0]) || {color:999999};
-
+        let zIndex = this.state.show ? 1 : 0;
         return (
-            <div style={{position: "relative", backgroundColor: `#${current.color}`, ...style}} className={className}
+            <div style={{position: "relative", backgroundColor: `#${current.color}`,zIndex, ...styleWrapper}} className={className}
                  ref="PicOverlay">
-                <div onClick={() => this.setState({show: true})}>
+                <div onClick={() => this.setState({show: true})} style={styleButton}>
                     {this.staffName()}
                 </div>
                 <Overlay
@@ -95,7 +111,7 @@ class PicOverlay extends React.Component {
                     onHide={this.close}
                     placement="bottom"
                     container={this}
-                    target={() => ReactDOM.findDOMNode(this.refs.target)}>
+                    target={() => ReactDOM.findDOMNode(this.refs.PicOverlay)}>
                     <div className="kt-overlay" style={{width: "300px", marginTop: 25}}>
                         {!showLoading && <div style={{position: "relative"}}>
                             <button

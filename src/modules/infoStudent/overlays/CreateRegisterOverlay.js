@@ -1,15 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Overlay} from "react-bootstrap";
-import * as ReactDOM from "react-dom";
+import {Modal} from "react-bootstrap";
 import {connect} from "react-redux";
+import {Link} from "react-router";
 import Loading from "../../../components/common/Loading";
 import {bindActionCreators} from "redux";
 import * as createRegisterActions from "../../registerStudents/createRegisterActions";
 import FormInputText from "../../../components/common/FormInputText";
 import MemberReactSelectOption from "../../registerStudents/MemberReactSelectOption";
 import MemberReactSelectValue from "../../registerStudents/MemberReactSelectValue";
-import {GENDER} from "../../../constants/constants";
+import {GENDER, STATUS_REFS} from "../../../constants/constants";
 import ReactSelect from "react-select";
 import {dotNumber, isEmptyInput, showTypeNotification, sortCoupon} from "../../../helpers/helper";
 import * as studentActions from "../studentActions";
@@ -17,6 +17,10 @@ import * as registerActions from "../../registerStudents/registerActions";
 import * as discountActions from "../../discount/discountActions";
 import CouponSelectOption from "./CouponSelectOption";
 import CouponSelectValue from "./CouponSelectValue";
+import StatusesOverlay from "./StatusesOverlay";
+import SourceOverlay from "./SourceOverlay";
+import MarketingCampaignOverlay from "./MarketingCampaignOverlay";
+import CreateCouponOverlay from "./CreateCouponOverlay";
 
 
 function getSelectSaler(items) {
@@ -39,14 +43,14 @@ function getSelectCourse(items) {
     });
 }
 
-function getSelectCampaign(items) {
-    return items && items.map(item => {
-        return {
-            value: item.id,
-            label: item.name,
-        };
-    });
-}
+// function getSelectCampaign(items) {
+//     return items && items.map(item => {
+//         return {
+//             value: item.id,
+//             label: item.name,
+//         };
+//     });
+// }
 
 function getSelectBase(items, studyClasses) {
     return items && items.map(item => {
@@ -76,6 +80,7 @@ class CreateRegisterOverlay extends React.Component {
         super(props, context);
         this.initState = {
             show: false,
+            showModal: false,
             coursePrice: 0,
             register: {
                 ...this.props.student, ...this.props.studentData,
@@ -84,6 +89,7 @@ class CreateRegisterOverlay extends React.Component {
             },
         };
         this.state = this.initState;
+        this.statusRef = STATUS_REFS.registers;
 
     }
 
@@ -93,20 +99,20 @@ class CreateRegisterOverlay extends React.Component {
             registerActions,
             createRegisterActions,
             isLoadedCoupons,
-            isLoadingSources,
+            // isLoadingSources,
             isLoadedCourses,
             isLoadedCampaigns,
             isLoadedSalerFilter,
             isLoadedProvinces,
-            isLoadedSources,
+            // isLoadedSources,
         } = this.props;
 
         if (!isLoadedCourses) createRegisterActions.loadCourses();
         if (!isLoadedCampaigns) createRegisterActions.loadCampaigns();
         if (!isLoadedSalerFilter) registerActions.loadSalerFilter();
         if (!isLoadedProvinces) createRegisterActions.loadAllProvinces();
-        this.loadStatuses(false);
-        if (!isLoadingSources && !isLoadedSources) createRegisterActions.loadSources();
+        // this.loadStatuses(false);
+        // if (!isLoadingSources && !isLoadedSources) createRegisterActions.loadSources();
         if (!isLoadedCoupons) discountActions.loadDiscounts({page: 1, limit: -1, search: ''});
 
     }
@@ -119,6 +125,7 @@ class CreateRegisterOverlay extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
+
         if (this.props.student && nextProps.student && (this.props.student.id != nextProps.student.id)) {
             this.setState({
                 register: {...this.state.register, ...nextProps.student},
@@ -126,11 +133,11 @@ class CreateRegisterOverlay extends React.Component {
         }
     }
 
-    loadStatuses = (singleLoad) => {
-        let {studentActions, isLoadedStatuses} = this.props;
-        if (!isLoadedStatuses || singleLoad)
-            studentActions.loadStatuses('registers');
-    };
+    // loadStatuses = (singleLoad) => {
+    //     let {studentActions, isLoadedStatuses} = this.props;
+    //     if (!isLoadedStatuses[this.statusRef] || singleLoad)
+    //         studentActions.loadStatuses(this.statusRef);
+    // };
     updateFormData = (event) => {
         const {name, value} = event.target;
         // console.log((name, value));
@@ -141,7 +148,7 @@ class CreateRegisterOverlay extends React.Component {
 
     updateCampaign = (e) => {
         let register = {...this.state.register};
-        register["campaign_id"] = e.value;
+        register["campaign_id"] = e ? e.id : e;
         this.setState({register});
     };
 
@@ -179,12 +186,14 @@ class CreateRegisterOverlay extends React.Component {
     };
     updateSource = (e) => {
         let register = {...this.state.register};
-        register["source_id"] = e ? e.value : null;
+        register["source_id"] = e ? e.id : e;
         this.setState({register});
     };
     updateStatus = (e) => {
         let register = {...this.state.register};
-        register["status_id"] = e ? e.value : null;
+        register["status_id"] = e ? e.id : e;
+        // register["status"] = e;
+        console.log(e, register);
         this.setState({register});
     };
     updateBase = (e) => {
@@ -214,6 +223,11 @@ class CreateRegisterOverlay extends React.Component {
         let emptyName = isEmptyInput(register.name);
         let emptyPhone = isEmptyInput(register.phone);
         let emptyEmail = isEmptyInput(register.email);
+        let emptyCourse = isEmptyInput(register.course_id);
+        if (emptyCourse) {
+            showTypeNotification("Vui lòng chọn môn học", 'warning');
+            return;
+        }
         if (emptyName) {
             showTypeNotification("Vui lòng nhập tên", 'warning');
             return;
@@ -289,19 +303,30 @@ class CreateRegisterOverlay extends React.Component {
         return finalPrice;
     };
 
+    closeModal = () => {
+        this.setState({showModal: false});
+    };
+
+    showModal = () => {
+        this.setState({showModal: true});
+    };
+
     render() {
         let {register, coursePrice} = this.state;
-        let {isSavingRegister, isLoadingCoupons, coupons, salers, sources, bases, className, student, direction} = this.props;
+        let {isSavingRegister, isLoadingCoupons, isLoadingCampaigns,isLoadingCourses,coupons, salers, bases, className, student} = this.props;
         let classes = ([...this.props.classes] || []).filter(c => ((register.base_id * 1) && c.base) ? c.base.id == register.base_id : true);
-        let statuses = this.props.statuses.registers;
+        // let statuses = this.props.statuses.registers;
         coupons = this.getCouponSelectOptions([...coupons], register);
         let finalPrice = this.getFinalPrice();
+        let showLoading = (isLoadingCourses || isLoadingCampaigns || isLoadingCoupons);
         return (
 
             <div style={{position: "relative"}}>
                 {!this.props.children &&
                 <div className={className} mask="create"
-                     ref="target" onClick={this.toggle}
+                     ref="target"
+                     onClick={this.showModal}
+                    // onClick={this.toggle}
                      disabled={isSavingRegister}>
                     Tạo đăng kí mới {!student.id && <i className="material-icons">
                     add
@@ -312,29 +337,31 @@ class CreateRegisterOverlay extends React.Component {
                                              disabled={isSavingRegister}>
                     {this.props.children}
                 </div>}
-                <Overlay
-                    rootClose={true}
-                    show={this.state.show}
-                    onHide={this.close}
-                    placement="bottom"
-                    container={this}
-                    target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay overlay-container" style={{width: 300, marginTop: 10}}
-                         direction={direction}>
-                        <div style={{display: "flex", justifyContent: "space-between", alignItems: 'center'}}>
-                            <div><b>Tạo đăng kí mới</b></div>
-                            <button
-                                onClick={this.close}
-                                type="button" className="close"
-                                style={{color: '#5a5a5a'}}>
-                                <span aria-hidden="true">×</span>
-                                <span className="sr-only">Close</span>
-                            </button>
-                        </div>
-                        {(this.props.isLoadingCourses || this.props.isLoadingCampaigns || isLoadingCoupons) &&
-                        <Loading/>}
-                        {!this.props.isSavingRegister && !(this.props.isLoadingCourses || this.props.isLoadingCampaigns || isLoadingCoupons) &&
-                        <form role="form" id="form-info-student">
+                {/*<Overlay*/}
+                {/*    rootClose={true}*/}
+                {/*    show={this.state.show}*/}
+                {/*    onHide={this.close}*/}
+                {/*    placement="bottom"*/}
+                {/*    container={this}*/}
+                {/*    target={() => ReactDOM.findDOMNode(this.refs.target)}>*/}
+                {/*    <div className="kt-overlay overlay-container" style={{width: 300, marginTop: 10}}*/}
+                {/*         direction={direction}>*/}
+
+                {/*    </div>*/}
+                {/*</Overlay>*/}
+
+
+                <Modal show={this.state.showModal} onHide={this.closeModal}>
+                    <Modal.Header closeButton={!isSavingRegister && !showLoading}
+                                  closeplaceholder="Đóng">
+                        <Modal.Title><b>Tạo đăng kí mới</b></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+
+
+
+                        <div className="form-grey"
+                             onChange={e => e.stopPropagation()}>
                             <div>
                                 <label>Email</label>
                                 <FormInputText
@@ -345,15 +372,16 @@ class CreateRegisterOverlay extends React.Component {
                                     value={register.email}
                                     updateFormData={this.updateFormData}
                                 /></div>
-                            {!student.id && <div>
+                            <div>
                                 <label>Tên học viên</label>
                                 <FormInputText
                                     name="name"
                                     placeholder="Tên học viên"
+                                    disabled={student.id}
                                     required
                                     value={register.name}
                                     updateFormData={this.updateFormData}
-                                /></div>}
+                                /></div>
                             <div>
                                 <label>Tên phụ huynh</label>
                                 <FormInputText
@@ -374,17 +402,28 @@ class CreateRegisterOverlay extends React.Component {
                                 /></div>
 
                             <div>
-                                <label>Môn học</label>
+
+                                <div className="flex flex-space-between flex-align-items-center cursor-pointer">
+                                    <label>Môn học</label>
+                                    <Link to="/teaching/courses" target="_blank" className="btn-white btn-xs cursor-pointer">
+                                        <label className="cursor-pointer">Thêm môn học</label>
+                                    </Link>
+                                </div>
                                 <ReactSelect
                                     optionComponent={MemberReactSelectOption}
                                     value={register.course_id}
                                     options={getSelectCourse(this.props.courses)}
                                     onChange={this.updateCourse}
-                                    placeholder="Chọn môn học"
+                                    placeholder={isLoadingCourses ? "Đang tải dữ liệu..." : "Chọn môn học"}
                                     valueComponent={MemberReactSelectValue}
                                 /></div>
                             <div>
-                                <label>Cơ sở</label>
+                                <div className="flex flex-space-between flex-align-items-center cursor-pointer">
+                                    <label>Cơ sở</label>
+                                    <Link to="/base/bases" target="_blank" className="btn-white btn-xs cursor-pointer">
+                                        <label className="cursor-pointer">Thêm cơ sở</label>
+                                    </Link>
+                                </div>
                                 <ReactSelect
                                     value={register.base_id}
                                     options={getSelectBase(bases, (this.props.classes || []))}
@@ -392,7 +431,12 @@ class CreateRegisterOverlay extends React.Component {
                                     placeholder="Chọn cơ sở"
                                 /></div>
                             <div>
-                                <label>Lớp học</label>
+                                <div className="flex flex-space-between flex-align-items-center cursor-pointer">
+                                    <label>Lớp học</label>
+                                    <Link to="/teaching/classes" target="_blank" className="btn-white btn-xs cursor-pointer">
+                                        <label className="cursor-pointer">Thêm lớp học</label>
+                                    </Link>
+                                </div>
                                 <ReactSelect
                                     value={register.class_id}
                                     options={getSelectClass(classes)}
@@ -401,30 +445,61 @@ class CreateRegisterOverlay extends React.Component {
                                 /></div>
                             <div>
                                 <label>Trạng thái</label>
-                                <ReactSelect
-                                    options={getSelectCampaign(statuses)}
+                                {/*<ReactSelect*/}
+                                {/*    options={getSelectCampaign(statuses)}*/}
+                                {/*    onChange={this.updateStatus}*/}
+                                {/*    value={register.status_id}*/}
+                                {/*    placeholder="Chọn trạng thái"*/}
+                                {/*    name="status_id"*/}
+                                {/*/>*/}
+                                <StatusesOverlay
+                                    data={register.status || {}}
                                     onChange={this.updateStatus}
-                                    value={register.status_id}
-                                    placeholder="Chọn trạng thái"
-                                    name="status_id"
-                                /></div>
+                                    defaultText="Chọn trạng thái"
+                                    statusRef={this.statusRef}
+                                    className="btn status-overlay width-100 none-padding"
+                                    // styleWrapper={{zIndex:1}}
+                                    styleButton={{padding: '10px 15px'}}
+                                    styleOverlay={{marginTop:35}}
+                                />
+                            </div>
                             <div>
                                 <label>Nguồn</label>
-                                <ReactSelect
-                                    options={getSelectCampaign(sources)}
+                                {/*<ReactSelect*/}
+                                {/*    options={getSelectCampaign(sources)}*/}
+                                {/*    onChange={this.updateSource}*/}
+                                {/*    value={register.source_id}*/}
+                                {/*    placeholder="Chọn nguồn"*/}
+                                {/*    name="source_id"*/}
+                                {/*/>*/}
+                                <SourceOverlay
+                                    className="btn status-overlay width-100 none-padding"
                                     onChange={this.updateSource}
-                                    value={register.source_id}
-                                    placeholder="Chọn nguồn"
-                                    name="source_id"
-                                /></div>
+                                    defaultText="Chọn nguồn"
+                                    // styleWrapper={{zIndex:1}}
+                                    styleButton={{padding: '10px 15px'}}
+                                    styleOverlay={{marginTop:35}}
+                                    student={register}
+                                />
+                            </div>
                             <div>
                                 <label>Chiến dịch</label>
-                                <ReactSelect
-                                    value={register.campaign_id}
-                                    options={getSelectCampaign(this.props.campaigns)}
+                                {/*<ReactSelect*/}
+                                {/*    value={register.campaign_id}*/}
+                                {/*    options={getSelectCampaign(this.props.campaigns)}*/}
+                                {/*    onChange={this.updateCampaign}*/}
+                                {/*    placeholder="Chọn chiến dịch"*/}
+                                {/*/>*/}
+                                <MarketingCampaignOverlay
+                                    student={register}
+                                    // styleWrapper={{zIndex:1}}
+                                    styleButton={{padding: '10px 15px'}}
+                                    styleOverlay={{marginTop:35}}
+                                    defaultText="Chọn chiến dịch"
+                                    className="btn status-overlay width-100 none-padding"
                                     onChange={this.updateCampaign}
-                                    placeholder="Chọn chiến dịch"
-                                /></div>
+                                />
+                            </div>
                             <div>
                                 <label>Nhân viên sale</label>
                                 <ReactSelect
@@ -435,18 +510,16 @@ class CreateRegisterOverlay extends React.Component {
                                     value={register.saler_id}
                                     placeholder="Chọn saler"
                                     name="saler_id"
-                                /></div>
-                            {/*<div>*/}
-                            {/*    <label>Mã khuyến mãi</label>*/}
-                            {/*    <FormInputText*/}
-                            {/*        name="coupon"*/}
-                            {/*        placeholder="Mã khuyến mãi"*/}
-                            {/*        value={register.coupon}*/}
-                            {/*        updateFormData={this.updateFormData}*/}
-                            {/*    />*/}
-                            {/*</div>*/}
+                                />
+                            </div>
                             <div>
-                                <label>Mã khuyến mãi</label>
+                                <div className="flex flex-space-between flex-align-items-center ">
+                                    <label>Mã khuyến mãi</label>
+                                    <CreateCouponOverlay
+                                        className="btn-white btn-xs"
+                                        text={<label className="cursor-pointer">Quản lý mã</label>}
+                                    />
+                                </div>
                                 <ReactSelect
                                     placeholder="Nhập mã khuyến mãi"
                                     value={register.coupons}
@@ -504,14 +577,14 @@ class CreateRegisterOverlay extends React.Component {
                                      aria-expanded="false"
                                      style={{height: '0px'}}>
                                     <div className="panel-body">
-                                        <div>
-                                            <label>Email</label>
-                                            <FormInputText
-                                                name="email"
-                                                placeholder="Email"
-                                                value={register.email}
-                                                updateFormData={this.updateFormData}
-                                            /></div>
+                                        {/*<div>*/}
+                                        {/*    <label>Email</label>*/}
+                                        {/*    <FormInputText*/}
+                                        {/*        name="email"*/}
+                                        {/*        placeholder="Email"*/}
+                                        {/*        value={register.email}*/}
+                                        {/*        updateFormData={this.updateFormData}*/}
+                                        {/*    /></div>*/}
                                         <div>
                                             <label>Giới tính</label>
                                             <ReactSelect
@@ -580,8 +653,8 @@ class CreateRegisterOverlay extends React.Component {
                                             /></div>
                                         <div>
                                             <label>Ghi chú</label>
-                                            <div className="form-group">
-                                                <div className="input-note-overlay">
+                                            <div className="form-group text-area-grey">
+
                                                          <textarea type="text" className="form-control"
                                                                    rows={5}
                                                                    name="description"
@@ -590,16 +663,16 @@ class CreateRegisterOverlay extends React.Component {
                                                                        register.description ? register.description : ""
                                                                    }
                                                                    onChange={this.updateFormData}/>
-                                                </div>
+
                                             </div>
                                         </div>
 
                                     </div>
                                 </div>
                             </div>
-                        </form>
+                        </div>
 
-                        }
+
                         {isSavingRegister ? <Loading/> :
                             <div className="flex">
                                 <button type="button"
@@ -618,9 +691,8 @@ class CreateRegisterOverlay extends React.Component {
                                     Hoàn tất
                                 </button>
                             </div>}
-
-                    </div>
-                </Overlay>
+                    </Modal.Body>
+                </Modal>
             </div>
 
 

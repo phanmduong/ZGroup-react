@@ -8,14 +8,13 @@ import * as provinceActions from "../actions/provinceActions";
 import * as baseActions from "../actions/baseActions";
 import * as userActions from "../actions/userActions";
 import * as helper from "../helpers/helper";
+import {isEmptyInput} from "../helpers/helper";
 import {Modal} from "react-bootstrap";
 import RuleContainer from "../modules/rule/RuleContainer";
 import GlobalLoadingContainer from "../modules/globalLoading/GlobalLoadingContainer";
-import FirstLoginContainer from "../modules/firstLogin/FirstLoginContainer";
 import GlobalModalContainer from "../modules/globalModal/GlobalModalContainer";
 import MyTaskContainer from "../modules/myTasks/MyTaskContainer";
 import Sidebar from "react-sidebar";
-import {isEmptyInput} from "../helpers/helper";
 
 
 class AppContainer extends React.Component {
@@ -35,7 +34,7 @@ class AppContainer extends React.Component {
 
     onSetSidebarOpen = (status) => {
         this.setState({sidebarOpen: status});
-    }
+    };
 
     componentWillMount() {
         this.checkToken();
@@ -108,18 +107,18 @@ class AppContainer extends React.Component {
 
     updateTotalTask = (number) => {
         this.setState({totalTaskNotComplete: number});
-    }
+    };
 
     onChangeProvince = (provinceId) => {
         let user = {...this.props.user};
         user.choice_province_id = provinceId;
         localStorage.setItem("user", JSON.stringify(user));
         userActions.choiceProvince(provinceId);
-    }
+    };
 
     onChangeBase = (baseID) => {
         this.props.baseActions.selectedBase(baseID);
-    }
+    };
 
     render() {
 
@@ -139,7 +138,7 @@ class AppContainer extends React.Component {
 
                 <GlobalLoadingContainer/>
 
-                <FirstLoginContainer/>
+                {/*<FirstLoginContainer/>*/}
                 <GlobalModalContainer/>
                 <App
                     pathname={this.props.location.pathname}
