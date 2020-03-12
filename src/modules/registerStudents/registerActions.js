@@ -156,23 +156,6 @@ export function loadCampaignFilter() {
     };
 }
 
-// {...this.state,page:1,},
-// page,
-//     limit,
-//     selectGenId,
-//     query,
-//     selectedSalerId,
-//     campaignId,
-//     selectedClassId,
-//     selectedMoneyFilter,
-//     selectedClassStatus,
-//     startTime,
-//     endTime,
-//     selectedBaseId,
-//     appointmentPayment,
-//     query_coupon,
-//     selectedTeleCallStatus,
-//     selectedBookmarkStatus
 export function loadRegisterStudent(filters) {
     return function (dispatch) {
         dispatch({
@@ -221,7 +204,7 @@ export function loadDataSuccessful(res) {
     return {
         type: types.LOAD_DATA_REGISTER_LIST_SUCCESSFUL,
         registers: res.data.registers,
-        genId: res.data.gen.id,
+        genId: res.data.gen ? res.data.gen.id : 0,
         currentPage: res.data.paginator.current_page,
         totalPages: res.data.paginator.total_pages,
         totalCount: res.data.paginator.total_count,

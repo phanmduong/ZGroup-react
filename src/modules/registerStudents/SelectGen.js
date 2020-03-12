@@ -29,7 +29,7 @@ class Select extends React.Component {
                     <option selected disabled>{this.props.defaultMessage || "Please select"}</option>
                     {this.props.options.map((option, index) => {
                         return (<option key={index}
-                                        value={option.id}>{option.id !== 0 ? 'Khóa ' + option.name : 'Tất cả'}</option>);
+                                        value={option.id}>{option.id > 0 ? 'Khóa ' + option.name : option.name}</option>);
                     })}
                 </select>
             </div>

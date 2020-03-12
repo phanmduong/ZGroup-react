@@ -14,7 +14,12 @@ import {Modal, Panel} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
-import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL, TYPE_CLASSES_OBJECT} from '../../constants/constants';
+import {
+    DATE_FORMAT_SQL,
+    DATETIME_FILE_NAME_FORMAT,
+    DATETIME_FORMAT_SQL,
+    TYPE_CLASSES_OBJECT
+} from '../../constants/constants';
 import ChangeInfoStudentModal from "./ChangeInfoStudentModal";
 import * as createRegisterActions from './createRegisterActions';
 import CreateRegisterModalContainer from './CreateRegisterModalContainer';
@@ -23,6 +28,7 @@ import {openModalRegisterDetail} from "../globalModal/globalModalActions";
 import CreateRegisterOverlay from "../infoStudent/overlays/CreateRegisterOverlay";
 import * as studentActions from "../infoStudent/studentActions";
 import EmptyData from "../../components/common/EmptyData";
+import {isEmptyInput} from "../../helpers/helper";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -78,8 +84,8 @@ class RegisterListContainer extends React.Component {
                 {value: '2', label: 'Thất bại',},
             ],
             time: {
-                startTime: '',
-                endTime: '',
+                startTime: moment().subtract(30, 'days').format(DATE_FORMAT_SQL),
+                endTime: moment().format(DATE_FORMAT_SQL),
                 appointmentPayment: ''
             },
             allClassFilter: [],
@@ -133,11 +139,9 @@ class RegisterListContainer extends React.Component {
                 query_coupon: this.props.location.query.query_coupon ? this.props.location.query.query_coupon : '',
                 query_note: this.props.location.query.query_note ? this.props.location.query.query_note : '',
                 page: 1,
-                time: {
-                    appointmentPayment: this.props.location.query.appointmentPayment ? this.props.location.query.appointmentPayment : '',
-                    startTime: this.props.location.query.start_time ? this.props.location.query.start_time : '',
-                    endTime: this.props.location.query.end_time ? this.props.location.query.end_time : ''
-                },
+                appointmentPayment: this.props.location.query.appointmentPayment ? this.props.location.query.appointmentPayment : '',
+                startTime: this.props.location.query.start_time ? this.props.location.query.start_time : this.state.time.startTime,
+                endTime: this.props.location.query.end_time ? this.props.location.query.end_time : this.state.time.endTime
             };
             this.setState(filter);
         }
@@ -197,14 +201,7 @@ class RegisterListContainer extends React.Component {
                 allClassFilter: this.getFilter(nextProps.classFilter),
             });
             this.onClassStatusFilterChange({value: this.state.selectedClassStatus}, nextProps.classFilter);
-            this.props.registerActions.loadRegisterStudent(
-                {
-                    ...this.state,
-                    page: 1,
-                    // selectedClassId: '',
-                    // selectedClassStatus: this.state.selectedClassStatus,
-                },
-            );
+
         }
         if (!nextProps.isLoadingSalerFilter && this.props.isLoadingSalerFilter) {
             let filter = this.getSalerFilter(nextProps.salerFilter);
@@ -239,14 +236,35 @@ class RegisterListContainer extends React.Component {
             let gens = _.sortBy(nextProps.gens, [function (o) {
                 return parseInt(o.name);
             }]);
-            gens = _.reverse(gens);
-            const genId = this.state.selectGenId ? this.state.selectGenId : nextProps.currentGen.id;
-            this.setState({
-                gens: [{id: 0, name: ''}, {id: 0, name: ''}, ...gens],
-                selectGenId: genId
+            gens = _.reverse(gens).map(g => {
+                return {
+                    ...g,
+                    start_time: moment(g.start_time).format(DATE_FORMAT_SQL),
+                    end_time: moment(g.end_time).format(DATE_FORMAT_SQL),
+                };
             });
-
-            this.props.registerActions.loadClassFilter(genId);
+            gens = [{id: '', name: 'Tất cả', start_time: '', end_time: '',}, {
+                    id: 0, name: '30 ngày qua',
+                    start_time: moment().subtract(30, 'days'),
+                    end_time: moment(),}, ...gens];
+            // const genId = this.state.selectGenId;
+            let currentGen = gens.filter(g=>g.id == this.state.selectGenId)[0] || {};
+            let newState = {
+                ...this.state,
+                gens,
+                // selectGenId: genId,
+                startTime: currentGen.start_time,
+                endTime: currentGen.end_time,
+            };
+            if(currentGen.id === '' || isEmptyInput(currentGen.id)){
+                newState.startTime = this.state.startTime;
+                newState.endTime = this.state.endTime;
+            }
+            this.setState(newState);
+            this.props.registerActions.loadClassFilter(this.state.selectGenId);
+            this.props.registerActions.loadRegisterStudent(
+                {...newState,page: 1,},
+            );
         }
 
         if (!nextProps.isLoadingRegisters && this.props.isLoadingRegisters) {
@@ -416,12 +434,12 @@ class RegisterListContainer extends React.Component {
         let current_link = window.location.href.split('?')[0];
         let {
             selectedClassId, selectedSalerId, registerSourceId, registerStatusId, selectedMoneyFilter, selectedClassStatus, selectedBookmarkStatus,
-            selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, time, query_note,query_coupon
+            selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, query_note, query_coupon,appointmentPayment,endTime,startTime
         } = this.state;
         current_link += `?class_id=${selectedClassId}&saler_id=${(newFilter.saler_id || newFilter.saler_id === '') ? newFilter.saler_id : selectedSalerId}&source_id=${registerSourceId}` +
             `&status_id=${registerStatusId}&money_filter=${selectedMoneyFilter}&class_status=${selectedClassStatus}&bookmark_status=${selectedBookmarkStatus}` +
             `&call_status=${selectedTeleCallStatus}&student_id=${selectedStudentId}&campaign_id=${campaignId}&gen_id=${selectGenId}` +
-            `&base_id=${selectedBaseId}&query=${query}&start_time=${time.startTime}&end_time=${time.endTime}&query_note=${query_note}&appointmentPayment=${time.appointmentPayment}&query_coupon=${query_coupon}`;
+            `&base_id=${selectedBaseId}&query=${query}&start_time=${startTime}&end_time=${endTime}&query_note=${query_note}&appointmentPayment=${appointmentPayment}&query_coupon=${query_coupon}`;
         return current_link;
     };
 
@@ -527,22 +545,14 @@ class RegisterListContainer extends React.Component {
 
     updateFormDate = (event) => {
         const field = event.target.name;
-        let time = {...this.state.time};
-        time[field] = event.target.value;
-
-        if ((!helper.isEmptyInput(time.startTime) && !helper.isEmptyInput(time.endTime)) || event.target.name == 'appointmentPayment') {
-            this.setState({time: time, page: 1, startTime: time.startTime, endTime: time.endTime});
-            // this.props.registerActions.loadRegisterStudent(
-            //     {
-            //         ...this.state, page: 1,
-            //         startTime: time.startTime,
-            //         endTime: time.endTime,
-            //         appointmentPayment: time.appointmentPayment,
-            //     },
-            // );
-        } else {
-            this.setState({time: time});
-        }
+        let newState = {...this.state};
+        newState[field] = event.target.value;
+        // let {endTime,startTime} = this.state;
+        // if ((!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) || event.target.name == 'appointmentPayment') {
+        //     this.setState({ ...newState});
+        // } else {
+        this.setState(newState);
+        // }
     };
 
     getFilter = (arr, base_id) => {
@@ -728,12 +738,23 @@ class RegisterListContainer extends React.Component {
     };
 
     changeGens = (value) => {
+        let gen = this.state.gens.filter(g => g.id == value)[0] || {};
+        let startTime = gen.start_time || '';
+        let endTime = gen.end_time || '';
+
         this.setState({
             page: 1,
-            selectGenId: value
+            selectGenId: value,
+            startTime, endTime,
         });
         this.props.registerActions.loadRegisterStudent(
-            {...this.state, page: 1, selectGenId: value, selectedClassId: this.state.selectedClassId ? this.state.selectedClassId :''},
+            {
+                ...this.state,
+                page: 1,
+                // selectGenId: value,
+                startTime, endTime,
+                selectedClassId: this.state.selectedClassId ? this.state.selectedClassId : ''
+            },
         );
         this.props.registerActions.loadClassFilter(value);
     };
@@ -947,16 +968,16 @@ class RegisterListContainer extends React.Component {
                                             >
                                                 Lọc
                                             </button>
-                                            {
-                                                (this.state.selectGenId && this.state.selectGenId >= 0) &&
-                                                <Select
-                                                    options={this.state.gens}
-                                                    onChange={this.changeGens}
-                                                    value={this.state.selectGenId}
-                                                    defaultMessage="Chọn khóa học"
-                                                    name="gens"
-                                                />
-                                            }
+                                            {/*{*/}
+                                            {/*    (this.state.selectGenId && this.state.selectGenId >= 0) &&*/}
+                                            <Select
+                                                options={this.state.gens}
+                                                onChange={this.changeGens}
+                                                value={this.state.selectGenId}
+                                                defaultMessage="Chọn khóa học"
+                                                name="gens"
+                                            />
+                                            {/*}*/}
                                             {/*<button*/}
                                             {/*    className="btn btn-white btn-round btn-icon"*/}
                                             {/*    type="button"*/}
@@ -1062,8 +1083,8 @@ class RegisterListContainer extends React.Component {
                                             updateFormData={this.updateFormDate}
 
                                             id="form-start-time"
-                                            value={this.state.time.startTime}
-                                            maxDate={this.state.time.endTime}
+                                            value={this.state.startTime}
+                                            maxDate={this.state.endTime}
                                         />
                                     </div>
                                     <div className="col-md-3">
@@ -1073,8 +1094,8 @@ class RegisterListContainer extends React.Component {
                                             name="endTime"
                                             updateFormData={this.updateFormDate}
                                             id="form-end-time"
-                                            value={this.state.time.endTime}
-                                            minDate={this.state.time.startTime}
+                                            value={this.state.endTime}
+                                            minDate={this.state.startTime}
                                         />
                                     </div>
                                     <div className="col-md-3">
@@ -1109,7 +1130,7 @@ class RegisterListContainer extends React.Component {
                                             name="appointmentPayment"
                                             updateFormData={this.updateFormDate}
                                             id="form-appointment-payment"
-                                            value={this.state.time.appointmentPayment}
+                                            value={this.state.appointmentPayment}
                                         />
                                     </div>
                                     <div className="col-md-3">
