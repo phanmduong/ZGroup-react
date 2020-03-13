@@ -5,7 +5,7 @@ import * as helper from '../../helpers/helper';
 export function getAllRegisterStudent(data) {
     let {
         // page,
-        selectGenId = '',
+        // selectGenId = '',
         query = '',
         selectedSalerId = '',
         campaignId = '',
@@ -28,7 +28,7 @@ export function getAllRegisterStudent(data) {
     let token = localStorage.getItem('token');
     let url = env.API_URL + "/register-list?" +
         // "page=" + page +
-        "&gen_id=" + selectGenId +
+        // "&gen_id=" + selectGenId +
         "&search=" + query +
         "&query_note=" + query_note +
         "&saler_id=" + selectedSalerId +
@@ -56,7 +56,7 @@ export function getRegisterStudent(filter) {
     let {
         page = 1,
         limit = 16,
-        selectGenId = '',
+        // selectGenId = '',
         query = '',
         selectedSalerId = '',
         campaignId = '',
@@ -74,7 +74,7 @@ export function getRegisterStudent(filter) {
         registerStatusId = '',
         registerSourceId = '',
     } = filter;
-
+    console.log('api',filter);
 
     let urlType;
     switch (env.TYPE_API) {
@@ -90,7 +90,7 @@ export function getRegisterStudent(filter) {
         "/register-list?" +
         "page=" + page +
         "&limit=" + limit +
-        "&gen_id=" + selectGenId +
+        // "&gen_id=" + selectGenId +
         "&search=" + query +
         "&saler_id=" + selectedSalerId +
         '&campaign_id=' + campaignId +
@@ -119,11 +119,11 @@ export function loadGens() {
     return axios.get(url);
 }
 
-export function loadClassFilter(genid = '') {
+export function loadClassFilter(genid = 0) {
     //http://manageapi.keetool.xyz/class/all?token=
     //http://api.keetool.xyz/apiv2/gens/22/classes?token=
     let token = localStorage.getItem('token');
-    let url = env.API_URL + "/apiv2/gens/" + genid + "/classes?token=" + token;
+    let url = env.API_URL + "/apiv2/gens/" + (genid || 0) + "/classes?token=" + token;
     return axios.get(url);
 }
 
