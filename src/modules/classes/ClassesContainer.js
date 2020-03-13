@@ -127,15 +127,13 @@ class ClassesContainer extends React.Component {
             page: 1,
             query: value,
         });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.loadClasses({
-                page: 1,
-                query: value,
-            });
-        }.bind(this), 500);
+    }
+
+    onSearchClasses = () => {
+        this.loadClasses({
+            page: this.state.page,
+            query: this.state.query,
+        });
     }
 
     loadClasses(page = 1, query = this.state.query) {
@@ -249,7 +247,7 @@ class ClassesContainer extends React.Component {
                 {(this.props.isLoadingGens || this.props.isLoading) && <Loading/>}
 
 
-                {!this.props.isLoadingGens && !this.props.isLoading && <div className="card" mask="purple">
+                {!this.props.isLoadingGens && <div className="card" mask="purple">
                     <img className="img-absolute"/>
 
                     <div className="card-content">
@@ -266,6 +264,7 @@ class ClassesContainer extends React.Component {
                                         value={this.state.query}
                                         placeholder="Tìm kiếm lớp học"
                                         className="round-white-seacrh"
+                                        onSearch={this.onSearchClasses}
                                     />
                                     <Select
                                         options={this.state.gens}
