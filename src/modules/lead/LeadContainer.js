@@ -110,7 +110,7 @@ class LeadContainer extends React.Component {
             let {query} = this.props.location;
             willMountState = {
                 ...query,
-                staff:JSON.parse(query.staff || '{}'),
+                staff: JSON.parse(query.staff || '{}'),
                 filter: {
                     startTime: query.startTime,
                     endTime: query.endTime,
@@ -120,11 +120,11 @@ class LeadContainer extends React.Component {
         }
 
         if (this.isAdmin) {
-            willMountState ={...willMountState, page: 1}
+            willMountState = {...willMountState, page: 1}
         } else {
-            willMountState ={...willMountState,staff: this.props.user,staffId: this.props.user.id, page: 1}
+            willMountState = {...willMountState, staff: this.props.user, staffId: this.props.user.id, page: 1}
         }
-        console.log('urlState',willMountState);
+        console.log('urlState', willMountState);
 
         this.setState(willMountState);
         this.props.leadActions.getLeads({
@@ -277,7 +277,7 @@ class LeadContainer extends React.Component {
     getFilterUrlWithParams = (newFilter = {}) => {
         let current_link = window.location.href.split('?')[0];
         let {
-            filter, search, leadStatusId, source_id, orderByType, orderBy, rate, staffId, address, campaign_id,staff
+            filter, search, leadStatusId, source_id, orderByType, orderBy, rate, staffId, address, campaign_id, staff
         } = {...this.state, ...newFilter};
         current_link += `?address=${address || ''}` +
             `&campaign_id=${campaign_id || ''}` +
@@ -330,19 +330,14 @@ class LeadContainer extends React.Component {
             search: value,
             isAll: false
         });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.leadActions.getLeads({
-                    ...this.state,
-                    page: 1,
-                    // staffId: this.isAdmin ? -2 : this.props.user.id,
-                    search: value,
-                }
-            );
-        }.bind(this), 500);
     };
+
+    onSearchLead = () => {
+        this.props.leadActions.getLeads({
+                ...this.state,
+            }
+        );
+    }
 
     loadData = (page = 1) => {
         this.setState({page: page});
@@ -378,7 +373,7 @@ class LeadContainer extends React.Component {
         //     staffId: staff,
         // });
         // this.onFilterChange(staff, 'staffId');
-        console.log('changeStaff',value);
+        console.log('changeStaff', value);
         this.onFilterChange(value, 'staff');
         // this.setState({staff: staff, page: 1});
 
@@ -763,6 +758,7 @@ class LeadContainer extends React.Component {
                                 placeholder="Tim kiếm leads"
                                 value={this.state.search}
                                 className="round-white-seacrh"
+                                onSearch={this.onSearchLead}
                             />
 
                             <button

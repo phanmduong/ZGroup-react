@@ -244,9 +244,6 @@ class ClassesContainer extends React.Component {
                     <Modal.Body><Loading/></Modal.Body>
                 </Modal>
 
-                {(this.props.isLoadingGens || this.props.isLoading) && <Loading/>}
-
-
                 {!this.props.isLoadingGens && <div className="card" mask="purple">
                     <img className="img-absolute"/>
 
@@ -299,6 +296,7 @@ class ClassesContainer extends React.Component {
                     </div>
                 </div>}
 
+                {(this.props.isLoadingGens || this.props.isLoading) && <Loading/>}
 
                 {(!this.props.isLoading && !this.props.isLoadingGens) &&
                 <ListClass

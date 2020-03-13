@@ -244,11 +244,12 @@ class RegisterListContainer extends React.Component {
                 };
             });
             gens = [{id: '', name: 'Tất cả', start_time: '', end_time: '',}, {
-                    id: 0, name: '30 ngày qua',
-                    start_time: moment().subtract(30, 'days'),
-                    end_time: moment(),}, ...gens];
+                id: 0, name: '30 ngày qua',
+                start_time: moment().subtract(30, 'days'),
+                end_time: moment(),
+            }, ...gens];
             // const genId = this.state.selectGenId;
-            let currentGen = gens.filter(g=>g.id == this.state.selectGenId)[0] || {};
+            let currentGen = gens.filter(g => g.id == this.state.selectGenId)[0] || {};
             let newState = {
                 ...this.state,
                 gens,
@@ -256,14 +257,14 @@ class RegisterListContainer extends React.Component {
                 startTime: currentGen.start_time,
                 endTime: currentGen.end_time,
             };
-            if(currentGen.id === '' || isEmptyInput(currentGen.id)){
+            if (currentGen.id === '' || isEmptyInput(currentGen.id)) {
                 newState.startTime = this.state.startTime;
                 newState.endTime = this.state.endTime;
             }
             this.setState(newState);
             this.props.registerActions.loadClassFilter(this.state.selectGenId);
             this.props.registerActions.loadRegisterStudent(
-                {...newState,page: 1,},
+                {...newState, page: 1,},
             );
         }
 
@@ -434,7 +435,7 @@ class RegisterListContainer extends React.Component {
         let current_link = window.location.href.split('?')[0];
         let {
             selectedClassId, selectedSalerId, registerSourceId, registerStatusId, selectedMoneyFilter, selectedClassStatus, selectedBookmarkStatus,
-            selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, query_note, query_coupon,appointmentPayment,endTime,startTime
+            selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, query_note, query_coupon, appointmentPayment, endTime, startTime
         } = this.state;
         current_link += `?class_id=${selectedClassId}&saler_id=${(newFilter.saler_id || newFilter.saler_id === '') ? newFilter.saler_id : selectedSalerId}&source_id=${registerSourceId}` +
             `&status_id=${registerStatusId}&money_filter=${selectedMoneyFilter}&class_status=${selectedClassStatus}&bookmark_status=${selectedBookmarkStatus}` +
@@ -700,15 +701,13 @@ class RegisterListContainer extends React.Component {
             page: 1,
             query: value,
         });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.registerActions.loadRegisterStudent(
-                {...this.state, page: 1, query: value,},
-            );
-        }.bind(this), 500);
     };
+
+    onSearchRegisters = () => {
+        this.props.registerActions.loadRegisterStudent(
+            {...this.state},
+        );
+    }
 
     onBookmarkStatusFilterChange = (obj) => {
         let res = obj ? obj.value : '';
@@ -954,6 +953,7 @@ class RegisterListContainer extends React.Component {
                                                 value={this.state.query}
                                                 placeholder="Tìm kiếm học viên"
                                                 className="round-white-seacrh"
+                                                onSearch={this.onSearchRegisters}
                                             />
                                             <button
                                                 onClick={this.openFilterPanel}

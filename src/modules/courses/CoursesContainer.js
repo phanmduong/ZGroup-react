@@ -67,13 +67,16 @@ class CoursesContainer extends React.Component {
             page: 1,
             query: value
         });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.coursesActions.loadCourses(1, value);
-        }.bind(this), 500);
     }
+
+    onSearchCourses = () => {
+        this.props.coursesActions.loadCourses(
+            this.state.page,
+            this.state.query
+        );
+    }
+
+
 
     changeStatusCourse(index, course, e) {
         this.props.coursesActions.changeStatusCourse(index, course);
@@ -113,6 +116,7 @@ class CoursesContainer extends React.Component {
                                                     value={this.state.query}
                                                     placeholder="Tìm kiếm môn học"
                                                     className="round-white-seacrh"
+                                                    onSearch={this.onSearchCourses}
                                                 />
                                                 <CreateCourseOverlay className="btn btn-white btn-round btn-icon"/>
                                             </div>

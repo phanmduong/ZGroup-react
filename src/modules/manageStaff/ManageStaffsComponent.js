@@ -135,6 +135,7 @@ class ManageStaffsComponent extends React.Component {
                                         value={this.props.search}
                                         placeholder="Tìm kiếm nhân viên"
                                         className="round-white-seacrh"
+                                        onSearch={this.props.onSearchStaffs}
 
                                     />
                                     {this.props.user.role == 2 && <div className="dropdown">
@@ -221,12 +222,13 @@ class ManageStaffsComponent extends React.Component {
                 </div>
                 <Modal show={this.state.showModalAddStaff} bsSize="large" onHide={this.closeModalAddStaff}>
                     <Modal.Header closeButton>
-                        <Modal.Title className="text-center">{this.props.type === 'edit' ? 'Thay đổi thông tin nhân viên' : 'Thêm nhân viên'}</Modal.Title>
+                        <Modal.Title
+                            className="text-center">{this.props.type === 'edit' ? 'Thay đổi thông tin nhân viên' : 'Thêm nhân viên'}</Modal.Title>
 
                     </Modal.Header>
                     <Modal.Body>
                         {
-                            this.state.showModalAddStaff && <AddStaffContainer route={{type:"create"}} isModal/>
+                            this.state.showModalAddStaff && <AddStaffContainer route={{type: "create"}} isModal/>
                         }
                     </Modal.Body>
                 </Modal>

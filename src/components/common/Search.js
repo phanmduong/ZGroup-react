@@ -17,7 +17,7 @@ class Search extends React.Component {
                         value={this.props.value}
                         type="search"
                         onChange={(event) => this.props.onChange(event.target.value)}
-                        onKeyPress={event => event.key === 'Enter' && this.props.search && this.props.search()}
+                        onKeyPress={event => event.key === 'Enter' && this.props.onSearch && this.props.onSearch()}
                         disabled={this.props.disabled || false}
                     />
                 </div>
@@ -30,7 +30,7 @@ Search.propTypes = {
     placeholder: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    search: PropTypes.func,
+	onSearch: PropTypes.func,
     className: PropTypes.string,
     label: PropTypes.string,
     disabled: PropTypes.bool

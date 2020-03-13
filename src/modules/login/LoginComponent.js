@@ -127,7 +127,7 @@ class LoginComponent extends React.Component {
                                                     this.props.isLoading ? (
                                                         <button
                                                             type="submit"
-                                                            className="btn btn-rose btn-simple btn-wd btn-lg disabled"
+                                                            className="btn btn-rose btn-wd disabled"
                                                         >
                                                             <i className="fa fa-spinner fa-spin"/>{" "}
                                                             Đang đăng nhập
@@ -137,14 +137,14 @@ class LoginComponent extends React.Component {
                                                     this.props.token !== "" ? (
                                                         <button
                                                             type="submit"
-                                                            className="btn btn-rose btn-simple btn-wd btn-lg disabled"
+                                                            className="btn btn-rose btn-wd disabled"
                                                         >
                                                             Đăng nhập thành công
                                                         </button>
                                                     ) : (
                                                         <button
                                                             type="submit"
-                                                            className="btn btn-rose btn-simple btn-wd btn-lg"
+                                                            className="btn btn-rose btn-wd"
                                                             onClick={
                                                                 this.props
                                                                     .clickLogin
@@ -153,6 +153,13 @@ class LoginComponent extends React.Component {
                                                             Đăng nhập
                                                         </button>
                                                     )}
+                                                    <a
+                                                        type="submit"
+                                                        className="btn btn-rose btn-simple btn-wd"
+                                                        href={"/password/reset"}
+                                                    >
+                                                        Quên mật khẩu
+                                                    </a>
                                                 </div>
                                             </div>
                                         </form>

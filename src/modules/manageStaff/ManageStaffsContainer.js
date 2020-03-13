@@ -57,12 +57,11 @@ class ManageStaffsContainer extends React.Component {
             page: 1,
             query: value
         });
-        if (this.timeOut !== null) {
-            clearTimeout(this.timeOut);
-        }
-        this.timeOut = setTimeout(function () {
-            this.props.staffActions.loadStaffsData(this.state.page, this.state.query);
-        }.bind(this), 500);
+    }
+
+    onSearchStaffs = () => {
+        this.props.staffActions.loadStaffsData(this.state.page, this.state.query);
+
     }
 
     loadStaffs(page = 1) {
@@ -78,6 +77,7 @@ class ManageStaffsContainer extends React.Component {
             <ManageStaffsComponent
                 {...this.props}
                 changeRoleStaff={this.changeRoleStaff}
+                onSearchStaffs={this.onSearchStaffs}
                 changeBaseStaff={this.changeBaseStaff}
                 changeDepartmentStaff={this.changeDepartmentStaff}
                 staffsSearchChange={this.staffsSearchChange}

@@ -171,18 +171,19 @@ class App extends React.Component {
                                 <ul className="nav navbar-nav navbar-right">
                                     <li>
                                         <a target="_blank"
-                                           href="https://www.youtube.com/channel/UCHxuI0u_YL4J-0OwC3ToOQA"
+                                           href="http://help.eduto.net"
                                            style={{padding: "3px 4px"}}>
                                             <button className="btn btn-round"
-                                                    style={{backgroundColor: "#E25241", padding: "8px 17px"}}>
+                                                    style={{backgroundColor: "#0084FF", padding: "8px 17px"}}>
                                                 <div
                                                     className="flex flex-row flex-align-items-center flex-space-between width-100">
+                                                    <img
+                                                        src="https://d1j8r0kxyu9tj8.cloudfront.net/files/1584071954RIklEYciE4gN4i3.png"
+                                                        style={{height: 25, width: 'auto', marginRight: 10}}/>
                                                     <div>
                                                         Hướng dẫn
                                                     </div>
-                                                    <img
-                                                        src="https://d1j8r0kxyu9tj8.cloudfront.net/files/1582861051ke9kRRG27sknRkU.png"
-                                                        style={{height: 25, width: 'auto', marginLeft: 10}}/>
+
 
                                                 </div>
                                             </button>
@@ -196,13 +197,12 @@ class App extends React.Component {
                                                     style={{backgroundColor: "#0084FF", padding: "8px 17px"}}>
                                                 <div
                                                     className="flex flex-row flex-align-items-center flex-space-between width-100">
+                                                    <img
+                                                        src="https://d1j8r0kxyu9tj8.cloudfront.net/files/1582862490iGYJTJn7HyGpeRB.png"
+                                                        style={{height: 25, width: 'auto', marginRight: 10}}/>
                                                     <div>
                                                         Hỗ trợ
                                                     </div>
-                                                    <img
-                                                        src="https://d1j8r0kxyu9tj8.cloudfront.net/files/1582862490iGYJTJn7HyGpeRB.png"
-                                                        style={{height: 25, width: 'auto', marginLeft: 10}}/>
-
                                                 </div>
                                             </button>
                                         </a>
