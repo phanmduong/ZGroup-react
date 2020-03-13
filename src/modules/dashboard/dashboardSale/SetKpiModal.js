@@ -176,6 +176,7 @@ class SetKpiModal extends React.Component {
                                 dateFormat={DATE_FORMAT}
                                 data={[data.kpi, data.revenue]}
                                 optionsBar={optionsBar}
+                                fileNameDownload={"lịch sử KPI của " + selectedSaler.name}
                                 labels={[
                                     {
                                         label: "KPI",

@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import {Bar} from "react-chartjs-2";
 import _ from 'lodash';
 import moment from "moment";
-import {DATE_FORMAT} from "../../constants/constants";
+import {
+    DATE_FORMAT,
+} from "../../constants/constants";
 import Loading from "../../components/common/Loading";
+import TooltipButton from "../../components/common/TooltipButton";
+import * as helper from "../../helpers/helper";
 
 const filter = [
     {
@@ -43,6 +47,25 @@ class BarChartFilterDate extends React.Component {
             currentFilter: filter
         });
     };
+
+    downloadData = () => {
+        let cols = [{"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}];//độ rộng cột
+
+        let json = this.props.dates.map((item, index) => {
+            let data = {
+                "Ngày": item,
+            }
+            this.props.labels.forEach((itemlabel, indexLabel) => {
+                data[itemlabel.label] = this.props.data[indexLabel][index];
+            })
+            return data;
+        });
+        let wb = helper.newWorkBook();
+        helper.appendJsonToWorkBook(json, wb, 'Thống kê', cols, []);
+        helper.saveWorkBookToExcel(wb,
+            'Thông kê ' + this.props.fileNameDownload
+        );
+    }
 
     getLabels = (groupDates) => {
 
@@ -113,7 +136,17 @@ class BarChartFilterDate extends React.Component {
                             </li>
                         );
                     })}
+                    <li>
+                        <TooltipButton placement="top" text={"Tải thống kê"}>
+                            <a onClick={this.downloadData}>
+                                <i className="material-icons" style={{padding: 0}}>
+                                    cloud_download
+                                </i>
+                            </a>
+                        </TooltipButton>
+                    </li>
                 </ul>
+
             </div>
         );
     }
@@ -150,7 +183,8 @@ class BarChartFilterDate extends React.Component {
 }
 
 BarChartFilterDate.defaultProps = {
-    dateFilterFormat: DATE_FORMAT
+    dateFilterFormat: DATE_FORMAT,
+    fileNameDownload: ""
 };
 
 BarChartFilterDate.propTypes = {
@@ -158,6 +192,7 @@ BarChartFilterDate.propTypes = {
     labels: PropTypes.array.isRequired,
     data: PropTypes.array.isRequired,
     dateFormat: PropTypes.string,
+    fileNameDownload: PropTypes.string,
     optionsBar: PropTypes.object,
     isLoading: PropTypes.bool,
 };

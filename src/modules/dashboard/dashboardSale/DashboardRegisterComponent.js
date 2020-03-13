@@ -131,6 +131,7 @@ class DashboardRegisterComponent extends React.Component {
                                                 dateFormat={DATE_FORMAT}
                                                 data={[data.registers_by_date, data.paid_by_date]}
                                                 optionsBar={optionsBarRegister}
+                                                fileNameDownload={"số lượng đăng kí theo ngày"}
                                                 labels={[
                                                     {
                                                         label: "Đơn đăng kí",
@@ -166,6 +167,7 @@ class DashboardRegisterComponent extends React.Component {
                                                 dateFormat={DATE_FORMAT}
                                                 data={[data.money_by_date]}
                                                 optionsBar={optionsBarMoney}
+                                                fileNameDownload={"doanh thu theo ngày"}
                                                 labels={[
                                                     {
                                                         label: "Doanh thu",
@@ -197,6 +199,7 @@ class DashboardRegisterComponent extends React.Component {
                                                 dateFormat={DATE_FORMAT}
                                                 data={[data.old_register_by_date, data.new_register_by_date]}
                                                 optionsBar={optionsBarStackRegister}
+                                                fileNameDownload={'tỉ lệ học viên mới - cũ'}
                                                 labels={[
                                                     {
                                                         label: "Đơn từ học viên cũ",
@@ -233,6 +236,7 @@ class DashboardRegisterComponent extends React.Component {
                                                 dateFormat={DATE_FORMAT}
                                                 data={data.statuses.map((status) => status.register_by_date).reverse()}
                                                 optionsBar={optionsBarStackRegister}
+                                                fileNameDownload={"tỉ lệ trạng thái theo ngày"}
                                                 labels={data.statuses.map((status) => ({
                                                     label: status.name,
                                                     backgroundColor: (status.color ? status.color : "#ddd"),
@@ -263,6 +267,7 @@ class DashboardRegisterComponent extends React.Component {
                                                 dateFormat={DATE_FORMAT}
                                                 data={data.sources.map((source) => source.register_by_date).reverse()}
                                                 optionsBar={optionsBarStackRegister}
+                                                fileNameDownload={'tỉ lệ đăng kí theo nguồn'}
                                                 labels={data.sources.map((source) => ({
                                                     label: source.name,
                                                     backgroundColor: (source.color ? source.color : "#ddd"),
@@ -293,6 +298,7 @@ class DashboardRegisterComponent extends React.Component {
                                                 dateFormat={DATE_FORMAT}
                                                 data={data.campaigns.map((campaign) => campaign.register_by_date).reverse()}
                                                 optionsBar={optionsBarStackRegister}
+                                                fileNameDownload={'tỉ lệ đăng kí theo chiến dịch'}
                                                 labels={data.campaigns.map((campaign) => ({
                                                     label: campaign.name,
                                                     backgroundColor: (campaign.color ? "#" + campaign.color : "#ddd"),
