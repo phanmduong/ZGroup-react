@@ -816,6 +816,7 @@ class RegisterListContainer extends React.Component {
             helper.showErrorNotification("Không có dữ liệu");
             return;
         }
+        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 30}, {"wch": 30}, {"wch": 12}, {"wch": 12}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22},];//độ rộng cột
         //begin điểm danh
         json = this.props.excel.registers.map((item, index) => {
             if (item) {
