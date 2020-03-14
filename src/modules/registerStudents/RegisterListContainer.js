@@ -1014,7 +1014,7 @@ class RegisterListContainer extends React.Component {
                             this.state.openFilterPanel
                             &&
                             !(this.props.isLoadingGens ||
-                                this.props.isLoadingClassFilter ||
+                                // this.props.isLoadingClassFilter ||
                                 this.props.isLoadingBaseFilter ||
                                 this.props.isLoadingRegisters)
                         }>
@@ -1276,7 +1276,9 @@ class RegisterListContainer extends React.Component {
                         </Panel>
 
                         {
-                            this.props.isLoadingRegisters || this.props.isLoadingClassFilter || this.props.isLoadingBaseFilter ||
+                            this.props.isLoadingRegisters ||
+                            // this.props.isLoadingClassFilter ||
+                            this.props.isLoadingBaseFilter ||
                             this.props.isLoading ?
                                 <Loading/> :
                                 (
