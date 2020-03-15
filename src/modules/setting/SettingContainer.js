@@ -5,6 +5,15 @@ import Loading from "../../components/common/Loading";
 import * as helper from "../../helpers/helper";
 import FormInputText from "../../components/common/FormInputText";
 import ReactSelect from "react-select";
+import {DAY_CREATE_SHIFT} from "../../constants/constants";
+
+const TIME_SELECTS = Array(24 * 60).fill(0).map((_, i) => {
+    const time = ('0' + ~~(i / 60) + ':0' + Math.round(60 * (i / 60 % 1))).replace(/\d(\d\d)/g, '$1');
+    return {
+        "label": time,
+        "value": time,
+    };
+});
 
 @observer
 class SettingContainer extends React.Component {
@@ -40,8 +49,12 @@ class SettingContainer extends React.Component {
     }
 
     getValue = (key) => {
-        const setting = this.store.settings.filter((item) => item.key == key)[0];
+        const setting = this.getSetting(key);
         return setting ? setting.value : null;
+    }
+
+    getSetting = (key) => {
+        return this.store.settings.filter((item) => item.key == key)[0];
     }
 
     getSettingsByGroup = (group) => {
@@ -56,6 +69,12 @@ class SettingContainer extends React.Component {
         setting.value = e ? e.value : "";
     }
 
+    updateValueIndex = (setting, value, index) => {
+        const settingValue = JSON.parse(setting.value);
+        settingValue[index] = value;
+        setting.value = JSON.stringify(settingValue);
+    }
+
     saveSettings = () => {
         this.store.saveSettings();
     }
@@ -63,6 +82,13 @@ class SettingContainer extends React.Component {
     render() {
         const {isLoading, isSaving} = this.store;
         const {currentTab} = this.state;
+        let settingCreateShift, settingCreateShiftValue, settingCreateWorkShift, settingCreateWorkShiftValue;
+        if (this.store.settings.length > 0) {
+            settingCreateShift = this.getSetting("time_auto_create_shift");
+            settingCreateWorkShift = this.getSetting("time_auto_create_work_shift");
+            settingCreateShiftValue = JSON.parse(this.getSetting("time_auto_create_shift").value);
+            settingCreateWorkShiftValue = JSON.parse(this.getSetting("time_auto_create_work_shift").value);
+        }
         return (
             <div className="margin-top-10">
                 <div className={"card"}>
@@ -151,6 +177,49 @@ class SettingContainer extends React.Component {
                                                         );
                                                     })
                                                 }
+                                                <div>
+                                                    <label>Thời gian tự động tạo lịch trực: (Hàng tuần vào lúc)</label>
+                                                    <div className="flex flex-row flex-wrap">
+                                                        <ReactSelect
+                                                            style={{width: '200px', marginRight: 10, marginTop: 5}}
+                                                            options={DAY_CREATE_SHIFT}
+                                                            onChange={(e) => this.updateValueIndex(settingCreateShift, e ? e.value : "", 0)}
+                                                            value={settingCreateShiftValue[0]}
+                                                            placeholder={"Chọn ngày"}
+                                                            clearable={false}
+                                                        />
+                                                        <ReactSelect
+                                                            style={{width: '200px', marginTop: 5}}
+                                                            options={TIME_SELECTS}
+                                                            onChange={(e) => this.updateValueIndex(settingCreateShift, e ? e.value : "", 1)}
+                                                            value={settingCreateShiftValue[1]}
+                                                            placeholder={"Chọn giờ"}
+                                                            clearable={false}
+                                                        />
+                                                    </div>
+                                                </div>
+                                                <div>
+                                                    <label>Thời gian tự động tạo lịch làm việc: (Hàng tuần vào
+                                                        lúc)</label>
+                                                    <div className="flex flex-row flex-wrap">
+                                                        <ReactSelect
+                                                            style={{width: '200px', marginRight: 10, marginTop: 5}}
+                                                            options={DAY_CREATE_SHIFT}
+                                                            onChange={(e) => this.updateValueIndex(settingCreateWorkShift, e ? e.value : "", 0)}
+                                                            value={settingCreateWorkShiftValue[0]}
+                                                            placeholder={"Chọn ngày"}
+                                                            clearable={false}
+                                                        />
+                                                        <ReactSelect
+                                                            style={{width: '200px', marginTop: 5}}
+                                                            options={TIME_SELECTS}
+                                                            onChange={(e) => this.updateValueIndex(settingCreateWorkShift, e ? e.value : "", 1)}
+                                                            value={settingCreateWorkShiftValue[1]}
+                                                            placeholder={"Chọn giờ"}
+                                                            clearable={false}
+                                                        />
+                                                    </div>
+                                                </div>
                                                 <div className=" flex flex-end">
                                                     {isSaving ?
                                                         <button className=" btn btn-success btn-fill disabled"

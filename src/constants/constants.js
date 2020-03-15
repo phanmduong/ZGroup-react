@@ -667,7 +667,7 @@ export const PHONE_HEAD_4 = {
     "0199": gmobile
 };
 
-///// 
+/////
 export const CONTRACT_TYPES = [
     "Bản quyền trong nước",
     "Bản quyền nước ngoài",
@@ -817,3 +817,31 @@ export const LESSON_EVENT_TYPES_OBJECT ={
     book:{name:'Kiểm tra sách', type:'book', modalText:'KIỂM TRA SÁCH',placeholder:'Nhập nhận xét'},
     comment:{name:'Nhận xét', type:'comment', modalText: 'NHẬN XÉT',placeholder:'Nhập nhận xét'},
 };
+
+export const DAY_CREATE_SHIFT = [
+    {
+        "label": "Thứ 2",
+        "value": "mondays"
+    }, {
+        "label": "Thứ 3",
+        "value": "tuesdays"
+    }, {
+        "label": "Thứ 4",
+        "value": "wednesdays"
+    }, {
+        "label": "Thứ 5",
+        "value": "thursdays"
+    },
+    {
+        "label": "Thứ 6",
+        "value": "fridays"
+    },
+    {
+        "label": "Thứ 7",
+        "value": "saturdays"
+    },
+    {
+        "label": "Chủ nhật",
+        "value": "sundays"
+    },
+]
