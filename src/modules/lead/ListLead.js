@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {avatarEmpty, isEmptyInput,} from "../../helpers/helper";
+import {avatarEmpty, isEmptyInput, shortString,} from "../../helpers/helper";
 import {NO_AVATAR} from "../../constants/env";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
@@ -247,7 +247,21 @@ class ListLead extends React.Component {
                                                     disable
                                                 />
                                             </td>
-                                            <td>{lead.note}</td>
+                                            <td>
+                                                {!isEmptyInput(lead.note) && <TooltipButton text={lead.note} placement="top">
+                                                    <div className="btn btn-xs width-100 margin-bottom-10 color-black background-white">
+                                                    {shortString(lead.note, 5)}
+                                                    </div>
+                                                </TooltipButton>}
+                                                {!isEmptyInput(lead.notes) && lead.notes.length > 0 && lead.notes.map((note,key)=>{
+                                                    if(!isEmptyInput(note))
+                                                        return (<TooltipButton text={note} placement="top" key={key}>
+                                                            <div className="btn btn-xs width-100 margin-bottom-10">
+                                                                {shortString(note, 5)}
+                                                            </div>
+                                                        </TooltipButton>);
+                                                })}
+                                            </td>
                                             <td>{lead.interest}</td>
 
                                             {
