@@ -257,7 +257,7 @@ class RegisterListContainer extends React.Component {
                 startTime: currentGen.start_time,
                 endTime: currentGen.end_time,
             };
-            if (currentGen.id === '' || isEmptyInput(currentGen.id)) {
+            if ((currentGen.id === '' || isEmptyInput(currentGen.id)) && currentGen.name !== 'Tất cả') {
                 newState.startTime = this.state.startTime;
                 newState.endTime = this.state.endTime;
             }
@@ -937,7 +937,7 @@ class RegisterListContainer extends React.Component {
                                                 className="text-white"
                                                 disabled={
                                                     this.props.isLoadingGens ||
-                                                    this.props.isLoadingClassFilter ||
+                                                    // this.props.isLoadingClassFilter ||
                                                     this.props.isLoading ||
                                                     this.props.isLoadingRegisters ||
                                                     this.props.isLoadingBaseFilter ||
@@ -960,7 +960,7 @@ class RegisterListContainer extends React.Component {
                                                 className="btn btn-white btn-round btn-icon"
                                                 disabled={
                                                     this.props.isLoadingGens ||
-                                                    this.props.isLoadingClassFilter ||
+                                                    // this.props.isLoadingClassFilter ||
                                                     this.props.isLoadingBaseFilter ||
                                                     this.props.isLoading ||
                                                     this.props.isLoadingRegisters

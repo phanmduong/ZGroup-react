@@ -67,7 +67,7 @@ class ListTab extends React.Component {
                                 <div className="panel panel-default">
                                     <div className="panel-heading" role="tab">
                                         <a>
-                                            <h4 className="panel-title">
+                                            <div className="panel-title">
                                                 <div className="checkbox">
                                                     <label>
                                                         {tab.checked ?
@@ -82,7 +82,7 @@ class ListTab extends React.Component {
                                                         {tab.name}
                                                     </label>
                                                 </div>
-                                            </h4>
+                                            </div>
                                         </a>
                                     </div>
                                 </div>
@@ -105,9 +105,9 @@ class ListTab extends React.Component {
                                            href={'#tab-role' + tab.id}
                                            style={{marginTop:12}}
                                         >
-                                            <h4 className="panel-title" style={{width: '100%'}}>
+                                            <div className="panel-title" style={{width: '100%'}}>
                                                 <i className="material-icons">keyboard_arrow_down</i>
-                                            </h4>
+                                            </div>
                                         </a>
                                     </div>
                                     <div id={"tab-role" + tab.id} className="panel-collapse collapse" role="tabpanel"

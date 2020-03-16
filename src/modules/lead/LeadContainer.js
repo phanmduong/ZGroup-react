@@ -433,7 +433,7 @@ class LeadContainer extends React.Component {
             page: 1,
             startTime: newState.filter ? newState.filter.startTime : '',
             endTime: newState.filter ? newState.filter.endTime : '',
-            // staffId: this.isAdmin ? -2 : this.props.user.id,
+            staffId: this.isAdmin ? newState.staffId : this.props.user.id,
         });
     };
 
@@ -459,7 +459,7 @@ class LeadContainer extends React.Component {
             search: this.state.search,
             startTime: this.state.filter.startTime,
             endTime: this.state.filter.endTime,
-            // staffId: this.isAdmin ? -2 : this.props.user.id,
+            staffId: this.isAdmin ? this.state.staffId : this.props.user.id,
         });
     };
 
