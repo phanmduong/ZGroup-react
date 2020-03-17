@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import {Link} from "react-router";
+// import {Link} from "react-router";
 import * as tabsActions from './tabsActions';
 import * as helper from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
@@ -77,13 +77,13 @@ class TabContainer extends React.Component {
                                     className={this.props.pathname === tab.url ? "active" : ""}>
                                     {this.parentCurrentTab && tab.parent[1] && this.parentCurrentTab.id == tab.parent[1].id ?
                                         (
-                                            <Link to={tab.url} activeClassName="active"
+                                            <a href={tab.url} activeClassName="active"
                                                   onClick={() => {
                                                       helper.closeSidebar();
                                                   }}
                                             >
                                                 <p style={{paddingLeft: '10px'}}>{tab.name}</p>
-                                            </Link>
+                                            </a>
                                         ) :
                                         (
                                             <a href={tab.url}
