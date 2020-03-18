@@ -73,6 +73,7 @@ export function getRegisterStudent(filter) {
         selectedBookmarkStatus = '',
         registerStatusId = '',
         registerSourceId = '',
+        date_test = '',
     } = filter;
     console.log('api',filter);
 
@@ -98,6 +99,7 @@ export function getRegisterStudent(filter) {
         "&status=" + selectedMoneyFilter +
         "&base_id=" + selectedBaseId +
         "&appointment_payment=" + appointmentPayment +
+        "&date_test=" + date_test +
         "&type=" + selectedClassStatus +
         "&search_coupon=" + query_coupon +
         "&query_note=" + query_note +

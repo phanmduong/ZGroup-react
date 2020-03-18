@@ -12,7 +12,14 @@ import {searchStaffs} from "./leadApi";
 import {NO_AVATAR} from "../../constants/env";
 import {Modal, Panel} from "react-bootstrap";
 
-import {confirm, isEmptyInput, readExcel, showErrorMessage, showTypeNotification} from "../../helpers/helper";
+import {
+    confirm,
+    isEmptyInput,
+    readExcel,
+    setClipboard,
+    showErrorMessage,
+    showTypeNotification
+} from "../../helpers/helper";
 import CreateRegisterModalContainer from "../registerStudents/CreateRegisterModalContainer";
 import * as createRegisterActions from '../registerStudents/createRegisterActions';
 import moment from "moment";
@@ -120,9 +127,9 @@ class LeadContainer extends React.Component {
         }
 
         if (this.isAdmin) {
-            willMountState = {...willMountState, page: 1}
+            willMountState = {...willMountState, page: 1};
         } else {
-            willMountState = {...willMountState, staff: this.props.user, staffId: this.props.user.id, page: 1}
+            willMountState = {...willMountState, staff: this.props.user, staffId: this.props.user.id, page: 1};
         }
         console.log('urlState', willMountState);
 
@@ -250,29 +257,11 @@ class LeadContainer extends React.Component {
         }
     }
 
-    componentDidUpdate() {
-        //prevProps, prevState
-        let {
-            isLoading,
-            isLoadingStatuses,
-            isLoadingSources,
-            isLoadingCampaigns,
 
-        } = this.props;
-        let doneLoading = !(
-            isLoading ||
-            isLoadingStatuses ||
-            isLoadingSources ||
-            isLoadingCampaigns
-        );
-        if (doneLoading) {
-            let url = this.getFilterUrlWithParams(this.state);
-            history.pushState({
-                prevUrl: window.location.href
-            }, "modal", url);
-
-        }
-    }
+    copyShareUrl = () => {
+        let url = this.getFilterUrlWithParams(this.state);
+        setClipboard(url, true);
+    };
 
     getFilterUrlWithParams = (newFilter = {}) => {
         let current_link = window.location.href.split('?')[0];
@@ -337,7 +326,7 @@ class LeadContainer extends React.Component {
                 ...this.state,
             }
         );
-    }
+    };
 
     loadData = (page = 1) => {
         this.setState({page: page});
@@ -1055,8 +1044,10 @@ class LeadContainer extends React.Component {
 
                             </div>
                             <div className="flex-end">
+                                <div className="btn button-green" onClick={this.copyShareUrl}>Sao chép đường dẫn</div>
                                 <div className="btn button-green" onClick={this.applyFilter}>Áp dụng</div>
                             </div>
+
                         </div>
 
                     </div>

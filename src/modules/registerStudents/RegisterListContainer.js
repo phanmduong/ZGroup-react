@@ -29,6 +29,7 @@ import CreateRegisterOverlay from "../infoStudent/overlays/CreateRegisterOverlay
 import * as studentActions from "../infoStudent/studentActions";
 import EmptyData from "../../components/common/EmptyData";
 import {isEmptyInput} from "../../helpers/helper";
+import {setClipboard} from "../../helpers/helper";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -395,52 +396,22 @@ class RegisterListContainer extends React.Component {
         // }
     }
 
-    componentDidUpdate() {
-        //prevProps, prevState
-        let {
-            isLoading,
-            isLoadingGens,
-            isLoadingRegisters,
-            isLoadingRegistersByStudent,
-            isLoadingClassFilter,
-            isLoadingSalerFilter,
-            isLoadingCampaignFilter,
-            isLoadingSources,
-            isLoadingBaseFilter,
-            isLoadingStatuses,
 
-        } = this.props;
-        let doneLoading = !(
-            isLoading ||
-            isLoadingGens ||
-            isLoadingRegisters ||
-            isLoadingRegistersByStudent ||
-            isLoadingClassFilter ||
-            isLoadingSalerFilter ||
-            isLoadingCampaignFilter ||
-            isLoadingSources ||
-            isLoadingBaseFilter ||
-            isLoadingStatuses
-        );
-        if (doneLoading) {
-            let url = this.getFilterUrlWithParams(this.state);
-            history.pushState({
-                prevUrl: window.location.href
-            }, "modal", url);
-
-        }
-    }
+    copyShareUrl = () => {
+        let url = this.getFilterUrlWithParams(this.state);
+        setClipboard(url, true);
+    };
 
     getFilterUrlWithParams = (newFilter = {}) => {
         let current_link = window.location.href.split('?')[0];
         let {
             selectedClassId, selectedSalerId, registerSourceId, registerStatusId, selectedMoneyFilter, selectedClassStatus, selectedBookmarkStatus,
-            selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, query_note, query_coupon, appointmentPayment, endTime, startTime
+            selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, query_note, query_coupon, appointmentPayment, endTime, startTime,date_test
         } = this.state;
         current_link += `?class_id=${selectedClassId}&saler_id=${(newFilter.saler_id || newFilter.saler_id === '') ? newFilter.saler_id : selectedSalerId}&source_id=${registerSourceId}` +
             `&status_id=${registerStatusId}&money_filter=${selectedMoneyFilter}&class_status=${selectedClassStatus}&bookmark_status=${selectedBookmarkStatus}` +
             `&call_status=${selectedTeleCallStatus}&student_id=${selectedStudentId}&campaign_id=${campaignId}&gen_id=${selectGenId}` +
-            `&base_id=${selectedBaseId}&query=${query}&start_time=${startTime}&end_time=${endTime}&query_note=${query_note}&appointmentPayment=${appointmentPayment}&query_coupon=${query_coupon}`;
+            `&base_id=${selectedBaseId}&query=${query}&start_time=${startTime}&end_time=${endTime}&query_note=${query_note}&date_test=${date_test}&appointmentPayment=${appointmentPayment}&query_coupon=${query_coupon}`;
         return current_link;
     };
 
@@ -1134,6 +1105,15 @@ class RegisterListContainer extends React.Component {
                                         />
                                     </div>
                                     <div className="col-md-3">
+                                        <FormInputDate
+                                            label="Hẹn ngày test"
+                                            name="date_test"
+                                            updateFormData={this.updateFormDate}
+                                            id="form-date-test"
+                                            value={this.state.date_test}
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
                                         <Search
                                             onChange={e => this.searchByText(e, 'query_coupon')}
                                             value={this.state.query_coupon}
@@ -1190,9 +1170,12 @@ class RegisterListContainer extends React.Component {
                                         />
                                     </div>
 
-                                    <div className="col-md-6">
-                                        <div className="float-right">
-                                            <div className="btn button-green" style={{marginTop: 20}}
+                                    <div className="col-md-12">
+                                        <div className="flex flex-end">
+                                            <div className="btn button-green"
+                                                 onClick={this.copyShareUrl}>Sao chép đường dẫn
+                                            </div>
+                                            <div className="btn button-green"
                                                  onClick={this.applyFilter}>Áp dụng
                                             </div>
                                         </div>
@@ -1563,7 +1546,7 @@ class RegisterListContainer extends React.Component {
                                                                     <div
                                                                         className="timeline-body">
                                                                         Hẹn nộp
-                                                                        tiền: {history.appointment_payment}
+                                                                        tiền: {history.date_test}
                                                                     </div>
                                                                 }
 

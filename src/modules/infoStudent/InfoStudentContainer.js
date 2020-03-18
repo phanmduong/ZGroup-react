@@ -307,7 +307,7 @@ class InfoStudentContainer extends React.Component {
                                             {student.university &&
                                             <p>Trường học<strong>{student.university || "Chưa có"}</strong></p>}
                                             {student.description &&
-                                            <p>Mô tả<strong>{student.description || "Chưa có"}</strong></p>}
+                                            <p>Ghi chú<strong>{student.note || "Chưa có"}</strong></p>}
                                             {student.facebook &&
                                             <p>Facebook<strong>{student.facebook || "Chưa có"}</strong></p>}
                                         </div>
@@ -633,17 +633,16 @@ class InfoStudentContainer extends React.Component {
                                     value={this.state.student.facebook}
                                     updateFormData={this.updateFormData}
                                 />
-                                <label className="label-control">Mô tả</label>
+                                <label className="label-control">Ghi chú</label>
                                 <div className="form-group text-area-grey">
-
                                     <textarea
                                         type="text"
                                         rows={5}
                                         className="form-control "
                                         value={
-                                            this.state.student.description ? this.state.student.description : ""
+                                            this.state.student.note ? this.state.student.note : ""
                                         }
-                                        name="description"
+                                        name="note"
                                         onChange={this.updateFormData}
                                     />
                                     <span className="material-input"/>
