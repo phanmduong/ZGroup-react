@@ -790,6 +790,7 @@ export const STATUS_REFS = {
     leads: 'leads',
     classes: 'classes',
     registers: 'registers',
+    tickets: 'tickets',
 };
 
 export const CIRCLE_PICKER_COLORS = [

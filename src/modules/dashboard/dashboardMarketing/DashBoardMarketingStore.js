@@ -35,15 +35,15 @@ export const store = new class Store {
         }
     };
     @observable routes = [
-        {
-            path: `${this.routePrefix}`, text: 'Lead',
-        },
-        {
-            path: `${this.routePrefix}/sources-campaigns`, text: 'Nguồn và chiến dịch',
-        },
-        {
-            path: `${this.routePrefix}/pic`, text: 'PIC',
-        },
+        // {
+        //     path: `${this.routePrefix}`, text: 'Lead',
+        // },
+        // {
+        //     path: `${this.routePrefix}/sources-campaigns`, text: 'Nguồn và chiến dịch',
+        // },
+        // {
+        //     path: `${this.routePrefix}/pic`, text: 'PIC',
+        // },
 
     ];
     @observable filter = {

@@ -1,4 +1,5 @@
 import LeadContainer from "../modules/lead/LeadContainer";
+import TicketContainer from "../modules/tickets/TicketContainer";
 
 /**
  * Tab Chăm sóc khách hàng
@@ -21,7 +22,7 @@ export default [
     },
     {
         path: "/customer-services/tickets",
-        component: LeadContainer,
+        component: TicketContainer,
         type: "distribution"
     },
 ];

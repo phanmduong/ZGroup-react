@@ -306,7 +306,7 @@ class InfoStudentContainer extends React.Component {
                                             </p>}
                                             {student.university &&
                                             <p>Trường học<strong>{student.university || "Chưa có"}</strong></p>}
-                                            {student.description &&
+                                            {student.note &&
                                             <p>Ghi chú<strong>{student.note || "Chưa có"}</strong></p>}
                                             {student.facebook &&
                                             <p>Facebook<strong>{student.facebook || "Chưa có"}</strong></p>}
