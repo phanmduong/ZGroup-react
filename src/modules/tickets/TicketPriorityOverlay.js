@@ -108,13 +108,10 @@ class TicketPriorityOverlay extends React.Component {
     }
 
     setTicketPriority = (priority)=>{
-        console.log(priority);
         let {onChange} = this.props;
-        if(isEmptyInput(onChange)){
-
-        }else {
+        if (!isEmptyInput(onChange)) {
             onChange(priority);
-            this.setState({show:false});
+            this.setState({show: false});
         }
     }
 

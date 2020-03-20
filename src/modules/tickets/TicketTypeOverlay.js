@@ -109,11 +109,10 @@ class CreateTicketTypeOverlay extends React.Component {
 
     setTicketType = (type)=>{
         let {onChange} = this.props;
-        if(isEmptyInput(onChange)){
-
-        }else {
+        if (!isEmptyInput(onChange)) {
             onChange(type);
-            this.setState({show:false});
+            console.log(type);
+            this.setState({show: false});
 
         }
     }

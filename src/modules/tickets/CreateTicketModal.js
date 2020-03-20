@@ -34,6 +34,7 @@ export default class TicketContainer extends React.Component {
     };
 
     updateUser = (field, e) => {
+        console.log(field, e);
         store.modal.ticket[field] = e;
         store.modal.ticket[field + '_id'] = e ? e.id : e;
     };
@@ -103,6 +104,7 @@ export default class TicketContainer extends React.Component {
                             searchPromptText="Không có dữ liệu "
                             onChange={(e) => {
                                 this.updateUser('user', e);
+                                this.updateUser('register', null);
                                 store.loadUserRegisters();
                             }}
                             value={ticket.user}

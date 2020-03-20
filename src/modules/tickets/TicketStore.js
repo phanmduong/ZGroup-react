@@ -1,13 +1,20 @@
 import {action, computed, observable} from "mobx";
 import {
-    createTicket,
+    archiveTicket,
+    createTicket, findClass,
     findUser,
     loadTicketPriorities,
     loadTickets,
     loadTicketTypes,
-    loadUserRegisters
+    loadUserRegisters, starTicket
 } from "./ticketApi";
-import {isEmptyInput, showErrorNotification, showNotification} from "../../helpers/helper";
+import {
+    confirm,
+    isEmptyInput,
+    showErrorNotification,
+    showNotification,
+    showWarningNotification
+} from "../../helpers/helper";
 
 const defaultModal = {
     showModalCreateTicket: false,
@@ -33,30 +40,51 @@ const defaultModal = {
         status: {},
         priority: {},
         register: {},
+        class: {},
     }
 };
 
 export const store = new class Store {
     @observable isLoading = false;
+    @observable isStaring = false;
     @observable isLoadingTicketTypes = false;
     @observable isLoadedTicketTypes = false;
     @observable isLoadedTicketPriorities = false;
     @observable isLoadingTicketPriorities = false;
     @observable isLoadingUserRegisters = false;
+    @observable openFilterPanel = false;
 
-    @observable modal = defaultModal;
+    @observable modal = {...defaultModal};
     @observable filter = {
-        search: ''
+        search: '',
+        creator:{},
+        creator_id:null,
+        stared_by:null,
+        ...defaultModal.ticket
+    };
+
+
+    @observable tabFilter = {
+        currentTab: 0,
+        tabs: [
+            {text: 'Đang giải quyết', operator: (o => isEmptyInput(o.archivist))},
+            {text: 'Đã lưu trữ', operator: (o => !isEmptyInput(o.archivist))},
+        ]
     };
     @observable data = {
         tickets: [],
         ticketTypes: [],
         ticketPriorities: [],
         userRegisters: [],
-        users: [],
 
     };
 
+
+    @computed
+    get getTickets() {
+        let tab = this.tabFilter.tabs[this.tabFilter.currentTab];
+        return this.data.tickets.filter(t => tab.operator(t));
+    }
 
     @computed
     get convertUserRegister() {
@@ -73,6 +101,18 @@ export const store = new class Store {
     }
 
     @action
+    changeArchiveFilter = (index) => {
+        this.isLoading = true;
+        this.tabFilter.currentTab = index;
+        this.isLoading = false;
+    };
+
+    @action
+    openModalCreate = () => {
+        this.modal.showModalCreateTicket = true;
+        this.modal.ticket = defaultModal.ticket;
+    }
+    @action
     openModalEdit = (data) => {
         let res = {
             ...data,
@@ -80,7 +120,7 @@ export const store = new class Store {
             pic_id: data.pic ? data.pic.id : null,
             class_id: data.class ? data.class.id : null,
             status_id: data.status ? data.status.id : null,
-            register_id: data.status ? data.register.id : null,
+            register_id: data.register ? data.register.id : null,
             ticket_type_id: data.type ? data.type.id : null,
             priority_id: data.priority ? data.priority.id : null,
             assigner_id: data.assigner ? data.assigner.id : null,
@@ -97,13 +137,10 @@ export const store = new class Store {
                 }
                 if (!isEmptyInput(obj.studyClass)) {
                     obj.name = obj.studyClass.name;
-                    if( !isEmptyInput(obj.studyClass.course)&&!isEmptyInput(obj.studyClass.course.icon_url) )
+                    if (!isEmptyInput(obj.studyClass.course) && !isEmptyInput(obj.studyClass.course.icon_url))
                         avatar_url = obj.studyClass.course.icon_url;
 
                 }
-                console.log(avatar_url);
-
-
                 res = {
                     ...res,
                     [field]: {
@@ -115,10 +152,10 @@ export const store = new class Store {
 
                 };
 
-            }
+            }else res = {...res,[field]:{}};
         });
         this.modal.ticket = res;
-        console.log('edit', res);
+        console.log(res);
         this.modal.showModalCreateTicket = true;
         store.loadUserRegisters();
     };
@@ -126,7 +163,7 @@ export const store = new class Store {
     loadTickets = () => {
         this.isLoading = true;
         let includes = 'user,creator,status,priority,staredBy,assigner,pic,archivist,type,register.studyClass.course';
-        loadTickets(includes).then(res => {
+        loadTickets(this.filter, includes).then(res => {
             if (res.data.status == 1) {
                 this.data.tickets = res.data.tickets;
             }
@@ -173,13 +210,54 @@ export const store = new class Store {
     };
 
     @action
+    archiveTicket = (ticket) => {
+        let title = isEmptyInput(ticket.archivist) ? 'Lưu trữ vấn đề' :'Bỏ lưu trữ vấn đề';
+        let des = isEmptyInput(ticket.archivist) ? 'Bạn có chắc muốn lưu trữ vấn đề này?' :'Bạn có chắc muốn bỏ lưu trữ vấn đề này?';
+        confirm('warning', title, des,
+            () => {
+                this.isLoading = true;
+                showWarningNotification('Đang thực hiện...');
+                archiveTicket(ticket.id).then(res => {
+
+                    if(res.data.status == 1){
+                        showNotification('Lưu thành công!');
+                        // this.loadTickets();
+
+                    }else showErrorNotification('Có lỗi xảy ra!');
+                }).catch(e => {
+                    console.log(e);
+                    showErrorNotification('Có lỗi xảy ra!');
+                }).finally(() => {
+                    this.isLoading = false;
+                });
+            }
+        );
+
+    };
+    @action
+    starTicket = (ticket_id) => {
+        this.isLoading = true;
+        showWarningNotification('Đang thực hiện...');
+        starTicket(ticket_id).then(res => {
+            if(res.data.status == 1){
+                showNotification('Lưu thành công!');
+                this.loadTickets();
+            }else showErrorNotification('Có lỗi xảy ra!');
+        }).catch(e => {
+            console.log(e);
+            showErrorNotification('Có lỗi xảy ra!');
+        }).finally(() => {
+            this.isLoading = false;
+        });
+    };
+    @action
     createTicket = () => {
         let data = {...store.modal.ticket};
         let errs = [];
-        if(isEmptyInput(data.name)) errs.push('Bạn cần nhập tên vấn đề');
-        if(isEmptyInput(data.user_id)) errs.push('Bạn chưa chọn người gặp vấn đề');
+        if (isEmptyInput(data.name)) errs.push('Bạn cần nhập tên vấn đề');
+        if (isEmptyInput(data.user_id)) errs.push('Bạn chưa chọn người gặp vấn đề');
         errs.forEach((e) => showErrorNotification(e));
-        if(errs.length) return;
+        if (errs.length) return;
         store.modal.isCreating = true;
         createTicket(data).then(res => {
             if (res.data.status == 1) {
@@ -202,18 +280,41 @@ export const store = new class Store {
         }
         this.timeOut[field] = setTimeout(function () {
             findUser(input, is_staff).then(res => {
-                let data = res.data.map((staff) => {
+                let data = res.data.map((obj) => {
                     return {
-                        ...staff,
+                        ...obj,
                         ...{
-                            value: staff.id,
-                            label: staff.name
+                            value: obj.id,
+                            label: obj.name
                         }
                     };
                 });
-                this.data[field] = data;
+                // this.data[field] = data;
                 callback(null, {options: data, complete: true});
             });
         }.bind(this), 500);
     };
-}();
+    @action
+    searchClasses = (input, callback) => {
+        if (isEmptyInput(this.timeOut)) this.timeOut = {};
+        if (this.timeOut.classes !== null) {
+            clearTimeout(this.timeOut.classes);
+        }
+        this.timeOut.classes = setTimeout(function () {
+            findClass(input).then(res => {
+                let data = res.data.map((obj) => {
+                    return {
+                        ...obj,
+                        ...{
+                            value: obj.id,
+                            label: obj.name,
+                            avatar_url: obj.course ? obj.course.icon_url : '',
+                        }
+                    };
+                });
+                callback(null, {options: data, complete: true});
+            });
+        }.bind(this), 500);
+    };
+}
+();
