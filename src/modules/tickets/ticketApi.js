@@ -55,6 +55,15 @@ export function loadTicketTypes() {
     }
     return axios.get(url);
 }
+export function loadTicketHistory(ticket_id) {
+    let url = env.NEW_MANAGE_API_URL + "/customer-service/ticket/history/" +ticket_id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    url+= '&include=agent';
+    return axios.get(url);
+}
 export function createTicketType(data) {
     let url = env.NEW_MANAGE_API_URL + "/customer-service/type/create";
     let token = localStorage.getItem('token');

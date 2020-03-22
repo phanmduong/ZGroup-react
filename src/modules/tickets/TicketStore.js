@@ -1,12 +1,14 @@
 import {action, computed, observable} from "mobx";
 import {
     archiveTicket,
-    createTicket, findClass,
-    findUser,
+    createTicket,
+    findClass,
+    findUser, loadTicketHistory,
     loadTicketPriorities,
     loadTickets,
     loadTicketTypes,
-    loadUserRegisters, starTicket
+    loadUserRegisters,
+    starTicket
 } from "./ticketApi";
 import {
     confirm,
@@ -17,6 +19,8 @@ import {
 } from "../../helpers/helper";
 
 const defaultModal = {
+    histories: [],
+    showModalHistory: false,
     showModalCreateTicket: false,
     isCreating: false,
     ticket: {
@@ -47,6 +51,7 @@ const defaultModal = {
 export const store = new class Store {
     @observable isLoading = false;
     @observable isStaring = false;
+    @observable isLoadingHistory = false;
     @observable isLoadingTicketTypes = false;
     @observable isLoadedTicketTypes = false;
     @observable isLoadedTicketPriorities = false;
@@ -57,9 +62,9 @@ export const store = new class Store {
     @observable modal = {...defaultModal};
     @observable filter = {
         search: '',
-        creator:{},
-        creator_id:null,
-        stared_by:null,
+        creator: {},
+        creator_id: null,
+        stared_by: null,
         ...defaultModal.ticket
     };
 
@@ -111,7 +116,7 @@ export const store = new class Store {
     openModalCreate = () => {
         this.modal.showModalCreateTicket = true;
         this.modal.ticket = defaultModal.ticket;
-    }
+    };
     @action
     openModalEdit = (data) => {
         let res = {
@@ -152,7 +157,7 @@ export const store = new class Store {
 
                 };
 
-            }else res = {...res,[field]:{}};
+            } else res = {...res, [field]: {}};
         });
         this.modal.ticket = res;
         console.log(res);
@@ -162,7 +167,7 @@ export const store = new class Store {
     @action
     loadTickets = () => {
         this.isLoading = true;
-        let includes = 'user,creator,status,priority,staredBy,assigner,pic,archivist,type,register.studyClass.course';
+        let includes = 'user,creator,status,priority,staredBy,assigner,pic,archivist,type,register.studyClass.course,register.studyClass.gen';
         loadTickets(this.filter, includes).then(res => {
             if (res.data.status == 1) {
                 this.data.tickets = res.data.tickets;
@@ -211,19 +216,19 @@ export const store = new class Store {
 
     @action
     archiveTicket = (ticket) => {
-        let title = isEmptyInput(ticket.archivist) ? 'Lưu trữ vấn đề' :'Bỏ lưu trữ vấn đề';
-        let des = isEmptyInput(ticket.archivist) ? 'Bạn có chắc muốn lưu trữ vấn đề này?' :'Bạn có chắc muốn bỏ lưu trữ vấn đề này?';
+        let title = isEmptyInput(ticket.archivist) ? 'Lưu trữ vấn đề' : 'Bỏ lưu trữ vấn đề';
+        let des = isEmptyInput(ticket.archivist) ? 'Bạn có chắc muốn lưu trữ vấn đề này?' : 'Bạn có chắc muốn bỏ lưu trữ vấn đề này?';
         confirm('warning', title, des,
             () => {
                 this.isLoading = true;
                 showWarningNotification('Đang thực hiện...');
                 archiveTicket(ticket.id).then(res => {
 
-                    if(res.data.status == 1){
+                    if (res.data.status == 1) {
                         showNotification('Lưu thành công!');
-                        // this.loadTickets();
+                        this.loadTickets();
 
-                    }else showErrorNotification('Có lỗi xảy ra!');
+                    } else showErrorNotification('Có lỗi xảy ra!');
                 }).catch(e => {
                     console.log(e);
                     showErrorNotification('Có lỗi xảy ra!');
@@ -239,16 +244,36 @@ export const store = new class Store {
         this.isLoading = true;
         showWarningNotification('Đang thực hiện...');
         starTicket(ticket_id).then(res => {
-            if(res.data.status == 1){
+            if (res.data.status == 1) {
                 showNotification('Lưu thành công!');
                 this.loadTickets();
-            }else showErrorNotification('Có lỗi xảy ra!');
+            } else showErrorNotification('Có lỗi xảy ra!');
         }).catch(e => {
             console.log(e);
             showErrorNotification('Có lỗi xảy ra!');
         }).finally(() => {
             this.isLoading = false;
         });
+    };
+    @action
+    loadTicketHistory = (ticket_id) => {
+        this.isLoadingHistory = true;
+        loadTicketHistory(ticket_id).then(res => {
+            if (res.data.status == 1) {
+                this.modal.histories = res.data.ticket_history;
+            } else showErrorNotification('Có lỗi xảy ra!');
+        }).catch(e => {
+            console.log(e);
+            showErrorNotification('Có lỗi xảy ra!');
+        }).finally(() => {
+            this.isLoadingHistory = false;
+        });
+    };
+
+    @action
+    openModalTicketHistory = (ticket_id) => {
+        this.loadTicketHistory(ticket_id);
+        this.modal.showModalHistory = true;
     };
     @action
     createTicket = () => {

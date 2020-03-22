@@ -1,7 +1,7 @@
 import React from "react";
 import {observer} from 'mobx-react';
 
-import {store} from './TicketStore.js';
+import {store} from './TicketStore';
 import CreateTicketModal from './CreateTicketModal';
 import Loading from "../../components/common/Loading";
 import Search from "../../components/common/Search";
@@ -9,9 +9,9 @@ import Sort from "../../components/common/ReactTable/Sort";
 import ReactTable from "react-table-v6";
 import {getShortName, isEmptyInput} from "../../helpers/helper";
 import TooltipButton from "../../components/common/TooltipButton";
-import {Panel} from "react-bootstrap";
+import {Modal, Panel} from "react-bootstrap";
 import ToggleStar from "../../components/common/ToggleStar";
-import {openModalRegisterDetail} from "../globalModal/globalModalActions";
+import {openModalRegisterDetail, openModalStaffDetail} from "../globalModal/globalModalActions";
 import ReactSelect from "react-select";
 import ItemReactSelect from "../../components/common/ItemReactSelect";
 import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
@@ -37,16 +37,22 @@ export default class TicketContainer extends React.Component {
                 sortable: true,
                 accessor: 'staredBy',
                 Cell: props => {
+                    let data = props.original;
+                    let text = data.staredBy ? `Đánh dấu bởi ${data.staredBy.name} - ${data.stared_at}` : 'Ấn để đánh dấu';
                     return (
-                        <div className="margin-auto">
-                            <ToggleStar
-                                value={!isEmptyInput(props.value)}
-                                isLoading={store.isStaring}
-                                onChange={() => {
-                                    store.starTicket(props.original.id);
-                                }}
-                            />
-                        </div>
+
+                            <TooltipButton text={text} placement="top">
+                                <div className="margin-auto">
+                                <ToggleStar
+                                    value={!isEmptyInput(props.value)}
+                                    isLoading={store.isStaring}
+                                    onChange={() => {
+                                        store.starTicket(props.original.id);
+                                    }}
+                                />
+                                </div>
+                            </TooltipButton>
+
                     );
                 }, // Custom cell components!
                 minWidth: 65,
@@ -57,15 +63,20 @@ export default class TicketContainer extends React.Component {
                 accessor: 'user',
                 Cell: props => {
                     let user = props.value || {name: 'Không có'};
+                    let data = props.original;
                     return (<div className="cursor-pointer">
 
                         <div className=" color-black"
                              onClick={() => openModalRegisterDetail(`/sales/info-student/${props.value.id}`)}>
                             <strong>{user.name}</strong></div>
-                        {props.original.register && props.original.register.studyClass &&
-                        <a className=" color-black" href={`/teaching/class/${props.original.register.studyClass.id}`}
-                           target="_blank">
-                            <strong>{props.original.register.studyClass.name}</strong></a>}
+
+                        {data.register && data.register.studyClass && data.register.studyClass.gen &&
+
+                        <TooltipButton text={`Khóa ${data.register.studyClass.gen.name}`} placement="top">
+                            <a className=" color-black" href={`/teaching/class/${data.register.studyClass.id}`}
+                               target="_blank">
+                                <strong>{data.register.studyClass.name}</strong></a>
+                        </TooltipButton>}
 
 
                     </div>);
@@ -75,17 +86,18 @@ export default class TicketContainer extends React.Component {
             {
                 Header: <Sort title="Vấn đề"/>,
                 accessor: 'name',
-                Cell: props => <div>
-                    <div><b>{props.original.name}</b></div>
-                    <div>{props.original.description}</div>
-
-                    {props.value}
-                </div>
+                Cell: props => {
+                    let data = props.original;
+                    return(<div className="cursor-pointer" onClick={()=>store.openModalEdit(data)}>
+                        <div><b>{data.name}</b></div>
+                        <div>{data.description}</div>
+                    </div>);
+                }
             },
             {
                 Header: <Sort title="Giải quyết"/>,
                 accessor: 'solution',
-                Cell: props => <div>{props.value}</div>
+                Cell: props => <div className="cursor-pointer" onClick={()=>store.openModalEdit(props.original)}>{props.value}</div>
             },
             {
                 Header: <Sort title="Đảm nhiệm"/>,
@@ -97,16 +109,27 @@ export default class TicketContainer extends React.Component {
 
                     return (
                         <div style={{width: '100%'}}>
-                            <button className="btn btn-xs btn-main width-100"
-                                    style={{backgroundColor: "#" + assigner.color}}>
-                                {getShortName(assigner.name)}
-                            </button>
-                            <div className="text-center"><b className="caret"/></div>
+                            <TooltipButton text="Người giao" placement="top">
+                                <button className="btn btn-xs btn-main width-100"
+                                        style={{backgroundColor: "#" + assigner.color}}
+                                        onClick={()=>{if(assigner.id)openModalStaffDetail(assigner.id);}}
+                                >
+                                    {getShortName(assigner.name)}
+                                </button>
+                            </TooltipButton>
 
-                            <button className="btn btn-xs btn-main width-100"
-                                    style={{backgroundColor: "#" + pic.color}}>
-                                {getShortName(pic.name)}
-                            </button>
+                            <div className="text-center"><b className="caret"/></div>
+                            <TooltipButton text="Người nhận" placement="top">
+
+                                <button className="btn btn-xs btn-main width-100"
+                                        style={{backgroundColor: "#" + pic.color}}
+                                        onClick={()=>{if(pic.id)openModalStaffDetail(pic.id);}}
+
+                                >
+                                    {getShortName(pic.name)}
+                                </button>
+                            </TooltipButton>
+
                         </div>);
                 }, minWidth: 150
 
@@ -119,7 +142,7 @@ export default class TicketContainer extends React.Component {
                     let data = props.original;
                     let type = data.type || {name: 'Không có'};
                     return (
-                        <div style={{width: '100%'}}>
+                        <div style={{width: '100%'}} onClick={()=>store.openModalEdit(props.original)}>
                             <button className="btn btn-xs btn-main width-100"
                                     style={{backgroundColor: type.color}}>
                                 {(type.name)}
@@ -136,7 +159,7 @@ export default class TicketContainer extends React.Component {
                     let data = props.original;
                     let status = data.status || {name: 'Không có'};
                     return (
-                        <div style={{width: '100%'}}>
+                        <div style={{width: '100%'}} onClick={()=>store.openModalEdit(props.original)}>
                             <button className="btn btn-xs btn-main width-100"
                                     style={{backgroundColor: status.color}}>
                                 {(status.name)}
@@ -154,7 +177,7 @@ export default class TicketContainer extends React.Component {
                     let data = props.original;
                     let priority = data.priority || {name: 'Không có'};
                     return (
-                        <div style={{width: '100%'}}>
+                        <div style={{width: '100%'}} onClick={()=>store.openModalEdit(props.original)}>
                             <button className="btn btn-xs btn-main width-100"
                                     style={{backgroundColor: priority.color}}>
                                 {(priority.name)}
@@ -175,7 +198,7 @@ export default class TicketContainer extends React.Component {
                     if (isEmptyInput(archivist)) {
                         dataArchive = {name: 'Lưu trữ', icon: 'assignment_turned_in'};
                     } else {
-                        dataArchive = {name: 'Đã lưu trữ bới ' + archivist.name, icon: 'unarchive'};
+                        dataArchive = {name: `Đã lưu trữ bới ${archivist.name} - ${data.archived_at}`, icon: 'unarchive'};
                     }
                     return (<div className="flex flex-row flex-align-items-center">
                         <div className="btn-group-action">
@@ -192,8 +215,7 @@ export default class TicketContainer extends React.Component {
                                 </a>
                             </TooltipButton>
                             <TooltipButton text="Lịch sử" placement="top">
-                                <a onClick={() => {
-                                }}>
+                                <a onClick={() => store.openModalTicketHistory(props.value)}>
                                     <i className="material-icons">history</i>
                                 </a>
                             </TooltipButton>
@@ -222,7 +244,7 @@ export default class TicketContainer extends React.Component {
 
     updateSelect = (field, e) => {
         store.filter[field] = e;
-        if(!field.includes('id'))store.filter[field + '_id'] = e ? e.id : e;
+        if (!field.includes('id')) store.filter[field + '_id'] = e ? e.id : e;
     };
     getSelectItem = (option) => {
         return (
@@ -232,7 +254,7 @@ export default class TicketContainer extends React.Component {
     };
 
     render() {
-        let {isLoading, filter, getTickets, openFilterPanel} = store;
+        let {isLoading, isLoadingHistory, filter, getTickets, openFilterPanel, modal} = store;
         console.log(...filter);
         return (<div>
 
@@ -283,52 +305,52 @@ export default class TicketContainer extends React.Component {
                     {/*<div className="card-content">*/}
                     <div className="row">
                         <div className="col-md-3">
-                                <label>Người tạo vấn đề</label>
-                                <ReactSelect.Async
-                                    loadOptions={(p1, p2) => store.searchUsers(p1, p2, 'creators',true)}
-                                    loadingPlaceholder="Đang tải..."
-                                    placeholder="Chọn người dùng"
-                                    searchPromptText="Không có dữ liệu "
-                                    onChange={(e) => {
-                                        this.updateSelect('creator', e);
-                                    }}
-                                    value={filter.creator}
-                                    id="select-async-filter-creator"
-                                    optionRenderer={this.getSelectItem}
-                                    valueRenderer={this.getSelectItem}
-                                />
+                            <label>Người tạo vấn đề</label>
+                            <ReactSelect.Async
+                                loadOptions={(p1, p2) => store.searchUsers(p1, p2, 'creators', true)}
+                                loadingPlaceholder="Đang tải..."
+                                placeholder="Chọn người dùng"
+                                searchPromptText="Không có dữ liệu "
+                                onChange={(e) => {
+                                    this.updateSelect('creator', e);
+                                }}
+                                value={filter.creator}
+                                id="select-async-filter-creator"
+                                optionRenderer={this.getSelectItem}
+                                valueRenderer={this.getSelectItem}
+                            />
                         </div>
                         <div className="col-md-3">
-                                <label>Người giao vấn đề</label>
-                                <ReactSelect.Async
-                                    loadOptions={(p1, p2) => store.searchUsers(p1, p2, 'users',true)}
-                                    loadingPlaceholder="Đang tải..."
-                                    placeholder="Chọn người dùng"
-                                    searchPromptText="Không có dữ liệu "
-                                    onChange={(e) => {
-                                        this.updateSelect('assigner', e);
-                                    }}
-                                    value={filter.assigner}
-                                    id="select-async-filter-assigner"
-                                    optionRenderer={this.getSelectItem}
-                                    valueRenderer={this.getSelectItem}
-                                />
+                            <label>Người giao vấn đề</label>
+                            <ReactSelect.Async
+                                loadOptions={(p1, p2) => store.searchUsers(p1, p2, 'users', true)}
+                                loadingPlaceholder="Đang tải..."
+                                placeholder="Chọn người dùng"
+                                searchPromptText="Không có dữ liệu "
+                                onChange={(e) => {
+                                    this.updateSelect('assigner', e);
+                                }}
+                                value={filter.assigner}
+                                id="select-async-filter-assigner"
+                                optionRenderer={this.getSelectItem}
+                                valueRenderer={this.getSelectItem}
+                            />
                         </div>
                         <div className="col-md-3">
-                                <label>Người nhận vấn đề</label>
-                                <ReactSelect.Async
-                                    loadOptions={(p1, p2) => store.searchUsers(p1, p2, 'pics',true)}
-                                    loadingPlaceholder="Đang tải..."
-                                    placeholder="Chọn người dùng"
-                                    searchPromptText="Không có dữ liệu "
-                                    onChange={(e) => {
-                                        this.updateSelect('pic', e);
-                                    }}
-                                    value={filter.pic}
-                                    id="select-async-filter-pic"
-                                    optionRenderer={this.getSelectItem}
-                                    valueRenderer={this.getSelectItem}
-                                />
+                            <label>Người nhận vấn đề</label>
+                            <ReactSelect.Async
+                                loadOptions={(p1, p2) => store.searchUsers(p1, p2, 'pics', true)}
+                                loadingPlaceholder="Đang tải..."
+                                placeholder="Chọn người dùng"
+                                searchPromptText="Không có dữ liệu "
+                                onChange={(e) => {
+                                    this.updateSelect('pic', e);
+                                }}
+                                value={filter.pic}
+                                id="select-async-filter-pic"
+                                optionRenderer={this.getSelectItem}
+                                valueRenderer={this.getSelectItem}
+                            />
                         </div>
                         <div className="col-md-3">
                             <label>Trạng thái</label>
@@ -395,8 +417,8 @@ export default class TicketContainer extends React.Component {
                         </div>
                         <div className="col-md-12">
                             <div className="flex-end">
-                            <div className="btn button-green" onClick={this.applyFilter}>Áp dụng</div>
-                        </div>
+                                <div className="btn button-green" onClick={this.applyFilter}>Áp dụng</div>
+                            </div>
                         </div>
                     </div>
                     {/*</div>*/}
@@ -428,7 +450,49 @@ export default class TicketContainer extends React.Component {
             }
             {isLoading && <Loading/>}
             <CreateTicketModal/>
-        </div>);
+            <Modal
+                bsSize="large"
+                show={modal.showModalHistory}
+                onHide={() => {
+                    store.modal.showModalHistory = false;
+                }}
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        <div className="text-center bold">
+                            Lịch sử vấn đề
+                        </div>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <div>
+                        {isLoadingHistory && <Loading/>}
+                        {!isLoadingHistory && modal.histories.length == 0 &&
+                        <div className="text-center">Không có dữ liệu</div>}
+                        <div className="table-responsive table-split">
+                            <table id="datatables"
+                                   className="table table-no-bordered table-hover"
+                                   cellSpacing="0" width="100%" style={{width: "100%"}}>
+                                <tbody>
+                                {!isLoadingHistory && modal.histories && modal.histories.map((history, key) => {
+                                    return (<tr key={key}>
+                                        <td><b>{history.agent.name}</b></td>
+                                        <td>
+                                            {/*//eslint-disable-next-line*/}
+                                            <div dangerouslySetInnerHTML={{__html: history.action}}/>
+
+                                        </td>
+                                        <td>{history.created_at}</td>
+                                    </tr>);
+                                })}
+                                </tbody>
+                            </table>
+                        </div>
+                        </div>
+                </Modal.Body>
+            </Modal>
+        </div>
+    );
     }
-}
+    }
 

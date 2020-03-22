@@ -152,8 +152,9 @@ class ListLead extends React.Component {
                                                                       style={{fontSize: 10, padding: '3px'}}>MỚI</span>}
                                                             </a>
 
-                                                            {/*<div>{lead.email}</div>*/}
+
                                                         </div>
+                                                        <div>{lead.email}</div>
                                                         <div>{lead.phone}</div>
                                                         {!isEmptyInput(lead.city) && <div>TP. {lead.city}</div>}
                                                     </div>

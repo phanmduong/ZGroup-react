@@ -99,6 +99,11 @@ class LeadContainer extends React.Component {
             {value: 4, label: '4 sao'},
             {value: 5, label: '5 sao'},
         ];
+        this.duplicateFilter = [
+            {value: '', label: 'Tất cả'},
+            {value: 'email', label: 'Trùng email'},
+            {value: 'phone', label: 'Trùng số điện thoại'},
+        ];
         this.isAdmin = (this.props.user.role === 2 || this.props.user.role_id == 9 || this.props.user.department_id == 9);
         this.statusRef = STATUS_REFS.leads;
 
@@ -935,13 +940,6 @@ class LeadContainer extends React.Component {
                                     <div className="form-group margin-bottom-20">
                                         <label>Chọn đánh giá</label>
                                         <div className="flex flex-row-center">
-                                            {/*<Star*/}
-                                            {/*    value={this.state.rate}*/}
-                                            {/*    maxStar={5}*/}
-                                            {/*    onChange={(value) => {*/}
-                                            {/*        this.changeRate(value);*/}
-                                            {/*    }}*/}
-                                            {/*/>*/}
                                             <ReactSelect
                                                 disabled={this.props.isLoading}
                                                 options={this.starFilter}
@@ -968,7 +966,7 @@ class LeadContainer extends React.Component {
                                 {/*        /></div>*/}
                                 {/*</div>}*/}
                                 <div className="col-md-3">
-                                    <div className="form-group margin-bottom-20">
+                                    <div className="form-group">
                                         <label>Tỉnh/thành phố</label>
                                         <Search
                                             onChange={this.changeAddress}
@@ -980,6 +978,7 @@ class LeadContainer extends React.Component {
                                 </div>
 
                                 <div className="col-md-3">
+                                <div className="form-group margin-bottom-20">
                                     <label className="">
                                         Theo trạng thái
                                     </label>
@@ -992,7 +991,9 @@ class LeadContainer extends React.Component {
                                         name="leadStatusId"
                                     />
                                 </div>
+                                </div>
                                 <div className="col-md-3">
+                                <div className="form-group margin-bottom-20">
                                     <label className="">
                                         Theo nguồn
                                     </label>
@@ -1005,7 +1006,9 @@ class LeadContainer extends React.Component {
                                         name="source_id"
                                     />
                                 </div>
+                                </div>
                                 <div className="col-md-3">
+                                <div className="form-group margin-bottom-20">
                                     <label className="">
                                         Theo chiến dịch
                                     </label>
@@ -1017,6 +1020,24 @@ class LeadContainer extends React.Component {
                                         placeholer="Tất cả"
                                         name="campaign_id"
                                     />
+                                </div>
+                                </div>
+
+                                <div className="col-md-3">
+                                    <div className="form-group margin-bottom-20">
+                                        <label>Lead trùng lặp</label>
+                                        <div className="flex flex-row-center">
+                                            <ReactSelect
+                                                disabled={this.props.isLoading}
+                                                options={this.duplicateFilter}
+                                                onChange={e => this.onFilterChange(e ? e.value : e, 'duplicate')}
+                                                value={this.state.duplicate}
+                                                placeholer="Tất cả"
+                                                className="width-100"
+                                                name="duplicate"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                                 {/*{this.state.isDistribution &&*/}
                                 {/*<div className="col-md-3">*/}
