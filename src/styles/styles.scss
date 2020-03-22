@@ -1748,14 +1748,23 @@ table tr td .avatar-honor {
   .form-group {
     position: relative;
 
-    &:after {
-      font-family: 'Material Icons';
-      content: "search";
+    //&:after {
+    //  font-family: 'Material Icons';
+    //  content: "search";
+    //  position: absolute;
+    //  right: 10px;
+    //  top: 12px;
+    //  font-size: 25px;
+    //  color: #bcbcbc;
+    //}
+    .after-text{
       position: absolute;
-      right: 10px;
-      top: 12px;
-      font-size: 25px;
-      color: #bcbcbc;
+      right: 15px;
+      top: 10px;
+      font-size: 12px;
+      color: black;
+      cursor: pointer;
+      font-weight: bold;
     }
   }
 

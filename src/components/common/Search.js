@@ -20,6 +20,7 @@ class Search extends React.Component {
                         onKeyPress={event => event.key === 'Enter' && this.props.onSearch && this.props.onSearch()}
                         disabled={this.props.disabled || false}
                     />
+                    <div className="after-text" onClick={this.props.onSearch}>{this.props.afterText ? this.props.afterText : 'Tìm'}</div>
                 </div>
             </div>
         );
