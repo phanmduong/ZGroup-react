@@ -33,7 +33,8 @@ class ChangeInfoStudentModal extends React.Component {
             <form role="form" id="form-info-student">
                 <Modal show={this.props.showChangeInfoStudent} onHide={this.props.onHide}>
                     <Modal.Header closeButton>
-                        <h3>Chỉnh sửa học viên: {this.props.info.name}</h3>
+                        <h3 className="bold text-center">Chỉnh sửa học viên:</h3>
+                        <div className="bold text-center">{this.props.info.name}</div>
                     </Modal.Header>
                     <Modal.Body>
                         <FormInputText

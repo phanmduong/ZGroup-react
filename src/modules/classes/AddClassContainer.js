@@ -48,8 +48,12 @@ class AddClassContainer extends React.Component {
         if (this.props.edit) {
             this.props.classActions.updateFormCreateClass({...this.props.classData});
         } else {
+            let current=new Date().toISOString().slice(0, 10);
             this.props.classActions.updateFormCreateClass({
-                datestart: new Date().toISOString().slice(0, 10)
+                datestart: current,
+                date_end: current,
+                enroll_end_date: current,
+                enroll_start_date: current,
             });
         }
         this.props.classActions.infoCreateClass();
