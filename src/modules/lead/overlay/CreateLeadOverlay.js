@@ -16,7 +16,6 @@ import SourceOverlay from "../../infoStudent/overlays/SourceOverlay";
 import MarketingCampaignOverlay from "../../infoStudent/overlays/MarketingCampaignOverlay";
 import PicOverlay from "../../infoStudent/overlays/PicOverlay";
 import StatusesOverlay from "../../infoStudent/overlays/StatusesOverlay";
-import {openModalRegisterDetail} from "../../globalModal/globalModalActions";
 
 
 // function getSelectSaler(items) {
@@ -473,11 +472,13 @@ class CreateLeadOverlay extends React.Component {
                                 <tbody>
                                 {duplicate_leads && duplicate_leads.map((user, key) => {
                                     return (<tr key={key}>
-                                        <td>{key+1}</td>
+                                        <td>{key + 1}</td>
                                         <td><b>{user.name}</b></td>
                                         <td><b>{user.email}</b></td>
                                         <td><b>{user.phone}</b></td>
-                                        <td><a className="btn btn-xs btn-success text-center" href={`/sales/info-student/${user.id}`} target="_blank">Xem thông tin</a></td>
+                                        <td><a className="btn btn-xs btn-success text-center"
+                                               href={`/sales/info-student/${user.id}`} target="_blank">Xem thông tin</a>
+                                        </td>
                                     </tr>);
                                 })}
                                 </tbody>
