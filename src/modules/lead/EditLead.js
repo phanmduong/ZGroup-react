@@ -16,7 +16,7 @@ class EditLead extends React.Component {
             lead: {}
         };
         this.updateFormData = this.updateFormData.bind(this);
-        this.editInfoLead = this.editInfoLead.bind(this);
+
 
     }
 
@@ -43,7 +43,7 @@ class EditLead extends React.Component {
         this.setState({lead});
     };
 
-    editInfoLead() {
+    editInfoLead = () => {
         setFormValidation("#form-edit-lead");
         if ($("#form-edit-lead").valid()) {
             let lead = {...this.state.lead};

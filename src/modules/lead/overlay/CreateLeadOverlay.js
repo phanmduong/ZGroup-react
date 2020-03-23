@@ -16,6 +16,7 @@ import SourceOverlay from "../../infoStudent/overlays/SourceOverlay";
 import MarketingCampaignOverlay from "../../infoStudent/overlays/MarketingCampaignOverlay";
 import PicOverlay from "../../infoStudent/overlays/PicOverlay";
 import StatusesOverlay from "../../infoStudent/overlays/StatusesOverlay";
+import {openModalRegisterDetail} from "../../globalModal/globalModalActions";
 
 
 // function getSelectSaler(items) {
@@ -51,6 +52,8 @@ class CreateLeadOverlay extends React.Component {
                 city: this.props.user.choice_province_id,
                 name: 'Không có tên'
             },
+            duplicate_leads: [],
+            showModalDuplicateLeads: false
         };
         this.state = this.initState;
     }
@@ -161,6 +164,9 @@ class CreateLeadOverlay extends React.Component {
                 if (this.props.onSuccess) {
                     this.props.onSuccess();
                 }
+            },
+            (duplicate_leads) => {
+                this.setState({duplicate_leads, showModalDuplicateLeads: true});
             }
         );
 
@@ -178,17 +184,21 @@ class CreateLeadOverlay extends React.Component {
     closeModal = () => {
         this.setState({showModal: false});
     };
+    closeModalDuplicateLeads = () => {
+        this.setState({showModalDuplicateLeads: false});
+    };
     showModal = () => {
         this.setState({showModal: true});
     };
 
     render() {
-        let {lead} = this.state;
-        let {isEditing,  className} = this.props;
+        let {lead, duplicate_leads} = this.state;
+        let {isEditing, className} = this.props;
         // statuses = statuses[this.statusRef];
         let provinces = this.props.provinces ? this.props.provinces.map((province) => {
             return {value: province.id, label: province.name};
         }) : [];
+        console.log(duplicate_leads);
         provinces = [{value: '0', label: "Không có"}, ...provinces];
         return (
 
@@ -406,7 +416,7 @@ class CreateLeadOverlay extends React.Component {
                                                 className="btn status-overlay width-100 none-padding"
                                                 // styleWrapper={{zIndex:1}}
                                                 styleButton={{padding: '10px 15px'}}
-                                                styleOverlay={{marginTop:35}}
+                                                styleOverlay={{marginTop: 35}}
                                             />
                                         </div>
                                         <div>
@@ -450,6 +460,29 @@ class CreateLeadOverlay extends React.Component {
                             </div>}
 
 
+                    </Modal.Body>
+                </Modal>
+                <Modal show={this.state.showModalDuplicateLeads} onHide={this.closeModalDuplicateLeads}>
+                    <Modal.Header closeButton
+                                  closeplaceholder="Đóng">
+                        <Modal.Title><b>Lead bị trùng lặp</b></Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="table-responsive table-split">
+                            <table className="table">
+                                <tbody>
+                                {duplicate_leads && duplicate_leads.map((user, key) => {
+                                    return (<tr key={key}>
+                                        <td>{key+1}</td>
+                                        <td><b>{user.name}</b></td>
+                                        <td><b>{user.email}</b></td>
+                                        <td><b>{user.phone}</b></td>
+                                        <td><a className="btn btn-xs btn-success text-center" href={`/sales/info-student/${user.id}`} target="_blank">Xem thông tin</a></td>
+                                    </tr>);
+                                })}
+                                </tbody>
+                            </table>
+                        </div>
                     </Modal.Body>
                 </Modal>
             </div>

@@ -214,6 +214,11 @@ class RegistersContainer extends React.Component {
                                                 {register.class.description && <div className="flex-row-center">
                                                     <i className="material-icons">date_range</i>&nbsp; &nbsp;{register.class.description}
                                                 </div>}
+
+                                                {register.code && <div className="flex-row-center">
+                                                    <i className="material-icons">gradient</i>
+                                                    &nbsp; &nbsp;Mã học viên {register.code}
+                                                </div>}
                                                 {register.note &&
                                                 <div>
                                                     <div className="flex-row-center">

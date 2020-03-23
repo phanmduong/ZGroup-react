@@ -53,7 +53,7 @@ export function uploadLeads(leads) {
     };
 }
 
-export function editInfoLead(lead, closeModal) {
+export function editInfoLead(lead, closeModal, openModalDuplicateLeads) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_EDIT_INFO_LEAD});
         leadApi.editInfoLead(lead)
@@ -66,8 +66,9 @@ export function editInfoLead(lead, closeModal) {
                     });
                     showNotification("Lưu thành công");
                 } else {
-                    showErrorNotification(res.data.message);
-                    dispatch({type: types.EDIT_INFO_LEAD_ERROR});
+                    showErrorNotification('Người dùng đã tồn tại!');
+                    openModalDuplicateLeads(res.data.data.duplicate_leads);
+                    dispatch({type: types.EDIT_INFO_LEAD_ERROR, duplicate_leads: res.data.duplicate_leads});
                 }
             })
             .catch(() => {
