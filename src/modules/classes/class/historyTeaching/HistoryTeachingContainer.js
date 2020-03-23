@@ -305,6 +305,7 @@ class HistoryTeachingContainer extends React.Component {
         let {show, showModalDelayLessons, showModalLessonEvent, delayLessonIndex, delayData, lessonEventStudent ,lessonEventType} = this.state;
         let delayLesson = classData && classData.lessons && classData.lessons[delayLessonIndex] ? classData.lessons[delayLessonIndex] : {};
         let modalEvent = LESSON_EVENT_TYPES_OBJECT[lessonEventType] || {};
+        console.log(classData);
         return (
             <div className="table-responsive table-split table-hover">
                 <table className="table" cellSpacing="0" id="list_register">

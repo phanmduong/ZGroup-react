@@ -1329,6 +1329,13 @@ export default {
             exams:[],
             registers:[],
             group_exams:[],
+
+            teacher: {
+                attendances:[]
+            },
+            teacher_assistant: {
+                attendances:[]
+            },
         },
         isLoadingClass: false,
         errorClass: false,
@@ -1908,7 +1915,9 @@ export default {
         selectedClass: {
             name: '',
             teacher: {},
-            teacher_assistant: {},
+            teacher_assistant: {
+                attendances:[]
+            },
         },
     },
     attendanceStaffs: {

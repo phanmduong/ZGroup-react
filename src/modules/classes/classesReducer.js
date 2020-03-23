@@ -3,6 +3,7 @@ import * as types from '../../constants/actionTypes';
 import initialState from '../../reducers/initialState';
 import {DATE_VN_FORMAT} from "../../constants/constants";
 import moment from 'moment';
+
 let classes;
 export default function classesReducer(state = initialState.classes, action) {
     switch (action.type) {
@@ -322,17 +323,16 @@ export default function classesReducer(state = initialState.classes, action) {
         case types.CHANGE_TEACHER_SUCCESS:
             return {
                 ...state,
-                ...{
-                    isChangingTeacher: false,
-                    errorChangeTeacher: false,
-                    class: {
-                        ...state.class,
-                        lessons: changeDataTeachLesson('teacher',action.classLesson, state.class.lessons),
-                        teacher: {
-                            ...state.class.teacher,
-                            attendances: changeDataTeach(action.classLesson, state.class.teacher.attendances),
-                        }
-                    }
+                isChangingTeacher: false,
+                errorChangeTeacher: false,
+                class: {
+                    ...state.class,
+
+                    // teacher: {
+                    //     ...state.class.teacher,
+                    //     attendances: changeDataTeach(action.classLesson, state.class.teacher.attendances),
+                    // },
+                    lessons: changeDataTeachLesson('teacher', action.classLesson, state.class.lessons),
                 }
             };
         case types.CHANGE_TEACHER_ERROR:
@@ -352,23 +352,25 @@ export default function classesReducer(state = initialState.classes, action) {
 
                 }
             };
-        case types.CHANGE_TEACHING_ASSISTANT_SUCCESS:
-            return {
+        case types.CHANGE_TEACHING_ASSISTANT_SUCCESS:{
+            let newState = {
                 ...state,
-                ...{
-                    isChangingTeachingAssis: false,
-                    errorChangeTeachingAssis: false,
-                    class: {
-                        ...state.class,
-                        lessons: changeDataTeachLesson('teacher_assistant',action.classLesson, state.class.lessons),
-                        teacher_assistant: {
-                            ...state.class.teacher_assistant,
-                            attendances: changeDataTeach(action.classLesson, state.class.teacher_assistant.attendances),
-
-                        }
-                    }
+                isChangingTeachingAssis: false,
+                errorChangeTeachingAssis: false,
+                class: {
+                    ...state.class,
+                    lessons: changeDataTeachLesson('teacher_assistant', action.classLesson, state.class.lessons),
+                    // teacher_assistant: {
+                    //     ...state.class.teacher_assistant,
+                    //     attendances: changeDataTeach(action.classLesson, state.class.teacher_assistant.attendances),
+                    //
+                    // }
                 }
             };
+            console.log('CHANGE_TEACHING_ASSISTANT_SUCCESS',newState);
+            return newState;
+        }
+
         case types.CHANGE_TEACHING_ASSISTANT_ERROR:
             return {
                 ...state,
@@ -659,10 +661,15 @@ function changeDataLesson(classLesson, lessons) {
     return lessons;
 }
 
-function changeDataTeachLesson(type,classLesson, lessons) {
+function changeDataTeachLesson(type, classLesson, lessons) {
+
     if (lessons) {
         lessons = lessons.map(lesson => {
                 if (lesson.id === classLesson.id) {
+                    console.log('found', {
+                        ...lesson,
+                        [type]: classLesson.staff,
+                    });
                     return {
                         ...lesson,
                         [type]: classLesson.staff,
@@ -672,23 +679,22 @@ function changeDataTeachLesson(type,classLesson, lessons) {
             }
         );
     }
-
     return lessons;
 }
 
-function changeDataTeach(classLesson, attendances) {
-    if (attendances) {
-        attendances = attendances.map(atttendance => {
-                if (atttendance.class_lesson_id === classLesson.id) {
-                    return {
-                        ...atttendance,
-                        staff: classLesson.staff
-                    };
-                }
-                return atttendance;
-            }
-        );
-    }
-
-    return attendances;
-}
+// function changeDataTeach(classLesson, attendances) {
+//     if (attendances) {
+//         attendances = attendances.map(atttendance => {
+//                 if (atttendance.class_lesson_id === classLesson.id) {
+//                     return {
+//                         ...atttendance,
+//                         staff: classLesson.staff
+//                     };
+//                 }
+//                 return atttendance;
+//             }
+//         );
+//     }
+//
+//     return attendances;
+// }

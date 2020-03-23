@@ -386,7 +386,8 @@ export function changeTeachingAssistant(classLesson, modal) {
                 } else {
                     helper.showErrorNotification(res.data.message);
                 }
-            }).catch(() => {
+            }).catch((e) => {
+            console.log(e);
             dispatch({
                 type: types.CHANGE_TEACHING_ASSISTANT_ERROR
             });
