@@ -328,10 +328,10 @@ export default function classesReducer(state = initialState.classes, action) {
                 class: {
                     ...state.class,
 
-                    // teacher: {
-                    //     ...state.class.teacher,
-                    //     attendances: changeDataTeach(action.classLesson, state.class.teacher.attendances),
-                    // },
+                    teacher: {
+                        ...state.class.teacher,
+                        attendances: changeDataTeach(action.classLesson, state.class.teacher ? state.class.teacher.attendances  : []),
+                    },
                     lessons: changeDataTeachLesson('teacher', action.classLesson, state.class.lessons),
                 }
             };
@@ -360,11 +360,11 @@ export default function classesReducer(state = initialState.classes, action) {
                 class: {
                     ...state.class,
                     lessons: changeDataTeachLesson('teacher_assistant', action.classLesson, state.class.lessons),
-                    // teacher_assistant: {
-                    //     ...state.class.teacher_assistant,
-                    //     attendances: changeDataTeach(action.classLesson, state.class.teacher_assistant.attendances),
-                    //
-                    // }
+                    teacher_assistant: {
+                        ...state.class.teacher_assistant,
+                        attendances: changeDataTeach(action.classLesson, state.class.teacher_assistant ? state.class.teacher_assistant.attendances : []),
+
+                    }
                 }
             };
             console.log('CHANGE_TEACHING_ASSISTANT_SUCCESS',newState);
@@ -682,19 +682,19 @@ function changeDataTeachLesson(type, classLesson, lessons) {
     return lessons;
 }
 
-// function changeDataTeach(classLesson, attendances) {
-//     if (attendances) {
-//         attendances = attendances.map(atttendance => {
-//                 if (atttendance.class_lesson_id === classLesson.id) {
-//                     return {
-//                         ...atttendance,
-//                         staff: classLesson.staff
-//                     };
-//                 }
-//                 return atttendance;
-//             }
-//         );
-//     }
-//
-//     return attendances;
-// }
+function changeDataTeach(classLesson, attendances) {
+    if (attendances) {
+        attendances = attendances.map(atttendance => {
+                if (atttendance.class_lesson_id === classLesson.id) {
+                    return {
+                        ...atttendance,
+                        staff: classLesson.staff
+                    };
+                }
+                return atttendance;
+            }
+        );
+    }
+
+    return attendances;
+}
