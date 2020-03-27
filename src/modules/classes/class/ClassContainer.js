@@ -23,6 +23,7 @@ import AddClassContainer from "../AddClassContainer";
 import ExportClassOverlay from "../overlays/ExportClassOverlay";
 import CreateRegisterOverlay from "../../infoStudent/overlays/CreateRegisterOverlay";
 import AttendanceTeacher from "./AttendanceTeacher";
+import Checkbox from "../../../components/common/Checkbox";
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
@@ -349,6 +350,7 @@ class ClassContainer extends React.Component {
         this.props.classActions.changeTeacher({
             staffId: this.state.changeTeacher.id,
             note: this.state.changeTeacher.note,
+            is_teacher_replace: this.state.changeTeacher.is_teacher_replace,
             id: this.state.teacherSelected.class_lesson_id,
         }, this.closeModalChangeTeacher);
     }
@@ -357,6 +359,7 @@ class ClassContainer extends React.Component {
         this.props.classActions.changeTeachingAssistant({
             staffId: this.state.changeTeachAssis.id,
             note: this.state.changeTeachAssis.note,
+            is_teaching_assistant_replace: this.state.changeTeachAssis.is_teaching_assistant_replace,
             id: this.state.teachAssisSelected.class_lesson_id,
         }, this.closeModalTeachAssis);
     }
@@ -1164,6 +1167,20 @@ class ClassContainer extends React.Component {
                                 })}
                                 name="note-change-teaching-assis"
                             />
+                            <div>
+                                <Checkbox checked={this.state.changeTeacher.is_teacher_replace}
+                                          label="  Đây là một buổi dạy thay"
+                                          checkBoxLeft
+                                          name="is_teacher_replace"
+                                          onChange={() => this.setState({
+                                              changeTeacher:
+                                                  {
+                                                      ...this.state.changeTeacher,
+                                                      is_teacher_replace: !this.state.changeTeacher.is_teacher_replace
+                                                  }
+                                          })}
+                                />
+                            </div>
                             {this.props.isChangingTeacher ?
                                 (
                                     <button type="button" className="btn btn-success btn-round disabled"
@@ -1239,6 +1256,20 @@ class ClassContainer extends React.Component {
                                 })}
                                 name="note-change-teaching-assis"
                             />
+                            <div>
+                                <Checkbox checked={this.state.changeTeachAssis.is_teaching_assistant_replace}
+                                          label="  Đây là một buổi dạy thay"
+                                          checkBoxLeft
+                                          name="is_teaching_assistant_replace"
+                                          onChange={() => this.setState({
+                                              changeTeachAssis:
+                                                  {
+                                                      ...this.state.changeTeachAssis,
+                                                      is_teaching_assistant_replace: !this.state.changeTeachAssis.is_teaching_assistant_replace
+                                                  }
+                                          })}
+                                />
+                            </div>
                             {this.props.isChangingTeachingAssis ?
                                 (
                                     <button type="button" className="btn btn-success btn-round disabled"

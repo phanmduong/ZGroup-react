@@ -3,7 +3,8 @@ import {
     archiveTicket,
     createTicket,
     findClass,
-    findUser, loadTicketHistory,
+    findUser,
+    loadTicketHistory,
     loadTicketPriorities,
     loadTickets,
     loadTicketTypes,
@@ -17,6 +18,8 @@ import {
     showNotification,
     showWarningNotification
 } from "../../helpers/helper";
+import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
+import moment from "moment";
 
 const defaultModal = {
     histories: [],
@@ -278,6 +281,7 @@ export const store = new class Store {
     @action
     createTicket = () => {
         let data = {...store.modal.ticket};
+        data.deadline = moment(data.deadline, DATETIME_FORMAT).format(DATETIME_FORMAT_SQL);
         let errs = [];
         if (isEmptyInput(data.name)) errs.push('Bạn cần nhập tên vấn đề');
         if (isEmptyInput(data.user_id)) errs.push('Bạn chưa chọn người gặp vấn đề');

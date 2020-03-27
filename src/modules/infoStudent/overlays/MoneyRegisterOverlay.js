@@ -4,7 +4,7 @@ import * as ReactDOM from "react-dom";
 import Loading from "../../../components/common/Loading";
 import FormInputText from "../../../components/common/FormInputText";
 import {payMoney} from "../../collectMoney/collectMoneyApi";
-import {DATE_FORMAT_SQL, PAYMENT_METHODS} from "../../../constants/constants";
+import {DATE_FORMAT_SQL, DATE_VN_FORMAT, PAYMENT_METHODS} from "../../../constants/constants";
 import ReactSelect from 'react-select';
 import {
     dotNumber,
@@ -16,6 +16,7 @@ import {
 } from "../../../helpers/helper";
 import Checkbox from "../../../components/common/Checkbox";
 import moment from "moment";
+import FormInputDate from "../../../components/common/FormInputDate";
 
 class MoneyRegisterOverlay extends React.Component {
     constructor(props, context) {
@@ -29,7 +30,8 @@ class MoneyRegisterOverlay extends React.Component {
                 received_book: 0,
                 money: 0,
                 note: '',
-                payment_method: ''
+                payment_method: '',
+                actual_input_at: '',
             }
         };
         this.state = this.initState;
@@ -94,6 +96,7 @@ class MoneyRegisterOverlay extends React.Component {
             if(received_book){
                 received_book_at = moment().format(DATE_FORMAT_SQL);
             }
+            let actual_input_at = moment(register.actual_input_at, DATE_VN_FORMAT).format(DATE_FORMAT_SQL);
             // console.log(received_book_at);
             payMoney({
                 id: register.id,
@@ -101,6 +104,7 @@ class MoneyRegisterOverlay extends React.Component {
                 code: register.code,
                 note: register.note,
                 payment_method: register.payment_method,
+                actual_input_at,
                 received_book_at,
             }).then((res) => {
                 if (res.data.status == 1) {
@@ -121,7 +125,7 @@ class MoneyRegisterOverlay extends React.Component {
     getFinalPrice = () => {
         let {register} = this.props;
         let coursePrice = register.course_money;
-        let finalPrice = coursePrice;
+        let finalPrice = coursePrice ;
         let coupons = sortCoupon(register.coupons);
         let discountPercent = 0, discountFix = 0;
         coupons.forEach(c => {
@@ -135,7 +139,7 @@ class MoneyRegisterOverlay extends React.Component {
         discountPercent = Math.min(discountPercent, 100);
         finalPrice = finalPrice / 100 * (100 - discountPercent);
         finalPrice -= discountFix;
-        return finalPrice;
+        return finalPrice ;
     };
 
     render() {
@@ -156,6 +160,7 @@ class MoneyRegisterOverlay extends React.Component {
                 style = {backgroundColor: '#F7F5F7'};
             }
         }
+        console.log(this.props);
         return (
             <div style={{position: "relative"}} className="">
                 <button className="btn btn-actions" mask="money"
@@ -224,6 +229,12 @@ class MoneyRegisterOverlay extends React.Component {
                                         <div><b>Đã giảm: </b></div>
                                         <div>{` ${dotNumber(coursePrice - finalPrice)}đ`}</div>
                                     </div>}
+                                    {register.money*1 > 0 &&
+                                    <div className="flex flex-space-between flex-align-items-center margin-top-10"
+                                         style={{fontSize: 12}}>
+                                        <div><b>Đã thu: </b></div>
+                                        <div>{` ${dotNumber(register.money*1)}đ`}</div>
+                                    </div>}
                                     <div className="flex flex-space-between flex-align-items-center margin-top-10"
                                          style={{fontSize: 12}}>
                                         <div><b>Tổng: </b></div>
@@ -246,6 +257,16 @@ class MoneyRegisterOverlay extends React.Component {
                                         value={this.state.register.code}
                                         type="text"
                                         disabled={this.state.register.is_paid}
+                                    />
+                                </div>
+                                <div><label>Ngày thực nhận</label>
+                                    <FormInputDate
+                                        placeholder="Ngày thực nhận"
+                                        name="actual_input_at"
+                                        id="form-actual_input_at"
+                                        format={DATE_VN_FORMAT}
+                                        updateFormData={this.updateFormData}
+                                        value={this.state.register.actual_input_at}
                                     />
                                 </div>
                                 <div><label>Phương thức thanh toán</label>

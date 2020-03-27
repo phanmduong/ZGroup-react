@@ -23,6 +23,7 @@ export function payMoney(register) {
         note: register.note,
         payment_method: register.payment_method,
         received_book_at: register.received_book_at,
+        actual_input_at: register.actual_input_at,
     });
 }
 

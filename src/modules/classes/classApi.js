@@ -220,6 +220,7 @@ export function changeTeacher(classLesson) {
         'id': classLesson.id,
         'staff_id': classLesson.staffId,
         'note': classLesson.note,
+        'is_teacher_replace': classLesson.is_teacher_replace,
     });
 }
 
@@ -236,6 +237,7 @@ export function changeTeachingAssistant(classLesson) {
         'id': classLesson.id,
         'staff_id': classLesson.staffId,
         'note': classLesson.note,
+        'is_teaching_assistant_replace': classLesson.is_teaching_assistant_replace,
     });
 }
 
