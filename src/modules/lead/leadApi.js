@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import {isEmptyInput} from "../../helpers/helper";
 
-export function loadLeads(page = 1, search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "", address = '', leadStatusId = '', orderBy = '', orderByType = '', source_id = '', campaign_id = '', duplicate = '') {
+export function loadLeads(limit=20,page = 1, search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "", address = '', leadStatusId = '', orderBy = '', orderByType = '', source_id = '', campaign_id = '', duplicate = '') {
 
     let url = env.MANAGE_API_URL + "/lead/all";
     let token = localStorage.getItem('token');
@@ -11,6 +11,7 @@ export function loadLeads(page = 1, search = "", startTime = "", endTime = "", s
     }
     console.log(page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate);
 
+    url += "&limit=" + limit;
     url += "&page=" + page;
     url += "&search=" + search;
     url += "&start_time=" + startTime;

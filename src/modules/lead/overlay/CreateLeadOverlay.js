@@ -197,7 +197,6 @@ class CreateLeadOverlay extends React.Component {
         let provinces = this.props.provinces ? this.props.provinces.map((province) => {
             return {value: province.id, label: province.name};
         }) : [];
-        console.log(duplicate_leads);
         provinces = [{value: '0', label: "Không có"}, ...provinces];
         return (
 

@@ -8,16 +8,19 @@ import ListLead from "./ListLead";
 import FormInputDate from "../../components/common/FormInputDate";
 import ReactSelect from 'react-select';
 import ItemReactSelect from "../../components/common/ItemReactSelect";
-import {searchStaffs} from "./leadApi";
+import {loadLeads, searchStaffs} from "./leadApi";
 import {NO_AVATAR} from "../../constants/env";
 import {Modal, Panel} from "react-bootstrap";
 
 import {
+    appendJsonToWorkBook,
     confirm,
     isEmptyInput,
+    newWorkBook,
     readExcel,
+    saveWorkBookToExcel,
     setClipboard,
-    showErrorMessage,
+    showErrorMessage, showErrorNotification,
     showTypeNotification
 } from "../../helpers/helper";
 import CreateRegisterModalContainer from "../registerStudents/CreateRegisterModalContainer";
@@ -27,6 +30,7 @@ import {DATE_FORMAT_SQL, STATUS_REFS} from "../../constants/constants";
 import CreateLeadOverlay from "./overlay/CreateLeadOverlay";
 import * as studentActions from "../infoStudent/studentActions";
 import Checkbox from "../../components/common/Checkbox";
+import Loading from "../../components/common/Loading";
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -88,6 +92,7 @@ class LeadContainer extends React.Component {
             isAll: false,
             selectedLeads: [],
             isOpenModalSelectedLeads: false,
+            showLoadingAllLeadsModal: false,
 
         };
         this.starFilter = [
@@ -718,6 +723,67 @@ class LeadContainer extends React.Component {
         this.setState({openFilterPanel: newstatus});
     };
 
+    showLoadingAllLeadsModal = () => {
+        this.setState({showLoadingAllLeadsModal: true});
+        let {page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate} = this.state;
+
+        loadLeads(-1, page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate).then((res) => {
+            console.log(res.data.data.leads);
+            if (res.data.status == 1) {
+                let leads = res.data.data.leads;
+                this.exportAllLeadsToExcel(leads);
+            } else {
+                showErrorMessage("Có lỗi xảy ra!");
+            }
+
+        }).catch((e) => {
+            showErrorMessage("Dữ liệu quá lớn, vui lòng giới hạn bằng bộ lọc!");
+            console.log(e);
+        }).finally(() => this.setState({showLoadingAllLeadsModal: false}));
+    };
+
+    exportAllLeadsToExcel = (leads) => {
+        if (!leads || leads.length == 0) {
+            showErrorNotification("Không có dữ liệu");
+            return;
+        }
+        // let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 30}, {"wch": 30}, {"wch": 12}, {"wch": 12}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22},];//độ rộng cột
+
+        let json = leads.map((item, index) => {
+            if (item) {
+                /* eslint-disable */
+                let courses = '';
+                if (!isEmptyInput(item.courses) && item.courses.length > 0) {
+                    item.courses.forEach(c => courses += `, ${c.name}`);
+                }
+                let res = {
+                    'STT': index + 1,
+                    'Họ tên': item.name,
+                    'Email': item.email,
+                    'Phone': item.phone,
+                    'Các môn đã học': courses,
+                    'Thành phố': isEmptyInput(item.city) ? item.city : 'Không có',
+                    'Trạng thái': item.lead_status.name ? item.lead_status.name : "Không có",
+                    'Chiến dịch': item.campaign ? item.campaign.name : "Không có",
+                    'Nguồn': !isEmptyInput(item.source) ? item.source : "Không có",
+                    'P.I.C': item.carer ? item.carer.name : "Không có",
+                    'Cách tiếp cận': item.how_know ? item.how_know : "Không có",
+                    'Quan tâm': item.interest ? item.interest : "Không có",
+                    'Ngày tạo': item.created_at,
+                    'Ngày nhập': item.imported_at,
+                    'Đánh giá': item.rate || 0,
+                    'Ghi chú': item.note || '',
+                };
+                /* eslint-enable */
+                return res;
+            }
+        });
+        let wb = newWorkBook();
+        appendJsonToWorkBook(json, wb, 'Danh sách lead', [], []);
+
+        saveWorkBookToExcel(wb, 'Danh sách lead');
+    };
+
     render() {
         console.log('render', this.props);
         return (
@@ -742,6 +808,14 @@ class LeadContainer extends React.Component {
                                 </h5>
                             </div>
                         }
+                        <div>
+                            <a
+                                onClick={this.showLoadingAllLeadsModal}
+                                className="text-white"
+                                disabled={this.props.isLoading}
+                            >Tải xuống
+                            </a>
+                        </div>
                         <div style={{marginTop: '10%'}}/>
 
                         <div className="flex-align-items-center flex flex-wrap">
@@ -978,49 +1052,49 @@ class LeadContainer extends React.Component {
                                 </div>
 
                                 <div className="col-md-3">
-                                <div className="form-group margin-bottom-20">
-                                    <label className="">
-                                        Theo trạng thái
-                                    </label>
-                                    <ReactSelect
-                                        disabled={this.props.isLoading || this.props.isLoadingStatuses}
-                                        options={this.state.statusFilter}
-                                        onChange={e => this.onFilterChange(e, 'leadStatusId')}
-                                        value={this.state.leadStatusId}
-                                        placeholer="Tất cả"
-                                        name="leadStatusId"
-                                    />
-                                </div>
-                                </div>
-                                <div className="col-md-3">
-                                <div className="form-group margin-bottom-20">
-                                    <label className="">
-                                        Theo nguồn
-                                    </label>
-                                    <ReactSelect
-                                        disabled={this.props.isLoading || this.props.isLoadingSources}
-                                        options={this.state.sourceFilter}
-                                        onChange={e => this.onFilterChange(e, 'source_id')}
-                                        value={this.state.source_id}
-                                        placeholer="Tất cả"
-                                        name="source_id"
-                                    />
-                                </div>
+                                    <div className="form-group margin-bottom-20">
+                                        <label className="">
+                                            Theo trạng thái
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoading || this.props.isLoadingStatuses}
+                                            options={this.state.statusFilter}
+                                            onChange={e => this.onFilterChange(e, 'leadStatusId')}
+                                            value={this.state.leadStatusId}
+                                            placeholer="Tất cả"
+                                            name="leadStatusId"
+                                        />
+                                    </div>
                                 </div>
                                 <div className="col-md-3">
-                                <div className="form-group margin-bottom-20">
-                                    <label className="">
-                                        Theo chiến dịch
-                                    </label>
-                                    <ReactSelect
-                                        disabled={this.props.isLoading || this.props.isLoadingCampaigns}
-                                        options={this.state.campaignFilter}
-                                        onChange={e => this.onFilterChange(e, 'campaign_id')}
-                                        value={this.state.campaign_id}
-                                        placeholer="Tất cả"
-                                        name="campaign_id"
-                                    />
+                                    <div className="form-group margin-bottom-20">
+                                        <label className="">
+                                            Theo nguồn
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoading || this.props.isLoadingSources}
+                                            options={this.state.sourceFilter}
+                                            onChange={e => this.onFilterChange(e, 'source_id')}
+                                            value={this.state.source_id}
+                                            placeholer="Tất cả"
+                                            name="source_id"
+                                        />
+                                    </div>
                                 </div>
+                                <div className="col-md-3">
+                                    <div className="form-group margin-bottom-20">
+                                        <label className="">
+                                            Theo chiến dịch
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoading || this.props.isLoadingCampaigns}
+                                            options={this.state.campaignFilter}
+                                            onChange={e => this.onFilterChange(e, 'campaign_id')}
+                                            value={this.state.campaign_id}
+                                            placeholer="Tất cả"
+                                            name="campaign_id"
+                                        />
+                                    </div>
                                 </div>
 
                                 <div className="col-md-3">
@@ -1204,6 +1278,24 @@ class LeadContainer extends React.Component {
 
                         />
                         {this.renderButtonDistribution()}
+                    </Modal.Body>
+                </Modal>
+
+                <Modal
+                    show={this.state.showLoadingAllLeadsModal}
+                    // onHide={this.}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <h4 className="card-title">
+                                Đang tải dữ liệu
+                            </h4>
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div style={{minHeight: 100}}>
+                            <Loading/>
+                        </div>
                     </Modal.Body>
                 </Modal>
             </div>
