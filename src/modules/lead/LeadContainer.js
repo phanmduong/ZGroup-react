@@ -20,7 +20,8 @@ import {
     readExcel,
     saveWorkBookToExcel,
     setClipboard,
-    showErrorMessage, showErrorNotification,
+    showErrorMessage,
+    showErrorNotification,
     showTypeNotification
 } from "../../helpers/helper";
 import CreateRegisterModalContainer from "../registerStudents/CreateRegisterModalContainer";
@@ -31,6 +32,7 @@ import CreateLeadOverlay from "./overlay/CreateLeadOverlay";
 import * as studentActions from "../infoStudent/studentActions";
 import Checkbox from "../../components/common/Checkbox";
 import Loading from "../../components/common/Loading";
+import FormInputText from "../../components/common/FormInputText";
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -1042,11 +1044,12 @@ class LeadContainer extends React.Component {
                                 <div className="col-md-3">
                                     <div className="form-group">
                                         <label>Tỉnh/thành phố</label>
-                                        <Search
-                                            onChange={this.changeAddress}
-                                            value={this.state.address}
-                                            placeholder="Nhập tỉnh/thành phố"
-                                            disabled={this.props.isLoading}
+                                        <FormInputText name="address"
+                                                       value={this.state.address}
+                                                       placeholder="Nhập tỉnh/thành phố"
+                                                       disabled={this.props.isLoading}
+                                                       updateFormData={e=>this.changeAddress(e.target.value)}
+
                                         />
                                     </div>
                                 </div>
