@@ -183,7 +183,7 @@ export function loadProgress(studentId) {
     };
 }
 
-export function editInfoStudent(student, closeModal) {
+export function editInfoStudent(student, closeModal, showModalDuplicate) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_EDIT_INFO_STUDENT});
         showWarningNotification('Đang cập nhật...');
@@ -197,7 +197,8 @@ export function editInfoStudent(student, closeModal) {
                         student: res.data.data.student
                     });
                 } else {
-                    helper.showErrorNotification(res.data.message);
+                    helper.showErrorNotification('Thông tin lead bị trùng lặp!');
+                    showModalDuplicate(res.data.data)
                     dispatch({type: types.LOAD_EDIT_INFO_STUDENT_ERROR});
                 }
             })

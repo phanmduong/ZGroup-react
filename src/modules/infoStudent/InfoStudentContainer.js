@@ -71,6 +71,9 @@ class InfoStudentContainer extends React.Component {
             showModalViewImage: false,
             imageUrl: '',
             currentRoute: this.routes.filter(r => r.path == this.path)[0] || {},
+
+            duplicate_leads: [],
+            showModalDuplicateLeads: false
         };
         this.statusRef = STATUS_REFS.leads;
 
@@ -128,7 +131,7 @@ class InfoStudentContainer extends React.Component {
 
     editInfoStudent() {
         if ($('#form-edit-student').valid()) {
-            this.props.studentActions.editInfoStudent(this.state.student, this.closeModal);
+            this.props.studentActions.editInfoStudent(this.state.student, this.closeModal, this.openModalDuplicateLead);
         }
     }
 
@@ -229,12 +232,17 @@ class InfoStudentContainer extends React.Component {
 
     };
 
+    openModalDuplicateLead = (duplicate_leads) => {
+        this.setState({duplicate_leads, showModalDuplicateLeads: true});
+    };
+
     render() {
 
 
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
         // let gender = GENDER.filter((item) => item.value == student.gender)[0];
         let {student, studentActions, location} = this.props;
+        let {duplicate_leads} = this.state;
         return (
             <div className={location ? "card" : ''}>
                 <div className={location ? "card-content" : ''}>
@@ -355,7 +363,8 @@ class InfoStudentContainer extends React.Component {
                                             <div className="source-value"
                                                  style={{background: `#${student.imported_by.color}`}}>{student.imported_by.name}</div>
                                         </div>}
-                                        {!isEmptyInput(student.imported_at) && !isEmptyInput(student.imported_by) && <div className="source-wrap">
+                                        {!isEmptyInput(student.imported_at) && !isEmptyInput(student.imported_by) &&
+                                        <div className="source-wrap">
                                             <div className="source-name">Import lúc</div>
                                             <div className="source-value"
                                                  style={{background: `#${student.imported_by.color}`}}>{student.imported_at}</div>
@@ -388,40 +397,40 @@ class InfoStudentContainer extends React.Component {
                             <div>
                                 <label className="bold color-black">Ảnh xác thực</label>
                                 <div className="card  margin-top-0" mask="transparent">
-                                        <div className="father position-relative">
-                                            <TooltipButton text="Nhấp chọn ảnh" placement="top">
+                                    <div className="father position-relative">
+                                        <TooltipButton text="Nhấp chọn ảnh" placement="top">
                                             <img className="img-user"
                                                  onClick={() => this.handleFileUpload('image1')}
                                                  src={helper.validateLinkImage(student.image1, dfImg)}/>
-                                            </TooltipButton>
-                                            {!helper.isEmptyInput(student.image1) &&
-                                            <TooltipButton text="Xem ảnh" placement="top">
-                                                <div className="son position-absolute cursor-pointer color-grey"
-                                                     style={{top:5, right:5}}
-                                                     onClick={() => this.openModalImageView(student.image1)}
-                                                >
-                                                    <i className="material-icons">info</i>
-                                                </div>
-                                            </TooltipButton>}
-                                        </div>
+                                        </TooltipButton>
+                                        {!helper.isEmptyInput(student.image1) &&
+                                        <TooltipButton text="Xem ảnh" placement="top">
+                                            <div className="son position-absolute cursor-pointer color-grey"
+                                                 style={{top: 5, right: 5}}
+                                                 onClick={() => this.openModalImageView(student.image1)}
+                                            >
+                                                <i className="material-icons">info</i>
+                                            </div>
+                                        </TooltipButton>}
+                                    </div>
 
 
-                                        <div className="father position-relative">
-                                            <TooltipButton text="Nhấp chọn ảnh" placement="top">
+                                    <div className="father position-relative">
+                                        <TooltipButton text="Nhấp chọn ảnh" placement="top">
                                             <img className="img-user"
                                                  onClick={() => this.handleFileUpload('image2')}
                                                  src={helper.validateLinkImage(student.image2, dfImg)}/>
-                                            </TooltipButton>
-                                            {!helper.isEmptyInput(student.image2) &&
-                                            <TooltipButton text="Xem ảnh" placement="top">
-                                                <div className="son position-absolute cursor-pointer color-grey"
-                                                     style={{top:5, right:5}}
-                                                     onClick={() => this.openModalImageView(student.image2)}
-                                                >
-                                                    <i className="material-icons">info</i>
-                                                </div>
-                                            </TooltipButton>}
-                                        </div>
+                                        </TooltipButton>
+                                        {!helper.isEmptyInput(student.image2) &&
+                                        <TooltipButton text="Xem ảnh" placement="top">
+                                            <div className="son position-absolute cursor-pointer color-grey"
+                                                 style={{top: 5, right: 5}}
+                                                 onClick={() => this.openModalImageView(student.image2)}
+                                            >
+                                                <i className="material-icons">info</i>
+                                            </div>
+                                        </TooltipButton>}
+                                    </div>
 
 
                                 </div>
@@ -664,6 +673,32 @@ class InfoStudentContainer extends React.Component {
                                     }</div>
 
                             </form>
+                        </Modal.Body>
+                    </Modal>
+                    <Modal show={this.state.showModalDuplicateLeads} onHide={()=>this.setState({showModalDuplicateLeads: false})}>
+                        <Modal.Header closeButton
+                                      closeplaceholder="Đóng">
+                            <Modal.Title><b>Lead bị trùng lặp</b></Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <div className="table-responsive table-split">
+                                <table className="table">
+                                    <tbody>
+                                    {duplicate_leads && duplicate_leads.map((user, key) => {
+                                        return (<tr key={key}>
+                                            <td>{key + 1}</td>
+                                            <td><b>{user.name}</b></td>
+                                            <td><b>{user.email}</b></td>
+                                            <td><b>{user.phone}</b></td>
+                                            <td><a className="btn btn-xs btn-success text-center"
+                                                   href={`/sales/info-student/${user.id}`} target="_blank">
+                                                Xem thông tin</a>
+                                            </td>
+                                        </tr>);
+                                    })}
+                                    </tbody>
+                                </table>
+                            </div>
                         </Modal.Body>
                     </Modal>
                 </div>
