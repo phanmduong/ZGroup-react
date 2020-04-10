@@ -197,7 +197,7 @@ class CreateLeadOverlay extends React.Component {
         let provinces = this.props.provinces ? this.props.provinces.map((province) => {
             return {value: province.id, label: province.name};
         }) : [];
-        provinces = [{value: '0', label: "Không có"}, ...provinces];
+        // provinces = [{value: '0', label: "Không có"}, ...provinces];
         return (
 
             <div style={{position: "relative"}} ref="target">
