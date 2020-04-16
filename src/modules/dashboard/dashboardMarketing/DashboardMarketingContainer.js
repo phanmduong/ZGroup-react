@@ -35,7 +35,7 @@ export default class DashboardMarketingContainer extends React.Component {
         console.log(isLoading);
         return (
             <div className="container-fluid">
-                <div className="row">
+                <div className="row hidden">
                     <div className="col-md-12">
                         <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
                             {store.routes.map((route, index) => {

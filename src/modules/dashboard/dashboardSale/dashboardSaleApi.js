@@ -49,6 +49,15 @@ export const loadCoursesApi = (filter) => {
     // url += "&include=course,base,target,register_target,schedule";
     return axios.get(url);
 };
+export const loadClassByCoursesApi = (filter) => {
+    let fields = ['start_time', 'end_time', 'base_id', "course_id",];
+    let url = `${NEW_MANAGE_API_URL}/dashboard/analytics-class-date-start-by-course?token=${localStorage.getItem('token')}`;
+    fields.forEach(field => {
+        url += `&${field}=${filter[field] || ''}`;
+    });
+    // url += "&include=course,base,target,register_target,schedule";
+    return axios.get(url);
+};
 
 export const analyticsKpiApi = (filter) => {
     let fields = ['start_time', 'end_time', 'base_id', "course_id", "source_id", "campaign_id", "staff_id"];

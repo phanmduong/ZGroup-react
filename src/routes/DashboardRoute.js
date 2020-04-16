@@ -6,8 +6,6 @@ import DashboardStudyPackContainer from "../modules/dashboardStudyPack/Dashboard
 import SettingContainer from "../modules/setting/SettingContainer";
 import DashboardMarketingContainer from "../modules/dashboard/dashboardMarketing/DashboardMarketingContainer";
 import DashboardLeadsComponent from "../modules/dashboard/dashboardMarketing/DashboardLeadsComponent";
-import DashboardSourceCampaignComponent from "../modules/dashboard/dashboardMarketing/DashboardSourceCampaignComponent";
-import DashboardPicComponent from "../modules/dashboard/dashboardMarketing/DashboardPicComponent";
 import DashboardRegisterComponent from "../modules/dashboard/dashboardSale/DashboardRegisterComponent";
 import DashboardKpiComponent from "../modules/dashboard/dashboardSale/DashboardKpiComponent";
 import DashboardClassComponent from "../modules/dashboard/dashboardSale/DashboardClassComponent";
@@ -72,14 +70,6 @@ export default [
             {
                 path: "/",
                 component: DashboardLeadsComponent,
-            },
-            {
-                path: "sources-campaigns",
-                component: DashboardSourceCampaignComponent,
-            },
-            {
-                path: "pic",
-                component: DashboardPicComponent,
             },
         ]
     },

@@ -32,6 +32,8 @@ export const store = new class Store {
             leadsBySources: [],
             leadCampaigns: [],
             leadsByCampaigns: [],
+            leadPics: [],
+            leadsByPics: [],
         }
     };
     @observable routes = [

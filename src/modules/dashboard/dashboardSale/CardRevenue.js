@@ -59,7 +59,7 @@ class CardRevenue extends React.Component {
                 <div className="col-md-3 col-sm-6">
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
-                            <p className="category">Doanh thu đang chờ</p>
+                            <p className="category">Đơn chưa đóng tiền</p>
                             {isLoading ? <Loading style={{marginTop: 0}}/> :
                                 <div className="flex flex-row flex-align-items-center">
                                     <h3 className="card-title">{convertDotMoneyToK(dotNumber(data.revenue_waiting))}</h3>

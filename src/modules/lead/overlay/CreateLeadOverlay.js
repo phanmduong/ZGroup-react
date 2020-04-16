@@ -136,12 +136,17 @@ class CreateLeadOverlay extends React.Component {
         let isEmptyName = isEmptyInput(lead.name);
         let isEmptyPhone = isEmptyInput(lead.phone);
         let isEmptyEmail = isEmptyInput(lead.email);
+        let isEmptyProvince = isEmptyInput(lead.city) || lead.city == 0;
         if (isEmptyName) {
             helper.showTypeNotification("Vui lòng nhập tên", 'warning');
             return;
         }
         if (isEmptyPhone) {
             helper.showTypeNotification("Vui lòng nhập số điện thoại", 'warning');
+            return;
+        }
+        if (isEmptyProvince) {
+            helper.showTypeNotification("Vui lòng chọn thành phố", 'warning');
             return;
         }
         if (isEmptyEmail) {
@@ -156,18 +161,18 @@ class CreateLeadOverlay extends React.Component {
             let city = this.props.provinces.filter(p => p.id == lead.city)[0];
             lead.city = city ? city.name : '';
         }
-        this.props.leadActions.editInfoLead(
-            lead,
-            () => {
-                this.close;
-                if (this.props.onSuccess) {
-                    this.props.onSuccess();
-                }
-            },
-            (duplicate_leads) => {
-                this.setState({duplicate_leads, showModalDuplicateLeads: true});
-            }
-        );
+        // this.props.leadActions.editInfoLead(
+        //     lead,
+        //     () => {
+        //         this.close;
+        //         if (this.props.onSuccess) {
+        //             this.props.onSuccess();
+        //         }
+        //     },
+        //     (duplicate_leads) => {
+        //         this.setState({duplicate_leads, showModalDuplicateLeads: true});
+        //     }
+        // );
 
         e.preventDefault();
     };

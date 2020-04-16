@@ -5,32 +5,32 @@ import BarChartFilterDate from '../BarChartFilterDate';
 
 import moment from "moment";
 import {DATE_FORMAT, DATE_FORMAT_SQL} from "../../../constants/constants";
-import {dotNumber, isEmptyInput} from "../../../helpers/helper";
+import {checkColor, dotNumber} from "../../../helpers/helper";
 import DashboardLeadFilter from "./DashboardLeadFilter";
 import * as baseActions from "../../../actions/baseActions";
 
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 
-const optionsBarLead = {
-    tooltips: {
-        callbacks: {
-            label: function (tooltipItem, data) {
-                let label = data.datasets[tooltipItem.datasetIndex].label || '';
-
-                if (label) {
-                    label += ': ';
-                }
-                label += `${dotNumber(tooltipItem.value)}`;
-                return label;
-            }
-        }
-    },
-    legend: {
-        display: true,
-        position: "bottom"
-    }
-};
+// const optionsBarLead = {
+//     tooltips: {
+//         callbacks: {
+//             label: function (tooltipItem, data) {
+//                 let label = data.datasets[tooltipItem.datasetIndex].label || '';
+//
+//                 if (label) {
+//                     label += ': ';
+//                 }
+//                 label += `${dotNumber(tooltipItem.value)}`;
+//                 return label;
+//             }
+//         }
+//     },
+//     legend: {
+//         display: true,
+//         position: "bottom"
+//     }
+// };
 const optionsStackedBarLead = {
     scales: {
         xAxes: [{
@@ -43,12 +43,20 @@ const optionsStackedBarLead = {
     tooltips: {
         callbacks: {
             label: function (tooltipItem, data) {
+
                 let label = data.datasets[tooltipItem.datasetIndex].label || '';
+                let value = tooltipItem.value;
+                let sumVal = Object.entries(data.datasets).reduce((s, [, val]) => {
+                    let item = Object.entries(val.data[tooltipItem.index])[0];
+                    let hidden = item && item[1] && item[1].hidden;
+                    return s + (hidden ? 0 : val.data[tooltipItem.index] );
+                }, 0);
+                let percentage = Math.floor(value / sumVal * 100);
 
                 if (label) {
                     label += ': ';
                 }
-                label += `${dotNumber(tooltipItem.value)}`;
+                label += `${dotNumber(value)} (${percentage}%)`;
                 return label;
             }
         }
@@ -81,9 +89,6 @@ class DashboardLeadsComponent extends React.Component {
         store.filter.choice_province_id = this.props.user.choice_province_id;
     }
 
-    checkColor = (color) => {
-        return isEmptyInput(color) ? '#eeeeee' : color;
-    };
 
     formatDates = (dates) => {
         return dates && dates.map((date) => {
@@ -93,7 +98,7 @@ class DashboardLeadsComponent extends React.Component {
 
     statusLabels = () => {
         return store.data.analytics.leadStatuses.map(obj => {
-            let color = this.checkColor(obj.color);
+            let color = checkColor(obj.color);
             return {
                 label: obj.name,
                 backgroundColor: color,
@@ -103,7 +108,7 @@ class DashboardLeadsComponent extends React.Component {
     };
     sourceLabels = () => {
         return store.data.analytics.leadSources.map(obj => {
-            let color = this.checkColor(obj.color);
+            let color = checkColor(obj.color);
             return {
                 label: obj.name,
                 backgroundColor: color,
@@ -113,7 +118,17 @@ class DashboardLeadsComponent extends React.Component {
     };
     campaignLabels = () => {
         return store.data.analytics.leadCampaigns.map(obj => {
-            let color = this.checkColor(`#${obj.color}`);
+            let color = checkColor(obj.color);
+            return {
+                label: obj.name,
+                backgroundColor: color,
+                borderColor: color,
+            };
+        });
+    };
+    picLabels = () => {
+        return store.data.analytics.leadPics.map(obj => {
+            let color = checkColor(obj.color);
             return {
                 label: obj.name,
                 backgroundColor: color,
@@ -215,7 +230,7 @@ class DashboardLeadsComponent extends React.Component {
                                     data={[store.data.analytics.leadsCountByDates, store.data.analytics.leadsReachedCountByDates]}
                                     dateFormat={DATE_FORMAT}
                                     id="barchar_lead_by_date"
-                                    optionsBar={optionsBarLead}
+                                    optionsBar={optionsStackedBarLead}
                                     labels={[
                                         {
                                             label: "Số Lead mới",
@@ -252,7 +267,7 @@ class DashboardLeadsComponent extends React.Component {
                                     data={[store.data.analytics.leadsComebackCountByDates, store.data.analytics.leadsComebackTwiceCountByDates]}
                                     id="barchar_lead_transfer_by_date"
                                     dateFormat={DATE_FORMAT}
-                                    optionsBar={optionsBarLead}
+                                    optionsBar={optionsStackedBarLead}
                                     labels={[
                                         {
                                             label: "Số Lead đăng kí mới",
@@ -339,6 +354,31 @@ class DashboardLeadsComponent extends React.Component {
                                     dateFormat={DATE_FORMAT}
                                     optionsBar={optionsStackedBarLead}
                                     labels={this.campaignLabels()}
+                                />
+                                <br/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
+                                    <strong>Tỉ lệ Lead theo P.I.C</strong>
+                                </h4>
+                                <br/>
+                                <br/>
+                                <BarChartFilterDate
+                                    isLoading={isLoading}
+                                    dates={this.formatDates(store.data.analytics.dates)}
+                                    data={store.data.analytics.leadsByPics}
+                                    id="barchar_lead_by_pic"
+                                    dateFormat={DATE_FORMAT}
+                                    optionsBar={optionsStackedBarLead}
+                                    labels={this.picLabels()}
                                 />
                                 <br/>
 

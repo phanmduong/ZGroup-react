@@ -1,17 +1,29 @@
 import {action, get, observable} from "mobx";
-import {loadCoursesApi} from "./dashboardSaleApi";
+import {loadClassByCoursesApi, loadCoursesApi} from "./dashboardSaleApi";
 import {showErrorNotification} from "../../../helpers/helper";
 
 
 export default class DashboardCourseStore {
     @observable isLoading = false;
     @observable courses = [];
+    @observable coursesOfClasses = [];
+    @observable dates = [];
+    @observable classesCountByCourses = [];
 
     @action
     loadCourses = (filter) => {
         this.isLoading = true;
         loadCoursesApi(filter).then((res) => {
             this.courses = res.data.courses;
+        }).catch(() => {
+            showErrorNotification("Có lỗi xảy ra");
+        }).finally(() => {
+            this.isLoading = false;
+        });
+        loadClassByCoursesApi(filter).then((res) => {
+            this.coursesOfClasses = res.data.coursesOfClasses;
+            this.classesCountByCourses = res.data.classesCountByCourses;
+            this.dates = res.data.dates;
         }).catch(() => {
             showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {

@@ -5,7 +5,7 @@ import _ from 'lodash';
 import moment from 'moment';
 import XLSX from 'xlsx';
 import * as  FILE_SAVER from 'file-saver';
-import {PHONE_HEAD_3, PHONE_HEAD_4} from '../constants/constants';
+import {CIRCLE_PICKER_COLORS, PHONE_HEAD_3, PHONE_HEAD_4} from '../constants/constants';
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -1572,4 +1572,13 @@ export function getObjectArttribute(path = '', obj={}) {
         }
     }
     return parent;
+}
+
+export function  checkColor(color, getRand) {
+    let defColor = getRand ? CIRCLE_PICKER_COLORS[Math.floor(Math.random() * CIRCLE_PICKER_COLORS.length)] :'#eeeeee';
+
+    let res =  isEmptyInput(color) ? defColor  : color;
+    let needSharp = res[0] !== "#";
+    if(needSharp) res = "#" + res;
+    return res;
 }

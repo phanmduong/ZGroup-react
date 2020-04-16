@@ -4,12 +4,14 @@ import Filter from "./Filter";
 import CardRevenue from "./CardRevenue";
 import filterStore from "./filterStore";
 import cardRevenueStore from "./cardRevenueStore";
-import {DATE_FORMAT_SQL} from "../../../constants/constants";
+import {DATE_FORMAT, DATE_FORMAT_SQL} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import DashboardCourseStore from "./DashboardCourseStore";
 import ReactTable from "react-table-v6";
-import {dotNumber} from "../../../helpers/helper";
+import {checkColor, dotNumber} from "../../../helpers/helper";
 import Sort from "../../../components/common/ReactTable/Sort";
+import BarChartFilterDate from "../BarChartFilterDate";
+import moment from "moment";
 
 
 const columns = [
@@ -143,6 +145,41 @@ const columns = [
 
 ];
 
+const optionsStackedBar = {
+    scales: {
+        xAxes: [{
+            stacked: true
+        }],
+        yAxes: [{
+            stacked: true
+        }]
+    },
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+                let value = tooltipItem.value;
+                let sumVal = Object.entries(data.datasets).reduce((s, [, val]) => {
+                    let item = Object.entries(val.data[tooltipItem.index])[0];
+                    let hidden = item && item[1] && item[1].hidden;
+                    return s + (hidden ? 0 : val.data[tooltipItem.index]);
+                }, 0);
+                let percentage = Math.floor(value / sumVal * 100);
+
+                if (label) {
+                    label += ': ';
+                }
+                label += `${dotNumber(value)} (${percentage}%)`;
+                return label;
+            }
+        }
+    },
+    legend: {
+        display: true,
+        position: "bottom"
+    }
+};
 
 @observer
 class DashboardCourseComponent extends React.Component {
@@ -161,10 +198,27 @@ class DashboardCourseComponent extends React.Component {
     loadData = (filter) => {
         cardRevenueStore.analyticsRevenue(filter);
         this.store.loadCourses(filter);
-    }
+    };
+
+    coursesLabels = () => {
+        return this.store.coursesOfClasses.map(obj => {
+            let color = checkColor(obj.color, true);
+            return {
+                label: obj.name,
+                backgroundColor: color,
+                borderColor: color,
+            };
+        });
+    };
+
+    formatDates = (dates) => {
+        return dates && dates.map((date) => {
+            return moment(date, DATE_FORMAT_SQL).format(DATE_FORMAT);
+        });
+    };
 
     render() {
-        let {isLoading, courses, totalCourse} = this.store;
+        let {isLoading, courses, totalCourse, classesCountByCourses, dates} = this.store;
         courses = [totalCourse, ...courses];
         courses = courses.map((course) => {
             return {
@@ -178,6 +232,31 @@ class DashboardCourseComponent extends React.Component {
                 <CardRevenue/>
                 {isLoading ? <Loading/> :
                     <div className="row gutter-20">
+                        <div className="col-md-12">
+                            <div className="card margin-bottom-20 margin-top-0">
+                                <div className="card-content text-align-left">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Số lớp khai giảng theo môn học</strong>
+                                        </h4>
+                                        <br/>
+                                        <br/>
+                                        <BarChartFilterDate
+                                            isLoading={isLoading}
+                                            dates={this.formatDates(dates)}
+                                            data={classesCountByCourses}
+                                            id="barchar_class_by_course"
+                                            dateFormat={DATE_FORMAT}
+                                            optionsBar={optionsStackedBar}
+                                            labels={this.coursesLabels()}
+                                        />
+                                        <br/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                         <div className="col-md-12">
                             <ReactTable
                                 data={courses}
