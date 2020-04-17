@@ -13,7 +13,6 @@ import Sort from "../../../components/common/ReactTable/Sort";
 import BarChartFilterDate from "../BarChartFilterDate";
 import moment from "moment";
 
-
 const columns = [
     {
         // eslint-disable-next-line react/jsx-no-undef
@@ -144,7 +143,6 @@ const columns = [
 
 
 ];
-
 const optionsStackedBar = {
     scales: {
         xAxes: [{
@@ -154,6 +152,7 @@ const optionsStackedBar = {
             stacked: true
         }]
     },
+    height:500,
     tooltips: {
         callbacks: {
             label: function (tooltipItem, data) {
@@ -180,7 +179,6 @@ const optionsStackedBar = {
         position: "bottom"
     }
 };
-
 @observer
 class DashboardCourseComponent extends React.Component {
     constructor(props, context) {
@@ -249,6 +247,7 @@ class DashboardCourseComponent extends React.Component {
                                             dateFormat={DATE_FORMAT}
                                             optionsBar={optionsStackedBar}
                                             labels={this.coursesLabels()}
+                                            height={300}
                                         />
                                         <br/>
 

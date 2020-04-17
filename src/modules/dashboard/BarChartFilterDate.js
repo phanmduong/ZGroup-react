@@ -152,7 +152,7 @@ class BarChartFilterDate extends React.Component {
     }
 
     render() {
-        const {dateFormat, optionsBar, isLoading} = this.props;
+        const {dateFormat, optionsBar, isLoading, height} = this.props;
         const {currentFilter} = this.state;
 
         if (isLoading) {
@@ -176,6 +176,7 @@ class BarChartFilterDate extends React.Component {
                 <Bar
                     data={dataSet}
                     options={optionsBar}
+                    height={height}
                 />
             </div>
         );
