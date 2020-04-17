@@ -201,6 +201,7 @@ class DashboardCourseComponent extends React.Component {
     coursesLabels = () => {
         return this.store.coursesOfClasses.map(obj => {
             let color = checkColor(obj.color, true);
+            console.log(obj.color);
             return {
                 label: obj.name,
                 backgroundColor: color,

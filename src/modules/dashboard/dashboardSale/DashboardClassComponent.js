@@ -10,6 +10,9 @@ import DashboardClassStore from "./DashboardClassStore";
 import ReactTable from "react-table-v6";
 import Switch from "react-bootstrap-switch";
 import Sort from "../../../components/common/ReactTable/Sort";
+import TooltipButton from "../../../components/common/TooltipButton";
+import {removeObservable} from "../../../helpers/entity/mobx";
+import {appendJsonToWorkBook, isEmptyInput, newWorkBook, saveWorkBookToExcel} from "../../../helpers/helper";
 
 
 @observer
@@ -143,6 +146,32 @@ class DashboardClassComponent extends React.Component {
         this.loadClasses();
     }
 
+    downloadData = ()=>{
+        let classes = removeObservable(this.store.classes);
+        let json = classes.map((item, index) => {
+            if (item) {
+                /* eslint-disable */
+                let res = {
+                    'STT': index + 1,
+                    'Tên lớp': item.name,
+                    'Môn học': isEmptyInput(item.course) ?  "Không có" : item.course.name,
+                    'Cơ sở': isEmptyInput(item.base) ?  "Không có" : item.base.name,
+                    'Enrolled': `${item.target.current_target}/${item.target.target}`,
+                    'Đăng kí': `${item.register_target.current_target}/${item.register_target.target}`,
+                    'Lịch học': item.schedule ? item.schedule.name : "Không có",
+                    'Khai giảng': item.datestart,
+                    'Trạng thái': item.value === 1 ? 'Bật': 'Tắt',
+
+                };
+                /* eslint-enable */
+                return res;
+            }
+        });
+        let wb = newWorkBook();
+        appendJsonToWorkBook(json, wb, 'Danh sách lớp học', [], []);
+        saveWorkBookToExcel(wb, 'Danh sách lớp học');
+    }
+
     render() {
         const {isLoading, classes, currentTab} = this.store;
         return (
@@ -159,6 +188,15 @@ class DashboardClassComponent extends React.Component {
                             <li className={currentTab != "registering" ? "active" : ""}
                                 onClick={() => this.onChangeTab("studying")}>
                                 <a>Đang học</a>
+                            </li>
+                            <li style={{float:'right'}} onClick={this.downloadData}>
+                                <TooltipButton text="Tải xuống" placement="top">
+                                    <div style={{"display":"flex","alignItems":"center","alignContent":"center","justifyContent":"center","height":"44px", cursor:'pointer'}}>
+                                        <i className="material-icons" style={{padding: 0}}>
+                                            cloud_download
+                                        </i>
+                                    </div>
+                                </TooltipButton>
                             </li>
                         </ul>
                     </div>
