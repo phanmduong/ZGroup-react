@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
+import {STATUS_REFS} from "../../constants/constants";
 
 export function getAllSources() {
     let url = env.MANAGE_API_URL + "/import/sources";
@@ -20,7 +21,8 @@ export function getAllMarketingCampaigns() {
 }
 
 export function getAllStatusesLead() {
-    let url = env.NEW_MANAGE_API_URL + "/statuses/all?ref=registers";
+    let url = `${env.NEW_MANAGE_API_URL}/statuses/all?ref=${STATUS_REFS["registers"]}`;
+
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;
@@ -29,7 +31,8 @@ export function getAllStatusesLead() {
 }
 
 export function getAllStatusesRegister() {
-    let url = env.NEW_MANAGE_API_URL + "/statuses/all?ref=leads";
+    let url = `${env.NEW_MANAGE_API_URL}/statuses/all?ref=${STATUS_REFS["leads"]}`;
+
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

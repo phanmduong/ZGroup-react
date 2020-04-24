@@ -11,6 +11,8 @@ import DashboardKpiComponent from "../modules/dashboard/dashboardSale/DashboardK
 import DashboardClassComponent from "../modules/dashboard/dashboardSale/DashboardClassComponent";
 import DashboardSaleContainer from "../modules/dashboard/dashboardSale/DashboardSaleContainer";
 import DashboardCourseComponent from "../modules/dashboard/dashboardSale/DashboardCourseComponent";
+import DashboardAcademyContainer from "../modules/dashboard/dashboardAcademy/DashboardAcademyContainer";
+import DashboardAcademyComponent from "../modules/dashboard/dashboardAcademy/DashboardAcademyComponent";
 
 
 /**
@@ -70,6 +72,16 @@ export default [
             {
                 path: "/",
                 component: DashboardLeadsComponent,
+            },
+        ]
+    },
+    {
+        path: "/dashboard/academy",
+        component: DashboardAcademyContainer,
+        children: [
+            {
+                path: "/",
+                component: DashboardAcademyComponent,
             },
         ]
     },

@@ -18,7 +18,8 @@ export function loadExcelData(genid) {
 
 export function loadGens() {
     let token = localStorage.getItem('token');
-    let url = env.API_URL + "/gens?token=" + token;
+    // let url = env.API_URL + "/gens?token=" + token;
+    let url = env.MANAGE_API_URL + "/gen/all?token=" + token;
     return axios.get(url);
 }
 export function loadCoursesApi() {

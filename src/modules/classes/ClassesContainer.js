@@ -275,6 +275,7 @@ class ClassesContainer extends React.Component {
                                         onChange={this.changeCourses}
                                         value={this.state.courseId}
                                         defaultMessage="Chọn môn học"
+                                        noPrefix={true}
                                         name="courses"
                                         style={{width: 150}}
                                     />

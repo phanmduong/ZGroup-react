@@ -51,7 +51,7 @@ export function loadGensData(loadClass) {
                 loadClass();
                 dispatch({
                     type: types.LOAD_GENS_CLASSES_STUDENT_SUCCESSFUL,
-                    gens: res.data.gens,
+                    gens: res.data.data.gens,
                 });
             })
             .catch(() => {

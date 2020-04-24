@@ -141,8 +141,8 @@ class RegisterListContainer extends React.Component {
                 query_note: this.props.location.query.query_note ? this.props.location.query.query_note : '',
                 page: 1,
                 appointmentPayment: this.props.location.query.appointmentPayment ? this.props.location.query.appointmentPayment : '',
-                startTime: this.props.location.query.start_time ? this.props.location.query.start_time : this.state.time.startTime,
-                endTime: this.props.location.query.end_time ? this.props.location.query.end_time : this.state.time.endTime
+                startTime: this.props.location.query.start_time ? this.props.location.query.start_time : this.state.startTime,
+                endTime: this.props.location.query.end_time ? this.props.location.query.end_time : this.state.endTime
             };
             this.setState(filter);
         }
@@ -296,104 +296,6 @@ class RegisterListContainer extends React.Component {
             location.reload();
         }
 
-        // if (nextProps.params.salerId && nextProps.params.salerId !== this.props.params.salerId) {
-        //     this.props.registerActions.loadRegisterStudent(
-        //         {...this.state, page: 1, selectedSalerId: Number(nextProps.params.salerId),},
-        //         1,//page
-        //         this.state.limit,
-        //         this.state.selectGenId,
-        //         this.state.query,
-        //         Number(nextProps.params.salerId),
-        //         this.state.campaignId,
-        //         this.state.selectedClassId,
-        //         this.state.selectedMoneyFilter,
-        //         this.state.selectedClassStatus,
-        //         this.state.time.startTime,
-        //         this.state.time.endTime,
-        //         this.props.selectedBaseId,
-        //         this.state.time.appointmentPayment,
-        //         this.state.query_coupon,
-        //         this.state.selectedTeleCallStatus,
-        //         this.state.selectedBookmarkStatus
-        //     );
-        //     this.setState({
-        //         page: 1,
-        //         selectedSalerId: Number(nextProps.params.salerId),
-        //     });
-        // } else if (nextProps.location.pathname != this.props.location.pathname) {
-        //     this.setState({
-        //         query: '',
-        //         showModal: false,
-        //         showModalChangeClass: false,
-        //         campaignId: '',
-        //         selectRegisterId: 0,
-        //         selectedClassId: '',
-        //         selectedSalerId: '',
-        //         selectedMoneyFilter: '',
-        //         time: {
-        //             startTime: '',
-        //             endTime: '',
-        //             appointmentPayment: ''
-        //         },
-        //     });
-        //     if (nextProps.route.path == '/sales/waitlist') {
-        //         this.isWaitListPage = true;
-        //         this.props.registerActions.loadRegisterStudent({
-        //             page: 1,
-        //             selectedClassStatus: 'waiting',
-        //         });
-        //         this.changeClassStatusFilter({value: 'waiting'});
-        //         this.setState({
-        //             page: 1,
-        //             selectedClassStatus: 'waiting',
-        //             cardTitle: 'Danh sách chờ',
-        //         });
-        //     } else {
-        //         this.changeClassStatusFilter({value: ''});
-        //         this.isWaitListPage = false;
-        //         this.setState({
-        //             page: 1,
-        //             selectedClassStatus: '',
-        //             cardTitle: 'Danh sách đăng kí học'
-        //         });
-        //         if (nextProps.params.salerId) {//1
-        //             this.props.registerActions.loadRegisterStudent({
-        //                 page: 1,
-        //                 campaignId: '',
-        //                 selectGenId: '',
-        //                 selectedClassStatus: '',
-        //                 selectedSalerId: nextProps.params.salerId,
-        //             });
-        //             this.setState({
-        //                 page: 1,
-        //                 campaignId: '',
-        //                 selectGenId: '',
-        //                 selectedClassStatus: '',
-        //                 selectedSalerId: nextProps.params.salerId,
-        //             });
-        //         } else {//2
-        //             if (nextProps.params.genId && nextProps.params.campaignId) {
-        //                 this.props.registerActions.loadRegisterStudent({
-        //                     page: 1,
-        //                     campaignId: Number(nextProps.params.campaignId),
-        //                     selectGenId: Number(nextProps.params.genId)
-        //                 });
-        //                 this.setState({
-        //                     page: 1,
-        //                     campaignId: Number(nextProps.params.campaignId),
-        //                     selectGenId: Number(nextProps.params.genId)
-        //                 });
-        //             } else {//3
-        //                 this.props.registerActions.loadRegisterStudent({
-        //                     page: 1,
-        //                 });
-        //                 this.setState({
-        //                     page: 1,
-        //                 });
-        //             }
-        //         }
-        //     }
-        // }
     }
 
 
@@ -770,10 +672,10 @@ class RegisterListContainer extends React.Component {
             selectedClassId: this.state.selectedClassId,
             selectedMoneyFilter: this.state.selectedMoneyFilter,
             selectedClassStatus: this.state.selectedClassStatus,
-            startTime: this.state.time.startTime,
-            endTime: this.state.time.endTime,
+            startTime: this.state.startTime,
+            endTime: this.state.endTime,
             selectedBaseId: this.props.selectedBaseId,
-            appointmentPayment: this.state.time.appointmentPayment,
+            appointmentPayment: this.state.appointmentPayment,
             query_coupon: this.state.query_coupon,
             bookmark: this.state.selectedBookmarkStatus,
             exportExcel: this.closeLoadingModal
@@ -828,18 +730,18 @@ class RegisterListContainer extends React.Component {
         let wb = helper.newWorkBook();
         helper.appendJsonToWorkBook(json, wb, 'Danh sách', cols, []);
         let gen = this.state.gens.filter(gen => (gen.id == this.state.selectGenId));
-        let startTime = moment(this.state.time.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
-        let endTime = moment(this.state.time.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
-        let empt1 = helper.isEmptyInput(this.state.time.startTime);
-        let empt2 = helper.isEmptyInput(this.state.time.endTime);
+        let startTime = moment(this.state.startTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+        let endTime = moment(this.state.endTime, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+        let empt1 = helper.isEmptyInput(this.state.startTime);
+        let empt2 = helper.isEmptyInput(this.state.endTime);
         helper.saveWorkBookToExcel(wb,
             'Danh sách đăng kí' +
             (
                 (empt1 || empt2)
                     ? (gen[0] ? ` - Khóa ${gen[0].name}` : '')
                     :
-                    (`${helper.isEmptyInput(this.state.time.startTime) ? '' : (' - ' + startTime)}` +
-                        `${helper.isEmptyInput(this.state.time.endTime) ? '' : (' - ' + endTime)}`)
+                    (`${helper.isEmptyInput(this.state.startTime) ? '' : (' - ' + startTime)}` +
+                        `${helper.isEmptyInput(this.state.endTime) ? '' : (' - ' + endTime)}`)
             )
         );
     };
