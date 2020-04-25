@@ -52,7 +52,7 @@ class LessonDetailModal extends React.Component {
                             <thead className="text-rose">
                             <tr>
                                 <th>Tên học viên</th>
-                                <th>Email</th>
+                                {/*<th>Email</th>*/}
                                 <th style={{textAlign: "center"}}>Có mặt</th>
                                 <th style={{textAlign: "center"}}>Bài tập</th>
                                 <th style={{textAlign: "center"}}>Ghi chú</th>
@@ -70,7 +70,7 @@ class LessonDetailModal extends React.Component {
                                         return (
                                             <tr key={index}>
                                                 <td>{item.name}</td>
-                                                <td>{item.email}</td>
+                                                {/*<td>{item.email}</td>*/}
                                                 <td style={{textAlign: "center"}}>
                                                     <CheckBoxMaterial
                                                         label=""

@@ -546,13 +546,14 @@ class ScoreClassContainer extends React.Component {
         let scores = [];
         currentRegisters.forEach((obj) => {
             currentExams.forEach(exam => {
+                let score = obj.score[exam.id];
                 let res = {
                     user_id: obj.student.id,
                     exam_id: exam.id,
                     comment: obj.comment[exam.id] || '',
-                    score: obj.score[exam.id] || 0,
-                    // score: obj.score || Math.floor(Math.random() * 10) + 1,
-                    // comment: obj.comment || ('Day la comment: ' + Math.floor(Math.random() * 10) + 1),
+                    score: score || '',
+                    // score: obj.score[exam.id] || Math.floor(Math.random() * 10) + 1,
+                    // comment: obj.comment[exam.id] || ('Day la comment: ' + Math.floor(Math.random() * 10) + 1),
                 };
                 scores.push(res);
             });
@@ -560,7 +561,7 @@ class ScoreClassContainer extends React.Component {
         let errs = [];
         scores.every(obj => {
             let {score} = obj;
-            if (!score || score < 0 || score > 10) {
+            if ( score < 0 || score > 10) {
                 errs.push('Thang điểm từ 0->10!');
                 return false;
             } else return true;

@@ -360,32 +360,25 @@ class coursesCreateEditCurriculum extends React.Component {
                            cellSpacing="0" width="100%" style={{width: "100%"}}>
                         <tbody>
                         {this.props.data.lessons && this.props.data.lessons.length > 0 ? this.props.data.lessons.map((lesson, index) => {
-                            let eventBook = null, eventComment = null;
-                            if (lesson.events) {
-                                eventBook = lesson.events.filter(e => e.event_type == LESSON_EVENT_TYPES_OBJECT.book.type)[0];
-                                eventComment = lesson.events.filter(e => e.event_type == LESSON_EVENT_TYPES_OBJECT.comment.type)[0];
-                            }
+
                             return (
                                 <tr key={lesson.id}>
                                     <td>
                                         <div className="flex flex-align-items-center">
-                                            <TooltipButton text={LESSON_EVENT_TYPES_OBJECT.comment.name} placement="top">
-                                                <div className="icon8 icon8-wrap cursor-pointer margin-right-5" mask={eventComment ? 'on' : 'off'}
-                                                     icon={LESSON_EVENT_TYPES_OBJECT.comment.type}
-                                                     onClick={()=>this.createLessonEvent(lesson.id,LESSON_EVENT_TYPES_OBJECT.comment.type)}
-                                                >
-                                                    <div className="icon"/>
-                                                </div>
-                                            </TooltipButton>
-                                            <TooltipButton text={LESSON_EVENT_TYPES_OBJECT.book.name} placement="top">
+                                            {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
+                                                let de = LESSON_EVENT_TYPES_OBJECT[entry[0]];
+                                                let lesson_event = lesson.events.filter(e => e.event_type == de.type)[0];
+                                                return (<TooltipButton text={de.name} placement="top">
+                                                    <div className="icon8 icon8-wrap cursor-pointer margin-right-5"
+                                                         mask={lesson_event ? 'on' : 'off'}
+                                                         icon={de.type}
+                                                         onClick={()=>this.createLessonEvent(lesson.id,de.type)}
+                                                    >
+                                                        <div className="icon"/>
+                                                    </div>
+                                                </TooltipButton>);
+                                            })}
 
-                                            <div className="icon8 icon8-wrap cursor-pointer" icon={LESSON_EVENT_TYPES_OBJECT.book.type}
-                                                 mask={eventBook ? 'on' : 'off'}
-                                                 onClick={()=>this.createLessonEvent(lesson.id,LESSON_EVENT_TYPES_OBJECT.book.type)}
-                                            >
-                                                <div className="icon"/>
-                                            </div>
-                                            </TooltipButton>
                                         </div>
                                     </td>
                                     <td><strong>Buổi {lesson.order}</strong></td>

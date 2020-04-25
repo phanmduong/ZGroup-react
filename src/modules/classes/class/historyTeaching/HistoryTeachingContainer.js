@@ -144,8 +144,8 @@ class HistoryTeachingContainer extends React.Component {
         console.log(lessonEvent);
         let lessonEventStudent = this.props.classData.registers.map((r) => {
             let {student} = r;
-            let student_class_lesson_event  = r.events.filter(e=>e.event_type == lessonEventType && e.lesson_id == lessonEvent.lesson_id)[0]||{};
-            console.log(r.events,student_class_lesson_event);
+            let student_class_lesson_event = r.events.filter(e => e.event_type == lessonEventType && e.lesson_id == lessonEvent.lesson_id)[0] || {};
+            console.log(r.events, student_class_lesson_event);
 
             return {
                 student_class_lesson_event_id: student_class_lesson_event ? student_class_lesson_event.id : null,
@@ -170,17 +170,17 @@ class HistoryTeachingContainer extends React.Component {
         this.setState({showModalLessonEvent: false});
     };
 
-    submitModalLessonEvent = ()=>{
+    submitModalLessonEvent = () => {
         let lessonEventStudent = {...this.state.lessonEventStudent};
-        let { params, classActions} = this.props;
+        let {params, classActions} = this.props;
         console.log(lessonEventStudent);
         classActions.saveStudentLessonEvent(lessonEventStudent, () => {
             classActions.loadClass(params.classId);
         });
-    }
+    };
 
     updateFormInputEvent = (e, index) => {
-        let {name,value} = e.target;
+        let {name, value} = e.target;
         let lessonEventStudent = {...this.state.lessonEventStudent};
         lessonEventStudent[index][name] = value;
         this.setState({lessonEventStudent});
@@ -304,8 +304,8 @@ class HistoryTeachingContainer extends React.Component {
     };
 
     render() {
-        let {classData, isLoading, user,isLoadingSavingClassLessonEvents} = this.props;
-        let {show, showModalDelayLessons, showModalLessonEvent, delayLessonIndex, delayData, lessonEventStudent ,lessonEventType} = this.state;
+        let {classData, isLoading, user, isLoadingSavingClassLessonEvents} = this.props;
+        let {show, showModalDelayLessons, showModalLessonEvent, delayLessonIndex, delayData, lessonEventStudent, lessonEventType} = this.state;
         let delayLesson = classData && classData.lessons && classData.lessons[delayLessonIndex] ? classData.lessons[delayLessonIndex] : {};
         let modalEvent = LESSON_EVENT_TYPES_OBJECT[lessonEventType] || {};
         console.log(classData);
@@ -324,38 +324,25 @@ class HistoryTeachingContainer extends React.Component {
                         !isLoading && classData.lessons && classData.lessons.length > 0 ? classData.lessons.map((lesson, key) => {
                                 let color = lesson.studied ? 'success' : '';
                                 let minWidth = 120, margin = '5px 3px';
-                                let eventBook = null, eventComment = null;
-                                if (lesson.events) {
-                                    eventBook = lesson.events.filter(e => e.event_type == LESSON_EVENT_TYPES_OBJECT.book.type)[0];
-                                    eventComment = lesson.events.filter(e => e.event_type == LESSON_EVENT_TYPES_OBJECT.comment.type)[0];
-                                }
                                 return (
                                     <tr key={key} className={color}>
 
                                         <td>
                                             <div className="flex flex-align-items-center">
-                                                {eventComment &&
-                                                <TooltipButton text={LESSON_EVENT_TYPES_OBJECT.comment.name}
-                                                               placement="top">
-                                                    <div className="icon8 icon8-wrap cursor-pointer margin-right-5"
-                                                         mask="on"
-                                                         icon={LESSON_EVENT_TYPES_OBJECT.comment.type}
-                                                         onClick={() => this.openModalLessonEvent(lesson, LESSON_EVENT_TYPES_OBJECT.comment.type,eventComment)}
-                                                    >
-                                                        <div className="icon"/>
-                                                    </div>
-                                                </TooltipButton>}
-                                                {eventBook &&
-                                                <TooltipButton text={LESSON_EVENT_TYPES_OBJECT.book.name} placement="top">
+                                                {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
+                                                    let de = LESSON_EVENT_TYPES_OBJECT[entry[0]];
+                                                    let lesson_event = lesson.events.filter(e => e.event_type == de.type)[0];
+                                                    if(lesson_event) return (<TooltipButton text={de.name} placement="top">
+                                                        <div className="icon8 icon8-wrap cursor-pointer margin-right-5"
+                                                             mask="on"
+                                                             icon={de.type}
+                                                             onClick={() => this.openModalLessonEvent(lesson,de.type, lesson_event)}
+                                                        >
+                                                            <div className="icon"/>
+                                                        </div>
+                                                    </TooltipButton>);
+                                                })}
 
-                                                    <div className="icon8 icon8-wrap cursor-pointer"
-                                                         icon={LESSON_EVENT_TYPES_OBJECT.book.type}
-                                                         mask="on"
-                                                         onClick={() => this.openModalLessonEvent(lesson, LESSON_EVENT_TYPES_OBJECT.book.type,eventBook)}
-                                                    >
-                                                        <div className="icon"/>
-                                                    </div>
-                                                </TooltipButton>}
                                             </div>
                                         </td>
                                         <td style={{minWidth: '100px'}}>
@@ -367,6 +354,11 @@ class HistoryTeachingContainer extends React.Component {
                                             style={{fontWeight: 400}}
                                             target="_blank"
                                             href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
+                                        </td>
+                                        <td>{lesson.term && <a
+                                            style={{fontWeight: 400}}
+                                            target="_blank"
+                                            href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.term.name}</a>}
                                         </td>
                                         <td>
                                             <div>
@@ -506,7 +498,7 @@ class HistoryTeachingContainer extends React.Component {
                                     let currentObj = lessonEventStudent[key] || {};
                                     return (
                                         <tr key={key}>
-                                            <td style={{maxWidth:130}}>
+                                            <td style={{maxWidth: 130}}>
                                                 <div className="flex flex-align-items-center">
                                                     <div className="avatar-list-staff"
                                                          style={{
