@@ -27,7 +27,6 @@ export default class DashboardCourseStore {
         }).catch(() => {
             showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
-            this.isLoading = false;
         });
     };
 
@@ -38,6 +37,7 @@ export default class DashboardCourseStore {
             return {
                 "name": "Tất cả môn học",
                 "revenue": data.revenue,
+                "kpi": data.kpi,
                 "target": {
                     "total_target": data.target.total_target,
                     "total_paid_register": data.target.total_paid_register,
@@ -56,6 +56,7 @@ export default class DashboardCourseStore {
             return {
                 "name": "Tất cả môn học",
                 "revenue": a.revenue + b.revenue,
+                "kpi": parseInt(a.kpi) + parseInt(b.kpi),
                 "target": {
                     "total_target": a.target.total_target + b.target.total_target,
                     "total_paid_register": a.target.total_paid_register + b.target.total_paid_register,
@@ -72,6 +73,7 @@ export default class DashboardCourseStore {
         }) : {
             "name": "Tất cả",
             "revenue": 0,
+            "kpi": 0,
             "target": {},
             "register_target": {},
             "total_class": {}

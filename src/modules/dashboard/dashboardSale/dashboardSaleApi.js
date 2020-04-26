@@ -82,6 +82,20 @@ export const getHistoryKpiApi = (filter) => {
     return axios.get(url);
 };
 
+export const setCourseKpiApi = (kpi) => {
+    let url = `${NEW_MANAGE_API_URL}/course-kpi/create?token=${localStorage.getItem('token')}`;
+    return axios.post(url, kpi);
+};
+
+export const getHistoryCourseKpiApi = (filter) => {
+    let fields = ['start_time', 'end_time', 'base_id', "user_ids", "course_ids", "source_id", "campaign_id"];
+    let url = `${NEW_MANAGE_API_URL}/course-kpi/by-dates?token=${localStorage.getItem('token')}`;
+    fields.forEach(field => {
+        url += `&${field}=${filter[field] || ''}`;
+    });
+    return axios.get(url);
+};
+
 export const getCourseActiveApi = () => {
     let url = `${NEW_MANAGE_API_URL}/course/all-active?token=${localStorage.getItem('token')}`;
     return axios.get(url);

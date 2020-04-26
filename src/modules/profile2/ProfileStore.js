@@ -4,7 +4,7 @@ import {
     getRoles,
     getProfile,
     loadBaseApi,
-    loadDepartments, editProfile,
+    loadDepartments, editProfile, classesByDateApi,
 } from "./profileApi";
 import {
     showErrorNotification,
@@ -20,6 +20,7 @@ class ProfileStore {
     @observable bases = [];
     @observable roles = [];
     @observable departments = [];
+    @observable classesByDate = {};
 
     constructor() {
     }
@@ -61,6 +62,18 @@ class ProfileStore {
             showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
             this.isStoring = false;
+        })
+    }
+
+    @action
+    loadClassesByDate(filter) {
+        this.isLoading = true;
+        classesByDateApi(filter).then((res) => {
+            this.classesByDate = res.data.classes;
+        }).catch(() => {
+            showErrorNotification("Có lỗi xảy ra");
+        }).finally(() => {
+            this.isLoading = false;
         })
     }
 

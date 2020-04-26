@@ -95,3 +95,17 @@ export function loadDepartments() {
     }
     return axios.get(url);
 }
+
+export function classesByDateApi(filter) {
+    let fields = ['start_time', 'end_time'];
+    let url = env.NEW_MANAGE_API_URL + "/personal/classes/by-date";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    fields.forEach(field => {
+        url += `&${field}=${filter[field] || ''}`;
+    });
+    url += '&include=base,room';
+    return axios.get(url);
+}
