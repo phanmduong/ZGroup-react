@@ -326,7 +326,6 @@ class HistoryTeachingContainer extends React.Component {
                                 let minWidth = 120, margin = '5px 3px';
                                 return (
                                     <tr key={key} className={color}>
-
                                         <td>
                                             <div className="flex flex-align-items-center">
                                                 {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
@@ -354,6 +353,11 @@ class HistoryTeachingContainer extends React.Component {
                                             style={{fontWeight: 400}}
                                             target="_blank"
                                             href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
+                                        </td>
+                                        <td><a
+                                            style={{fontWeight: 400}}
+                                            target="_blank"
+                                            href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.description}</a>
                                         </td>
                                         <td>{lesson.term && <a
                                             style={{fontWeight: 400}}

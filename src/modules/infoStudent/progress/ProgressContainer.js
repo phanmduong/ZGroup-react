@@ -117,6 +117,7 @@ class ProgressContainer extends React.Component {
                             this.props.progress && this.props.progress.length > 0 ? this.props.progress.map((progressClass, index) => {
                                 let noneGroup = progressClass.exams.filter(e => isEmptyInput(e.group_exam_id));
                                 let currentTab = this.state.selectedTabs[index] || 0;
+                                let sum_hw = progressClass.attendances.reduce((hw_sum, atd) => hw_sum + (atd.status.hw_status ? 1 : 0), 0);
                                 return (
                                     <li className="timeline-inverted" key={index}>
                                         <div className="timeline-badge">
@@ -146,8 +147,8 @@ class ProgressContainer extends React.Component {
                                                             <i className="material-icons">date_range</i>&nbsp; &nbsp; {progressClass.description}
                                                         </div>
                                                         <div className="flex-row-center">
-                                                            <i className="material-icons">loop</i>&nbsp; &nbsp; Học lần
-                                                            thứ {progressClass.time}
+                                                            <i className="material-icons">loop</i>&nbsp; &nbsp;
+                                                            Học lần thứ {progressClass.time}
                                                         </div>
                                                         {
                                                             progressClass.teach &&
@@ -172,14 +173,47 @@ class ProgressContainer extends React.Component {
                                                         <Attendances
                                                             attendances={progressClass.attendances}
                                                         />
-                                                        {/*<div className="flex-row-center">*/}
-                                                        {/*    <i className="material-icons">assignment_turned_in</i>&nbsp; &nbsp;*/}
-                                                        {/*    Bài tập*/}
-                                                        {/*</div>*/}
+                                                        <div className="flex-row-center">
+                                                            <i className="material-icons">assignment_turned_in</i>&nbsp; &nbsp;
+                                                            Bài tập
+                                                        </div>
+                                                        <div className="content-progress-student">
+                                                            <div
+                                                                className="progress progress-line-success progress-student">
+                                                                <div className="progress-bar progress-bar-success"
+                                                                     style={{width: sum_hw * 100 / progressClass.attendances.length + "%"}}>
+                                                                    <span className="sr-only">{sum_hw}</span>
+                                                                </div>
+                                                            </div>
+                                                            <div
+                                                                className="text-progress-student">{sum_hw + "/" + progressClass.attendances.length}</div>
+                                                        </div>
+
                                                         {/*<Topics*/}
                                                         {/*    topics={progressClass.topics}*/}
                                                         {/*/>*/}
 
+                                                        {Object.keys(LESSON_EVENT_TYPES_OBJECT).map((event_type) => {
+                                                            let event_obj = LESSON_EVENT_TYPES_OBJECT[event_type];
+                                                            let lesson_events_count = progressClass.lesson_events.filter(e=>e.event_type == event_type).length;
+                                                            let student_lesson_events_count = progressClass.classLessonEvents.filter(e=>e.event_type == event_type).length;
+                                                            let event_percentage = lesson_events_count ? (student_lesson_events_count/lesson_events_count*100) : 0;
+                                                            return ([<div className="flex-row-center">
+                                                                <i className="material-icons">{event_obj.progress_icon}</i>&nbsp; &nbsp;
+                                                                {event_obj.name}
+                                                            </div>,<div className="content-progress-student">
+                                                                <div
+                                                                    className="progress progress-line-success progress-student">
+                                                                    <div className="progress-bar progress-bar-success"
+                                                                         style={{width: event_percentage + "%"}}>
+                                                                        <span className="sr-only">{student_lesson_events_count}</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div className="text-progress-student">
+                                                                    {student_lesson_events_count + "/" + lesson_events_count}
+                                                                </div>
+                                                            </div>]);
+                                                        })}
 
                                                     </div>
                                                     <div className="col-md-4 col-sm-3">
@@ -242,7 +276,7 @@ class ProgressContainer extends React.Component {
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                       }
+                                                        }
                                                     </div>}
                                                     {currentTab == 2 && <div className="col-md-12">
                                                         {!progressClass.classLessonEvents || progressClass.classLessonEvents.length == 0 &&
@@ -257,29 +291,29 @@ class ProgressContainer extends React.Component {
                                                                         <div className="margin-bottom-10">
                                                                             <div><b>{event_obj.name}</b></div>
                                                                             <div className="">
-                                                                            <table id="datatables"
-                                                                                   className="table table-hover table-split"
-                                                                                   cellSpacing="0" width="100%"
-                                                                                   style={{width: "100%"}}>
-                                                                                <tbody>
-                                                                                {event_arr.map((event, key_event) => {
-                                                                                    let event_time = moment(event.time, DATE_FORMAT_SQL).format(DATE_VN_FORMAT);
+                                                                                <table id="datatables"
+                                                                                       className="table table-hover table-split"
+                                                                                       cellSpacing="0" width="100%"
+                                                                                       style={{width: "100%"}}>
+                                                                                    <tbody>
+                                                                                    {event_arr.map((event, key_event) => {
+                                                                                        let event_time = moment(event.time, DATE_FORMAT_SQL).format(DATE_VN_FORMAT);
 
-                                                                                    return (<tr key={key_event}>
-                                                                                        <td>{`Buổi ${event.order}`}</td>
-                                                                                        <td>{event_time}</td>
-                                                                                        <td><TooltipButton
-                                                                                            text={`Nhập bởi ${event.creator_name}`}
-                                                                                            placement="top">
-                                                                                            <div>{event.data}</div>
-                                                                                        </TooltipButton>
-                                                                                        </td>
+                                                                                        return (<tr key={key_event}>
+                                                                                            <td>{`Buổi ${event.order}`}</td>
+                                                                                            <td>{event_time}</td>
+                                                                                            <td><TooltipButton
+                                                                                                text={`Nhập bởi ${event.creator_name}`}
+                                                                                                placement="top">
+                                                                                                <div>{event.data}</div>
+                                                                                            </TooltipButton>
+                                                                                            </td>
 
-                                                                                    </tr>);
-                                                                                })}
-                                                                                </tbody>
-                                                                            </table>
-                                                                        </div>
+                                                                                        </tr>);
+                                                                                    })}
+                                                                                    </tbody>
+                                                                                </table>
+                                                                            </div>
                                                                         </div>
                                                                     );
                                                             })}
@@ -288,9 +322,10 @@ class ProgressContainer extends React.Component {
                                                     {currentTab == 1 &&
                                                     <div className="col-md-12">
 
-                                                            {progressClass.exams.length == 0 && noneGroup.length == 0 &&
-                                                            <div><b>Không có dữ liệu</b></div>}
-                                                        {progressClass.exams.length >  0 &&<div className="max-height-400 smooth-scroll-y">
+                                                        {progressClass.exams.length == 0 && noneGroup.length == 0 &&
+                                                        <div><b>Không có dữ liệu</b></div>}
+                                                        {progressClass.exams.length > 0 &&
+                                                        <div className="max-height-400 smooth-scroll-y">
                                                             {progressClass.group_exams.map(group => {
                                                                 return (
                                                                     <div className="margin-bottom-10">
