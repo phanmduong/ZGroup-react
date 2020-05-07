@@ -116,11 +116,11 @@ class RegisterListContainer extends React.Component {
 
     componentWillMount() {
         this.props.registerActions.loadGensData();
-        this.props.registerActions.loadSalerFilter();
-        this.props.registerActions.loadCampaignFilter();
-        this.props.registerActions.loadBaseFilter();
-        this.props.createRegisterActions.loadSources();
-        this.props.studentActions.loadStatuses('registers');
+        // this.props.registerActions.loadSalerFilter();
+        // this.props.registerActions.loadCampaignFilter();
+        // this.props.registerActions.loadBaseFilter();
+        // this.props.createRegisterActions.loadSources();
+        // this.props.studentActions.loadStatuses('registers');
 
         if (this.props.location.query) {
             const filter = {
@@ -263,10 +263,18 @@ class RegisterListContainer extends React.Component {
                 newState.endTime = this.state.endTime;
             }
             this.setState(newState);
-            this.props.registerActions.loadClassFilter(this.state.selectGenId);
             this.props.registerActions.loadRegisterStudent(
                 {...newState, page: 1,},
+                ()=>{
+                    this.props.registerActions.loadSalerFilter();
+                    this.props.registerActions.loadCampaignFilter();
+                    this.props.registerActions.loadBaseFilter();
+                    this.props.createRegisterActions.loadSources();
+                    this.props.studentActions.loadStatuses('registers');
+                }
             );
+            // this.props.registerActions.loadClassFilter(this.state.selectGenId);
+
         }
 
         if (!nextProps.isLoadingRegisters && this.props.isLoadingRegisters) {

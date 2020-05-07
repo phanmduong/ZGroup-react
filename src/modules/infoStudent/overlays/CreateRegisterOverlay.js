@@ -333,7 +333,7 @@ class CreateRegisterOverlay extends React.Component {
                 </i>}
                 </div>}
                 {this.props.children && <div className={className} mask="create"
-                                             ref="target" onClick={this.toggle}
+                                             ref="target" onClick={this.showModal}
                                              disabled={isSavingRegister}>
                     {this.props.children}
                 </div>}

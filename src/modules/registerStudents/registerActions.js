@@ -156,7 +156,7 @@ export function loadCampaignFilter() {
     };
 }
 
-export function loadRegisterStudent(filters) {
+export function loadRegisterStudent(filters, callback) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_DATA_REGISTER_LIST_LOAD,
@@ -165,6 +165,9 @@ export function loadRegisterStudent(filters) {
             .getRegisterStudent(filters)
             .then(function (res) {
                 dispatch(loadDataSuccessful(res));
+                if(callback){
+                    callback();
+                }
             })
             .catch(error => {
                 console.log(error);

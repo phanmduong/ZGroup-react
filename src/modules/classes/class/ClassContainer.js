@@ -488,12 +488,15 @@ class ClassContainer extends React.Component {
                                                     })}
                                                 </strong>
                                             </p>
-                                            <p>Lịch học<strong>{classData.study_time || "Chưa có"}</strong></p>
+                                            <p>Lịch học<strong>{(classData.schedule && classData.schedule.name) ?  classData.schedule.name : "Chưa có"}</strong></p>
                                             <p>Mô tả<strong>{classData.description || "Chưa có"}</strong></p>
                                             <p>Chỉ tiêu đăng kí<strong>{classData.regis_target || "Chưa có"}</strong>
                                             </p>
                                             <p>Chỉ tiêu nộp tiền<strong>{classData.total_paid || "Chưa có"}</strong></p>
                                             <p>Ngày khai giảng<strong>{classData.datestart_vi || "Chưa có"}</strong></p>
+                                            <p>Ngày bế giảng<strong>{classData.date_end_vi || "Chưa có"}</strong></p>
+                                            <p>Ngày bắt đầu tuyển sinh<strong>{classData.enroll_start_date_vi || "Chưa có"}</strong></p>
+                                            <p>Ngày kết thúc tuyển sinh<strong>{classData.enroll_end_date_vi || "Chưa có"}</strong></p>
                                             <p>Trạng thái<strong>{{
                                                 '': 'Chưa có',
                                                 null: 'Chưa có',

@@ -373,7 +373,7 @@ class coursesCreateEditGeneral extends React.Component {
                                     </h4></div>
                                     <br/>
                                     <CirclePicker width="100%"
-                                                  color={this.state.data.color}
+                                                  color={this.state.data.color || ''}
                                                   onChangeComplete={this.changeColor}
                                     />
                                 </div>

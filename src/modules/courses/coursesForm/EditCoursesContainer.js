@@ -116,8 +116,7 @@ class EditCoursesContainer extends React.Component {
                                         </div>
                                     </div>
                                     <div className="card-content">
-                                        <div className="tab-content"><h4 className="card-title"><strong>Chọn
-                                            màu</strong>
+                                        <div className="tab-content"><h4 className="card-title"><strong>Màu khóa học</strong>
                                         </h4></div>
                                         <br/>
                                         <CirclePicker width="100%"

@@ -205,7 +205,7 @@ export function changeClassLessons(classLessons) {
     }
 
 
-    return axios.post(url, {classLessons});
+    return axios.put(url, {classLessons});
 }
 
 export function changeTeacher(classLesson) {
