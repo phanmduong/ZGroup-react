@@ -794,11 +794,11 @@ class RegisterListContainer extends React.Component {
         return (
             <div className="container-fluid">
                 <div className="row">
-                    <CreateRegisterModalContainer/>
+                    {(!this.props.isLoading &&
+                        !this.props.isLoadingGens) &&
+                    <CreateRegisterModalContainer/>}
                 </div>
                 <div>
-
-
                     {!this.props.isLoadingGens &&
                     <div>
 
@@ -869,10 +869,12 @@ class RegisterListContainer extends React.Component {
                                             {/*</i>*/}
 
                                             {/*</button>*/}
+                                            {(!this.props.isLoading && !this.props.isLoadingGens) &&
                                             <CreateRegisterOverlay
                                                 className="btn btn-white btn-round btn-icon"
                                                 onSuccess={() => this.loadRegisterStudent(1)}
-                                            />
+                                            />}
+
 
                                         </div>
 
