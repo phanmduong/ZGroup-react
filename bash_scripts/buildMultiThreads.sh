@@ -19,7 +19,7 @@ gnome-terminal --tab --command="./build.sh $module_name $branch_name"
 i=$((i+1))
 if ! (( i % 8 ));
 then
-  secs=$((90))
+  secs=$((180))
   while [ $secs -gt 0 ]; do
      echo -ne "Count down: $secs\033[0K\r"
 #     grep 'cpu ' /proc/stat | awk '{u=$2+$4; t=$2+$4+$5; if (NR==1){u1=u; t1=t;} else print ($2+$4-u1) * 100 / (t-t1) "%"; }'

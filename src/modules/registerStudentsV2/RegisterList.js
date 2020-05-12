@@ -107,7 +107,7 @@ class RegisterList extends React.Component {
                                     </div>}
 
                                 </td>
-                                <th>{register.gen && register.gen.name}</th>
+                                <td>{register.gen && register.gen.name}</td>
 
                                 <td>{register.code}</td>
                                 <td>
@@ -139,9 +139,9 @@ class RegisterList extends React.Component {
                                                 (
                                                     <button className="btn btn-xs btn-main"
                                                             style={{backgroundColor: '#' + register.marketing_campaign.color}}
-                                                        // onClick={() => this.props.loadRegisterStudentByCampaign(register.campaign.id)}
+                                                        // onClick={() => this.props.loadRegisterStudentByCampaign(register.marketing_campaign.id)}
                                                     >
-                                                        {register.campaign.name}
+                                                        {register.marketing_campaign.name}
                                                         <div className="ripple-container"/>
                                                     </button>
                                                 )

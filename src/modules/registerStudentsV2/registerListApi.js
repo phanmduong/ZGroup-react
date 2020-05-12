@@ -11,13 +11,13 @@ export function loadRegisters(filter) {
         page = 1,
         limit = 16,
         query = '',
-        selectedSalerId = '',
+        saler_id = '',
         campaignId = '',
         selectedClassId = '',
         selectedMoneyFilter = '',
         selectedClassStatus = '',
-        startTime = '',
-        endTime = '',
+        start_time = '',
+        end_time = '',
         selectedBaseId = '',
         appointmentPayment = '',
         query_coupon = '',
@@ -39,7 +39,7 @@ export function loadRegisters(filter) {
         "&page=" + page +
         "&limit=" + limit +
         "&search=" + query +
-        "&saler_id=" + selectedSalerId +
+        "&saler_id=" + saler_id +
         '&campaign_id=' + campaignId +
         "&class_id=" + selectedClassId +
         "&status=" + selectedMoneyFilter +
@@ -54,8 +54,8 @@ export function loadRegisters(filter) {
         "&registerSourceId=" + registerSourceId +
         "&tele_call_status=" + selectedTeleCallStatus
     ;
-    if (!helper.isEmptyInput(startTime) && !helper.isEmptyInput(endTime)) {
-        url += `&start_time=${startTime}&end_time=${endTime}`;
+    if (!helper.isEmptyInput(start_time) && !helper.isEmptyInput(end_time)) {
+        url += `&start_time=${start_time}&end_time=${end_time}`;
     }
     url += "&token=" + token;
     return axios.get(url);

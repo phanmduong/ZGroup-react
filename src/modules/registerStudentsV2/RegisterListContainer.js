@@ -8,6 +8,7 @@ import Select from "../registerStudents/SelectGen";
 import CreateRegisterOverlay from "../infoStudent/overlays/CreateRegisterOverlay";
 import RegisterList from "./RegisterList";
 import {store} from "./RegisterListStore";
+import Pagination from "../../components/common/Pagination";
 
 
 @observer
@@ -33,10 +34,14 @@ class RegisterListContainer extends React.Component {
 
     }
 
-    registersSearchChange = ()=>{
-
+    registersSearchChange = (e)=>{
+        store.filter.query = e;
     }
+
     onSearchRegisters = ()=>{
+        if(!store.isLoading){
+            store.loadRegisters();
+        }
 
     }
 
@@ -48,9 +53,16 @@ class RegisterListContainer extends React.Component {
 
     }
 
-    render() {
-        return (
+    changeTabView = (tab) => {
+        if(!store.isLoading){
+            store.filter.saler_id = tab.value;
+            store.loadRegisters();
+        }
+    }
 
+    render() {
+        let {filter,isLoading,paginator} = store;
+        return (
             <div className="container-fluid">
                 <div className="card" mask="purple">
                     <img className="img-absolute"/>
@@ -72,7 +84,7 @@ class RegisterListContainer extends React.Component {
                                 <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
                                     <Search
                                         onChange={this.registersSearchChange}
-                                        value={''}
+                                        value={filter.query}
                                         placeholder="Tìm kiếm học viên"
                                         className="round-white-seacrh"
                                         onSearch={this.onSearchRegisters}
@@ -102,18 +114,25 @@ class RegisterListContainer extends React.Component {
                 </div>
                 <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
                     {this.tabViews.map((tab, key) => {
-                        let className = tab.value == '' ? 'active' : '';
+                        let className = tab.value == store.filter.saler_id ? 'active' : '';
                         return (<li className={className} key={key}
-                                    // onClick={() => this.openLinkWithFilter({"saler_id": tab.value})}
+                                    onClick={()=>this.changeTabView(tab)}
                         >
                             <a>{tab.text}</a>
                         </li>);
                     })}
                 </ul>
                 <div>
-                    {store.isLoading && <Loading/>}
-                    {!store.isLoading && <RegisterList/>}
+                    {isLoading && <Loading/>}
+                    {!isLoading && <RegisterList/>}
 
+                </div>
+                <div>
+                    {!isLoading &&
+                    <Pagination currentPage={paginator.current_page} totalPages={paginator.total_pages} loadDataPage={(page)=>{
+                        store.filter.page = page;
+                        store.loadRegisters();
+                    }}/>}
                 </div>
             </div>
 
