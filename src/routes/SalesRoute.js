@@ -14,9 +14,9 @@ import RegistersContainer from "../modules/infoStudent/registers/RegistersContai
 import HistoryCallContainer from "../modules/infoStudent/historyCalls/HistoryCallContainer";
 import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer";
 import TargetListContainer from '../modules/sales/TargetListContainer';
-// import TargetPersonContainer from "../modules/sales/TargetPersonContainer";
 import EvaluateSalerContainer from "../modules/evaluateSalers/EvaluateSalerContainer";
 import LogsContainer from "../modules/infoStudent/logsStudent/HistoryCareContainer";
+import RegisterListContainerV2 from "../modules/registerStudentsV2/RegisterListContainer";
 
 
 /**
@@ -41,6 +41,10 @@ export default [
     {
         path: "/sales/registerlist(/:salerId)",
         component: RegisterListContainer
+    },
+    {
+        path: "/sales/register-list",
+        component: RegisterListContainerV2
     },
     {
         path: "/sales/waitlist",

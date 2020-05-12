@@ -74,6 +74,9 @@ class RegistersContainer extends React.Component {
         if (total_lesson && total_lesson_done) {
             refundValue = Math.round(currentRegister.money / total_lesson * (total_lesson - total_lesson_done));
         }
+        if(total_lesson === 0){
+            refundValue = currentRegister.money;
+        }
         let {isRefunding, student} = this.props;
         return (
             <div className="tab-pane active">

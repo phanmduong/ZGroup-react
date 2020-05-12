@@ -846,4 +846,12 @@ export const DAY_CREATE_SHIFT = [
         "label": "Chủ nhật",
         "value": "sundays"
     },
-]
+];
+
+export const REGISTER_CALL_STATUS_CLASS_NAMES = {
+    success :'btn-success',
+    failed :'btn-danger',
+    calling :'btn-info',
+};
+
+
