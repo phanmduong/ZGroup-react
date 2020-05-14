@@ -18,24 +18,23 @@ export const store = new class TargetPersonStore {
     };
     @observable filter = {
         page: 1,
-        query: '',
-        limit: 16,
-        saler_id: '',
-        campaignId: '',
-        selectedClassId: '',
-        selectedMoneyFilter: '',
-        selectedClassStatus: '',
+        search: '',
         start_time: moment().subtract(30, 'days').format(DATE_FORMAT_SQL),
         end_time: moment().format(DATE_FORMAT_SQL),
-        selectedBaseId: '',
-        appointmentPayment: '',
-        query_coupon: '',
-        query_note: '',
-        selectedTeleCallStatus: '',
-        selectedBookmarkStatus: '',
-        registerStatusId: '',
-        registerSourceId: '',
-        date_test: '',
+        saler_id :'',
+        campaign_id :'',
+        class_id :'',
+        pay_status :'',
+        class_type :'',
+        base_id :'',
+        appointment_payment :'',
+        search_coupon :'',
+        search_note :'',
+        tele_call_status :'',
+        bookmark :'',
+        register_status_id :'',
+        register_source_id :'',
+        date_test :'',
     };
 
     @action loadRegisters() {
@@ -44,8 +43,8 @@ export const store = new class TargetPersonStore {
 
         loadRegisters(filter).then(res => {
             console.log(res.data);
-            this.registers = res.data.data;
-            this.paginator = res.data.paginator;
+            this.registers = res.data.items;
+            this.paginator = res.data.meta;
         }).catch(e => {
             console.log(e);
             showErrorNotification('Có lỗi xảy ra!');

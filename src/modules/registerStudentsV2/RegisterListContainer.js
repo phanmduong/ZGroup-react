@@ -35,7 +35,7 @@ class RegisterListContainer extends React.Component {
     }
 
     registersSearchChange = (e)=>{
-        store.filter.query = e;
+        store.filter.search = e;
     }
 
     onSearchRegisters = ()=>{
@@ -84,7 +84,7 @@ class RegisterListContainer extends React.Component {
                                 <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
                                     <Search
                                         onChange={this.registersSearchChange}
-                                        value={filter.query}
+                                        value={filter.search}
                                         placeholder="Tìm kiếm học viên"
                                         className="round-white-seacrh"
                                         onSearch={this.onSearchRegisters}

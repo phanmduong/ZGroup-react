@@ -10,22 +10,22 @@ export function loadRegisters(filter) {
     let {
         page = 1,
         limit = 16,
-        query = '',
+        search = '',
         saler_id = '',
-        campaignId = '',
-        selectedClassId = '',
-        selectedMoneyFilter = '',
-        selectedClassStatus = '',
+        campaign_id = '',
+        class_id = '',
+        pay_status = '',
+        class_type = '',
         start_time = '',
         end_time = '',
-        selectedBaseId = '',
-        appointmentPayment = '',
-        query_coupon = '',
-        query_note = '',
-        selectedTeleCallStatus = '',
-        selectedBookmarkStatus = '',
-        registerStatusId = '',
-        registerSourceId = '',
+        base_id = '',
+        appointment_payment = '',
+        search_coupon = '',
+        search_note = '',
+        tele_call_status = '',
+        bookmark = '',
+        register_status_id = '',
+        register_source_id = '',
         date_test = '',
     } = filter;
     console.log('api',filter);
@@ -38,21 +38,21 @@ export function loadRegisters(filter) {
         includes +
         "&page=" + page +
         "&limit=" + limit +
-        "&search=" + query +
+        "&search=" + search +
         "&saler_id=" + saler_id +
-        '&campaign_id=' + campaignId +
-        "&class_id=" + selectedClassId +
-        "&status=" + selectedMoneyFilter +
-        "&base_id=" + selectedBaseId +
-        "&appointment_payment=" + appointmentPayment +
+        '&campaign_id=' + campaign_id +
+        "&class_id=" + class_id +
+        "&pay_status=" + pay_status +
+        "&base_id=" + base_id +
+        "&appointment_payment=" + appointment_payment +
         "&date_test=" + date_test +
-        "&type=" + selectedClassStatus +
-        "&search_coupon=" + query_coupon +
-        "&query_note=" + query_note +
-        "&bookmark=" + selectedBookmarkStatus +
-        "&registerStatusId=" + registerStatusId +
-        "&registerSourceId=" + registerSourceId +
-        "&tele_call_status=" + selectedTeleCallStatus
+        "&class_type=" + class_type +
+        "&search_coupon=" + search_coupon +
+        "&search_note=" + search_note +
+        "&bookmark=" + bookmark +
+        "&register_status_id =" + register_status_id +
+        "&register_source_id=" + register_source_id +
+        "&tele_call_status=" + tele_call_status
     ;
     if (!helper.isEmptyInput(start_time) && !helper.isEmptyInput(end_time)) {
         url += `&start_time=${start_time}&end_time=${end_time}`;
