@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {isEmpty} from "../../helpers/entity/mobx";
 
 class FormInputDate extends React.Component {
     constructor(props, context) {
@@ -21,9 +22,9 @@ class FormInputDate extends React.Component {
 
     componentWillReceiveProps(nextProps) {
         if (!($('#' + this.props.id).is(":visible") && $('#' + this.props.id).html() != "")) {
-			$('#' + this.props.id).datetimepicker({
-				format: this.props.format || 'YYYY-MM-DD'
-			});
+            $('#' + this.props.id).datetimepicker({
+                format: this.props.format || 'YYYY-MM-DD'
+            });
         }
         if (nextProps.minDate && nextProps.minDate !== '') {
             $('#' + this.props.id).data('DateTimePicker').minDate(nextProps.minDate);
@@ -32,6 +33,12 @@ class FormInputDate extends React.Component {
             $('#' + this.props.id).data('DateTimePicker').maxDate(nextProps.maxDate);
         }
     }
+
+    clear = () => {
+        $('#' + this.props.id).datetimepicker('setDate', null);
+        this.props.updateFormData({target:{value:''}});
+    };
+
 
     render() {
         return (
@@ -46,6 +53,14 @@ class FormInputDate extends React.Component {
                     value={this.props.value || ''}
                     disabled={this.props.disabled || false}
                 />
+                {this.props.clearable && !isEmpty(this.props.value) && <div onClick={this.clear} style={{
+                    "position": "absolute",
+                    "right": "10px",
+                    "bottom": "20px",
+                    "color": "#999",
+                    "cursor": "pointer",
+                    "fontSize": "18px"
+                }}>×</div>}
             </div>
         );
     }
@@ -61,7 +76,8 @@ FormInputDate.propTypes = {
     maxDate: PropTypes.string,
     minDate: PropTypes.string,
     updateFormData: PropTypes.func.isRequired,
-    disabled: PropTypes.bool
+    disabled: PropTypes.bool,
+    clearable: PropTypes.bool,
 };
 
 export default FormInputDate;

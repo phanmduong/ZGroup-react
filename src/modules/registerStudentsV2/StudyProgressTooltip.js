@@ -19,6 +19,8 @@ class StudyProgressTooltip extends React.Component {
     }
 
     componentDidMount() {
+        $('[data-toggle="tooltip"]').tooltip();
+
     }
 
     loadProgress = () => {

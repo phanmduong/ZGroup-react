@@ -61,16 +61,31 @@ class RegisterList extends React.Component {
                                     />
                                 </td>
                                 <td>
+                                    <div>
 
-                                    <div className="container-dot-bottom-right">
-                                        {register.studyClass &&
-                                        <button className="btn btn-round btn-fab btn-fab-mini text-white">
-                                            {register.course && register.course.icon_url &&
-                                            <TooltipButton text={register.studyClass.name} placement="top">
-                                                <img src={register.course.icon_url} alt=""/>
-                                            </TooltipButton>}
-                                        </button>}
+                                        {register.studyClass && <div>
+                                            <a href={`/teaching/courses/edit/${register.course.id}`} target="_blank" className="text-name-student-register">
+                                                <TooltipButton text="Môn học" placement="top"><b>
+                                                    {register.course.name}
+                                                </b></TooltipButton>
+                                            </a>
+                                        </div>}
+                                        {register.course && <div>
+                                            <a href={`/teaching/class/${register.studyClass.id}`} target="_blank" className="text-name-student-register">
+                                                <TooltipButton text="Lớp học" placement="top"><b>
+                                                {register.studyClass.name}
+                                                </b></TooltipButton></a>
+                                        </div>}
                                     </div>
+                                    {/*<div className="container-dot-bottom-right">*/}
+                                    {/*    {register.studyClass &&*/}
+                                    {/*    <button className="btn btn-round btn-fab btn-fab-mini text-white">*/}
+                                    {/*        {register.course && register.course.icon_url &&*/}
+                                    {/*        <TooltipButton text={register.studyClass.name} placement="top">*/}
+                                    {/*            <img src={register.course.icon_url} alt=""/>*/}
+                                    {/*        </TooltipButton>}*/}
+                                    {/*    </button>}*/}
+                                    {/*</div>*/}
                                 </td>
 
                                 <td>
