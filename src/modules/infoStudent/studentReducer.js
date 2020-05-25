@@ -60,7 +60,7 @@ export default function studentReducer(state = initialState.infoStudent, action)
                     errorStudent: false,
                     student: {
                         ...action.student,
-                        image_urls: action.student && action.student.image_urls ? JSON.parse(action.student.image_urls) : []
+                        image_urls: action.student && action.student.image_urls && (typeof action.student.image_urls == "string") ? JSON.parse(action.student.image_urls) : []
                     }
                 }
             };
@@ -258,7 +258,8 @@ export default function studentReducer(state = initialState.infoStudent, action)
                     errorEditing: false,
                     student: {
                         ...action.student,
-                        image_urls: action.student && action.student.image_urls ? JSON.parse(action.student.image_urls) : []
+                        image_urls: action.student && action.student.image_urls && (typeof action.student.image_urls == "string") ? JSON.parse(action.student.image_urls) : []
+
                     }
 
                 }

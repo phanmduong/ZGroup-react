@@ -17,12 +17,16 @@ import {NO_AVATAR} from "../../constants/env";
 import {loadGens} from "../dashboard/dashboardApi";
 import {parallel} from "async";
 
+const defaultSelectObject = {id :'', avatar_url: NO_AVATAR,name:'Tất cả', label:'Tất cả', value:''};
+const defaultEmptySelectObject = {id :'-1', avatar_url: NO_AVATAR, name:'Không có', label:'Không có', value:''};
+
 const  const_filter = {
     page: 1,
     search: '',
     start_time: moment().subtract(30, 'days'),
     end_time: moment(),
     saler_id: '',
+    saler: defaultSelectObject,
     campaign_id: '',
     class_id: '',
     course_id: '',
@@ -43,6 +47,8 @@ export const store = new class TargetPersonStore {
     @observable isLoading = false;
     @observable isChangingBookmark = false;
     @observable registers = [];
+    @observable defaultSelectObject = defaultSelectObject;
+    @observable defaultEmptySelectObject = defaultEmptySelectObject;
     @observable paginator = {
         total_count: 0,
         total_pages: 1,
@@ -102,6 +108,16 @@ export const store = new class TargetPersonStore {
                 res = value.target.value;
                 break;
             }
+            case 'saler_id':{
+                res = value ? value.id : value;
+                this.filter.saler = value ? value : defaultSelectObject;
+                break;
+            }
+            // case 'campaign_id':{
+            //     res = value ? value.id : value;
+            //     this.filter.campaign = value ? value : defaultSelectObject;
+            //     break;
+            // }
             case 'search_coupon':
             case 'search_note': {
                 res = value;
@@ -125,6 +141,7 @@ export const store = new class TargetPersonStore {
     @action loadRegisters(filter) {
         this.isLoading = true;
         if (isEmpty(filter)) filter = this.filter;
+        console.log(filter.campaign_id,this.filter.campaign_id);
         filter = {
             ...filter,
             start_time: filter.start_time.format(DATE_FORMAT_SQL),
@@ -206,7 +223,9 @@ export const store = new class TargetPersonStore {
             },
             marketingCampaigns: (callback) => {
                 getMarketingCampaignsApi().then((res) => {
-                    this.filter_data.marketing_campaigns = [{value: 0, label: "Tất cả"},
+                    this.filter_data.marketing_campaigns = [
+                        defaultSelectObject,
+                        defaultEmptySelectObject,
                         ...res.data.marketing_campaigns.map(o => {
                             return {...o, value: o.id, label: o.name,};
                         })];
@@ -260,20 +279,22 @@ export const store = new class TargetPersonStore {
         }
         this.timeOut[field] = setTimeout(function () {
             findUser(input, true).then(res => {
-                let data = [{
-                    avatar_url: NO_AVATAR,
-                    value: 0,
-                    label: "Tất cả nhân viên"
-                }];
-                res.data.map((staff) => {
-                    data.push({
-                        ...staff,
-                        ...{
-                            value: staff.id,
-                            label: staff.name
-                        }
-                    });
-                });
+
+                let data = [
+                    defaultSelectObject,
+                    defaultEmptySelectObject,
+                    ...res.data.map((staff) => {
+                        return {
+                            ...staff,
+                            ...{
+                                value: staff.id,
+                                label: staff.name
+                            }
+                        };
+                    })
+                ];
+
+
                 // this.data[field] = data;
                 callback(null, {options: data, complete: true});
             });

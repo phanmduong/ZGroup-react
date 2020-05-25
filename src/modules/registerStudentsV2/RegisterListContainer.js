@@ -84,6 +84,8 @@ class RegisterListContainer extends React.Component {
 
     render() {
         let {filter, filter_data, isLoading, paginator} = store;
+        console.log('render_container',filter);
+        console.log('render_container2',filter_data);
         return (
             <div className="container-fluid">
                 <div className="card" mask="purple">
@@ -167,7 +169,7 @@ class RegisterListContainer extends React.Component {
                                         placeholder="Chọn nhân viên"
                                         searchPromptText="Không có dữ liệu"
                                         onChange={(e) => store.onChangeFilter('saler_id', e)}
-                                        value={filter.saler_id}
+                                        value={filter.saler}
                                         id="select-async-importer"
                                         optionRenderer={(option) => {
                                             return (
@@ -353,10 +355,10 @@ class RegisterListContainer extends React.Component {
                                 <ReactSelect
                                     disabled={isLoading}
                                     options={filter_data.marketing_campaigns}
-                                    onChange={(e) => store.onChangeFilter('campaign_id', e)}
+                                    onChange={(e) => store.onChangeFilter('campaign_id', e.id)}
                                     value={filter.campaign_id}
                                     defaultMessage="Chọn chiến dịch"
-                                    name="campaign_id"
+                                    name="campaign"
                                 />
                             </div>
 

@@ -9,6 +9,7 @@ import * as helper from "../../helpers/helper";
 import {openModalRegisterDetail} from "../globalModal/globalModalActions";
 import SourceOverlay from "../infoStudent/overlays/SourceOverlay";
 import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
+import {isEmpty} from "../../helpers/entity/mobx";
 
 @observer
 class RegisterList extends React.Component {
@@ -18,6 +19,14 @@ class RegisterList extends React.Component {
         super(props, context);
 
     }
+
+    onClickButtonChangeFilter = (name,value) => {
+        console.log('list',name,value);
+        if(isEmpty(value)) value = {};
+        store.filter[name] = {...value, value:value.id, label:value.name};
+        store.filter[name + '_id'] = value.id;
+        store.loadRegisters();
+    };
 
     render() {
         return (
@@ -64,16 +73,18 @@ class RegisterList extends React.Component {
                                     <div>
 
                                         {register.studyClass && <div>
-                                            <a href={`/teaching/courses/edit/${register.course.id}`} target="_blank" className="text-name-student-register">
+                                            <a href={`/teaching/courses/edit/${register.course.id}`} target="_blank"
+                                               className="text-name-student-register">
                                                 <TooltipButton text="Môn học" placement="top"><b>
                                                     {register.course.name}
                                                 </b></TooltipButton>
                                             </a>
                                         </div>}
                                         {register.course && <div>
-                                            <a href={`/teaching/class/${register.studyClass.id}`} target="_blank" className="text-name-student-register">
+                                            <a href={`/teaching/class/${register.studyClass.id}`} target="_blank"
+                                               className="text-name-student-register">
                                                 <TooltipButton text="Lớp học" placement="top"><b>
-                                                {register.studyClass.name}
+                                                    {register.studyClass.name}
                                                 </b></TooltipButton></a>
                                         </div>}
                                     </div>
@@ -132,7 +143,7 @@ class RegisterList extends React.Component {
                                                 (
                                                     <a className="btn btn-xs btn-main"
                                                        style={{backgroundColor: '#' + register.saler.color}}
-                                                       onClick={() => this.props.openLinkWithFilter({"saler_id": register.saler.id})}
+                                                       onClick={() => this.onClickButtonChangeFilter("saler", register.saler)}
                                                     >
                                                         {helper.getShortName(register.saler.name)}
                                                         <div className="ripple-container"/>
@@ -141,7 +152,7 @@ class RegisterList extends React.Component {
                                                 :
                                                 (
                                                     <a className="btn btn-xs btn-main"
-                                                       onClick={() => this.props.openLinkWithFilter({"saler_id": -1})}
+                                                       onClick={() => this.onClickButtonChangeFilter("saler", store.defaultEmptySelectObject)}
                                                     >
                                                         No saler
                                                         <div className="ripple-container"/>
@@ -154,7 +165,8 @@ class RegisterList extends React.Component {
                                                 (
                                                     <button className="btn btn-xs btn-main"
                                                             style={{backgroundColor: '#' + register.marketing_campaign.color}}
-                                                        // onClick={() => this.props.loadRegisterStudentByCampaign(register.marketing_campaign.id)}
+                                                            onClick={() => this.onClickButtonChangeFilter("campaign", register.marketing_campaign)}
+
                                                     >
                                                         {register.marketing_campaign.name}
                                                         <div className="ripple-container"/>
@@ -163,7 +175,7 @@ class RegisterList extends React.Component {
                                                 :
                                                 (
                                                     <button className="btn btn-xs btn-main"
-                                                        // onClick={() => this.props.loadRegisterStudentByCampaign('-1')}
+                                                            onClick={() => this.onClickButtonChangeFilter("campaign",  store.defaultEmptySelectObject)}
                                                     >
                                                         Không có
                                                         <div className="ripple-container"/>
