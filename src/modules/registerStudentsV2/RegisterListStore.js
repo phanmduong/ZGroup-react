@@ -185,7 +185,7 @@ export const store = new class TargetPersonStore {
             gens: (callback) => {
                 loadGens().then((res) => {
                     this.filter_data.gens =[
-                        {id: '', name: 'Tất cả', start_time: '', end_time: '',},
+                        {id: '', name: 'Tất cả', start_time: moment().subtract(10,'years'), end_time: moment(),},
                         {
                             id: 0, name: '30 ngày qua',
                             start_time: moment().subtract(30, 'days'),

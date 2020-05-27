@@ -84,8 +84,7 @@ class RegisterListContainer extends React.Component {
 
     render() {
         let {filter, filter_data, isLoading, paginator} = store;
-        console.log('render_container',filter);
-        console.log('render_container2',filter_data);
+
         return (
             <div className="container-fluid">
                 <div className="card" mask="purple">

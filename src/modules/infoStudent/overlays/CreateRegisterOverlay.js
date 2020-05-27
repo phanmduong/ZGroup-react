@@ -64,7 +64,7 @@ function getSelectBase(items, studyClasses) {
 
 function getSelectClass(items) {
     return items && items.map(item => {
-        let label = item.name;
+        let label = `(${item.current_target || 0}/${item.target || 0}) ${item.name}`;
         if (item.date_start) {
             label += " - " + item.date_start;
         }
