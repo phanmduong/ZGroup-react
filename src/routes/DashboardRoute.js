@@ -13,6 +13,7 @@ import DashboardSaleContainer from "../modules/dashboard/dashboardSale/Dashboard
 import DashboardCourseComponent from "../modules/dashboard/dashboardSale/DashboardCourseComponent";
 import DashboardAcademyContainer from "../modules/dashboard/dashboardAcademy/DashboardAcademyContainer";
 import DashboardAcademyComponent from "../modules/dashboard/dashboardAcademy/DashboardAcademyComponent";
+import DashboardExamComponent from "../modules/dashboard/dashboardAcademy/exams/DashboardExamComponent";
 
 
 /**
@@ -82,6 +83,10 @@ export default [
             {
                 path: "/",
                 component: DashboardAcademyComponent,
+            },
+            {
+                path: "exams",
+                component: DashboardExamComponent,
             },
         ]
     },

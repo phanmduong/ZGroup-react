@@ -256,6 +256,7 @@ class DashboardAcademyComponent extends React.Component {
     }
 
     componentDidMount() {
+        filterStore.loadData();
         this.loadClasses();
     }
 
@@ -305,7 +306,7 @@ class DashboardAcademyComponent extends React.Component {
         const {isLoading, classes, currentTab} = this.store;
         return (
             <div>
-                <Filter loadData={this.loadData} disabledCampaign disabledSource/>
+                <Filter loadData={this.loadData}/>
                 <CardAcademy/>
                 <div className="row gutter-20 margin-bottom-20">
                     <div className="col-md-12">
@@ -330,7 +331,8 @@ class DashboardAcademyComponent extends React.Component {
                         </ul>
                     </div>
                 </div>
-                {isLoading ? <Loading/> :
+                {(isLoading || filterStore.isLoading) && <Loading/>}
+                {!(isLoading || filterStore.isLoading) &&
                     <div className="row gutter-20">
                         <div className="col-md-12">
                             <ReactTable

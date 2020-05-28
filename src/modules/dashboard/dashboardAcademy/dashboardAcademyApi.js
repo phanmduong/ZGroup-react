@@ -36,3 +36,14 @@ export function analyticsClasses() {
     // });
     return axios.get(url);
 }
+
+
+export function getAnalyticExam(course_id, classId = '', startDate = '', endDate = '') {
+    //manageapi.keetool.xyz/course/category?&limit=&page=&token=
+    let url = env.NEW_MANAGE_API_URL + `/exam/analytic?course_id=${course_id}&class_id=${classId}&include=group_exam,class,user_exams.user&start_time=${startDate}&end_time=${endDate}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}

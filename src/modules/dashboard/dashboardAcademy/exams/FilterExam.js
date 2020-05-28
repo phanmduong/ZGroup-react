@@ -1,19 +1,19 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import filterStore from "./filterStore";
-import DateRangePicker from "../../../components/common/DateTimePicker";
-import ItemReactSelect from "../../../components/common/ItemReactSelect";
+import filterExamStore from "./filterExamStore";
+import DateRangePicker from "../../../../components/common/DateTimePicker";
+import ItemReactSelect from "../../../../components/common/ItemReactSelect";
 import ReactSelect from "react-select";
 import PropTypes from "prop-types";
 import {bindActionCreators} from "redux";
-import * as baseActions from "../../../actions/baseActions";
+import * as baseActions from "../../../../actions/baseActions";
 import {connect} from "react-redux";
 import moment from "moment";
-import Loading from "../../../components/common/Loading";
-import {DATE_FORMAT_SQL} from "../../../constants/constants";
-import * as userActions from "../../../actions/userActions";
-import * as loginActions from "../../../modules/login/loginActions";
-import {showTypeNotification} from "../../../helpers/helper";
+import Loading from "../../../../components/common/Loading";
+import {DATE_FORMAT_SQL} from "../../../../constants/constants";
+import * as userActions from "../../../../actions/userActions";
+import * as loginActions from "../../../login/loginActions";
+import {showTypeNotification} from "../../../../helpers/helper";
 
 @observer
 class Filter extends React.Component {
@@ -25,7 +25,7 @@ class Filter extends React.Component {
     }
 
     changeDateRangePicker = (start_time, end_time) => {
-        filterStore.filter = {...filterStore.filter, start_time, end_time, gen_id: 0};
+        filterExamStore.filter = {...filterExamStore.filter, start_time, end_time, gen_id: 0};
         this.load();
     }
 
@@ -33,31 +33,31 @@ class Filter extends React.Component {
         const gen_id = value ? value.value : 0;
 
         if (value) {
-            filterStore.filter.start_time = moment(value.start_time);
-            filterStore.filter.end_time = moment(value.end_time);
+            filterExamStore.filter.start_time = moment(value.start_time);
+            filterExamStore.filter.end_time = moment(value.end_time);
         }
 
-        filterStore.filter = {...filterStore.filter, gen_id};
+        filterExamStore.filter = {...filterExamStore.filter, gen_id};
         this.load();
     }
 
     onChangeCourse = (value) => {
+        console.log('test',value);
         const course_id = value ? value.value : 0;
-        filterStore.filter = {...filterStore.filter, course_id};
+        filterExamStore.filter = {...filterExamStore.filter, course_id, class_id: ''};
         this.load();
     }
 
-    onChangeStatus = (value) => {
-        const status_id = value ? value.value : 0;
-
-        filterStore.filter = {...filterStore.filter, status_id};
+    onChangeClass = (value) => {
+        const class_id = value ? value.value : 0;
+        filterExamStore.filter = {...filterExamStore.filter, class_id, course_id: ''};
         this.load();
     }
 
 
     onChangeBase = (value) => {
         const base_id = value ? value.value : 0;
-        filterStore.filter = {...filterStore.filter, base_id};
+        filterExamStore.filter = {...filterExamStore.filter, base_id};
         this.props.baseActions.selectedBase(base_id);
     }
 
@@ -74,17 +74,17 @@ class Filter extends React.Component {
 
     onChangeStaff = (value, field) => {
         const staff_id = value ? value.value : 0;
-        filterStore.filter = {...filterStore.filter, [field + '_id']: staff_id, [field]: value};
+        filterExamStore.filter = {...filterExamStore.filter, [field + '_id']: staff_id, [field]: value};
         this.load();
     }
 
     componentWillReceiveProps(nextProps) {
         if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
-            filterStore.filter = {...filterStore.filter, base_id: nextProps.selectedBaseId};
+            filterExamStore.filter = {...filterExamStore.filter, base_id: nextProps.selectedBaseId};
             this.load();
         }
         if (nextProps.user.choice_province_id !== this.props.user.choice_province_id) {
-            filterStore.filter = {...filterStore.filter, base_id: nextProps.selectedBaseId};
+            filterExamStore.filter = {...filterExamStore.filter, base_id: nextProps.selectedBaseId};
             this.load();
         }
     }
@@ -112,15 +112,15 @@ class Filter extends React.Component {
     }
 
     load = () => {
-        const filter = {...filterStore.filter};
-        filter.start_time = filterStore.filter.start_time.format(DATE_FORMAT_SQL);
-        filter.end_time = filterStore.filter.end_time.format(DATE_FORMAT_SQL);
+        const filter = {...filterExamStore.filter};
+        filter.start_time = filterExamStore.filter.start_time.format(DATE_FORMAT_SQL);
+        filter.end_time = filterExamStore.filter.end_time.format(DATE_FORMAT_SQL);
         this.props.loadData(filter);
     }
 
 
     render() {
-        let {filter, gensData, isLoading, coursesData,classStatusesData} = filterStore;
+        let {filter, gensData, isLoading, coursesData} = filterExamStore;
         let {selectedBaseId, user, } = this.props;
         if (isLoading) return (
             <div className="row gutter-20 margin-top-20">
@@ -183,20 +183,34 @@ class Filter extends React.Component {
 
 
                 <div className="col-md-3">
-                    <ReactSelect
-                        value={filter.status_id}
-                        options={classStatusesData}
-                        onChange={this.onChangeStatus}
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn trạng thái"
-                        clearable={false}
-                    />
+                        <ReactSelect.Async
+                            loadOptions={(p1, p2) => filterExamStore.searchClasses(p1, p2)}
+                            loadingPlaceholder="Đang tải..."
+                            className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                            placeholder="Chọn lớp học"
+                            searchPromptText="Không có dữ liệu"
+                            onChange={this.onChangeClass}
+                            value={filter.class_id}
+                            id="select-async-class"
+                            optionRenderer={(option) => {
+                                return (
+                                    <ItemReactSelect label={option.label}
+                                                     url={option.avatar_url}/>
+                                );
+                            }}
+                            valueRenderer={(option) => {
+                                return (
+                                    <ItemReactSelect label={option.label}
+                                                     url={option.avatar_url}/>
+                                );
+                            }}
+                        />
                 </div>
 
 
                 <div className="col-md-3">
                     <ReactSelect.Async
-                        loadOptions={(p1, p2) => filterStore.loadStaffs(p1, p2, 'teacher')}
+                        loadOptions={(p1, p2) => filterExamStore.loadStaffs(p1, p2, 'teacher')}
                         loadingPlaceholder="Đang tải..."
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
                         placeholder="Chọn giảng viên"
@@ -219,7 +233,7 @@ class Filter extends React.Component {
                 </div>
                 <div className="col-md-3">
                     <ReactSelect.Async
-                        loadOptions={(p1, p2) => filterStore.loadStaffs(p1, p2, 'teaching_assistant')}
+                        loadOptions={(p1, p2) => filterExamStore.loadStaffs(p1, p2, 'teaching_assistant')}
                         loadingPlaceholder="Đang tải..."
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
                         placeholder="Chọn trợ giảng"
