@@ -9,6 +9,7 @@ import Barchart from "../../../courses/coursesForm/Barchart";
 import * as helper from "../../../../helpers/helper";
 import {NO_AVATAR} from "../../../../constants/env";
 import EmptyData from "../../../../components/common/EmptyData";
+import {openModalRegisterDetail} from "../../../globalModal/globalModalActions";
 
 const labels = ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10'];
 
@@ -1188,15 +1189,15 @@ class DashboardExamComponent extends React.Component {
 
                     {!(isLoading || filterExamStore.isLoading) && groupExams.map((group, key_group) => {
                         let templates = analytic_exam.filter((template) => template.group_exam_id == group.id);
-                        console.log(group.id, templates);
+                        // console.log(group.id, templates);
                         if (templates.length) return (
                             <div className="card" key={key_group}>
                                 <div className="card-content">
 
                                     <div className="flex flex-row flex-align-items-center" style={{
                                         fontWeight: 'bold',
-                                        fontSize: 18,
-                                        marginTop: 30,
+                                        fontSize: 30,
+                                        marginTop: 60,
                                         marginBottom: 10,
                                     }}>
                                         {group.name}
@@ -1205,7 +1206,7 @@ class DashboardExamComponent extends React.Component {
                                         {templates.map((template, key_temp) => {
 
                                             const scores = this.getScore(analytic_exam, template);
-                                            console.log('temp :' + template.id, scores);
+                                            // console.log('temp :' + template.id, scores);
                                             return (
                                                 <div key={key_temp}>
                                                     <div><h6><strong>{template.title}</strong></h6></div>
@@ -1215,17 +1216,18 @@ class DashboardExamComponent extends React.Component {
                                                             <Barchart
                                                                 label={labels}
                                                                 data={[this.getAnalytics(scores)]}
-                                                                id={`barchart-analytics-exam-${key_temp}-${template.id}`}
+                                                                id={`barchart-analytics-exam-${key_temp}-${template.exam_template_id}`}
                                                             />
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div>Danh sách học viên({scores.length})</div>
+                                                            <div style={{height:300, overflowY:'scroll'}} className="smooth-scroll-y">
                                                             <table id={`datatables-${key_temp}`}
-                                                                   className="table white-table table-striped table-no-bordered table-hover"
+                                                                   className="table table-responsive white-table table-striped table-no-bordered table-hover"
                                                                    cellSpacing="0" width="100%"
                                                                    style={{width: "100%"}}>
                                                                 <tbody>
-                                                                {scores.slice(0, 5).map((item, index) => {
+                                                                {[...scores,].map((item, index) => {
                                                                     let avatar = helper.avatarEmpty(item.user.avatar_url) ?
                                                                         NO_AVATAR : item.user.avatar_url;
                                                                     return (
@@ -1241,9 +1243,10 @@ class DashboardExamComponent extends React.Component {
                                                                                 }}
                                                                                 />
                                                                             </td>
-                                                                            <td><strong>{item.user.name}</strong>
+                                                                            <td onClick={()=> openModalRegisterDetail(`/sales/info-student/${item.user.id}`)}>
+                                                                                <strong>{item.user.name}</strong>
                                                                             </td>
-                                                                            <td>{item.class.name}</td>
+                                                                            <td><strong>{item.class.name}</strong></td>
                                                                             <td>{item.score}</td>
                                                                             <td>#{index + 1}</td>
                                                                         </tr>
@@ -1251,6 +1254,7 @@ class DashboardExamComponent extends React.Component {
                                                                 })}
                                                                 </tbody>
                                                             </table>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

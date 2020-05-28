@@ -16,7 +16,6 @@ export default class DashboardExamStore {
         if(!(filter.course_id || filter.class_id)) return;
         this.isLoading = true;
         //course_id, classId = '', startDate = '', endDate = ''
-        filter.class_id = 3235;
         getAnalyticExam(filter.course_id, filter.class_id,filter.start_time, filter.end_time).then((res) => {
             console.log(res.data);
             this.analytic_exam = res.data.analytic_exam;
