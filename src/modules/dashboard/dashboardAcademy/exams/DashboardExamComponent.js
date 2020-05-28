@@ -1197,8 +1197,8 @@ class DashboardExamComponent extends React.Component {
                                     <div className="flex flex-row flex-align-items-center" style={{
                                         fontWeight: 'bold',
                                         fontSize: 30,
-                                        marginTop: 60,
-                                        marginBottom: 10,
+                                        marginTop: 30,
+                                        marginBottom: 40,
                                     }}>
                                         {group.name}
                                     </div>
@@ -1216,13 +1216,13 @@ class DashboardExamComponent extends React.Component {
                                                             <Barchart
                                                                 label={labels}
                                                                 data={[this.getAnalytics(scores)]}
-                                                                id={`barchart-analytics-exam-${key_temp}-${template.exam_template_id}`}
+                                                                id={`barchart-analytics-exam-${key_group}-${key_temp}-${template.group_exam_id}-${template.exam_template_id}`}
                                                             />
                                                         </div>
                                                         <div className="col-md-6">
                                                             <div>Danh sách học viên({scores.length})</div>
                                                             <div style={{height:300, overflowY:'scroll'}} className="smooth-scroll-y">
-                                                            <table id={`datatables-${key_temp}`}
+                                                            <table id={`datatables-${key_group}-${key_temp}`}
                                                                    className="table table-responsive white-table table-striped table-no-bordered table-hover"
                                                                    cellSpacing="0" width="100%"
                                                                    style={{width: "100%"}}>
