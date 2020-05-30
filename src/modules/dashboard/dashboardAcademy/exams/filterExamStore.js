@@ -2,41 +2,23 @@ import {action, computed, observable} from "mobx";
 import {loadGens} from "../../dashboardApi";
 import {isEmptyInput, showErrorNotification} from "../../../../helpers/helper";
 import moment from 'moment';
-import {searchStaffs} from "../../../lead/leadApi";
-import {NO_AVATAR} from "../../../../constants/env";
 import {parallel} from "async";
 import { getCourseActiveApi} from "../dashboardAcademyApi";
 import {findClass} from "../../../registerStudentsV2/registerListApi";
 
 class FilterExamStore {
-    @observable isLoading = true;
+    @observable isLoading = false;
     @observable gens = [];
-    @observable staffs = [];
-    @observable teachers = [];
-    @observable teaching_assistants = [];
     @observable courses = [];
-    @observable class_statuses = [];
-    @observable marketing_campaigns = [];
 
     @observable filter = {
-        start_time: moment().subtract(30, 'days'),
+        start_time: moment().subtract(1, 'year'),
         end_time: moment().subtract(0, 'days'),
-        base_id: 0,
-        teacher_id: 0,
-        teaching_assistant_id: 0,
         course_id: 0,
         class_id: 0,
-        campaign_id: 0,
-        teacher: {value: 0, label: "Tất cả giảng viên", avatar_url: NO_AVATAR},
-        teaching_assistant: {value: 0, label: "Tất cả trợ giảng", avatar_url: NO_AVATAR},
     };
 
-    @computed
-    get gensData() {
-        return this.gens.map(gen => {
-            return {...gen, value: gen.id, label: 'Khóa ' + gen.name,};
-        });
-    }
+
 
     @computed
     get coursesData() {
@@ -45,52 +27,8 @@ class FilterExamStore {
         })];
     }
 
-    @computed
-    get classStatusesData() {
-        return [{value: 0, label: "Tất cả trạng thái"}, ...this.class_statuses.map(stt => {
-            return {...stt, value: stt.id, label: stt.name};
-        })];
-    }
 
 
-    @computed
-    get staffsData() {
-        const allStaff = {value: 0, label: "Tất cả nhân viên", avatar_url: NO_AVATAR};
-        return [allStaff, ...this.staffs.map(staff => {
-            return {value: staff.id, label: staff.name};
-        })];
-    }
-
-    @action
-    loadStaffs = (input, callback, field) => {
-        if(this.timeOut == null){
-            this.timeOut = {};
-        }
-        if (this.timeOut[field] !== null) {
-            clearTimeout(this.timeOut[field]);
-        }
-        this.timeOut[field] = setTimeout(() => {
-            searchStaffs(input).then(res => {
-                let staffs = [{
-                    avatar_url: NO_AVATAR,
-                    value: 0,
-                    label: "Tất cả nhân viên"
-                }];
-                res.data.staffs.map((staff) => {
-                    staffs.push({
-                        ...staff,
-                        ...{
-                            value: staff.id,
-                            label: staff.name
-                        }
-                    });
-                });
-                // this[field] = staffs;
-                callback(null, {options: staffs, complete: true});
-            });
-        }, 500)
-        ;
-    };
 
     @action
     loadData = () => {
@@ -100,10 +38,10 @@ class FilterExamStore {
                 loadGens().then((res) => {
                     this.gens = res.data.data.gens;
 
-                    const currentGen = this.gens.filter((gen) => gen.id == res.data.data.current_gen.id)[0];
+                    // const currentGen = this.gens.filter((gen) => gen.id == res.data.data.current_gen.id)[0];
 
-                    this.filter.start_time = moment(currentGen.start_time);
-                    this.filter.end_time = moment(currentGen.end_time);
+                    // this.filter.start_time = moment(currentGen.start_time);
+                    // this.filter.end_time = moment(currentGen.end_time);
 
                     this.filter.gen_id = res.data.data.current_gen.id;
                     callback(null, {});

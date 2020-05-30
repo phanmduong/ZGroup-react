@@ -14,7 +14,7 @@ import {DATE_FORMAT_SQL} from "../../../../constants/constants";
 import * as loginActions from "../../../login/loginActions";
 
 @observer
-class Filter extends React.Component {
+class FilterExam extends React.Component {
     constructor(props, context) {
         super(props, context);
     }
@@ -63,7 +63,6 @@ class Filter extends React.Component {
 
     render() {
         let {filter, gensData, isLoading, coursesData} = filterExamStore;
-        let {selectedBaseId, user,} = this.props;
         if (isLoading) return (
             <div className="row gutter-20 margin-top-20">
                 <Loading/>
@@ -134,7 +133,7 @@ class Filter extends React.Component {
     }
 }
 
-Filter.propTypes = {
+FilterExam.propTypes = {
     selectedBaseId: PropTypes.number,
     baseActions: PropTypes.object,
     loginActions: PropTypes.object,
@@ -162,4 +161,4 @@ mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+export default connect(mapStateToProps, mapDispatchToProps)(FilterExam);
