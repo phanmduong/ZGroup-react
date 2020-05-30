@@ -4996,3 +4996,103 @@ input[type=date]::-webkit-outer-spin-button {
     transform: scale(1.5);
   }
 }
+
+$ct-series-colors: (
+        #00bcd4,
+        #ff0000,
+        #ff9800,
+        #9c27b0,
+        #4caf50,
+        #9C9B99,
+        #999999,
+        #dd4b39,
+        #35465c,
+        #e52d27,
+        #55acee,
+        #cc2127,
+        #1769ff,
+        #6188e2,
+        #a748ca
+) !default;
+.ct-chart {
+  position: relative;
+}
+.ct-legend {
+  position: relative;
+  z-index: 10;
+  list-style: none;
+  text-align: center;
+}
+.ct-legend li {
+  position: relative;
+  padding-left: 23px;
+  margin-right: 10px;
+  margin-bottom: 3px;
+  cursor: pointer;
+  display: inline-block;
+}
+.ct-legend li:before {
+  width: 12px;
+  height: 12px;
+  position: absolute;
+  left: 0;
+  content: '';
+  border: 3px solid transparent;
+  border-radius: 2px;
+}
+.ct-legend li.inactive:before {
+  background: transparent;
+}
+.ct-legend.ct-legend-inside {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.ct-legend.ct-legend-inside li{
+  display: block;
+  margin: 0;
+}
+//@import "chartist-plugin-tooltip.css";
+.ct-legend {
+  position: relative;
+  z-index: 10;
+  list-style: none;
+  text-align: center!important;
+  li {
+    position: relative;
+    padding-left: 23px;
+    margin-bottom: 3px;
+  }
+
+  li:before {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    left: 0;
+    content: '';
+    border: 3px solid transparent;
+    border-radius: 2px;
+  }
+
+  li.inactive:before {
+    background: transparent;
+  }
+
+  &.ct-legend-inside {
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  @for $i from 0 to length($ct-series-colors) {
+    .ct-series-#{$i}:before {
+      background-color: nth($ct-series-colors, $i + 1);
+      border-color: nth($ct-series-colors, $i + 1);
+    }
+  }
+}
+
+.tableFixHead          { overflow-y: auto; height: 100px; }
+.tableFixHead thead th { position: sticky; top: 0; background: white;
+  padding: 20px;}
+.tableFixHead thead { position: sticky; top: 0; background: white;}

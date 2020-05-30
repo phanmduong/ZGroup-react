@@ -11,9 +11,7 @@ import {connect} from "react-redux";
 import moment from "moment";
 import Loading from "../../../../components/common/Loading";
 import {DATE_FORMAT_SQL} from "../../../../constants/constants";
-import * as userActions from "../../../../actions/userActions";
 import * as loginActions from "../../../login/loginActions";
-import {showTypeNotification} from "../../../../helpers/helper";
 
 @observer
 class Filter extends React.Component {
@@ -27,7 +25,7 @@ class Filter extends React.Component {
     changeDateRangePicker = (start_time, end_time) => {
         filterExamStore.filter = {...filterExamStore.filter, start_time, end_time, gen_id: 0};
         this.load();
-    }
+    };
 
     onChangeGen = (value) => {
         const gen_id = value ? value.value : 0;
@@ -39,89 +37,33 @@ class Filter extends React.Component {
 
         filterExamStore.filter = {...filterExamStore.filter, gen_id};
         this.load();
-    }
+    };
 
     onChangeCourse = (value) => {
-        console.log('test',value);
+        console.log('test', value);
         const course_id = value ? value.value : 0;
         filterExamStore.filter = {...filterExamStore.filter, course_id, class_id: ''};
         this.load();
-    }
+    };
 
     onChangeClass = (value) => {
         const class_id = value ? value.value : 0;
         filterExamStore.filter = {...filterExamStore.filter, class_id, course_id: ''};
         this.load();
-    }
+    };
 
-
-    onChangeBase = (value) => {
-        const base_id = value ? value.value : 0;
-        filterExamStore.filter = {...filterExamStore.filter, base_id};
-        this.props.baseActions.selectedBase(base_id);
-    }
-
-    onChangeProvince = (value) => {
-        const provinceId = value ? value.value : 0;
-        let user = {...this.props.user};
-        user.choice_province_id = provinceId;
-        localStorage.setItem("user", JSON.stringify(user));
-        showTypeNotification("Đang thay đổi thành phố", "info");
-        userActions.choiceProvince(provinceId, false, () => {
-            this.props.loginActions.getUserLocal();
-        });
-    }
-
-    onChangeStaff = (value, field) => {
-        const staff_id = value ? value.value : 0;
-        filterExamStore.filter = {...filterExamStore.filter, [field + '_id']: staff_id, [field]: value};
-        this.load();
-    }
-
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
-            filterExamStore.filter = {...filterExamStore.filter, base_id: nextProps.selectedBaseId};
-            this.load();
-        }
-        if (nextProps.user.choice_province_id !== this.props.user.choice_province_id) {
-            filterExamStore.filter = {...filterExamStore.filter, base_id: nextProps.selectedBaseId};
-            this.load();
-        }
-    }
-
-    getBasesData = () => {
-        let {bases, user} = this.props;
-        let basesData = bases ? bases.filter((base) => {
-            if (user && user.choice_province_id > 0) {
-                return base.district.province.id == user.choice_province_id;
-            } else {
-                return true;
-            }
-        }).map((base) => {
-            return {value: base.id, label: base.name};
-        }) : [];
-        basesData = [{value: 0, label: "Tất cả cơ sở"}, ...basesData];
-        return basesData;
-    }
-
-    getProvincesData = () => {
-        let {provinces} = this.props;
-        return [{value: 0, label: "Tất cả thành phố"}, ...provinces.map((province) => {
-            return {value: province.id, label: province.name}
-        })];
-    }
 
     load = () => {
         const filter = {...filterExamStore.filter};
         filter.start_time = filterExamStore.filter.start_time.format(DATE_FORMAT_SQL);
         filter.end_time = filterExamStore.filter.end_time.format(DATE_FORMAT_SQL);
         this.props.loadData(filter);
-    }
+    };
 
 
     render() {
         let {filter, gensData, isLoading, coursesData} = filterExamStore;
-        let {selectedBaseId, user, } = this.props;
+        let {selectedBaseId, user,} = this.props;
         if (isLoading) return (
             <div className="row gutter-20 margin-top-20">
                 <Loading/>
@@ -148,27 +90,6 @@ class Filter extends React.Component {
                     />
                 </div>
 
-                <div className="col-md-3">
-                    <ReactSelect
-                        value={user && user.choice_province_id ? user.choice_province_id : 0}
-                        options={this.getProvincesData()}
-                        onChange={this.onChangeProvince}
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn thành phố"
-                        clearable={false}
-                    />
-                </div>
-
-                <div className="col-md-3">
-                    <ReactSelect
-                        value={selectedBaseId}
-                        options={this.getBasesData()}
-                        onChange={this.onChangeBase}
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn cơ sở"
-                        clearable={false}
-                    />
-                </div>
 
                 <div className="col-md-3">
                     <ReactSelect
@@ -183,40 +104,15 @@ class Filter extends React.Component {
 
 
                 <div className="col-md-3">
-                        <ReactSelect.Async
-                            loadOptions={(p1, p2) => filterExamStore.searchClasses(p1, p2)}
-                            loadingPlaceholder="Đang tải..."
-                            className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                            placeholder="Chọn lớp học"
-                            searchPromptText="Không có dữ liệu"
-                            onChange={this.onChangeClass}
-                            value={filter.class_id}
-                            id="select-async-class"
-                            optionRenderer={(option) => {
-                                return (
-                                    <ItemReactSelect label={option.label}
-                                                     url={option.avatar_url}/>
-                                );
-                            }}
-                            valueRenderer={(option) => {
-                                return (
-                                    <ItemReactSelect label={option.label}
-                                                     url={option.avatar_url}/>
-                                );
-                            }}
-                        />
-                </div>
-
-
-                <div className="col-md-3">
                     <ReactSelect.Async
-                        loadOptions={(p1, p2) => filterExamStore.loadStaffs(p1, p2, 'teacher')}
+                        loadOptions={(p1, p2) => filterExamStore.searchClasses(p1, p2)}
                         loadingPlaceholder="Đang tải..."
                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn giảng viên"
-                        searchPromptText="Không có dữ liệu nhân viên"
-                        onChange={e=>this.onChangeStaff(e,'teacher')}
-                        value={filter.teacher}
+                        placeholder="Chọn lớp học"
+                        searchPromptText="Không có dữ liệu"
+                        onChange={this.onChangeClass}
+                        value={filter.class_id}
+                        id="select-async-class"
                         optionRenderer={(option) => {
                             return (
                                 <ItemReactSelect label={option.label}
@@ -231,29 +127,8 @@ class Filter extends React.Component {
                         }}
                     />
                 </div>
-                <div className="col-md-3">
-                    <ReactSelect.Async
-                        loadOptions={(p1, p2) => filterExamStore.loadStaffs(p1, p2, 'teaching_assistant')}
-                        loadingPlaceholder="Đang tải..."
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn trợ giảng"
-                        searchPromptText="Không có dữ liệu nhân viên"
-                        onChange={e=>this.onChangeStaff(e,'teaching_assistant')}
-                        value={filter.teaching_assistant}
-                        optionRenderer={(option) => {
-                            return (
-                                <ItemReactSelect label={option.label}
-                                                 url={option.avatar_url}/>
-                            );
-                        }}
-                        valueRenderer={(option) => {
-                            return (
-                                <ItemReactSelect label={option.label}
-                                                 url={option.avatar_url}/>
-                            );
-                        }}
-                    />
-                </div>
+
+
             </div>
         );
     }
