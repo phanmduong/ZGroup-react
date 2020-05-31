@@ -35,11 +35,6 @@ class MNABarChart extends React.Component {
                     //     return xy;
                     // }
                 }),
-
-                // eslint-disable-next-line
-                // Chartist.plugins.legend({
-                //     position: 'bottom'
-                // }),
             ]
         };
 

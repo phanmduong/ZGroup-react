@@ -1083,7 +1083,7 @@ class DashboardExamComponent extends React.Component {
                                                 const scores = this.getScore(analytic_exam, template);
                                                 const data = this.getAnalytics(scores);
                                                 let barchartId = `barchart-analytics-exam-${key_group}-${key_temp}-${template.group_exam_id}-${template.exam_template_id}`;
-                                                // console.log(barchartId, data);
+                                                console.log(barchartId, data);
                                                 return (
                                                     <div key={key_temp}>
                                                         <div><h6><strong>{template.title}</strong></h6></div>
@@ -1107,7 +1107,7 @@ class DashboardExamComponent extends React.Component {
                                                     ({groupStudents.length})</strong>
                                                 </h6>
                                                 <div style={{width: '97%'}}>
-                                                    <div style={{height: 300, overflowY: 'scroll'}}
+                                                    <div style={{height: 500, overflowY: 'scroll'}}
                                                          className="smooth-scroll-y tableFixHead">
                                                         <table
                                                             className="table table-responsive white-table table-striped table-no-bordered table-hover"
@@ -1118,7 +1118,7 @@ class DashboardExamComponent extends React.Component {
                                                             <th>Học viên</th>
                                                             <th>Lớp</th>
                                                             {templates.map((t, key_th) => {
-                                                                return (<th key={key_th}>{t.name}</th>);
+                                                                return (<th key={key_th}>{t.title}</th>);
                                                             })}
                                                             </thead>
                                                             <tbody>
@@ -1179,7 +1179,7 @@ class DashboardExamComponent extends React.Component {
                                                             <div className="col-md-6">
                                                                 {/*<div>Danh sách học viên({scores.length})</div>*/}
                                                                 <div style={{width: '97%'}}>
-                                                                    <div style={{height: 300, overflowY: 'scroll'}}
+                                                                    <div style={{height: 500, overflowY: 'scroll'}}
                                                                          className="smooth-scroll-y">
                                                                         <table
                                                                             id={`datatables-${key_group}-${key_temp}`}

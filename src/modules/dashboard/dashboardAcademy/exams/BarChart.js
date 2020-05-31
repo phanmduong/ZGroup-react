@@ -69,7 +69,7 @@ class BarChart extends React.Component {
     }
 
     render() {
-        let style = {maxHeight: 750,position: "relative"};
+        let style = {maxHeight: 750, minHeight:500,position: "relative"};
         if(30 * this.props.label.length > 750 ){
             style = {...style, overflowY: "scroll"};
         }
