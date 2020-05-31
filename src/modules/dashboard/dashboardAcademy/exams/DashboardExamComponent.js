@@ -1065,7 +1065,7 @@ class DashboardExamComponent extends React.Component {
         let {course_id, class_id} = filterExamStore.filter;
         const emptyTitle = (course_id || class_id) ? "Không có dữ liệu" : "Chọn môn học hoặc lớp để xem thống kê bài kiểm tra";
         let groupExams = this.getGroupExams();
-        console.log(analytic_exam)
+        // console.log(analytic_exam)
         return (
             <div>
                 <FilterExam loadData={this.loadData}/>
@@ -1082,7 +1082,7 @@ class DashboardExamComponent extends React.Component {
                             let templates = analytic_exam.filter((template) => template.group_exam_id == group.id);
                             let groupScores = this.getGroupScore(analytic_exam, group);
                             let groupStudents = this.getGroupStudent(analytic_exam, group);
-                            console.log(group.id, groupScores);
+                            // console.log(group.id, groupScores);
                             if (templates.length) return (
                                 <div className="card" key={key_group}>
                                     <div className="card-content">

@@ -30,9 +30,7 @@ class MNABarChart extends React.Component {
                 // }),
                 // eslint-disable-next-line
                 Chartist.plugins.tooltip({
-                    tooltipFnc: (tooltip,e) =>{
-
-                        console.log('1',tooltip,e);
+                    tooltipFnc: (tooltip) =>{
                         return tooltip;
                     },
                     // transformTooltipTextFnc: (tooltip,e) =>{
@@ -74,7 +72,7 @@ class MNABarChart extends React.Component {
         ];
         // eslint-disable-next-line
         new Chartist.Bar('#' + this.props.id, data, options, responsiveOptions).on('draw', function(data) {
-            console.log('chart',data);
+            // console.log('chart',data);
             if(data.type === 'bar' ){
                 data.element.attr({
                     style: 'border:none;'
