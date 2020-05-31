@@ -11,6 +11,7 @@ import {openModalRegisterDetail} from "../../../globalModal/globalModalActions";
 import Barchart from "./BarChart";
 import MNABarChart from "./MNABarChart";
 import * as helper from "../../../../helpers/helper";
+import {meanOfArray, medianOfArray, modeOfArray} from "../../../../helpers/helper";
 
 const labels = ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10'];
 
@@ -917,7 +918,6 @@ class DashboardExamComponent extends React.Component {
     loadData = (filter) => {
         this.store.loadAnalytic(filter);
     }
-
     getScore = (analytic, template) => {
         const analyticTemplate = analytic.filter((item) => template.exam_template_id == item.exam_template_id);
 
@@ -935,18 +935,13 @@ class DashboardExamComponent extends React.Component {
     }
     getGroupScore = (analytic, group) => {
         const analyticTemplate = analytic.filter((item) => item.group_exam_id == group.id);
-
         let scores = [];
-
-
         analyticTemplate.forEach((item) => {
             item.user_exams.forEach((user_exam) => {
                 scores = [...scores, {...user_exam, 'class': item.class}];
             });
         });
-
         return scores.sort((a, b) => b.score - a.score);
-
     }
     getGroupStudent = (analytic, group) => {
         const analyticTemplate = analytic.filter((item) => item.group_exam_id == group.id);
@@ -1002,6 +997,46 @@ class DashboardExamComponent extends React.Component {
             data
         };
     }
+    getClassesStatistic = (analytic_exam, group) => {
+        let class_ids = [];
+        let classes = [];
+        let scores = this.getGroupScore(analytic_exam, group);
+        scores.forEach((o) => {
+            if (class_ids.indexOf(o.class.id) < 0) {
+                classes.push(o.class);
+                class_ids.push(o.class.id);
+            }
+        });
+
+        classes = classes.map(c => {
+            let values = [],exam_ids = [];
+            let min = 10, max = 0;
+            scores.forEach(score => {
+                if (score.class.id == c.id) {
+                    if (score.score || score.score == 0) {
+                        values.push(score.score);
+                        min = Math.min(score.score, min);
+                        max = Math.max(score.score, max);
+                        if(exam_ids.indexOf(score.exam_id) < 0){
+                            exam_ids.push(score.exam_id);
+                        }
+                    }
+                }
+            });
+            let modes = modeOfArray(values);
+            let mode = `${modes.frequency} lần: (${modes.modes.join(', ')})`;
+            return {
+              ...c, min, max,
+              exam_count: exam_ids.length,
+              mean: meanOfArray(values),
+              median: medianOfArray(values),
+              mode,
+            };
+
+        });
+
+        return classes;
+    }
 
     getAnalytics = (scores) => {
 
@@ -1038,7 +1073,7 @@ class DashboardExamComponent extends React.Component {
     };
 
     getGroupExams = () => {
-        let groupExamIds = [],groupExams = [];
+        let groupExamIds = [], groupExams = [];
         let {analytic_exam} = this.store;
         analytic_exam.forEach(itm => {
             if (groupExamIds.indexOf(itm.group_exam_id) == -1) {
@@ -1068,7 +1103,8 @@ class DashboardExamComponent extends React.Component {
                             let templates = analytic_exam.filter((template) => template.group_exam_id == group.id);
                             let groupScores = this.getGroupScore(analytic_exam, group);
                             let groupStudents = this.getGroupStudent(analytic_exam, group);
-                            // console.log(group.id, groupScores);
+                            let classesStatistic = this.getClassesStatistic(analytic_exam, group);
+                            console.log(group.id, classesStatistic);
                             if (templates.length) return (
                                 <div className="card" key={key_group}>
                                     <div className="card-content">
@@ -1141,7 +1177,10 @@ class DashboardExamComponent extends React.Component {
                                                                         <td onClick={() => openModalRegisterDetail(`/sales/info-student/${item.id}`)}>
                                                                             <strong>{item.name}</strong>
                                                                         </td>
-                                                                        <td><strong>{item.class.name}</strong></td>
+                                                                        <td><a style={{color: 'black'}}
+                                                                               href={`/teaching/class/${item.class.id}`}
+                                                                               target="_blank"><strong>{item.class.name}</strong></a>
+                                                                        </td>
                                                                         {templates.map(t => {
                                                                             let userExam = groupScores.filter(gs => gs.class.id == item.class.id && t.id == gs.exam_id && gs.user_id == item.id)[0];
                                                                             return (
@@ -1182,36 +1221,33 @@ class DashboardExamComponent extends React.Component {
                                                                     <div style={{height: 500, overflowY: 'scroll'}}
                                                                          className="smooth-scroll-y">
                                                                         <table
-                                                                            id={`datatables-${key_group}-${key_temp}`}
+                                                                            id={`data-tables-${key_group}-${key_temp}`}
                                                                             className="table table-responsive white-table table-striped table-no-bordered table-hover"
                                                                             cellSpacing="0" width="100%"
                                                                             style={{width: "100%"}}>
+                                                                            <thead>
+                                                                            <th>Lớp</th>
+                                                                            <th>Số bài kiểm tra</th>
+                                                                            <th>Min</th>
+                                                                            <th>Max</th>
+                                                                            <th>Mean</th>
+                                                                            <th>Mode</th>
+                                                                            <th>Median</th>
+                                                                            </thead>
                                                                             <tbody>
-                                                                            {[...scores,].map((item, key_tr) => {
-                                                                                let avatar = helper.avatarEmpty(item.user.avatar_url) ?
-                                                                                    NO_AVATAR : item.user.avatar_url;
+                                                                            {classesStatistic.map((item, key_tr) => {
                                                                                 return (
                                                                                     <tr key={`${item.id}-${key_tr}`}>
-                                                                                        <td>
-                                                                                            <div style={{
-                                                                                                background: "url('" + avatar + "') center center / cover",
-                                                                                                display: 'inline-block',
-                                                                                                width: '30px',
-                                                                                                height: '30px',
-                                                                                                borderRadius: '50%',
-                                                                                                verticalAlign: 'middle'
-                                                                                            }}
-                                                                                            />
-                                                                                        </td>
-                                                                                        <td onClick={() => openModalRegisterDetail(`/sales/info-student/${item.user.id}`)}>
-                                                                                            <strong>{item.user.name}</strong>
-                                                                                        </td>
                                                                                         <td><a style={{color: 'black'}}
-                                                                                               href={`/teaching/class/${item.class.id}`}
-                                                                                               target="_blank"><strong>{item.class.name}</strong></a>
+                                                                                               href={`/teaching/class/${item.id}`}
+                                                                                               target="_blank"><strong>{item.name}</strong></a>
                                                                                         </td>
-                                                                                        <td>{item.score}</td>
-                                                                                        <td>#{key_tr + 1}</td>
+                                                                                        <td>{item.exam_count}</td>
+                                                                                        <td>{item.min}</td>
+                                                                                        <td>{item.max}</td>
+                                                                                        <td>{item.mean}</td>
+                                                                                        <td>{item.mode}</td>
+                                                                                        <td>{item.median}</td>
                                                                                     </tr>
                                                                                 );
                                                                             })}
