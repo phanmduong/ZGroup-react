@@ -20,7 +20,7 @@ class MNABarChart extends React.Component {
             // height: 30 * data.labels.length + 'px',
             // horizontalBars: true,
             stackBars: true,
-            stackMode: 'overlap',
+            // stackMode: 'overlap',
             high: 10,
             low: 0,
             plugins: [
@@ -30,10 +30,16 @@ class MNABarChart extends React.Component {
                 // }),
                 // eslint-disable-next-line
                 Chartist.plugins.tooltip({
-                    transformTooltipTextFnc: (tooltip) =>{
-                        let xy = Math.round(tooltip * 100) / 100;
-                        return xy;
-                    }
+                    tooltipFnc: (tooltip,e) =>{
+
+                        console.log('1',tooltip,e);
+                        return tooltip;
+                    },
+                    // transformTooltipTextFnc: (tooltip,e) =>{
+                    //     console.log('2',tooltip,e);
+                    //     let xy = Math.round(tooltip * 100) / 100;
+                    //     return xy;
+                    // }
                 })
             ]
         };
@@ -75,7 +81,8 @@ class MNABarChart extends React.Component {
                 });
                 if( data.series && data.series.name === 'Min') {
                     data.element.attr({
-                        style: 'stroke: white; border:none;'
+                        // style: 'stroke: white; border:none;'
+                        style: 'stroke: transparent;'
                     });
                 }
             }
