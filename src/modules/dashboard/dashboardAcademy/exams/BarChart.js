@@ -17,15 +17,16 @@ class BarChart extends React.Component {
 
         let options = {
             seriesBarDistance: 10,
+            height:'500px',
             // height: 30 * data.labels.length + 'px',
             // horizontalBars: true,
 
             plugins: [
                 // eslint-disable-next-line
-                Chartist.plugins.legend({
-                    position: 'bottom'
-
-                }),
+                // Chartist.plugins.legend({
+                //     position: 'bottom'
+                //
+                // }),
                 // eslint-disable-next-line
                 Chartist.plugins.tooltip({
                     transformTooltipTextFnc: (tooltip) =>{
