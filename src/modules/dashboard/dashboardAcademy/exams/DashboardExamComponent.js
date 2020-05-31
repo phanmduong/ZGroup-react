@@ -977,13 +977,13 @@ class DashboardExamComponent extends React.Component {
             }
         });
 
-        let labels = classes.map(c=>c.name);
+        let labels = classes.map(c => c.name);
 
 
         let data = [
-            {name:'Min',fill: false,data:[]},
-            {name:'Avg',fill: false,data:[]},
-            {name:'Max',fill: false,data:[]},
+            {name: 'Min', fill: false, data: []},
+            {name: 'Avg', fill: false, data: []},
+            {name: 'Max', fill: false, data: []},
 
 
         ];
@@ -999,11 +999,11 @@ class DashboardExamComponent extends React.Component {
                     }
                 }
             });
-            let avg =sum/count;
+            let avg = sum / count;
             let _avg = avg - min, _max = max - avg;
-            data[0].data.push({meta: `Min: ${min}`, value: min });
-            data[1].data.push({meta: `Avg: ${Math.round(avg)}`, value: _avg });
-            data[2].data.push({meta: `Max: ${max}`, value: _max });
+            data[0].data.push({meta: `Min: ${min}`, value: min});
+            data[1].data.push({meta: `Avg: ${Math.round(avg)}`, value: _avg});
+            data[2].data.push({meta: `Max: ${max}`, value: _max});
         });
 
         return {
@@ -1061,7 +1061,7 @@ class DashboardExamComponent extends React.Component {
     }
 
     render() {
-        let {isLoading,analytic_exam} = this.store;
+        let {isLoading, analytic_exam} = this.store;
         let {course_id, class_id} = filterExamStore.filter;
         const emptyTitle = (course_id || class_id) ? "Không có dữ liệu" : "Chọn môn học hoặc lớp để xem thống kê bài kiểm tra";
         let groupExams = this.getGroupExams();
@@ -1125,51 +1125,53 @@ class DashboardExamComponent extends React.Component {
                                                 <h6 className="margin-bottom-20"><strong>Bảng điểm chi tiết
                                                     ({groupStudents.length})</strong>
                                                 </h6>
-                                                <div style={{height: 300, overflowY: 'scroll'}}
-                                                     className="smooth-scroll-y tableFixHead">
-                                                    <table
-                                                        className="table table-responsive white-table table-striped table-no-bordered table-hover"
-                                                        cellSpacing="0" width="100%"
-                                                        style={{width: "100%"}}>
-                                                        <thead>
-                                                        <th></th>
-                                                        <th>Học viên</th>
-                                                        <th>Lớp</th>
-                                                        {templates.map((t,key_th) => {
-                                                            return (<th key={key_th}>{t.name}</th>);
-                                                        })}
-                                                        </thead>
-                                                        <tbody>
-                                                        {groupStudents.map((item, index) => {
-                                                            let avatar = helper.avatarEmpty(item.avatar_url) ?
-                                                                NO_AVATAR : item.avatar_url;
-                                                            return (
-                                                                <tr key={`${item.id}-${index}`}>
-                                                                    <td>
-                                                                        <div style={{
-                                                                            background: "url('" + avatar + "') center center / cover",
-                                                                            display: 'inline-block',
-                                                                            width: '30px',
-                                                                            height: '30px',
-                                                                            borderRadius: '50%',
-                                                                            verticalAlign: 'middle'
-                                                                        }}
-                                                                        />
-                                                                    </td>
-                                                                    <td onClick={() => openModalRegisterDetail(`/sales/info-student/${item.user.id}`)}>
-                                                                        <strong>{item.name}</strong>
-                                                                    </td>
-                                                                    <td><strong>{item.class.name}</strong></td>
-                                                                    {templates.map(t => {
-                                                                        let userExam = groupScores.filter(gs => gs.class.id == item.class.id && t.id == gs.exam_id && gs.user_id == item.id)[0];
-                                                                        return (
-                                                                            <td>{userExam ? userExam.score : '-'}</td>);
-                                                                    })}
-                                                                </tr>
-                                                            );
-                                                        })}
-                                                        </tbody>
-                                                    </table>
+                                                <div style={{width: '97%'}}>
+                                                    <div style={{height: 300, overflowY: 'scroll'}}
+                                                         className="smooth-scroll-y tableFixHead">
+                                                        <table
+                                                            className="table table-responsive white-table table-striped table-no-bordered table-hover"
+                                                            cellSpacing="0" width="100%"
+                                                            style={{width: "100%"}}>
+                                                            <thead>
+                                                            <th></th>
+                                                            <th>Học viên</th>
+                                                            <th>Lớp</th>
+                                                            {templates.map((t, key_th) => {
+                                                                return (<th key={key_th}>{t.name}</th>);
+                                                            })}
+                                                            </thead>
+                                                            <tbody>
+                                                            {groupStudents.map((item, index) => {
+                                                                let avatar = helper.avatarEmpty(item.avatar_url) ?
+                                                                    NO_AVATAR : item.avatar_url;
+                                                                return (
+                                                                    <tr key={`${item.id}-${index}`}>
+                                                                        <td>
+                                                                            <div style={{
+                                                                                background: "url('" + avatar + "') center center / cover",
+                                                                                display: 'inline-block',
+                                                                                width: '30px',
+                                                                                height: '30px',
+                                                                                borderRadius: '50%',
+                                                                                verticalAlign: 'middle'
+                                                                            }}
+                                                                            />
+                                                                        </td>
+                                                                        <td onClick={() => openModalRegisterDetail(`/sales/info-student/${item.user.id}`)}>
+                                                                            <strong>{item.name}</strong>
+                                                                        </td>
+                                                                        <td><strong>{item.class.name}</strong></td>
+                                                                        {templates.map(t => {
+                                                                            let userExam = groupScores.filter(gs => gs.class.id == item.class.id && t.id == gs.exam_id && gs.user_id == item.id)[0];
+                                                                            return (
+                                                                                <td>{userExam ? userExam.score : '-'}</td>);
+                                                                        })}
+                                                                    </tr>
+                                                                );
+                                                            })}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
 
                                             </div>
@@ -1182,7 +1184,8 @@ class DashboardExamComponent extends React.Component {
                                                 // console.log('temp :' + template.id, scores);
                                                 return (
                                                     <div key={key_temp}>
-                                                        <div className="margin-bottom-20"><h6><strong>Tổng quan {template.title}</strong></h6></div>
+                                                        <div className="margin-bottom-20"><h6><strong>Tổng
+                                                            quan {template.title}</strong></h6></div>
                                                         <div className="row">
                                                             <div className="col-md-6">
                                                                 {/*<div>Phân tích phổ điểm</div>*/}
@@ -1194,43 +1197,46 @@ class DashboardExamComponent extends React.Component {
                                                             </div>
                                                             <div className="col-md-6">
                                                                 {/*<div>Danh sách học viên({scores.length})</div>*/}
-                                                                <div style={{height: 300, overflowY: 'scroll'}}
-                                                                     className="smooth-scroll-y">
-                                                                    <table id={`datatables-${key_group}-${key_temp}`}
-                                                                           className="table table-responsive white-table table-striped table-no-bordered table-hover"
-                                                                           cellSpacing="0" width="100%"
-                                                                           style={{width: "100%"}}>
-                                                                        <tbody>
-                                                                        {[...scores,].map((item, key_tr) => {
-                                                                            let avatar = helper.avatarEmpty(item.user.avatar_url) ?
-                                                                                NO_AVATAR : item.user.avatar_url;
-                                                                            return (
-                                                                                <tr key={`${item.id}-${key_tr}`}>
-                                                                                    <td>
-                                                                                        <div style={{
-                                                                                            background: "url('" + avatar + "') center center / cover",
-                                                                                            display: 'inline-block',
-                                                                                            width: '30px',
-                                                                                            height: '30px',
-                                                                                            borderRadius: '50%',
-                                                                                            verticalAlign: 'middle'
-                                                                                        }}
-                                                                                        />
-                                                                                    </td>
-                                                                                    <td onClick={() => openModalRegisterDetail(`/sales/info-student/${item.user.id}`)}>
-                                                                                        <strong>{item.user.name}</strong>
-                                                                                    </td>
-                                                                                    <td><a style={{color: 'black'}}
-                                                                                           href={`/teaching/class/${item.class.id}`}
-                                                                                           target="_blank"><strong>{item.class.name}</strong></a>
-                                                                                    </td>
-                                                                                    <td>{item.score}</td>
-                                                                                    <td>#{key_tr + 1}</td>
-                                                                                </tr>
-                                                                            );
-                                                                        })}
-                                                                        </tbody>
-                                                                    </table>
+                                                                <div style={{width: '97%'}}>
+                                                                    <div style={{height: 300, overflowY: 'scroll'}}
+                                                                         className="smooth-scroll-y">
+                                                                        <table
+                                                                            id={`datatables-${key_group}-${key_temp}`}
+                                                                            className="table table-responsive white-table table-striped table-no-bordered table-hover"
+                                                                            cellSpacing="0" width="100%"
+                                                                            style={{width: "100%"}}>
+                                                                            <tbody>
+                                                                            {[...scores,].map((item, key_tr) => {
+                                                                                let avatar = helper.avatarEmpty(item.user.avatar_url) ?
+                                                                                    NO_AVATAR : item.user.avatar_url;
+                                                                                return (
+                                                                                    <tr key={`${item.id}-${key_tr}`}>
+                                                                                        <td>
+                                                                                            <div style={{
+                                                                                                background: "url('" + avatar + "') center center / cover",
+                                                                                                display: 'inline-block',
+                                                                                                width: '30px',
+                                                                                                height: '30px',
+                                                                                                borderRadius: '50%',
+                                                                                                verticalAlign: 'middle'
+                                                                                            }}
+                                                                                            />
+                                                                                        </td>
+                                                                                        <td onClick={() => openModalRegisterDetail(`/sales/info-student/${item.user.id}`)}>
+                                                                                            <strong>{item.user.name}</strong>
+                                                                                        </td>
+                                                                                        <td><a style={{color: 'black'}}
+                                                                                               href={`/teaching/class/${item.class.id}`}
+                                                                                               target="_blank"><strong>{item.class.name}</strong></a>
+                                                                                        </td>
+                                                                                        <td>{item.score}</td>
+                                                                                        <td>#{key_tr + 1}</td>
+                                                                                    </tr>
+                                                                                );
+                                                                            })}
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>

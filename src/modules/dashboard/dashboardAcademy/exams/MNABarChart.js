@@ -25,10 +25,6 @@ class MNABarChart extends React.Component {
             low: 0,
             plugins: [
                 // eslint-disable-next-line
-                // Chartist.plugins.legend({
-                //     position: 'bottom'
-                // }),
-                // eslint-disable-next-line
                 Chartist.plugins.tooltip({
                     tooltipFnc: (tooltip) =>{
                         return tooltip;
@@ -38,7 +34,12 @@ class MNABarChart extends React.Component {
                     //     let xy = Math.round(tooltip * 100) / 100;
                     //     return xy;
                     // }
-                })
+                }),
+
+                // eslint-disable-next-line
+                // Chartist.plugins.legend({
+                //     position: 'bottom'
+                // }),
             ]
         };
 
