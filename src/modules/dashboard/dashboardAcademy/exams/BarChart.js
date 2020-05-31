@@ -17,8 +17,8 @@ class BarChart extends React.Component {
 
         let options = {
             seriesBarDistance: 10,
-            height: 30 * data.labels.length + 'px',
-            horizontalBars: true,
+            // height: 30 * data.labels.length + 'px',
+            // horizontalBars: true,
 
             plugins: [
                 // eslint-disable-next-line

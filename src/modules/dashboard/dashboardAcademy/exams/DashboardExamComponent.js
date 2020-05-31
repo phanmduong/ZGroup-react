@@ -956,7 +956,7 @@ class DashboardExamComponent extends React.Component {
             item.user_exams.forEach((user_exam) => {
                 if (student_ids.indexOf(user_exam.user_id) < 0) {
                     students = [...students, {...user_exam.user, 'class': item.class}];
-
+                    student_ids.push(user_exam.user_id);
                 }
             });
         });
@@ -1138,7 +1138,7 @@ class DashboardExamComponent extends React.Component {
                                                                             }}
                                                                             />
                                                                         </td>
-                                                                        <td onClick={() => openModalRegisterDetail(`/sales/info-student/${item.user.id}`)}>
+                                                                        <td onClick={() => openModalRegisterDetail(`/sales/info-student/${item.id}`)}>
                                                                             <strong>{item.name}</strong>
                                                                         </td>
                                                                         <td><strong>{item.class.name}</strong></td>
@@ -1164,8 +1164,9 @@ class DashboardExamComponent extends React.Component {
                                                 // console.log('temp :' + template.id, scores);
                                                 return (
                                                     <div key={key_temp}>
-                                                        <div className="margin-bottom-20"><h6><strong>Tổng
-                                                            quan {template.title}</strong></h6></div>
+                                                        <div className="margin-bottom-20"><h6>
+                                                            <strong>Tổng quan {template.title}</strong>
+                                                        </h6></div>
                                                         <div className="row">
                                                             <div className="col-md-6">
                                                                 {/*<div>Phân tích phổ điểm</div>*/}

@@ -21,8 +21,8 @@ class MNABarChart extends React.Component {
             // horizontalBars: true,
             stackBars: true,
             // stackMode: 'overlap',
-            high: 10,
-            low: 0,
+            // high: 10,
+            // low: 0,
             plugins: [
                 // eslint-disable-next-line
                 Chartist.plugins.tooltip({
