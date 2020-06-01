@@ -23,10 +23,10 @@ class BarChart extends React.Component {
 
             plugins: [
                 // eslint-disable-next-line
-                // Chartist.plugins.legend({
-                //     position: 'bottom'
-                //
-                // }),
+                Chartist.plugins.legend({
+                    position: 'bottom'
+
+                }),
                 // eslint-disable-next-line
                 Chartist.plugins.tooltip({
                     transformTooltipTextFnc: (tooltip) =>{

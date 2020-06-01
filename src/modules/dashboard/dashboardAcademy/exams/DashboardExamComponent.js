@@ -1009,7 +1009,7 @@ class DashboardExamComponent extends React.Component {
         });
 
         classes = classes.map(c => {
-            let values = [],exam_ids = [];
+            let values = [], exam_ids = [];
             let min = 10, max = 0;
             scores.forEach(score => {
                 if (score.class.id == c.id) {
@@ -1017,7 +1017,7 @@ class DashboardExamComponent extends React.Component {
                         values.push(score.score);
                         min = Math.min(score.score, min);
                         max = Math.max(score.score, max);
-                        if(exam_ids.indexOf(score.exam_id) < 0){
+                        if (exam_ids.indexOf(score.exam_id) < 0) {
                             exam_ids.push(score.exam_id);
                         }
                     }
@@ -1026,11 +1026,11 @@ class DashboardExamComponent extends React.Component {
             let modes = modeOfArray(values);
             let mode = `${modes.frequency} lần: (${modes.modes.join(', ')})`;
             return {
-              ...c, min, max,
-              exam_count: exam_ids.length,
-              mean: meanOfArray(values),
-              median: medianOfArray(values),
-              mode,
+                ...c, min, max,
+                exam_count: exam_ids.length,
+                mean: meanOfArray(values),
+                median: medianOfArray(values),
+                mode,
             };
 
         });
@@ -1150,12 +1150,14 @@ class DashboardExamComponent extends React.Component {
                                                             cellSpacing="0" width="100%"
                                                             style={{width: "100%"}}>
                                                             <thead>
-                                                            <th></th>
-                                                            <th>Học viên</th>
-                                                            <th>Lớp</th>
-                                                            {templates.map((t, key_th) => {
-                                                                return (<th key={key_th}>{t.title}</th>);
-                                                            })}
+                                                            <tr>
+                                                                <th></th>
+                                                                <th>Học viên</th>
+                                                                <th>Lớp</th>
+                                                                {templates.map((t, key_th) => {
+                                                                    return (<th key={key_th}>{t.title}</th>);
+                                                                })}
+                                                            </tr>
                                                             </thead>
                                                             <tbody>
                                                             {groupStudents.map((item, index) => {
@@ -1226,13 +1228,15 @@ class DashboardExamComponent extends React.Component {
                                                                             cellSpacing="0" width="100%"
                                                                             style={{width: "100%"}}>
                                                                             <thead>
-                                                                            <th>Lớp</th>
-                                                                            <th>Số bài kiểm tra</th>
-                                                                            <th>Min</th>
-                                                                            <th>Max</th>
-                                                                            <th>Mean</th>
-                                                                            <th>Mode</th>
-                                                                            <th>Median</th>
+                                                                            <tr>
+                                                                                <th>Lớp</th>
+                                                                                <th>Số bài kiểm tra</th>
+                                                                                <th>Min</th>
+                                                                                <th>Max</th>
+                                                                                <th>Mean</th>
+                                                                                <th>Mode</th>
+                                                                                <th>Median</th>
+                                                                            </tr>
                                                                             </thead>
                                                                             <tbody>
                                                                             {classesStatistic.map((item, key_tr) => {
