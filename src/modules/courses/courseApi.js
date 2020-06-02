@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadCoursesData(page = 1, query = '') {
+export function loadCoursesData(page = 1, query = '', only_children = false) {
 
     let url = env.MANAGE_API_URL + "/v2/course/get-all";
     let token = localStorage.getItem('token');
@@ -9,6 +9,7 @@ export function loadCoursesData(page = 1, query = '') {
         url += "?token=" + token +
             "&page=" + page +
             '&search=' + query +
+            '&only_children=' + only_children +
             '&limit=20';
     }
     return axios.get(url);
@@ -61,7 +62,7 @@ export function createLessonEvent(lesson_id, type) {
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url,{lesson_id, type});
+    return axios.post(url, {lesson_id, type});
 }
 
 export function deleteLink(id) {
@@ -128,6 +129,26 @@ export function createTerm(data) {
         url += "?token=" + token;
     }
     return axios.post(url, data);
+}
+
+export function storeParentCourse(data) {
+    //http://manageapi.keetool.xyz/v2/lesson/term/create?token=
+    let url = env.NEW_MANAGE_API_URL + "/course/parent-course";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, data);
+}
+
+export function getParentCourses() {
+    //manageapi.keetool.xyz/course/type?token=
+    let url = env.NEW_MANAGE_API_URL + "/course/parent-courses";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.get(url);
 }
 
 export function createMultiLesson(data) {

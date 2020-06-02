@@ -115,6 +115,12 @@ class CreateLeadOverlay extends React.Component {
         this.setState({lead});
     };
 
+    updateBase = (e) => {
+        let lead = {...this.state.lead};
+        lead["base_id"] = e ? e.value : e;
+        this.setState({lead});
+    };
+
     getDataAddress = () => {
         if (!this.props.provinces || this.props.provinces.length <= 0) return;
         let address = [];
@@ -129,6 +135,17 @@ class CreateLeadOverlay extends React.Component {
 
         });
         return address;
+    };
+
+    getBases = () => {
+
+        return this.props.bases.map((item) => {
+            return {
+                value: item.id,
+                label: item.name,
+            }
+        })
+
     };
 
     create = (e) => {
@@ -355,6 +372,15 @@ class CreateLeadOverlay extends React.Component {
                                             />
                                         </div>
                                         <div>
+                                            <label>Cơ sở</label>
+                                            <ReactSelect
+                                                value={lead.base_id}
+                                                options={this.getBases()}
+                                                onChange={this.updateBase}
+                                                placeholder="Cơ sở"
+                                            />
+                                        </div>
+                                        <div>
                                             <label>Giới tính</label>
                                             <ReactSelect
                                                 value={lead.gender}
@@ -500,10 +526,9 @@ class CreateLeadOverlay extends React.Component {
 
 
 function mapStateToProps(state) {
-    const {bases, sources, isLoading, isLoadingSources, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
+    const {sources, isLoading, isLoadingSources, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
     return {
         salers: state.registerStudents.salerFilter,
-        bases,
         isEditing: state.lead.isEditing,
         statuses: state.infoStudent.statuses,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
@@ -518,7 +543,7 @@ function mapStateToProps(state) {
         isLoadingCampaigns,
         campaigns,
         provinces,
-
+        bases: state.global.bases,
 
     };
 }

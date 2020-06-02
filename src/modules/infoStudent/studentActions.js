@@ -191,14 +191,18 @@ export function editInfoStudent(student, closeModal, showModalDuplicate) {
             .then(res => {
                 if (res.data.status === 1) {
                     helper.showNotification("Cập nhật thông tin thành công.");
-                    closeModal();
+                    if (closeModal){
+                        closeModal();
+                    }
                     dispatch({
                         type: types.LOAD_EDIT_INFO_STUDENT_SUCCESS,
                         student: res.data.data.student
                     });
                 } else {
                     helper.showErrorNotification('Thông tin lead bị trùng lặp!');
-                    showModalDuplicate(res.data.data)
+                    if (showModalDuplicate){
+                        showModalDuplicate(res.data.data)
+                    }
                     dispatch({type: types.LOAD_EDIT_INFO_STUDENT_ERROR});
                 }
             })

@@ -164,6 +164,7 @@ export function editStudent(student) {
         description: student.description,
         address: student.address,
         father_name: student.father_name,
+        base_id: student.base_id,
         image_urls: JSON.stringify(student.image_urls),
     });
 }

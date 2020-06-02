@@ -72,7 +72,7 @@ class CoursesContainer extends React.Component {
     onSearchCourses = () => {
         this.props.coursesActions.loadCourses(
             this.state.page,
-            this.state.query
+            this.state.query,
         );
     }
 

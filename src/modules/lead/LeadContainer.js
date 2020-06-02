@@ -33,6 +33,7 @@ import * as studentActions from "../infoStudent/studentActions";
 import Checkbox from "../../components/common/Checkbox";
 import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
+import * as baseActions from "../../actions/baseActions";
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -91,6 +92,7 @@ class LeadContainer extends React.Component {
             top: "",
             rate: "",
             carer: "",
+            selectedBaseId: 0,
             isAll: false,
             selectedLeads: [],
             isOpenModalSelectedLeads: false,
@@ -266,6 +268,11 @@ class LeadContainer extends React.Component {
             this.setState({
                 campaignFilter: this.getStatusFilter(nextProps.campaigns),
             });
+        }
+        if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
+            this.state.selectedBaseId = nextProps.selectedBaseId;
+            this.setState({selectedBaseId: nextProps.selectedBaseId});
+            this.applyFilter();
         }
     }
 
@@ -452,6 +459,17 @@ class LeadContainer extends React.Component {
         // });
     };
 
+    getBases = () => {
+
+        return this.props.bases.map((item) => {
+            return {
+                value: item.id,
+                label: item.name,
+            }
+        })
+
+    };
+
     applyFilter = () => {
         console.log('applyFilter', this.state);
         this.props.leadActions.getLeads({
@@ -460,6 +478,7 @@ class LeadContainer extends React.Component {
             search: this.state.search,
             startTime: this.state.filter.startTime,
             endTime: this.state.filter.endTime,
+            base_id: this.state.selectedBaseId,
             staffId: this.isAdmin ? this.state.staffId : this.props.user.id,
         });
     };
@@ -1048,7 +1067,7 @@ class LeadContainer extends React.Component {
                                                        value={this.state.address}
                                                        placeholder="Nhập tỉnh/thành phố"
                                                        disabled={this.props.isLoading}
-                                                       updateFormData={e=>this.changeAddress(e.target.value)}
+                                                       updateFormData={e => this.changeAddress(e.target.value)}
 
                                         />
                                     </div>
@@ -1114,6 +1133,23 @@ class LeadContainer extends React.Component {
                                                 name="duplicate"
                                             />
                                         </div>
+                                    </div>
+                                </div>
+                                <div className="col-md-3">
+                                    <div className="form-group margin-bottom-20">
+                                        <label className="">
+                                            Theo cơ sở
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoading}
+                                            options={this.getBases()}
+                                            onChange={e => {
+                                                this.onFilterChange(e ? e.value : 0, 'selectedBaseId')
+                                                this.props.baseActions.selectedBase(e ? e.value : 0);
+                                            }}
+                                            value={this.state.selectedBaseId}
+                                            placeholer="Tất cả"
+                                        />
                                     </div>
                                 </div>
                                 {/*{this.state.isDistribution &&*/}
@@ -1344,12 +1380,14 @@ function mapStateToProps(state) {
         isLoadingCampaigns: state.createRegister.isLoadingCampaigns,
         sources: state.createRegister.sources,
         campaigns: state.createRegister.campaigns,
-
+        bases: state.global.bases,
+        selectedBaseId: state.global.selectedBaseId,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        baseActions: bindActionCreators(baseActions, dispatch),
         leadActions: bindActionCreators(leadActions, dispatch),
         studentActions: bindActionCreators(studentActions, dispatch),
         createRegisterActions: bindActionCreators(createRegisterActions, dispatch)

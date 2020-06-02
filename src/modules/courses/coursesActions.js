@@ -343,10 +343,10 @@ export function deleteData() {
     };
 }
 
-export function loadCourses(page = 1, query = '') {
+export function loadCourses(page = 1, query = '', only_children = true) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_COURSES_DATA});
-        courseApi.loadCoursesData(page, query)
+        courseApi.loadCoursesData(page, query, only_children)
             .then(res => {
                 dispatch({
                     type: types.LOADED_COURSES_DATA_SUCCESS,
