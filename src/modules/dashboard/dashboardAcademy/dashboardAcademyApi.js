@@ -47,3 +47,12 @@ export function getAnalyticExam(course_id, classId = '', startDate = '', endDate
     }
     return axios.get(url);
 }
+export function getAnalyticClassLessonEvent(course_id, classId = '', startDate = '', endDate = '') {
+    //manageapi.keetool.xyz/course/category?&limit=&page=&token=
+    let url = env.NEW_MANAGE_API_URL + `/class/analytic/event?course_id=${course_id}&class_id=${classId}&include=target,class_lesson.class_lesson_event.student_class_lesson_event,class_lesson.lesson.lesson_event,course&start_time=${startDate}&end_time=${endDate}`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "&token=" + token;
+    }
+    return axios.get(url);
+}
