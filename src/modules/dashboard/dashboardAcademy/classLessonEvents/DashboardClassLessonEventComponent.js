@@ -79,7 +79,7 @@ class DashboardClassLessonEventComponent extends React.Component {
     getClassTableData = (studyClass) => {
         let res = [];
         studyClass.class_lesson.forEach(class_lesson => {
-            if (class_lesson.lesson.lesson_event) {
+            if (class_lesson.lesson && class_lesson.lesson.lesson_event) {
                 class_lesson.lesson.lesson_event.forEach(lesson_event => {
                     let total_done = class_lesson.class_lesson_event.filter(cle =>
                         cle.lesson_event_id == lesson_event.id
