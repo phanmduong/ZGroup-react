@@ -308,7 +308,8 @@ class HistoryTeachingContainer extends React.Component {
         let {show, showModalDelayLessons, showModalLessonEvent, delayLessonIndex, delayData, lessonEventStudent, lessonEventType} = this.state;
         let delayLesson = classData && classData.lessons && classData.lessons[delayLessonIndex] ? classData.lessons[delayLessonIndex] : {};
         let modalEvent = LESSON_EVENT_TYPES_OBJECT[lessonEventType] || {};
-        console.log(classData);
+        // console.log(classData);
+        console.log(moment().add(1, 'days').format(DATE_VN_FORMAT));
         return (
             <div className="table-responsive table-split table-hover">
                 <table className="table" cellSpacing="0" id="list_register">
@@ -331,11 +332,11 @@ class HistoryTeachingContainer extends React.Component {
                                                 {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
                                                     let de = LESSON_EVENT_TYPES_OBJECT[entry[0]];
                                                     let lesson_event = lesson.events.filter(e => e.event_type == de.type)[0];
-                                                    if(lesson_event) return (<TooltipButton text={de.name} placement="top">
+                                                    if (lesson_event) return (<TooltipButton text={de.name} placement="top">
                                                         <div className="icon8 icon8-wrap cursor-pointer margin-right-5"
                                                              mask="on"
                                                              icon={de.type}
-                                                             onClick={() => this.openModalLessonEvent(lesson,de.type, lesson_event)}
+                                                             onClick={() => this.openModalLessonEvent(lesson, de.type, lesson_event)}
                                                         >
                                                             <div className="icon"/>
                                                         </div>
@@ -562,7 +563,8 @@ class HistoryTeachingContainer extends React.Component {
                             <FormInputDate name="newDate" id="form-delay-new-date"
                                            value={delayData.newDate}
                                            format={DATE_VN_FORMAT}
-                                           minDate={moment(delayLesson.time, DATE_VN_FORMAT).add(1, 'days')}
+                                // minDate={moment(delayLesson.time, DATE_VN_FORMAT).add(1, 'days')}
+                                //            minDate={moment.}
                                            updateFormData={(e) => this.setState({
                                                delayData: {...delayData, newDate: e.target.value}
                                            })}/>
