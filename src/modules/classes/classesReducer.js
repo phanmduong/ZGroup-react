@@ -150,7 +150,7 @@ export default function classesReducer(state = initialState.classes, action) {
             return {
                 ...state,
                 ...{
-                    class: action.class
+                    editClass: action.class
                 }
             };
         case types.BEGIN_CREATE_CLASS:
@@ -195,6 +195,8 @@ export default function classesReducer(state = initialState.classes, action) {
                 ...{
                     isStoringClass: false,
                     errorStoreClass: false,
+                    class:action.class,
+                    editClass: action.class,
                     classes: classes
                 }
             };

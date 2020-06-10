@@ -309,7 +309,7 @@ class HistoryTeachingContainer extends React.Component {
         let delayLesson = classData && classData.lessons && classData.lessons[delayLessonIndex] ? classData.lessons[delayLessonIndex] : {};
         let modalEvent = LESSON_EVENT_TYPES_OBJECT[lessonEventType] || {};
         // console.log(classData);
-        console.log(moment().add(1, 'days').format(DATE_VN_FORMAT));
+        // console.log(moment().add(1, 'days').format(DATE_VN_FORMAT));
         return (
             <div className="table-responsive table-split table-hover">
                 <table className="table" cellSpacing="0" id="list_register">

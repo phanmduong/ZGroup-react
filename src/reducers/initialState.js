@@ -1337,6 +1337,18 @@ export default {
                 attendances:[]
             },
         },
+        editClass: {
+            exams:[],
+            registers:[],
+            group_exams:[],
+
+            teacher: {
+                attendances:[]
+            },
+            teacher_assistant: {
+                attendances:[]
+            },
+        },
         isLoadingClass: false,
         errorClass: false,
         isChangingClassLesson: false,
