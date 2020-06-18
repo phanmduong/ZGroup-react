@@ -5,7 +5,7 @@ import React from 'react';
 import * as classActions from "../../classActions";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {avatarEmpty, getShortName} from "../../../../helpers/helper";
+import {avatarEmpty, getShortName, isEmptyInput} from "../../../../helpers/helper";
 import TooltipButton from "../../../../components/common/TooltipButton";
 import {Modal, Overlay} from 'react-bootstrap';
 import * as ReactDOM from "react-dom";
@@ -20,6 +20,9 @@ import moment from 'moment';
 import {DATE_FORMAT_SQL, DATE_VN_FORMAT, LESSON_EVENT_TYPES_OBJECT} from "../../../../constants/constants";
 import EmptyData from "../../../../components/common/EmptyData";
 import Checkbox from "../../../../components/common/Checkbox";
+import LessonDetailModal from "../../../attendance/LessonDetailModal";
+import * as helper from "../../../../helpers/helper";
+import * as attendanceActions from "../../../attendance/attendanceActions";
 
 class HistoryTeachingContainer extends React.Component {
     constructor(props, context) {
@@ -303,6 +306,27 @@ class HistoryTeachingContainer extends React.Component {
         this.setState({show});
     };
 
+    updateModalAttendanceData = (index, value, name) => {
+        this.props.attendanceActions.updateModalData(index, value, name);
+    }
+    commitModalAttendanceData = (data) => {
+        this.props.attendanceActions.takeAttendance(data, this.commitAttendanceSuccess);
+    }
+    commitAttendanceSuccess = () => {
+        helper.showNotification("Lưu thành công!");
+        this.setState({showModalDetailLesson: false});
+        // this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
+    }
+    closeModalDetailLesson = () => {
+        this.setState({showModalDetailLesson: false});
+    };
+    openModalDetailLessonAttendance = (id) => {
+        this.setState({
+            showModalDetailLesson: true,
+            selectedLessonId: id
+        });
+        this.props.attendanceActions.loadLessonDetailModal(this.props.classData.id, id);
+    };
     render() {
         let {classData, isLoading, user, isLoadingSavingClassLessonEvents} = this.props;
         let {show, showModalDelayLessons, showModalLessonEvent, delayLessonIndex, delayData, lessonEventStudent, lessonEventType} = this.state;
@@ -429,6 +453,13 @@ class HistoryTeachingContainer extends React.Component {
                                             </div>
                                         </td>
                                         <td>
+                                            <button className="btn btn-white float-right"
+                                                    onClick={() => this.openModalDetailLessonAttendance(lesson.id)}>
+
+                                                Điểm danh
+                                            </button>
+                                        </td>
+                                        <td>
                                             <div style={{position: "relative"}} className="">
                                                 <button className="btn btn-actions" mask="extra-table"
                                                         ref={"target" + key} onClick={() => this.toggle(key)}>
@@ -500,7 +531,12 @@ class HistoryTeachingContainer extends React.Component {
                                 <tbody>
                                 {classData && classData.registers && classData.registers.map((register, key) => {
                                     let {student} = register;
-                                    let currentObj = lessonEventStudent[key] || {};
+                                    let currentObj = lessonEventStudent[key] || {
+                                        comment:'Learning attitude:\nParticipation\tBehaviors:\nLanguage skills:\nImprovement points:'
+                                    };
+                                    if (isEmptyInput(currentObj.comment))
+                                        currentObj.comment = 'Learning attitude:\nParticipation\tBehaviors:\nLanguage skills:\nImprovement points:';
+
                                     return (
                                         <tr key={key}>
                                             <td style={{maxWidth: 130}}>
@@ -515,13 +551,26 @@ class HistoryTeachingContainer extends React.Component {
                                                 </div>
                                             </td>
                                             <td>
-                                                <FormInputText name="comment"
-                                                               value={currentObj.comment}
-                                                               disabled={isLoadingSavingClassLessonEvents}
-                                                               placeholder={modalEvent.placeholder}
-                                                               className="form-grey"
-                                                               updateFormData={(e) => this.updateFormInputEvent(e, key)}
-                                                />
+                                                {/*<FormInputText name="comment"*/}
+                                                {/*               value={currentObj.comment}*/}
+                                                {/*               disabled={isLoadingSavingClassLessonEvents}*/}
+                                                {/*               placeholder={modalEvent.placeholder}*/}
+                                                {/*               className="form-grey"*/}
+                                                {/*               updateFormData={(e) => this.updateFormInputEvent(e, key)}*/}
+                                                {/*/>*/}
+                                                <div className="form-grey">
+                                                    <div className="form-group text-area-grey">
+                                                         <textarea className="form-control"
+                                                                   rows={5}
+                                                                   disabled={isLoadingSavingClassLessonEvents}
+                                                                   name="comment"
+                                                                   placeholder={modalEvent.placeholder}
+                                                                   value={currentObj.comment}
+                                                                   onChange={(e) => this.updateFormInputEvent(e, key)}/>
+
+                                                    </div>
+                                                </div>
+
                                             </td>
                                         </tr>);
                                 })}
@@ -1024,6 +1073,18 @@ class HistoryTeachingContainer extends React.Component {
                         </form>
                     </Modal.Body>
                 </Modal>
+                <LessonDetailModal
+                    show={this.state.showModalDetailLesson}
+                    onHide={this.closeModalDetailLesson}
+                    class={this.props.classData}
+                    list={this.props.lesson}
+                    isLoadingLessonDetailModal={this.props.isLoadingLessonDetailModal}
+                    updateData={this.updateModalAttendanceData}
+                    commitData={this.commitModalAttendanceData}
+                    isCommitting={this.props.isTakingAttendance}
+                    index={this.state.selectedLessonId}
+                    commitSuccess={this.commitAttendanceSuccess}
+                />
             </div>
         );
     }
@@ -1046,11 +1107,15 @@ function mapStateToProps(state) {
         isChangingTeachingLesson: state.classes.isChangingTeachingLesson,
         isAddingCheckinCheckout: state.classes.isAddingCheckinCheckout,
         isLoadingSavingClassLessonEvents: state.classes.isLoadingSavingClassLessonEvents,
+        isLoadingLessonDetailModal: state.attendance.isLoadingLessonDetailModal,
+        isTakingAttendance: state.attendance.isTakingAttendance,
+        lesson: state.attendance.lesson,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        attendanceActions: bindActionCreators(attendanceActions, dispatch),
         classActions: bindActionCreators(classActions, dispatch)
     };
 }

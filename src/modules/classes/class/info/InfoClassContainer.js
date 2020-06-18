@@ -209,18 +209,18 @@ class InfoClassContainer extends React.Component {
                         {classData.registers && classData.registers.length > 0 ?
                             <div className="table-responsive table-split table-hover">
                                 <table className="table" cellSpacing="0" id="list_register">
-                                    {/*<thead className="text-rose">*/}
-                                    {/*<tr>*/}
-                                    {/*    <th>ID</th>*/}
-                                    {/*    <th>Họ tên</th>*/}
-                                    {/*    <th>Tình trạng học</th>*/}
-                                    {/*    <th>Bài tập</th>*/}
-                                    {/*    <th>Mã học viên</th>*/}
-                                    {/*    <th>Học phí</th>*/}
-                                    {/*    <th>Bằng</th>*/}
-                                    {/*    <th>Thiết bị</th>*/}
-                                    {/*</tr>*/}
-                                    {/*</thead>*/}
+                                    <thead>
+                                    <tr>
+                                        <th/>
+                                        <th>Họ tên</th>
+                                        <th>Tình trạng học</th>
+                                        <th>Bài tập</th>
+                                        <th>Mã học viên</th>
+                                        <th>Học phí</th>
+                                        <th>Bằng</th>
+                                        <th>Thiết bị</th>
+                                    </tr>
+                                    </thead>
                                     <tbody>
                                     {_.reverse(_.sortBy(classData.registers, 'total_attendances')).map((register) => {
                                         let avatar = helper.avatarEmpty(register.student.avatar_url) ?

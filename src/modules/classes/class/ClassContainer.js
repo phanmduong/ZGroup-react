@@ -38,9 +38,9 @@ class ClassContainer extends React.Component {
             {
                 path: `${this.routePrefix}/history-teaching`, text: 'Chương trình học',
             },
-            {
-                path: `${this.routePrefix}/progress`, text: 'Điểm danh',
-            },
+            // {
+            //     path: `${this.routePrefix}/progress`, text: 'Điểm danh',
+            // },
             {
                 path: `${this.routePrefix}/checkin-checkout`, text: 'Checkin',
             },
