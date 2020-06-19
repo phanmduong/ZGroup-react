@@ -1599,7 +1599,10 @@ export function medianOfArray(values) {
 }
 
 export function modeOfArray(values) {
-    if (!values || values.length === 0) return [];
+    if (!values || values.length === 0) return {
+        modes:['Không có'],
+        frequency: 0
+    };
     let frequency = {}; // values of frequency.
     let maxFreq = 0; // holds the max frequency.
     let modes = [];
