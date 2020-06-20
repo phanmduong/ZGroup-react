@@ -103,7 +103,7 @@ class DashboardExamComponent extends React.Component {
                 if(min == 10 || max == -1){
                     min = -1, max = -1, sum = 0, count = 0;
                 }
-                t.data.push({meta: `${t.name}: ${min}-${max}`, exam_id: t.id, value: max - min, max, min, avg});
+                t.data.push({meta: `${t.name}: ${min}-${max}`, exam_id: t.id, value: max,range: max-min, max, min, avg});
             });
 
         });
@@ -207,7 +207,7 @@ class DashboardExamComponent extends React.Component {
         let {isLoading, analytic_exam} = this.store;
         let groupExams = this.getGroupExams();
         const emptyTitle = (course_id || class_id) ? "Không có dữ liệu" : "Chọn môn học hoặc lớp để xem thống kê bài kiểm tra";
-        // console.log('analytic_exam',removeObservable(analytic_exam));
+
         return (
             <div>
                 <FilterExam loadData={this.loadData}/>
@@ -258,7 +258,8 @@ class DashboardExamComponent extends React.Component {
                                         {/*</div>*/}
                                         <div className="row">
                                             <div className="col-md-12">
-                                                <h6 className="margin-bottom-20"><strong>Bảng điểm chi tiết
+                                                <h6 className="margin-bottom-20">
+                                                    <strong>Bảng điểm chi tiết
                                                     ({groupStudents.length})</strong>
                                                 </h6>
                                                 <div style={{width: '97%'}}>

@@ -16,14 +16,15 @@ class MNABarChart extends React.Component {
         };
 
         let options = {
+            ticks:[0,1,2,3,4,5,6,7,8,9,10],
             seriesBarDistance: 10,
             height:'500px',
             // height: 30 * data.labels.length + 'px',
             // horizontalBars: true,
             // stackBars: true,
             // stackMode: 'overlap',
-            // high: 10,
-            // low: 0,
+            high: 10,
+            low: 0,
             plugins: [
                 // eslint-disable-next-line
                 Chartist.plugins.legend({
@@ -74,16 +75,17 @@ class MNABarChart extends React.Component {
         ];
         // eslint-disable-next-line
         new Chartist.Bar('#' + this.props.id, data, options, responsiveOptions).on('draw', function(data) {
+            console.log(data);
             if(data.type === 'bar' ){
-                // console.log('chart',data);
                 if( data.series) {
-                    let y1 = data.axisY.axisLength /  10 * (data.series.data[data.index].min);
-
-                    // console.log(data.axisY.axisLength,y1,data.series.data[data.index])
-                    data.axisY.chartRect.y1 = y1;
-                    // data.y1 = y1;
-
-
+                    let y1 = data.axisY.axisLength /  10 * (10 - data.series.data[data.index].min);
+                    let y2 = y1 - data.axisY.axisLength /  10 * (data.series.data[data.index].range);
+                    console.log(y1,y2,data.series.data[data.index])
+                    data.element.attr({
+                        y1:y1 +15,
+                        y2:y2+15,
+                        // style: 'padding-bottom: transparent;'
+                    });
                 }
             }
         });
