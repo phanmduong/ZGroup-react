@@ -5,7 +5,7 @@ import React from 'react';
 import * as classActions from "../../classActions";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {avatarEmpty, getShortName, isEmptyInput} from "../../../../helpers/helper";
+import {avatarEmpty, getShortName, isEmptyInput, shortenStr, showNotification} from "../../../../helpers/helper";
 import TooltipButton from "../../../../components/common/TooltipButton";
 import {Modal, Overlay} from 'react-bootstrap';
 import * as ReactDOM from "react-dom";
@@ -21,7 +21,6 @@ import {DATE_FORMAT_SQL, DATE_VN_FORMAT, LESSON_EVENT_TYPES_OBJECT} from "../../
 import EmptyData from "../../../../components/common/EmptyData";
 import Checkbox from "../../../../components/common/Checkbox";
 import LessonDetailModal from "../../../attendance/LessonDetailModal";
-import * as helper from "../../../../helpers/helper";
 import * as attendanceActions from "../../../attendance/attendanceActions";
 
 class HistoryTeachingContainer extends React.Component {
@@ -313,7 +312,7 @@ class HistoryTeachingContainer extends React.Component {
         this.props.attendanceActions.takeAttendance(data, this.commitAttendanceSuccess);
     }
     commitAttendanceSuccess = () => {
-        helper.showNotification("Lưu thành công!");
+        showNotification("Lưu thành công!");
         this.setState({showModalDetailLesson: false});
         // this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
     }
@@ -327,6 +326,7 @@ class HistoryTeachingContainer extends React.Component {
         });
         this.props.attendanceActions.loadLessonDetailModal(this.props.classData.id, id);
     };
+
     render() {
         let {classData, isLoading, user, isLoadingSavingClassLessonEvents} = this.props;
         let {show, showModalDelayLessons, showModalLessonEvent, delayLessonIndex, delayData, lessonEventStudent, lessonEventType} = this.state;
@@ -369,89 +369,7 @@ class HistoryTeachingContainer extends React.Component {
 
                                             </div>
                                         </td>
-                                        <td style={{minWidth: '100px'}}>
-                                            <a target="_blank"
-                                               href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
 
-                                        </td>
-                                        <td><a
-                                            style={{fontWeight: 400}}
-                                            target="_blank"
-                                            href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
-                                        </td>
-                                        <td><a
-                                            style={{fontWeight: 400}}
-                                            target="_blank"
-                                            href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.description}</a>
-                                        </td>
-                                        <td>{lesson.term && <a
-                                            style={{fontWeight: 400}}
-                                            target="_blank"
-                                            href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.term.name}</a>}
-                                        </td>
-                                        <td>
-                                            <div>
-                                                <div>{lesson.start_time}-{lesson.end_time}</div>
-                                                <div>{lesson.time}</div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <div className="flex flex-wrap">
-
-                                                {
-                                                    lesson.teacher ?
-                                                        <TooltipButton text="Giảng viên"
-                                                                       placement="top"
-                                                        >
-                                                            <button className="btn btn-xs"
-                                                                    style={{
-                                                                        background: '#' + lesson.teacher.color,
-                                                                        minWidth,
-                                                                        margin
-                                                                    }}>
-                                                                {getShortName(lesson.teacher.name)}
-                                                                <div className="ripple-container"/>
-                                                            </button>
-                                                        </TooltipButton>
-                                                        :
-                                                        <TooltipButton text="Giảng viên"
-                                                                       placement="top"
-                                                        >
-                                                            <button className="btn btn-xs"
-                                                                    style={{minWidth, margin}}>
-                                                                NONE
-                                                                <div className="ripple-container"/>
-                                                            </button>
-                                                        </TooltipButton>
-
-                                                }
-                                                {
-                                                    lesson.teacher_assistant ?
-                                                        <TooltipButton text="Trơ giảng"
-                                                                       placement="top"
-                                                        >
-                                                            <button className="btn btn-xs"
-                                                                    style={{
-                                                                        background: '#' + lesson.teacher_assistant.color,
-                                                                        minWidth, margin
-                                                                    }}>
-                                                                {getShortName(lesson.teacher_assistant.name)}
-                                                                <div className="ripple-container"/>
-                                                            </button>
-                                                        </TooltipButton>
-                                                        :
-                                                        <TooltipButton text="Trợ giảng"
-                                                                       placement="top"
-                                                        >
-                                                            <button className="btn btn-xs"
-                                                                    style={{minWidth, margin}}>
-                                                                NONE
-                                                                <div className="ripple-container"/>
-                                                            </button>
-                                                        </TooltipButton>
-                                                }
-                                            </div>
-                                        </td>
                                         <td>
                                             <button className="btn btn-white float-right"
                                                     onClick={() => this.openModalDetailLessonAttendance(lesson.id)}>
@@ -512,6 +430,98 @@ class HistoryTeachingContainer extends React.Component {
                                                 </Overlay>
                                             </div>
                                         </td>
+                                        <td style={{minWidth: '100px'}}>
+                                            <a target="_blank"
+                                               href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
+                                            <div>
+                                                <a
+                                                    style={{fontWeight: 400}}
+                                                    target="_blank"
+                                                    href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
+                                            </div>
+                                        </td>
+                                        <td>
+
+
+                                            <div>
+                                                <a
+                                                style={{fontWeight: 400}}
+                                                target="_blank"
+                                                href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{shortenStr(lesson.description, 40)}</a>
+                                            </div>
+
+                                        </td>
+                                        <td>
+                                        </td>
+                                        <td>{lesson.term && <a
+                                            style={{fontWeight: 400}}
+                                            target="_blank"
+                                            href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.term.name}</a>}
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <div>{lesson.start_time}-{lesson.end_time}</div>
+                                                <div>{lesson.time}</div>
+                                            </div>
+                                        </td>
+                                        <td style={{maxWidth: '130px'}}>
+                                            <div className="flex flex-wrap">
+
+                                                {
+                                                    lesson.teacher ?
+                                                        <TooltipButton text="Giảng viên"
+                                                                       placement="top"
+                                                        >
+                                                            <button className="btn btn-xs"
+                                                                    style={{
+                                                                        background: '#' + lesson.teacher.color,
+                                                                        minWidth,
+                                                                        margin
+                                                                    }}>
+                                                                {getShortName(lesson.teacher.name)}
+                                                                <div className="ripple-container"/>
+                                                            </button>
+                                                        </TooltipButton>
+                                                        :
+                                                        <TooltipButton text="Giảng viên"
+                                                                       placement="top"
+                                                        >
+                                                            <button className="btn btn-xs"
+                                                                    style={{minWidth, margin}}>
+                                                                NONE
+                                                                <div className="ripple-container"/>
+                                                            </button>
+                                                        </TooltipButton>
+
+                                                }
+                                                {
+                                                    lesson.teacher_assistant ?
+                                                        <TooltipButton text="Trơ giảng"
+                                                                       placement="top"
+                                                        >
+                                                            <button className="btn btn-xs"
+                                                                    style={{
+                                                                        background: '#' + lesson.teacher_assistant.color,
+                                                                        minWidth, margin
+                                                                    }}>
+                                                                {getShortName(lesson.teacher_assistant.name)}
+                                                                <div className="ripple-container"/>
+                                                            </button>
+                                                        </TooltipButton>
+                                                        :
+                                                        <TooltipButton text="Trợ giảng"
+                                                                       placement="top"
+                                                        >
+                                                            <button className="btn btn-xs"
+                                                                    style={{minWidth, margin}}>
+                                                                NONE
+                                                                <div className="ripple-container"/>
+                                                            </button>
+                                                        </TooltipButton>
+                                                }
+                                            </div>
+                                        </td>
+
                                     </tr>
                                 );
                             })
@@ -532,7 +542,7 @@ class HistoryTeachingContainer extends React.Component {
                                 {classData && classData.registers && classData.registers.map((register, key) => {
                                     let {student} = register;
                                     let currentObj = lessonEventStudent[key] || {
-                                        comment:'Learning attitude:\nParticipation\tBehaviors:\nLanguage skills:\nImprovement points:'
+                                        comment: 'Learning attitude:\nParticipation\tBehaviors:\nLanguage skills:\nImprovement points:'
                                     };
                                     if (isEmptyInput(currentObj.comment))
                                         currentObj.comment = 'Learning attitude:\nParticipation\tBehaviors:\nLanguage skills:\nImprovement points:';

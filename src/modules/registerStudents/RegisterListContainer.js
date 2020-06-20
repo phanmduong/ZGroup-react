@@ -813,20 +813,19 @@ class RegisterListContainer extends React.Component {
                                             </h2>
                                         </div>
                                         <div>
-                                            <a
-                                                onClick={this.showLoadingModal}
-                                                className="text-white"
-                                                disabled={
-                                                    this.props.isLoadingGens ||
-                                                    // this.props.isLoadingClassFilter ||
-                                                    this.props.isLoading ||
-                                                    this.props.isLoadingRegisters ||
-                                                    this.props.isLoadingBaseFilter ||
-                                                    this.props.isLoadingExcel
-                                                }
-                                            >
+                                            {
+                                                !(this.props.isLoadingGens ||
+                                                // this.props.isLoadingClassFilter ||
+                                                this.props.isLoading ||
+                                                this.props.isLoadingRegisters ||
+                                                this.props.isLoadingBaseFilter ||
+                                                this.props.isLoadingExcel)
+                                                    &&
+                                            <a onClick={this.showLoadingModal}
+                                                className="text-white">
                                                 Tải xuống
                                             </a>
+                                            }
                                         </div>
                                         <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
                                             <Search

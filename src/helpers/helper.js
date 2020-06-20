@@ -9,7 +9,7 @@ import {CIRCLE_PICKER_COLORS, PHONE_HEAD_3, PHONE_HEAD_4} from '../constants/con
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
-    if (str.length > length) {
+    if (!isEmptyInput(str) && str.length > length) {
         return str.slice(0, length - 3) + '...';
     } else {
         return str;
