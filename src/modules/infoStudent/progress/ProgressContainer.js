@@ -89,7 +89,7 @@ class ProgressContainer extends React.Component {
     }
 
     render() {
-
+        console.log(this.props);
         return (
             <div className="tab-pane active">
 
@@ -118,6 +118,12 @@ class ProgressContainer extends React.Component {
                                 let noneGroup = progressClass.exams.filter(e => isEmptyInput(e.group_exam_id));
                                 let currentTab = this.state.selectedTabs[index] || 0;
                                 let sum_hw = progressClass.attendances.reduce((hw_sum, atd) => hw_sum + (atd.status.hw_status ? 1 : 0), 0);
+                                let firstAttendanceSuccess = progressClass.attendances.filter(atd => atd.status && atd.status.status)[0];
+                                let firstAttendanceSuccessTime = firstAttendanceSuccess ?
+                                    moment(firstAttendanceSuccess.status.class_lesson.time, DATE_FORMAT_SQL).format(DATE_VN_FORMAT)
+                                    : 'Không có'
+                                ;
+
                                 return (
                                     <li className="timeline-inverted" key={index}>
                                         <div className="timeline-badge">
@@ -138,6 +144,10 @@ class ProgressContainer extends React.Component {
                                                         <div className="flex-row-center">
                                                             <i className="material-icons">access_time</i>
                                                             <b>&nbsp; &nbsp; {progressClass.study_time} </b>
+                                                        </div>
+                                                        <div className="flex-row-center">
+                                                            <i className="material-icons">access_time</i>
+                                                            &nbsp; &nbsp;Ngày bắt đầu học:&nbsp;<b>{firstAttendanceSuccessTime} </b>
                                                         </div>
                                                         <div className="flex-row-center">
                                                             <i className="material-icons">home</i>&nbsp; &nbsp;

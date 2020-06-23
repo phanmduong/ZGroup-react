@@ -1,7 +1,6 @@
 import axios from "axios";
-import * as env from "../../constants/env";
 import * as helper from "../../helpers/helper";
-import {NEW_MANAGE_API_URL} from "../../constants/env";
+import {MANAGE_API_URL, NEW_MANAGE_API_URL} from "../../constants/env";
 
 
 
@@ -31,7 +30,7 @@ export function loadRegisters(filter) {
     } = filter;
     console.log('api',filter);
 
-    let baseUrl = env.NEW_MANAGE_API_URL + "/register/register-list?";
+    let baseUrl = NEW_MANAGE_API_URL + "/register/register-list?";
     let includes = '&include=saler,studyClass,source,register_status,student,gen,coupons,tele_call,course,marketing_campaign';
     let token = localStorage.getItem('token');
     let url =
@@ -66,7 +65,7 @@ export function loadRegisters(filter) {
 
 
 export function findUser(search,is_staff) {
-    let url = env.NEW_MANAGE_API_URL + "/user/find-by-name";
+    let url = NEW_MANAGE_API_URL + "/user/find-by-name";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -91,7 +90,7 @@ export const getMarketingCampaignsApi = () => {
 }
 
 export function loadStatuses(statusRef) {
-    let url = env.NEW_MANAGE_API_URL + `/statuses/all`;
+    let url = NEW_MANAGE_API_URL + `/statuses/all`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -102,7 +101,7 @@ export function loadStatuses(statusRef) {
 }
 
 export function loadSources() {
-    let url = env.MANAGE_API_URL + `/source/all`;
+    let url = MANAGE_API_URL + `/source/all`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -113,7 +112,7 @@ export function loadSources() {
 
 
 export function findClass(search) {
-    let url = env.NEW_MANAGE_API_URL + "/class/find-by-name";
+    let url = NEW_MANAGE_API_URL + "/class/find-by-name";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
