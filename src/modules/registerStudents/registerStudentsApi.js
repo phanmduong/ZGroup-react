@@ -61,6 +61,7 @@ export function getRegisterStudent(filter) {
         selectedSalerId = '',
         campaignId = '',
         selectedClassId = '',
+        selectedCourseId = '',
         selectedMoneyFilter = '',
         selectedClassStatus = '',
         startTime = '',
@@ -96,6 +97,7 @@ export function getRegisterStudent(filter) {
         "&saler_id=" + selectedSalerId +
         '&campaign_id=' + campaignId +
         "&class_id=" + selectedClassId +
+        "&course_id=" + selectedCourseId +
         "&status=" + selectedMoneyFilter +
         "&base_id=" + selectedBaseId +
         "&appointment_payment=" + appointmentPayment +
