@@ -22,6 +22,7 @@ import EmptyData from "../../../../components/common/EmptyData";
 import Checkbox from "../../../../components/common/Checkbox";
 import LessonDetailModal from "../../../attendance/LessonDetailModal";
 import * as attendanceActions from "../../../attendance/attendanceActions";
+import CheckBoxMaterial from "../../../../components/common/CheckBoxMaterial";
 
 class HistoryTeachingContainer extends React.Component {
     constructor(props, context) {
@@ -155,7 +156,8 @@ class HistoryTeachingContainer extends React.Component {
                 class_lesson_event_id: student_class_lesson_event.class_lesson_event_id,
                 lesson_event_id: classLessonEvent.lesson_event_id,
                 class_lesson_id: lessonEvent.id,
-                comment: student_class_lesson_event ? student_class_lesson_event.data : ''
+                comment: student_class_lesson_event ? student_class_lesson_event.data : '',
+                status: student_class_lesson_event ? student_class_lesson_event.status : null,
             };
         });
         this.setState(
@@ -181,10 +183,19 @@ class HistoryTeachingContainer extends React.Component {
         });
     };
 
-    updateFormInputEvent = (e, index) => {
+    updateFormModalEvent = (e, index) => {
         let {name, value} = e.target;
         let lessonEventStudent = {...this.state.lessonEventStudent};
-        lessonEventStudent[index][name] = value;
+        switch (name) {
+            case 'status': {
+                lessonEventStudent[index][name] = lessonEventStudent[index][name] != 'done' ? 'done' : null;
+                break;
+            }
+            default: {
+                lessonEventStudent[index][name] = value;
+                break;
+            }
+        }
         this.setState({lessonEventStudent});
     };
 
@@ -435,7 +446,7 @@ class HistoryTeachingContainer extends React.Component {
                                                href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
                                             <div>
                                                 <a
-                                                    style={{fontWeight: 400}}
+                                                    style={{fontWeight: 400, color: 'black'}}
                                                     target="_blank"
                                                     href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
                                             </div>
@@ -445,16 +456,16 @@ class HistoryTeachingContainer extends React.Component {
 
                                             <div>
                                                 <a
-                                                style={{fontWeight: 400}}
-                                                target="_blank"
-                                                href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{shortenStr(lesson.description, 40)}</a>
+                                                    style={{fontWeight: 400, color: 'black'}}
+                                                    target="_blank"
+                                                    href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{shortenStr(lesson.description, 40)}</a>
                                             </div>
 
                                         </td>
                                         <td>
                                         </td>
                                         <td>{lesson.term && <a
-                                            style={{fontWeight: 400}}
+                                            style={{fontWeight: 400, color: 'black'}}
                                             target="_blank"
                                             href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.term.name}</a>}
                                         </td>
@@ -536,15 +547,24 @@ class HistoryTeachingContainer extends React.Component {
                         <h4 className="modal-title text-center">{modalEvent.modalText}</h4>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className="table-responsive table-no-border">
-                            <table className="table" cellSpacing="0" id="list_score">
+
+                        <div className="table-responsive table-no-border  table-split">
+                            <table className="table">
+                                <thead className="text-rose">
+                                <tr>
+                                    <th>Học viên</th>
+                                    <th className="text-center">Đã hoàn thành</th>
+                                    <th className="text-center">Nhận xét</th>
+                                </tr>
+                                </thead>
                                 <tbody>
                                 {classData && classData.registers && classData.registers.map((register, key) => {
                                     let {student} = register;
                                     let currentObj = lessonEventStudent[key] || {
-                                        comment: 'Learning attitude:\nParticipation\tBehaviors:\nLanguage skills:\nImprovement points:'
+                                        comment: ''
                                     };
-                                    if (isEmptyInput(currentObj.comment))
+
+                                    if (isEmptyInput(currentObj.comment) && lessonEventType == LESSON_EVENT_TYPES_OBJECT["comment"].type)
                                         currentObj.comment = 'Learning attitude:\nParticipation\tBehaviors:\nLanguage skills:\nImprovement points:';
 
                                     return (
@@ -561,14 +581,27 @@ class HistoryTeachingContainer extends React.Component {
                                                 </div>
                                             </td>
                                             <td>
+                                                <div className="flex flex-justify-content-center">
+                                                    <div style={{width: 50}}>
+                                                        <CheckBoxMaterial
+                                                            name="status"
+                                                            checked={currentObj.status == 'done'}
+                                                            onChange={(e) => this.updateFormModalEvent(e, key)}/>
+                                                        {/*    <div><b>Đã hoàn thành</b></div>*/}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
                                                 {/*<FormInputText name="comment"*/}
                                                 {/*               value={currentObj.comment}*/}
                                                 {/*               disabled={isLoadingSavingClassLessonEvents}*/}
                                                 {/*               placeholder={modalEvent.placeholder}*/}
                                                 {/*               className="form-grey"*/}
-                                                {/*               updateFormData={(e) => this.updateFormInputEvent(e, key)}*/}
+                                                {/*               updateFormData={(e) => this.updateFormModalEvent(e, key)}*/}
                                                 {/*/>*/}
+
                                                 <div className="form-grey">
+
                                                     <div className="form-group text-area-grey">
                                                          <textarea className="form-control"
                                                                    rows={5}
@@ -576,7 +609,7 @@ class HistoryTeachingContainer extends React.Component {
                                                                    name="comment"
                                                                    placeholder={modalEvent.placeholder}
                                                                    value={currentObj.comment}
-                                                                   onChange={(e) => this.updateFormInputEvent(e, key)}/>
+                                                                   onChange={(e) => this.updateFormModalEvent(e, key)}/>
 
                                                     </div>
                                                 </div>

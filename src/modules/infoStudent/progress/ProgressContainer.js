@@ -206,7 +206,7 @@ class ProgressContainer extends React.Component {
                                                         {Object.keys(LESSON_EVENT_TYPES_OBJECT).map((event_type) => {
                                                             let event_obj = LESSON_EVENT_TYPES_OBJECT[event_type];
                                                             let lesson_events_count = progressClass.lesson_events.filter(e=>e.event_type == event_type).length;
-                                                            let student_lesson_events_count = progressClass.classLessonEvents.filter(e=>e.event_type == event_type).length;
+                                                            let student_lesson_events_count = progressClass.classLessonEvents.filter(e=>e.event_type == event_type && e.status == 'done').length;
                                                             let event_percentage = lesson_events_count ? (student_lesson_events_count/lesson_events_count*100) : 0;
                                                             return ([<div className="flex-row-center">
                                                                 <i className="material-icons">{event_obj.progress_icon}</i>&nbsp; &nbsp;

@@ -81,9 +81,16 @@ class DashboardClassLessonEventComponent extends React.Component {
         studyClass.class_lesson.forEach(class_lesson => {
             if (class_lesson.lesson && class_lesson.lesson.lesson_event) {
                 class_lesson.lesson.lesson_event.forEach(lesson_event => {
-                    let total_done = class_lesson.class_lesson_event.filter(cle =>
+                    let total_done = 0;
+                    let class_lesson_events = class_lesson.class_lesson_event.filter(cle =>
                         cle.lesson_event_id == lesson_event.id
-                    ).length;
+                    );
+                    class_lesson_events.forEach(class_lesson_event => {
+                        if (class_lesson_event.student_class_lesson_event)
+                            total_done += class_lesson_event.student_class_lesson_event.filter(scle =>
+                                scle.status == 'done'
+                            ).length;
+                    });
                     let total = studyClass.target.target;
                     res.push({
                         order: class_lesson.lesson.order,
@@ -118,14 +125,14 @@ class DashboardClassLessonEventComponent extends React.Component {
                     classes.map((studyClass, key_class) => {
                         let tableData = this.getClassTableData(studyClass);
                         // console.log('tableData', tableData)
-                        if(tableData.length)
+                        if (tableData.length)
                             return (
-                            <div className="col-md-12" key={key_class}>
-                                <div className="card">
-                                    <div className="card-content">
-                                        <h4 className="card-title">
-                                            <strong>Lớp {studyClass.name}</strong>
-                                        </h4>
+                                <div className="col-md-12" key={key_class}>
+                                    <div className="card">
+                                        <div className="card-content">
+                                            <h4 className="card-title">
+                                                <strong>Lớp {studyClass.name}</strong>
+                                            </h4>
                                             <ReactTable
                                                 data={tableData}
                                                 columns={this.columns}
@@ -146,10 +153,10 @@ class DashboardClassLessonEventComponent extends React.Component {
                                                 ]}
                                             />
 
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        );
+                            );
                     })}
 
                 </div>
