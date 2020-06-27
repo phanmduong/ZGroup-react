@@ -28,3 +28,17 @@ export const loadStaffs = () => {
     }
     return axios.get(url);
 };
+
+export const setLeadKpiApi = (kpi) => {
+    let url = `${NEW_MANAGE_API_URL}/lead-kpi/create?token=${localStorage.getItem('token')}`;
+    return axios.post(url, kpi);
+};
+
+export const getHistoryLeadKpiApi = (filter) => {
+    let fields = ['start_time', 'end_time'];
+    let url = `${NEW_MANAGE_API_URL}/lead-kpi/by-dates?token=${localStorage.getItem('token')}`;
+    fields.forEach(field => {
+        url += `&${field}=${filter[field] || ''}`;
+    });
+    return axios.get(url);
+};

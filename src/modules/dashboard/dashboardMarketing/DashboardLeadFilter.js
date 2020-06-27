@@ -8,7 +8,9 @@ import * as baseActions from "../../../actions/baseActions";
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import * as userActions from "../../../actions/userActions";
+import {observer} from "mobx-react";
 
+@observer
 class DashboardLeadFilter extends React.Component {
 
     constructor(props, context) {

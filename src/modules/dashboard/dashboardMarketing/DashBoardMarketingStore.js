@@ -1,5 +1,5 @@
 import {action, computed, observable} from "mobx";
-import {analyticsLead,analyticsSourceCampaign} from "./DashboardMarketingApi";
+import {analyticsLead, analyticsSourceCampaign} from "./DashboardMarketingApi";
 import {loadGens} from "../dashboardApi";
 import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
@@ -34,6 +34,7 @@ export const store = new class Store {
             leadsByCampaigns: [],
             leadPics: [],
             leadsByPics: [],
+            leadKpiByDates: []
         }
     };
     @observable routes = [
@@ -53,8 +54,8 @@ export const store = new class Store {
         end_time: moment().subtract(0, 'days'),
         base_id: 0,
         carer_id: '',
-        carer: {value: 0, label: "Person In Charge",avatar_url: ''},
-        importer: {value: 0, label:"Người nhập" ,avatar_url: ''},
+        carer: {value: 0, label: "Person In Charge", avatar_url: ''},
+        importer: {value: 0, label: "Người nhập", avatar_url: ''},
         imported_by: '',
         // carer: null,
         gen_id: 0,
@@ -69,15 +70,15 @@ export const store = new class Store {
             return {value: base.id, label: base.name,};
         });
         let gens = this.data.gens.map(gen => {
-            return {...gen,value: gen.id, label: 'Khóa ' + gen.name, };
+            return {...gen, value: gen.id, label: 'Khóa ' + gen.name,};
         });
         let staffs = this.data.staffs.map(staff => {
             return {value: staff.id, label: staff.name};
         });
-        let sources =  [{value: 0, label: "Tất cả nguồn"}, ...this.data.sources.map(source => {
+        let sources = [{value: 0, label: "Tất cả nguồn"}, ...this.data.sources.map(source => {
             return {...source, value: source.id, label: source.name};
         })];
-        let campaigns =  [{value: 0, label: "Tất cả chiến dịch"}, ...this.data.marketing_campaigns.map(campaign => {
+        let campaigns = [{value: 0, label: "Tất cả chiến dịch"}, ...this.data.marketing_campaigns.map(campaign => {
             return {...campaign, value: campaign.id, label: campaign.name};
         })]
         bases.unshift({value: 0, label: "Tất cả cơ sở",});
@@ -105,7 +106,7 @@ export const store = new class Store {
                 this.filter.importer = value;
                 break;
             }
-            case 'gen_id':{
+            case 'gen_id': {
                 res = value ? value.value : 0;
                 this.filter.start_time = moment(value.start_time);
                 this.filter.end_time = moment(value.end_time);
@@ -129,7 +130,7 @@ export const store = new class Store {
 
     @action
     loadStaffs = (input, callback, field) => {
-        if(isEmptyInput(this.timeOut)) this.timeOut = {};
+        if (isEmptyInput(this.timeOut)) this.timeOut = {};
         if (this.timeOut[field] !== null) {
             clearTimeout(this.timeOut[field]);
         }
@@ -150,7 +151,7 @@ export const store = new class Store {
                     });
                 });
                 this.data[field] = data;
-                console.log(field,data);
+                console.log(field, data);
                 callback(null, {options: data, complete: true});
             });
         }.bind(this), 500);
@@ -210,31 +211,31 @@ export const store = new class Store {
                 });
             }
         }).then(() => {
+            this.load();
         }).finally(() => {
             this.isLoading = false;
         })
-        this.load();
     };
     @action
     load = () => {
 
         switch (this.pathname) {
-            case `${this.routePrefix}/sources-campaigns`:{
+            case `${this.routePrefix}/sources-campaigns`: {
                 this.loadAnalyticsLead();
                 break;
             }
-            case `${this.routePrefix}/pic`:{
+            case `${this.routePrefix}/pic`: {
                 this.loadAnalyticsLead();
                 break;
             }
-            default:{
+            default: {
                 this.loadAnalyticsLead();
             }
         }
     };
 
     @action
-    loadAnalyticsLead = ()=>{
+    loadAnalyticsLead = () => {
         this.isLoading = true;
         let filter = {...this.filter};
         filter.start_time = filter.start_time.format(DATE_FORMAT_SQL);
@@ -249,7 +250,7 @@ export const store = new class Store {
         });
     }
     @action
-    loadAnalyticsSourceCampaign = ()=>{
+    loadAnalyticsSourceCampaign = () => {
         this.isLoading = true;
         let filter = {...this.filter};
         filter.start_time = filter.start_time.format(DATE_FORMAT_SQL);
@@ -264,7 +265,7 @@ export const store = new class Store {
         });
     }
     @action
-    loadAnalyticsPic = ()=>{
+    loadAnalyticsPic = () => {
         this.isLoading = true;
         // let filter = {...this.filter};
         // filter.start_time = filter.start_time.format(DATE_FORMAT_SQL);
