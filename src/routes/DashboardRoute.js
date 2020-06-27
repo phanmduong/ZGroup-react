@@ -16,6 +16,7 @@ import DashboardAcademyComponent from "../modules/dashboard/dashboardAcademy/Das
 import DashboardExamComponent from "../modules/dashboard/dashboardAcademy/exams/DashboardExamComponent";
 import DashboardClassLessonEventComponent
     from "../modules/dashboard/dashboardAcademy/classLessonEvents/DashboardClassLessonEventComponent";
+import DashboardRealRevenueComponent from "../modules/dashboard/dashboardSale/DashboardRealRevenueComponent";
 
 
 /**
@@ -41,6 +42,10 @@ export default [
             {
                 path: "course",
                 component: DashboardCourseComponent,
+            },
+            {
+                path: "real-revenue",
+                component: DashboardRealRevenueComponent,
             },
         ]
     },

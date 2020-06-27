@@ -18,6 +18,9 @@ const routes = [
     {
         path: `${routePrefix}/course`, text: 'Môn học',
     },
+    {
+        path: `${routePrefix}/real-revenue`, text: 'Doanh thu thực',
+    },
 
 ];
 
