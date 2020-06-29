@@ -98,7 +98,7 @@ class DashboardClassLessonEventComponent extends React.Component {
                 studyClass.class_lesson.forEach(cl => {
                     if (month == moment(cl.time, DATE_FORMAT_SQL).format('MM/YYYY')) {
                         cl.class_lesson_event.forEach(cle => {
-                            if(cle.lesson_event.event_type == type){
+                            if(cle.lesson_event && cle.lesson_event.event_type == type){
                                     cle.student_class_lesson_event.forEach(scle=>{
                                         if(!student_event_count[scle.student_id]){
                                             student_event_count[scle.student_id] = 0;
