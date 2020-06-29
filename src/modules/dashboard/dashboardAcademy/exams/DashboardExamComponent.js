@@ -84,7 +84,7 @@ class DashboardExamComponent extends React.Component {
                 id: t.id,
                 name: t.title,
                 data: []
-            }
+            };
         });
         classes.forEach(c => {
             data.forEach(t => {
@@ -223,7 +223,7 @@ class DashboardExamComponent extends React.Component {
                             let groupStudents = this.getGroupStudent(analytic_exam, group);
                             let classesStatistic = this.getClassesStatistic(analytic_exam, group);
                             let analyticsMna = this.getGroupExamAnalyticsMna(groupScores, templates);
-                            // console.log(group.id,'groupScores', groupScores);
+                            console.log(group.id,'analyticsMna', analyticsMna);
                             if (templates.length && groupScores.length) return (
                                 <div className="card" key={key_group}>
                                     <div className="card-content">

@@ -6,8 +6,11 @@ import Loading from "../../../../components/common/Loading";
 import DashboardClassLessonEventStore from "./DashboardClassLessonEventStore";
 import EmptyData from "../../../../components/common/EmptyData";
 import Sort from "../../../../components/common/ReactTable/Sort";
-import {LESSON_EVENT_TYPES_OBJECT} from "../../../../constants/constants";
+import {DATE_FORMAT_SQL, LESSON_EVENT_TYPES_ARRAY, LESSON_EVENT_TYPES_OBJECT} from "../../../../constants/constants";
 import ReactTable from "react-table-v6";
+import MNABarChart from "./MNABarChart";
+import {generateMonthsArray} from "../../../../helpers/helper";
+import moment from 'moment';
 
 @observer
 class DashboardClassLessonEventComponent extends React.Component {
@@ -76,6 +79,58 @@ class DashboardClassLessonEventComponent extends React.Component {
         this.store.loadAnalytic(filter);
     }
 
+    getClassAnalyticsMnaData = (studyClass) => {
+        let months = generateMonthsArray(studyClass.class_lesson.map(cl => cl.time), DATE_FORMAT_SQL);
+
+        let labels = months;
+        let data = LESSON_EVENT_TYPES_ARRAY.map(m=>{
+            return {
+              id:m,
+              name:LESSON_EVENT_TYPES_OBJECT[m].name,
+              data:[]
+            };
+        });
+
+        months.forEach((month) => {
+            data.forEach(t => {
+
+                let min = 9999, max = -1, student_event_count = {}, type = t.id;
+                studyClass.class_lesson.forEach(cl => {
+                    if (month == moment(cl.time, DATE_FORMAT_SQL).format('MM/YYYY')) {
+                        cl.class_lesson_event.forEach(cle => {
+                            if(cle.lesson_event.event_type == type){
+                                    cle.student_class_lesson_event.forEach(scle=>{
+                                        if(!student_event_count[scle.student_id]){
+                                            student_event_count[scle.student_id] = 0;
+                                        }
+                                        if(scle.status == 'done'){
+                                            student_event_count[scle.student_id]++;
+                                        }
+                                    });
+
+                            }
+                        });
+                    }
+                });
+                Object.entries(student_event_count).forEach(entry=>{
+                    let val = student_event_count[entry[0]];
+                    min = Math.min(min, val);
+                    max = Math.max(max, val);
+                });
+                if(Object.entries(student_event_count).length == 0){
+                    min =0;
+                    max =0;
+                }
+                t.data.push({meta: `${t.name}: ${min}-${max}`, value: max,range:max-min, max, min});
+            });
+
+        });
+        return {
+            labels,
+            data,
+        };
+    }
+
     getClassTableData = (studyClass) => {
         let res = [];
         studyClass.class_lesson.forEach(class_lesson => {
@@ -111,7 +166,7 @@ class DashboardClassLessonEventComponent extends React.Component {
         let {course_id, class_id} = filterClassLessonEventStore.filter;
         let {isLoading, classes} = this.store;
         const emptyTitle = (course_id || class_id) ? "Không có dữ liệu" : "Chọn môn học hoặc lớp để xem thống kê";
-        // console.log(classes);
+        console.log(classes);
         return (
             <div>
                 <FilterExam loadData={this.loadData}/>
@@ -124,6 +179,7 @@ class DashboardClassLessonEventComponent extends React.Component {
                     {!(isLoading || filterClassLessonEventStore.isLoading) &&
                     classes.map((studyClass, key_class) => {
                         let tableData = this.getClassTableData(studyClass);
+                        let analyticsMna = this.getClassAnalyticsMnaData(studyClass);
                         // console.log('tableData', tableData)
                         if (tableData.length)
                             return (
@@ -133,6 +189,13 @@ class DashboardClassLessonEventComponent extends React.Component {
                                             <h4 className="card-title">
                                                 <strong>Lớp {studyClass.name}</strong>
                                             </h4>
+
+                                            <MNABarChart
+                                                label={analyticsMna.labels}
+                                                data={analyticsMna.data}
+                                                id={`barchart-mna-nalytics-event-${key_class}`}
+                                            />
+
                                             <ReactTable
                                                 data={tableData}
                                                 columns={this.columns}

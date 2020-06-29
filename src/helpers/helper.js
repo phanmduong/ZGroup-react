@@ -5,7 +5,12 @@ import _ from 'lodash';
 import moment from 'moment';
 import XLSX from 'xlsx';
 import * as  FILE_SAVER from 'file-saver';
-import {CIRCLE_PICKER_COLORS, PHONE_HEAD_3, PHONE_HEAD_4} from '../constants/constants';
+import {
+    CIRCLE_PICKER_COLORS,
+    DATE_FORMAT_SQL,
+    PHONE_HEAD_3,
+    PHONE_HEAD_4
+} from '../constants/constants';
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -1632,4 +1637,23 @@ export function meanOfArray(values) {
     let sum = 0;
     values.forEach(val=>sum+=val);
     return Math.round(sum/values.length*100)/100;
+}
+
+export function generateMonthsArray(dates = [], date_format=DATE_FORMAT_SQL, target_format = 'MM/YYYY') {
+    if(!dates.length) return [];
+    let minDate = moment().add(10, 'years'), maxDate = moment().subtract(10, 'years');
+    dates.forEach(d=>{
+        let _date = moment(d, date_format);
+        if(_date.isAfter(maxDate)) maxDate = _date;
+        if(_date.isBefore(minDate)) minDate = _date;
+    });
+    let res = [];
+    console.log(minDate, maxDate,maxDate.diff(minDate,'months'));
+    for( ; maxDate.diff(minDate,'months'); ){
+        res.push(minDate.format(target_format));
+        minDate = minDate.add(1,'months');
+    }
+
+
+    return res;
 }
