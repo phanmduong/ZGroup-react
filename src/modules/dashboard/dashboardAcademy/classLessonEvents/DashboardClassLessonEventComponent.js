@@ -80,7 +80,7 @@ class DashboardClassLessonEventComponent extends React.Component {
     }
 
     getClassAnalyticsMnaData = (studyClass) => {
-        let months = generateMonthsArray(studyClass.class_lesson.map(cl => cl.time), DATE_FORMAT_SQL);
+        let months = generateMonthsArray(studyClass.class_lesson.filter(cl=>cl.time).map(cl => cl.time), DATE_FORMAT_SQL);
 
         let labels = months;
         let data = LESSON_EVENT_TYPES_ARRAY.map(m=>{
