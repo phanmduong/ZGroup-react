@@ -14,7 +14,7 @@ class MNABarChart extends React.Component {
             labels: this.props.label,
             series: this.props.data,
         };
-
+        let high = this.props.high;
         let options = {
             seriesBarDistance: 10,
             height:'500px',
@@ -22,7 +22,7 @@ class MNABarChart extends React.Component {
             // horizontalBars: true,
             // stackBars: true,
             // stackMode: 'overlap',
-            // high: 10,
+            high,
             low: 0,
             plugins: [
                 // eslint-disable-next-line
@@ -78,8 +78,8 @@ class MNABarChart extends React.Component {
                 console.log('chart',data);
 
                 if( data.series) {
-                    let y1 = data.axisY.axisLength /  10 * (10 - data.series.data[data.index].min);
-                    let y2 = y1 - data.axisY.axisLength /  10 * (data.series.data[data.index].range);
+                    let y1 = data.axisY.axisLength /  high * (high - data.series.data[data.index].min);
+                    let y2 = y1 - data.axisY.axisLength /  high * (data.series.data[data.index].range);
                     console.log(y1,y2,data.series.data[data.index])
                     data.element.attr({
                         y1:y1 +15,

@@ -3677,6 +3677,8 @@ $min-height-step-content: 500px;
 
   tbody > tr > td, tbody > tr > th, tfoot > tr > td, tfoot > tr > th, thead > tr > td, thead > tr > th {
     border-top: none !important;
+    border: 0px;
+
   }
 
   tbody > tr {
@@ -3694,6 +3696,7 @@ $min-height-step-content: 500px;
   tr > td:last-child, tr > th:last-child {
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+
   }
 
   tbody > tr:hover {

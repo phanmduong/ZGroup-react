@@ -9,7 +9,7 @@ import Sort from "../../../../components/common/ReactTable/Sort";
 import {DATE_FORMAT_SQL, LESSON_EVENT_TYPES_ARRAY, LESSON_EVENT_TYPES_OBJECT} from "../../../../constants/constants";
 import ReactTable from "react-table-v6";
 import MNABarChart from "./MNABarChart";
-import {generateMonthsArray} from "../../../../helpers/helper";
+import {generateMonthsArray, meanOfArray, medianOfArray, modeOfArray} from "../../../../helpers/helper";
 import moment from 'moment';
 
 @observer
@@ -79,15 +79,15 @@ class DashboardClassLessonEventComponent extends React.Component {
         this.store.loadAnalytic(filter);
     }
 
-    getClassAnalyticsMnaData = (studyClass) => {
-        let months = generateMonthsArray(studyClass.class_lesson.filter(cl=>cl.time).map(cl => cl.time), DATE_FORMAT_SQL);
-
+    getClassAnalyticsMnaEvents = (studyClass) => {
+        let months = generateMonthsArray(studyClass.class_lesson.filter(cl => cl.time).map(cl => cl.time), DATE_FORMAT_SQL);
+        let max_student = 0,  mna_data = {};
         let labels = months;
-        let data = LESSON_EVENT_TYPES_ARRAY.map(m=>{
+        let data = LESSON_EVENT_TYPES_ARRAY.map(m => {
             return {
-              id:m,
-              name:LESSON_EVENT_TYPES_OBJECT[m].name,
-              data:[]
+                id: m,
+                name: LESSON_EVENT_TYPES_OBJECT[m].name,
+                data: []
             };
         });
 
@@ -98,36 +98,76 @@ class DashboardClassLessonEventComponent extends React.Component {
                 studyClass.class_lesson.forEach(cl => {
                     if (month == moment(cl.time, DATE_FORMAT_SQL).format('MM/YYYY')) {
                         cl.class_lesson_event.forEach(cle => {
-                            if(cle.lesson_event && cle.lesson_event.event_type == type){
-                                    cle.student_class_lesson_event.forEach(scle=>{
-                                        if(!student_event_count[scle.student_id]){
-                                            student_event_count[scle.student_id] = 0;
-                                        }
-                                        if(scle.status == 'done'){
-                                            student_event_count[scle.student_id]++;
-                                        }
-                                    });
+                            if (cle.lesson_event && cle.lesson_event.event_type == type) {
+                                cle.student_class_lesson_event.forEach(scle => {
+                                    if (!student_event_count[scle.student_id]) {
+                                        student_event_count[scle.student_id] = 0;
+                                    }
+                                    if (scle.status == 'done') {
+                                        student_event_count[scle.student_id]++;
+                                    }
+                                });
 
                             }
                         });
                     }
                 });
-                Object.entries(student_event_count).forEach(entry=>{
+                Object.entries(student_event_count).forEach(entry => {
                     let val = student_event_count[entry[0]];
                     min = Math.min(min, val);
                     max = Math.max(max, val);
                 });
-                if(Object.entries(student_event_count).length == 0){
-                    min =0;
-                    max =0;
+                if (Object.entries(student_event_count).length == 0) {
+                    min = 0;
+                    max = 0;
                 }
-                t.data.push({meta: `${t.name}: ${min}-${max}`, value: max,range:max-min, max, min});
+                max_student = Math.max(Object.entries(student_event_count).length, max_student);
+                t.data.push({meta: `${t.name}: ${min}-${max}`, value: max, range: max - min, max, min});
             });
 
         });
+        LESSON_EVENT_TYPES_ARRAY.map(type => {
+            let student_event_count = {}, event_count = 0;
+            studyClass.class_lesson.forEach(cl => {
+                cl.class_lesson_event.forEach(cle => {
+                    if (cle.lesson_event && cle.lesson_event.event_type == type) {
+                        event_count++;
+                        cle.student_class_lesson_event.forEach(scle => {
+                            if (!student_event_count[scle.student_id]) {
+                                student_event_count[scle.student_id] = 0;
+                            }
+                            if (scle.status == 'done') {
+                                student_event_count[scle.student_id]++;
+                            }
+                        });
+
+                    }
+                });
+            });
+            let counts = [], min = 9999, max = -1;
+            Object.entries(student_event_count).forEach(entry => {
+                let val = student_event_count[entry[0]];
+                counts.push(val);
+                min = Math.min(min, val);
+                max = Math.max(max, val);
+            });
+            let modes = modeOfArray(counts);
+            let mode = `${modes.frequency} lần: (${modes.modes.join(', ')})`;
+
+            mna_data[type] ={
+                min, max,
+                count: event_count,
+                mean: meanOfArray(counts),
+                median: medianOfArray(counts),
+                mode,
+            };
+        });
+
         return {
             labels,
             data,
+            max_student,
+            mna_data,
         };
     }
 
@@ -179,7 +219,7 @@ class DashboardClassLessonEventComponent extends React.Component {
                     {!(isLoading || filterClassLessonEventStore.isLoading) &&
                     classes.map((studyClass, key_class) => {
                         let tableData = this.getClassTableData(studyClass);
-                        let analyticsMna = this.getClassAnalyticsMnaData(studyClass);
+                        let analyticsMna = this.getClassAnalyticsMnaEvents(studyClass);
                         // console.log('tableData', tableData)
                         if (tableData.length)
                             return (
@@ -193,9 +233,49 @@ class DashboardClassLessonEventComponent extends React.Component {
                                             <MNABarChart
                                                 label={analyticsMna.labels}
                                                 data={analyticsMna.data}
+                                                high={analyticsMna.max_student}
                                                 id={`barchart-mna-nalytics-event-${key_class}`}
                                             />
+                                            <div><strong>Tổng quan họat động</strong></div>
+                                            <div className="table-responsive">
+                                                <table
+                                                    className="table white-table table-striped table-no-bordered table-hover">
+                                                    <thead className="text-rose">
+                                                    <tr>
 
+                                                        <th>Hoạt động</th>
+                                                        <th>Số hoạt động</th>
+                                                        <th>Min</th>
+                                                        <th>Max</th>
+                                                        <th>Mean</th>
+                                                        <th>Mode</th>
+                                                        <th>Median</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    {LESSON_EVENT_TYPES_ARRAY.map(key => {
+                                                        let item = analyticsMna.mna_data[key];
+                                                        return (
+                                                            <tr>
+                                                                <td key={key}>
+                                                                    {LESSON_EVENT_TYPES_OBJECT[key].name}
+                                                                </td>
+                                                                <td>{item.count}</td>
+                                                                <td>{item.min}</td>
+                                                                <td>{item.max}</td>
+                                                                <td>{item.mean}</td>
+                                                                <td>{item.mode}</td>
+                                                                <td>{item.median}</td>
+                                                            </tr>
+                                                        );
+                                                    })}
+
+                                                    <td></td>
+
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <div><strong>Chi tiết họat động</strong></div>
                                             <ReactTable
                                                 data={tableData}
                                                 columns={this.columns}
