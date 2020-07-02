@@ -150,6 +150,10 @@ class DashboardClassLessonEventComponent extends React.Component {
                 min = Math.min(min, val);
                 max = Math.max(max, val);
             });
+            if (Object.entries(student_event_count).length == 0) {
+                min = 0;
+                max = 0;
+            }
             let modes = modeOfArray(counts);
             let mode = `${modes.frequency} lần: (${modes.modes.join(', ')})`;
 
