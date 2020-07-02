@@ -56,8 +56,7 @@ class DashboardClassLessonEventComponent extends React.Component {
                             <div className="progress-bar"
                                  role="progressbar"
                                  aria-valuemin="0" aria-valuemax="100"
-                                 style={{width: (data.total_done * 100 / data.total) + "%", backgroundColor}}>
-                            </div>
+                                 style={{width: (data.total_done * 100 / data.total) + "%", backgroundColor}} />
 
                         </div>
                         <div>{`${data.total_done}/${data.total}`}</div>

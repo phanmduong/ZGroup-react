@@ -13,6 +13,8 @@ import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
 import setLeadKpiStore from "./setLeadKpiStore";
 import SetLeadKpiModal from "./SetLeadKpiModal";
+import ExpenseCampaignMarketing from "./ExpenseCampaignMarketing";
+import ExpenseSourceMarketing from "./ExpenseSourceMarketing";
 
 const optionsBarLead = {
     tooltips: {
@@ -406,6 +408,41 @@ class DashboardLeadsComponent extends React.Component {
                         <div className="card-content text-align-left">
                             <div className="tab-content">
                                 <h4 className="card-title">
+                                    <strong>Chi phí chiến dịch marketing</strong>
+                                </h4>
+                                <br/>
+                                <br/>
+                                <ExpenseCampaignMarketing store={store}/>
+                                <br/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
+                                    <strong>Chi phí nguồn marketing</strong>
+                                </h4>
+                                <br/>
+                                <br/>
+                                <ExpenseSourceMarketing store={store}/>
+                                <br/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
+
                                     <strong>Tỉ lệ Lead theo P.I.C</strong>
                                 </h4>
                                 <br/>
@@ -426,6 +463,7 @@ class DashboardLeadsComponent extends React.Component {
 
                     </div>
                 </div>
+
                 <SetLeadKpiModal reload={this.reloadData}/>
             </div>
         );

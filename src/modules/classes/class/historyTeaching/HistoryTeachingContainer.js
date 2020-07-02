@@ -462,8 +462,7 @@ class HistoryTeachingContainer extends React.Component {
                                             </div>
 
                                         </td>
-                                        <td>
-                                        </td>
+                                        <td />
                                         <td>{lesson.term && <a
                                             style={{fontWeight: 400, color: 'black'}}
                                             target="_blank"

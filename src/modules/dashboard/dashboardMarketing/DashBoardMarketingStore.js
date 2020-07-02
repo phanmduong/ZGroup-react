@@ -1,5 +1,10 @@
 import {action, computed, observable} from "mobx";
-import {analyticsLead, analyticsSourceCampaign} from "./DashboardMarketingApi";
+import {
+    analyticsLead,
+    analyticsSourceCampaign,
+    expenseCampaignMarketingApi,
+    expenseSourceMarketingApi
+} from "./DashboardMarketingApi";
 import {loadGens} from "../dashboardApi";
 import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
@@ -11,6 +16,10 @@ import {parallel} from "async";
 
 export const store = new class Store {
     @observable isLoading = false;
+    @observable isLoadingExpenseCampaign = false;
+    @observable isLoadingExpenseSource = false;
+    @observable expenseCampaigns = [];
+    @observable expenseSources = [];
     @observable routePrefix = `/dashboard/marketing`;
     @observable pathname = false;
     @observable data = {
@@ -80,7 +89,7 @@ export const store = new class Store {
         })];
         let campaigns = [{value: 0, label: "Tất cả chiến dịch"}, ...this.data.marketing_campaigns.map(campaign => {
             return {...campaign, value: campaign.id, label: campaign.name};
-        })]
+        })];
         bases.unshift({value: 0, label: "Tất cả cơ sở",});
         staffs.unshift({value: 0, label: "Tất cả nhân viên", avatar_url: NO_AVATAR});
         return {bases, gens, staffs, sources, campaigns};
@@ -214,11 +223,12 @@ export const store = new class Store {
             this.load();
         }).finally(() => {
             this.isLoading = false;
-        })
+        });
     };
     @action
     load = () => {
-
+        this.expenseCampaignMarketing();
+        this.expenseSourceMarketing();
         switch (this.pathname) {
             case `${this.routePrefix}/sources-campaigns`: {
                 this.loadAnalyticsLead();
@@ -230,6 +240,7 @@ export const store = new class Store {
             }
             default: {
                 this.loadAnalyticsLead();
+
             }
         }
     };
@@ -249,6 +260,39 @@ export const store = new class Store {
             this.isLoading = false;
         });
     }
+
+    @action
+    expenseCampaignMarketing = () => {
+        this.isLoadingExpenseCampaign = true;
+        let filter = {...this.filter};
+        filter.start_time = filter.start_time.format(DATE_FORMAT_SQL);
+        filter.end_time = filter.end_time.format(DATE_FORMAT_SQL);
+        expenseCampaignMarketingApi(filter).then((res) => {
+            this.expenseCampaigns = res.data.expense_campaigns;
+        }).catch(e => {
+            console.log(e);
+            showErrorNotification('Có lỗi xảy ra!');
+        }).finally(() => {
+            this.isLoadingExpenseCampaign = false;
+        });
+    }
+
+    @action
+    expenseSourceMarketing = () => {
+        this.isLoadingExpenseSource = true;
+        let filter = {...this.filter};
+        filter.start_time = filter.start_time.format(DATE_FORMAT_SQL);
+        filter.end_time = filter.end_time.format(DATE_FORMAT_SQL);
+        expenseSourceMarketingApi(filter).then((res) => {
+            this.expenseSources = res.data.expense_sources;
+        }).catch(e => {
+            console.log(e);
+            showErrorNotification('Có lỗi xảy ra!');
+        }).finally(() => {
+            this.isLoadingExpenseSource = false;
+        });
+    }
+
     @action
     loadAnalyticsSourceCampaign = () => {
         this.isLoading = true;

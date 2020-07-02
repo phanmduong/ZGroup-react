@@ -198,7 +198,7 @@ export function editInfoStudent(student, closeModal, showModalDuplicate) {
                     });
                 } else {
                     helper.showErrorNotification('Thông tin lead bị trùng lặp!');
-                    showModalDuplicate(res.data.data)
+                    showModalDuplicate(res.data.data);
                     dispatch({type: types.LOAD_EDIT_INFO_STUDENT_ERROR});
                 }
             })

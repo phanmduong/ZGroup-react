@@ -16,7 +16,7 @@ class ProfileEmployee extends React.Component {
         super(props, context);
         this.state = {
             currentRoute: {}
-        }
+        };
         this.store = new ProfileStore();
         this.path = "";
         this.routes = [

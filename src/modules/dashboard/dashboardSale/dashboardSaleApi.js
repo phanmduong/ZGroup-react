@@ -108,12 +108,12 @@ export const getHistoryCourseKpiApi = (filter) => {
 export const getCourseActiveApi = () => {
     let url = `${NEW_MANAGE_API_URL}/course/all-active?token=${localStorage.getItem('token')}`;
     return axios.get(url);
-}
+};
 export const getSourcesApi = () => {
     let url = `${NEW_MANAGE_API_URL}/source/all?token=${localStorage.getItem('token')}`;
     return axios.get(url);
-}
+};
 export const getMarketingCampaignsApi = () => {
     let url = `${NEW_MANAGE_API_URL}/marketing-campaign/all?token=${localStorage.getItem('token')}`;
     return axios.get(url);
-}
+};

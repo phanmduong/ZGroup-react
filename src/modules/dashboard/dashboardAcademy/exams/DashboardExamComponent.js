@@ -271,7 +271,7 @@ class DashboardExamComponent extends React.Component {
                                                             style={{width: "100%"}}>
                                                             <thead>
                                                             <tr>
-                                                                <th></th>
+                                                                <th />
                                                                 <th>Học viên</th>
                                                                 <th>Lớp</th>
                                                                 {templates.map((t, key_th) => {

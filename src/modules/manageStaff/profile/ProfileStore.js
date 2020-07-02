@@ -66,7 +66,7 @@ class ProfileStore {
             showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
             this.isStoring = false;
-        })
+        });
     }
 
     @action

@@ -94,8 +94,7 @@ class DashboardAcademyComponent extends React.Component {
                                 <div className="progress-bar" role="progressbar" aria-valuenow="60"
                                      aria-valuemin="0"
                                      aria-valuemax="100"
-                                     style={{width: (percent) + '%'}}>
-                                </div>
+                                     style={{width: (percent) + '%'}} />
                             </div>
                         </div>
 

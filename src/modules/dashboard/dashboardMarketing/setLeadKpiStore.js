@@ -4,11 +4,10 @@ import {showErrorNotification} from "../../../helpers/helper";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
 
 
-export default new class SetCourseKpiStore {
+export default new class SetLeadKpiStore {
     @observable isStoring = false;
     @observable isLoading = false;
     @observable showModal = false;
-    @observable selectedCourse = {};
     @observable setKpi = {
         start_time: '',
         end_time: '',

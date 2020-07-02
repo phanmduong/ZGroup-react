@@ -1567,7 +1567,7 @@ export function setClipboard(str, showNoti) {
 export function getObjectArttribute(path = '', obj = {}) {
     path = path.split('.');
     let parent = {...obj};
-    for (var k = 0, kLen = path.length; k < kLen; k++) {
+    for (let k = 0, kLen = path.length; k < kLen; k++) {
 
         if (parent.hasOwnProperty(path[k])) {
             parent = parent[path[k]];

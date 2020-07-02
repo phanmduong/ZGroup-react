@@ -144,7 +144,7 @@ class FilterStore {
         }).then(() => {
         }).finally(() => {
             this.isLoading = false;
-        })
+        });
 
 
     };

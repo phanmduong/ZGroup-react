@@ -62,7 +62,7 @@ class ProfileStore {
             showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
             this.isStoring = false;
-        })
+        });
     }
 
     @action
@@ -74,7 +74,7 @@ class ProfileStore {
             showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
             this.isLoading = false;
-        })
+        });
     }
 
     @action

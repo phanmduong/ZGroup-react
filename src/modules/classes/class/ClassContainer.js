@@ -474,17 +474,17 @@ class ClassContainer extends React.Component {
                                             <p>Giảng
                                                 viên<strong>{classData.teacher ? classData.teacher.name : "Chưa có"}
                                                     {classData.teachers_detail && classData.teachers_detail.map((teacher) => {
-                                                        return <div>
+                                                        return (<div>
                                                             {teacher.name}
-                                                        </div>;
+                                                        </div>);
                                                     })}
                                                 </strong></p>
                                             <p>Trợ
                                                 giảng<strong>{classData.teacher_assistant ? classData.teacher_assistant.name : "Chưa có"}
                                                     {classData.teaching_assistants_detail && classData.teaching_assistants_detail.map((teacher) => {
-                                                        return <div>
+                                                        return (<div>
                                                             {teacher.name}
-                                                        </div>;
+                                                        </div>);
                                                     })}
                                                 </strong>
                                             </p>

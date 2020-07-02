@@ -17,7 +17,7 @@ export const loadClassesApi = (filter) => {
 export const getCourseActiveApi = () => {
     let url = `${NEW_MANAGE_API_URL}/course/all-active?token=${localStorage.getItem('token')}`;
     return axios.get(url);
-}
+};
 
 
 export function getAllStatusesClass() {

@@ -26,7 +26,7 @@ class CardRevenue extends React.Component {
         const filter2 = {...filterStore.filter};
         filter2.start_time = filterStore.filter.start_time.format(DATE_FORMAT_SQL);
         filter2.end_time = filterStore.filter.end_time.format(DATE_FORMAT_SQL);
-        const data = {...filter2, saler_id: filter2.staff_id, ...filter}
+        const data = {...filter2, saler_id: filter2.staff_id, ...filter};
         Object.keys(data).forEach((key) => {
             const value = data[key] ? data[key] : "";
             link += `&${key}=${value}`;

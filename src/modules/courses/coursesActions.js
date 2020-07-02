@@ -7,7 +7,7 @@ import {showWarningNotification} from "../../helpers/helper";
 export function createLessonEvent(lesson_id, type) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_CREATE_LESSON_EVENT});
-        showWarningNotification('Đang thay đổi sự kiện...')
+        showWarningNotification('Đang thay đổi sự kiện...');
         courseApi.createLessonEvent(lesson_id, type)
             .then(res => {
                 helper.showNotification("Lưu thành công!");
