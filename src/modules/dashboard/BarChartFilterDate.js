@@ -169,7 +169,7 @@ class BarChartFilterDate extends React.Component {
             labels: this.getLabels(groupDates),
             datasets: this.getDataSet(groupDates)
         };
-
+        console.log({dataSet});
         return (
             <div>
                 {this.renderFilter()}
