@@ -27,7 +27,7 @@ class RegistersContainer extends React.Component {
         this.state = {
             register: {}
         };
-        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
+        this.studentId = this.props.params.studentId;
     }
 
     componentWillMount() {

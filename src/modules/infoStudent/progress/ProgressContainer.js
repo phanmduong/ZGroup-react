@@ -20,7 +20,7 @@ import TooltipButton from "../../../components/common/TooltipButton";
 class ProgressContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
+        this.studentId = this.props.params.studentId;
         this.state = {
             selectedTabs: {}
         };
