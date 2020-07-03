@@ -20,7 +20,7 @@ class HistoryCallContainer extends React.Component {
             dateTest: '',
             teleCallTagStatus: null,
         };
-        this.studentId = this.props.params.studentId;
+        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
 
     }
 

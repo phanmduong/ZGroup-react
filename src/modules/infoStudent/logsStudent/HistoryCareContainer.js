@@ -12,7 +12,7 @@ class HistoryCareContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {};
-        this.studentId = this.props.params.studentId;
+        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
 
     }
 

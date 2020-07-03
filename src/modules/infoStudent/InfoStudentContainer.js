@@ -14,6 +14,11 @@ import ReactSelect from "react-select";
 import * as createRegisterActions from "../registerStudents/createRegisterActions";
 import Loading from "../../components/common/Loading";
 import TooltipButton from "../../components/common/TooltipButton";
+import RegistersContainer from "./registers/RegistersContainer";
+import HistoryCallContainer from "./historyCalls/HistoryCallContainer";
+import ProgressContainer from "./progress/ProgressContainer";
+import HistoryCollectMoneyContainer from "./historyCollectMoney/HistoryCollectMoneyContainer";
+import HistoryCareContainer from "./logsStudent/HistoryCareContainer";
 import SourceOverlay from "./overlays/SourceOverlay";
 import MarketingCampaignOverlay from "./overlays/MarketingCampaignOverlay";
 import StarInput from "../../components/common/StarInput";
@@ -21,13 +26,13 @@ import * as leadActions from "../lead/leadActions";
 import PicOverlay from "./overlays/PicOverlay";
 import StatusesOverlay from "./overlays/StatusesOverlay";
 import UploadManyImages from "../../components/common/UploadManyImages";
-import {Link} from "react-router";
 
 
 class InfoStudentContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.studentId = this.props.params.studentId;
+        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
+        this.path = window.location.pathname;
 
         this.editInfoStudent = this.editInfoStudent.bind(this);
         this.closeModal = this.closeModal.bind(this);
@@ -37,26 +42,26 @@ class InfoStudentContainer extends React.Component {
         this.routes = [
             {
                 path: `/sales/info-student/${this.studentId}`, text: 'Đăng kí',
-                // component: <RegistersContainer studentId={this.studentId}/>
+                component: <RegistersContainer studentId={this.studentId}/>
             },
             {
                 path: `/sales/info-student/${this.studentId}/history-calls`, text: 'Cuộc gọi',
-                // component: <HistoryCallContainer studentId={this.studentId}/>
+                component: <HistoryCallContainer studentId={this.studentId}/>
             },
             {
                 path: `/sales/info-student/${this.studentId}/progress`,
                 text: 'Học tập',
-                // component: <ProgressContainer studentId={this.studentId}/>
+                component: <ProgressContainer studentId={this.studentId}/>
             },
             {
                 path: `/sales/info-student/${this.studentId}/history-collect-money`,
                 text: 'Nộp tiền',
-                // component: <HistoryCollectMoneyContainer studentId={this.studentId}/>
+                component: <HistoryCollectMoneyContainer studentId={this.studentId}/>
             },
             {
                 path: `/sales/info-student/${this.studentId}/logs`,
                 text: 'Lịch sử chăm sóc',
-                // component: <HistoryCareContainer studentId={this.studentId}/>
+                component: <HistoryCareContainer studentId={this.studentId}/>
             },
         ];
         this.state = {
@@ -65,7 +70,7 @@ class InfoStudentContainer extends React.Component {
             showModalChangePassword: false,
             showModalViewImage: false,
             imageUrl: '',
-            currentRoute: this.routes.filter(r => r.path == this.props.location.pathname)[0] || {},
+            currentRoute: this.routes.filter(r => r.path == this.path)[0] || {},
 
             duplicate_leads: [],
             showModalDuplicateLeads: false
@@ -84,12 +89,18 @@ class InfoStudentContainer extends React.Component {
     }
 
     getRouteItem(route, index) {
+        const changeRoute = () => {
+            // window.history.pushState({}, "modal", route.path);
+            this.path = route.path;
+            this.setState({currentRoute: route});
+
+        };
 
 
-        return (<li key={index} className={this.props.location.pathname === route.path ? 'active' : ''}>
-            <Link to={`${route.path}`}>
+        return (<li key={index} className={this.path === route.path ? 'active' : ''}>
+            <a onClick={changeRoute}>
                 {route.text}
-            </Link>
+            </a>
         </li>)
             ;
     }
@@ -493,7 +504,11 @@ class InfoStudentContainer extends React.Component {
                                 <div className="col-md-12">
                                     <div className="card" mask="transparent">
 
-                                        {this.props.children}
+                                        {this.routes.map((route) => {
+                                            return route.path == this.state.currentRoute.path ?
+                                                route.component : <div/>;
+
+                                        })}
                                     </div>
                                 </div>}
 
