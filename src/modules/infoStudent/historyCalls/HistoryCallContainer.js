@@ -6,6 +6,8 @@ import Loading from '../../../components/common/Loading';
 import PropTypes from 'prop-types';
 import CallRegisterOverlay from "../overlays/CallRegisterOverlay";
 import EmptyData from "../../../components/common/EmptyData";
+import StatusesOverlay from "../overlays/StatusesOverlay";
+import {STATUS_REFS} from "../../../constants/constants";
 
 
 class HistoryCallContainer extends React.Component {
@@ -30,6 +32,7 @@ class HistoryCallContainer extends React.Component {
     };
 
     render() {
+        console.log(this.props)
         return (
             <div className="tab-pane active">
                 {
@@ -69,10 +72,20 @@ class HistoryCallContainer extends React.Component {
                                                 </div>
                                                 <div className="timeline-panel">
                                                     <div className="timeline-heading">
-                                                                        <span className="label label-default"
+                                                                        <span className="btn btn-xs"
                                                                               style={{backgroundColor: '#' + history.caller.color}}>
-                                                                            {history.caller.name}</span> <span
-                                                        className="label label-default">{history.updated_at}</span>
+                                                                            {history.caller.name}</span>
+                                                        <span
+                                                        className="btn btn-xs">{history.updated_at}</span>
+                                                        <StatusesOverlay
+                                                            data={history.teleCallTagStatus}
+                                                            refId={history.id}
+                                                            statusRef={STATUS_REFS.tele_calls}
+                                                            className="btn status-overlay btn-xs"
+                                                            styleOverlay={{
+                                                                marginLeft:-220,marginTop: 25
+                                                            }}
+                                                        />
                                                     </div>
                                                     <div className="timeline-body">
                                                         {history.note}

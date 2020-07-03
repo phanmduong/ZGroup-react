@@ -791,6 +791,7 @@ export const STATUS_REFS = {
     classes: 'classes',
     registers: 'registers',
     tickets: 'tickets',
+    tele_calls: 'tele_calls',
 };
 
 export const CIRCLE_PICKER_COLORS = [

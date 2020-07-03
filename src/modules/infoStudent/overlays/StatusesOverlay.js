@@ -306,7 +306,8 @@ class StatusesOverlay extends React.Component {
                                                         backgroundColor: 'transparent',
                                                         border: '1.5px dashed #e6e6e6',
                                                         color: '#a9a9a9',
-                                                        justifyContent: "space-between"
+                                                        justifyContent: "space-between",
+                                                        alignItems: "center",
                                                     }}>
                                                     Không có trạng thái
                                                     <div>
@@ -344,6 +345,7 @@ class StatusesOverlay extends React.Component {
                                                                         justifyContent: "space-between",
                                                                         height: 35,
                                                                         padding: '0 15px',
+                                                                        alignItems: "center",
                                                                     }}>
                                                                     {status.name}
                                                                     <div>
