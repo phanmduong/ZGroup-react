@@ -149,13 +149,22 @@ class HistoryCallContainer extends React.Component {
                                                             }}
                                                         />
                                                     </div>
-                                                    <div className="timeline-body">
-                                                        {history.note}
-                                                    </div>
+                                                    {
+                                                        history.note &&
+                                                        <div className="timeline-body">
+                                                            Ghi chú: {history.note}
+                                                        </div>
+                                                    }
                                                     {
                                                         history.appointment_payment &&
                                                         <div className="timeline-body">
                                                             Hẹn nộp tiền: {history.appointment_payment}
+                                                        </div>
+                                                    }
+                                                    {
+                                                        history.call_back_time &&
+                                                        <div className="timeline-body">
+                                                            Hẹn gọi lại: {history.call_back_time}
                                                         </div>
                                                     }
                                                     {

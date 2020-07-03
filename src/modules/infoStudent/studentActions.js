@@ -1,15 +1,15 @@
 import * as types from '../../constants/actionTypes';
 import * as studentApi from './studentApi';
 import * as helper from '../../helpers/helper';
+import {showWarningNotification} from '../../helpers/helper';
 import * as registerStudentsApi from "../registerStudents/registerStudentsApi";
-import {showWarningNotification} from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 
 export function changeCallStatusStudent(callStatus,
                                         studentId,
                                         note,
-                                        appointmentPayment, dateTest, callback) {
+                                        appointmentPayment, dateTest, call_back_time, callback) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_CALL_STATUS_INFO_STUDENT,
@@ -23,7 +23,8 @@ export function changeCallStatusStudent(callStatus,
                 note,
                 '',
                 appointmentPayment,
-                dateTest
+                dateTest,
+                call_back_time
             )
             .then(res => {
                 dispatch({
@@ -76,12 +77,13 @@ export function loadInfoStudent(studentId) {
             });
     };
 }
+
 export function setInfoStudent(student) {
     return function (dispatch) {
-                dispatch({
-                    type: types.SET_INFO_STUDENT,
-                    student
-                });
+        dispatch({
+            type: types.SET_INFO_STUDENT,
+            student
+        });
 
     };
 }
@@ -150,7 +152,8 @@ export function loadLogs(studentId, page) {
             });
     };
 }
-export function loadStudentCareHistory(studentId ) {
+
+export function loadStudentCareHistory(studentId) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_STUDENT_CARE_HISTORY});
         studentApi.loadStudentCareHistory(studentId)
@@ -238,6 +241,7 @@ export function changePassword(studentId, newPassword, closeModal) {
             });
     };
 }
+
 export function refundStudent(data, closeModal) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_REFUND_STUDENT});
@@ -256,7 +260,7 @@ export function refundStudent(data, closeModal) {
             .catch((e) => {
                 console.log(e);
                 helper.showErrorNotification("Hoàn tiền thất bại");
-            }).finally(()=>{
+            }).finally(() => {
             dispatch({type: types.REFUND_STUDENT_SUCCESS});
 
         });

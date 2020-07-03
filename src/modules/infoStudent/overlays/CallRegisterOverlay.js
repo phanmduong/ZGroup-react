@@ -7,7 +7,9 @@ import FormInputDate from "../../../components/common/FormInputDate";
 import * as studentActions from "../studentActions";
 import Loading from "../../../components/common/Loading";
 import {bindActionCreators} from "redux";
-
+import FormInputDateTime from "../../../components/common/FormInputDateTime";
+import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../../constants/constants";
+import  moment from 'moment';
 // import {showNotification} from "../../../../helpers/helper";
 
 class CallRegisterOverlay extends React.Component {
@@ -20,7 +22,8 @@ class CallRegisterOverlay extends React.Component {
             page: 1,
             note: '',
             appointmentPayment: '',
-            dateTest: ''
+            dateTest: '',
+            call_back_time: '',
         };
         this.state = this.initState;
     }
@@ -44,12 +47,14 @@ class CallRegisterOverlay extends React.Component {
     changeCallStatusStudent = (callStatus) => {
         let {student} = this.props;
         let {note, appointmentPayment, dateTest} = this.state;
+        let call_back_time = moment(this.state.call_back_time,DATETIME_FORMAT).format(DATETIME_FORMAT_SQL);
         this.props.studentActions.changeCallStatusStudent(
             callStatus,
             student.id,
             note,
             appointmentPayment,
             dateTest,
+            call_back_time,
             this.close
         );
     };
@@ -138,6 +143,15 @@ class CallRegisterOverlay extends React.Component {
                                     }}
                                     id="form-date_test"
                                     value={this.state.dateTest}
+                                />
+                                <FormInputDateTime
+                                    label="Hẹn gọi lại"
+                                    name="call_back_time"
+                                    updateFormData={(event) => {
+                                        this.setState({call_back_time: event.target.value});
+                                    }}
+                                    id="form-call-back-time"
+                                    value={this.state.call_back_time}
                                 />
                             </div>
 
