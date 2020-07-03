@@ -4,7 +4,7 @@ import {store} from "./DashBoardMarketingStore";
 import BarChartFilterDate from '../BarChartFilterDate';
 
 import moment from "moment";
-import {DATE_FORMAT, DATE_FORMAT_SQL} from "../../../constants/constants";
+import {DATE_FORMAT, DATE_FORMAT_SQL, DATE_VN_FORMAT} from "../../../constants/constants";
 import {checkColor, dotNumber} from "../../../helpers/helper";
 import DashboardLeadFilter from "./DashboardLeadFilter";
 import * as baseActions from "../../../actions/baseActions";
@@ -15,7 +15,27 @@ import setLeadKpiStore from "./setLeadKpiStore";
 import SetLeadKpiModal from "./SetLeadKpiModal";
 import ExpenseCampaignMarketing from "./ExpenseCampaignMarketing";
 import ExpenseSourceMarketing from "./ExpenseSourceMarketing";
+import {Bar} from "react-chartjs-2";
 
+const optionsBarMoney = {
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                if (label) {
+                    label += ': ';
+                }
+                label += `${dotNumber(tooltipItem.value)}đ`;
+                return label;
+            }
+        }
+    },
+    legend: {
+        display: true,
+        position: "bottom"
+    }
+};
 const optionsBarLead = {
     tooltips: {
         callbacks: {
@@ -358,6 +378,32 @@ class DashboardLeadsComponent extends React.Component {
                         <div className="card-content text-align-left">
                             <div className="tab-content">
                                 <h4 className="card-title">
+
+                                    <strong>Tỉ lệ Lead theo P.I.C</strong>
+                                </h4>
+                                <br/>
+                                <br/>
+                                <BarChartFilterDate
+                                    isLoading={isLoading}
+                                    dates={this.formatDates(store.data.analytics.dates)}
+                                    data={store.data.analytics.leadsByPics}
+                                    id="barchar_lead_by_pic"
+                                    dateFormat={DATE_FORMAT}
+                                    optionsBar={optionsStackedBarLead}
+                                    labels={this.picLabels()}
+                                />
+                                <br/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
                                     <strong>Tỉ lệ Lead theo nguồn</strong>
                                 </h4>
                                 <br/>
@@ -410,7 +456,9 @@ class DashboardLeadsComponent extends React.Component {
                                 <h4 className="card-title">
                                     <strong>Chi phí chiến dịch marketing</strong>
                                 </h4>
-                                <br/>
+                                <div>
+                                    {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}
+                                </div>
                                 <br/>
                                 <ExpenseCampaignMarketing store={store}/>
                                 <br/>
@@ -425,9 +473,44 @@ class DashboardLeadsComponent extends React.Component {
                         <div className="card-content text-align-left">
                             <div className="tab-content">
                                 <h4 className="card-title">
+
+                                    <strong>Thống kê chi phí chiến dịch marketing</strong>
+                                </h4>
+                                <div>
+                                    {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}
+                                </div>
+                                <br/>
+                                <Bar
+                                    data={{
+                                        datasets: store.expenseCampaigns.map((item) => {
+                                            return {
+                                                backgroundColor: "#" + item.color,
+                                                borderColor: "#" + item.color,
+                                                data: [item.total_expense],
+                                                label: item.name
+                                            }
+                                        })
+                                    }}
+                                    options={optionsBarMoney}
+                                />
+                                <br/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
                                     <strong>Chi phí nguồn marketing</strong>
                                 </h4>
-                                <br/>
+                                <div>
+                                    {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}
+                                </div>
                                 <br/>
                                 <ExpenseSourceMarketing store={store}/>
                                 <br/>
@@ -443,18 +526,25 @@ class DashboardLeadsComponent extends React.Component {
                             <div className="tab-content">
                                 <h4 className="card-title">
 
-                                    <strong>Tỉ lệ Lead theo P.I.C</strong>
+                                    <strong>Thống kê chi phí nguồn marketing</strong>
                                 </h4>
+                                <div>
+                                    {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}
+                                </div>
                                 <br/>
-                                <br/>
-                                <BarChartFilterDate
-                                    isLoading={isLoading}
-                                    dates={this.formatDates(store.data.analytics.dates)}
-                                    data={store.data.analytics.leadsByPics}
-                                    id="barchar_lead_by_pic"
-                                    dateFormat={DATE_FORMAT}
-                                    optionsBar={optionsStackedBarLead}
-                                    labels={this.picLabels()}
+                                <Bar
+                                    data={{
+                                        // labels: store.expenseSources.map((item) => item.name),
+                                        datasets: store.expenseSources.map((item) => {
+                                            return {
+                                                backgroundColor: item.color,
+                                                borderColor: item.color,
+                                                data: [item.total_expense],
+                                                label: item.name
+                                            }
+                                        })
+                                    }}
+                                    options={optionsBarMoney}
                                 />
                                 <br/>
 
