@@ -27,6 +27,7 @@ export function loadRegisters(filter) {
         register_status_id = '',
         source_id = '',
         date_test = '',
+        call_back_time = '',
     } = filter;
     console.log('api',filter);
 
@@ -46,6 +47,7 @@ export function loadRegisters(filter) {
         "&base_id=" + base_id +
         "&appointment_payment=" + appointment_payment +
         "&date_test=" + date_test +
+        "&call_back_time=" + call_back_time +
         "&class_status=" + class_status +
         "&search_coupon=" + search_coupon +
         "&search_note=" + search_note +

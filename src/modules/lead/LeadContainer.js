@@ -67,6 +67,7 @@ class LeadContainer extends React.Component {
             filter: {
                 startTime: '',
                 endTime: '',
+                call_back_time: '',
                 status: '',
             },
             leadStatusId: '',
@@ -133,6 +134,7 @@ class LeadContainer extends React.Component {
                 filter: {
                     startTime: query.startTime,
                     endTime: query.endTime,
+                    call_back_time: query.call_back_time,
                 },
 
             };
@@ -290,7 +292,8 @@ class LeadContainer extends React.Component {
             `&search=${search || ''}` +
             `&staff=${JSON.stringify(staff)}` +
             `&startTime=${filter.startTime || ''}` +
-            `&endTime=${filter.endTime || ''}`;
+            `&endTime=${filter.endTime || ''}`+
+            `&call_back_time=${filter.call_back_time || ''}`;
         return current_link;
     };
 
@@ -435,6 +438,7 @@ class LeadContainer extends React.Component {
             startTime: newState.filter ? newState.filter.startTime : '',
             endTime: newState.filter ? newState.filter.endTime : '',
             staffId: this.isAdmin ? newState.staffId : this.props.user.id,
+            call_back_time: newState.filter ? newState.filter.call_back_time : '',
         });
     };
 
@@ -460,6 +464,7 @@ class LeadContainer extends React.Component {
             search: this.state.search,
             startTime: this.state.filter.startTime,
             endTime: this.state.filter.endTime,
+            call_back_time: this.state.filter.call_back_time,
             staffId: this.isAdmin ? this.state.staffId : this.props.user.id,
         });
     };
@@ -951,6 +956,16 @@ class LeadContainer extends React.Component {
                                         value={this.state.filter.endTime}
                                         minDate={this.state.filter.startTime}
 
+                                    />
+                                </div>
+                                <div className="col-md-3">
+                                    <label>Hẹn gọi lại</label>
+                                    <FormInputDate
+                                        label=""
+                                        name="call_back_time"
+                                        updateFormData={this.updateFormFilter}
+                                        id="form-call_back_time"
+                                        value={this.state.filter.call_back_time}
                                     />
                                 </div>
                                 {

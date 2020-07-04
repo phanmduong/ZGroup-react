@@ -75,6 +75,7 @@ export function getRegisterStudent(filter) {
         registerStatusId = '',
         registerSourceId = '',
         date_test = '',
+        call_back_time = '',
     } = filter;
     console.log('api', filter);
 
@@ -102,6 +103,7 @@ export function getRegisterStudent(filter) {
         "&base_id=" + selectedBaseId +
         "&appointment_payment=" + appointmentPayment +
         "&date_test=" + date_test +
+        "&call_back_time=" + call_back_time +
         "&type=" + selectedClassStatus +
         "&search_coupon=" + query_coupon +
         "&query_note=" + query_note +

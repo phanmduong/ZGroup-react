@@ -131,7 +131,7 @@ export default class componentName extends Component {
                                                         {formatPhone(register.phone)}
                                                     </a>
                                                 </td>
-                                                {this.props.genId == 0 && <th>{register.gen_name}</th>}
+                                                {this.props.genId == 0 && <td>{register.gen_name}</td>}
                                                 <td>{register.code}</td>
                                                 <td>
                                                     {register.campaign ? (

@@ -290,6 +290,16 @@ class RegisterListContainer extends React.Component {
                                 />
                             </div>
                             <div className="col-md-3">
+                                <FormInputDate
+                                    label="Hẹn gọi lại"
+                                    name="call_back_time"
+                                    updateFormData={(e) => store.onChangeFilter('call_back_time', e)}
+                                    id="form-call_back_time"
+                                    value={filter.call_back_time}
+                                    clearable
+                                />
+                            </div>
+                            <div className="col-md-3">
                                 <Search
                                     onChange={(e) => store.onChangeFilter('search_coupon', e)}
                                     value={filter.search_coupon}
@@ -306,6 +316,9 @@ class RegisterListContainer extends React.Component {
                                 />
                             </div>
 
+                        </div>
+                        <div className="row">
+
                             <div className="col-md-3">
                                 <label className="">
                                     Đánh dấu
@@ -319,9 +332,6 @@ class RegisterListContainer extends React.Component {
                                     name="bookmark"
                                 />
                             </div>
-                        </div>
-                        <div className="row">
-
                             <div className="col-md-3">
                                 <label className="">
                                     Theo trạng thái

@@ -121,7 +121,7 @@ class ListRegister extends React.Component {
                                 {/*</td>*/}
                                 {/*<td>*/}
                                 {/*</td>*/}
-                                {this.props.genId == 0 && <th>{register.gen_name}</th>}
+                                {this.props.genId == 0 && <td>{register.gen_name}</td>}
                                 <td>{register.code}</td>
                                 <td>
                                     <div className="flex flex-col">

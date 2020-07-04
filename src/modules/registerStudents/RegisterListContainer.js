@@ -96,7 +96,9 @@ class RegisterListContainer extends React.Component {
             selectedStudent: {},
             query_coupon: "",
             query_note: "",
-            dateTest: ""
+            dateTest: "",
+            date_test: "",
+            call_back_time: "",
         };
 
         this.isWaitListPage = false;
@@ -666,7 +668,7 @@ class RegisterListContainer extends React.Component {
 
 
     changeCallStatusStudent = (callStatus, studentId) => {
-        this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal, '', this.state.appointmentPayment, this.state.dateTest);
+        this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal, '', this.state.appointmentPayment, this.state.dateTest, this.state.callBackTime);
     };
 
     deleteRegister = (register) => {
@@ -1045,6 +1047,15 @@ class RegisterListContainer extends React.Component {
                                             updateFormData={this.updateFormDate}
                                             id="form-date-test"
                                             value={this.state.date_test}
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <FormInputDate
+                                            label="Hẹn gọi lại"
+                                            name="call_back_time"
+                                            updateFormData={this.updateFormDate}
+                                            id="form-call_back_time"
+                                            value={this.state.call_back_time}
                                         />
                                     </div>
                                     <div className="col-md-3">
@@ -1520,6 +1531,15 @@ class RegisterListContainer extends React.Component {
                             }}
                             id="form-date_test"
                             value={this.state.dateTest}
+                        />
+                        <FormInputDate
+                            label="Hẹn gọi lại"
+                            name="callBackTime"
+                            updateFormData={(event) => {
+                                this.setState({callBackTime: event.target.value});
+                            }}
+                            id="form-call_back_time"
+                            value={this.state.callBackTime}
                         />
                         {this.props.isChangingStatus ?
                             (
