@@ -24,6 +24,7 @@ import ExportClassOverlay from "../overlays/ExportClassOverlay";
 import CreateRegisterOverlay from "../../infoStudent/overlays/CreateRegisterOverlay";
 import AttendanceTeacher from "./AttendanceTeacher";
 import Checkbox from "../../../components/common/Checkbox";
+import ChangeTeachMultiLessonOverlay from "../overlays/ChangeTeachMultiLessonOverlay";
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
@@ -746,9 +747,8 @@ class ClassContainer extends React.Component {
                                             Thêm học viên
                                         </div>
 
-                                    </CreateRegisterOverlay>
-                                    }
-
+                                    </CreateRegisterOverlay>}
+                                    <ChangeTeachMultiLessonOverlay refresh={()=>this.props.classActions.loadClass(this.classId)}/>
                                     <div onClick={this.genCerti} className="btn btn-actions">
                                         Xếp bằng
                                     </div>
