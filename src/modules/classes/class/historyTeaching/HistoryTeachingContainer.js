@@ -1,6 +1,3 @@
-/**
- * Created by phanmduong on 9/21/17.
- */
 import React from 'react';
 import * as classActions from "../../classActions";
 import {connect} from 'react-redux';

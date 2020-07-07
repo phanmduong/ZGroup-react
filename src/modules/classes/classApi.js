@@ -208,6 +208,17 @@ export function changeClassLessons(classLessons) {
     return axios.put(url, {classLessons});
 }
 
+export function changeTeachMultiLesson(data) {
+    let url = env.MANAGE_API_URL + `/class/change-teach-multi-lesson`;
+
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+
+    return axios.put(url, data);
+}
 export function changeTeacher(classLesson) {
     let url = env.MANAGE_API_URL + `/class/change-teacher`;
 

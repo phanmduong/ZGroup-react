@@ -7,13 +7,14 @@ import * as ReactDOM from "react-dom";
 import {Modal, Overlay} from 'react-bootstrap';
 import ItemReactSelect from "../../../components/common/ItemReactSelect";
 import ReactSelect from "react-select";
-import {getShortName, isEmptyInput} from "../../../helpers/helper";
-import {findUser} from "../../registerStudentsV2/registerListApi";
+import {getShortName, showErrorNotification, showNotification, showWarningNotification} from "../../../helpers/helper";
 import * as lessonsActions from "../../lessons/lessonsActions";
 import TooltipButton from "../../../components/common/TooltipButton";
 import CheckBoxMaterial from "../../../components/common/CheckBoxMaterial";
 import moment from "moment";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
+import Loading from "../../../components/common/Loading";
+import {changeTeachMultiLesson} from "../classApi";
 
 const modalStates = {
     teacher: {
@@ -43,10 +44,11 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             show: false,
             showModal: false,
             isLoading: false,
+            isPreparing: false,
             chooseAll: false,
             modalType: 'teacher',
             changeType: changeTypes[0].value,
-            modalData: {},
+            staff: {},
             oldStaff: {},
             currentTerm: {},
             lessons: [],
@@ -65,65 +67,63 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
 
     componentDidMount() {
         if (this.props.classData && this.props.classData.course) this.props.lessonsActions.loadTerms(this.props.classData.course.id);
-        this.setState({lessons: this.props.classData.lessons});
+
     }
 
     toggle = () => {
         this.setState({show: !this.state.show});
-    }
+    };
 
     close = () => {
         this.setState({
             show: false,
         });
-    }
+    };
 
-    openModalChangeTeach = () => {
-        this.setState({showModal: true, modalType: modalStates.teacher.type});
-    }
+    openModal = (modalType) => {
+        let lessons = [...this.props.classData.lessons];
+        this.setState({lessons, modalType, isPreparing: true, showModal: true});
+        setTimeout(() => this.setState({isPreparing: false})
+            , 1000);
 
-    openModalChangeAssistant = () => {
-        this.setState({showModal: true, modalType: modalStates.assistant.type});
-    }
+    };
 
 
     onChangeStaff = (staff) => {
-        let modalData = this.state.modalData;
-        modalData.staff = staff;
-        this.setState({modalData});
-    }
+        this.setState({staff});
+    };
 
-    loadStaffs = (input, callback, field) => {
-        if (isEmptyInput(this.timeOut)) this.timeOut = {};
-        if (this.timeOut[field] !== null) {
-            clearTimeout(this.timeOut[field]);
-        }
-        this.timeOut[field] = setTimeout(function () {
-            findUser(input, true).then(res => {
-
-                let data = [
-                    ...res.data.map((staff) => {
-                        return {
-                            ...staff,
-                            ...{
-                                value: staff.id,
-                                label: staff.name
-                            }
-                        };
-                    })
-                ];
-                // this.data[field] = data;
-                callback(null, {options: data, complete: true});
-            });
-        }.bind(this), 500);
-    }
+    // loadStaffs = (input, callback, field) => {
+    //     if (isEmptyInput(this.timeOut)) this.timeOut = {};
+    //     if (this.timeOut[field] !== null) {
+    //         clearTimeout(this.timeOut[field]);
+    //     }
+    //     this.timeOut[field] = setTimeout(function () {
+    //         findUser(input, true).then(res => {
+    //
+    //             let data = [
+    //                 ...res.data.map((staff) => {
+    //                     return {
+    //                         ...staff,
+    //                         ...{
+    //                             value: staff.id,
+    //                             label: staff.name
+    //                         }
+    //                     };
+    //                 })
+    //             ];
+    //             // this.data[field] = data;
+    //             callback(null, {options: data, complete: true});
+    //         });
+    //     }.bind(this), 500);
+    // };
 
     onWeekDayClick = (weekDay) => {
         let weekDays = this.state.weekDays.map(wd => {
             return {
                 ...wd,
                 status: wd.day == weekDay.day ? !wd.status : wd.status
-            }
+            };
         });
         let weekDayStatus = weekDays.filter(wd => wd.day == weekDay.day)[0].status;
         let lessons = this.state.lessons.map(l => {
@@ -133,10 +133,11 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             }
             return l;
         });
-        this.setState({weekDays, lessons});
-    }
+        this.setState({weekDays, lessons, chooseAll: false});
+    };
 
     getTeachers = () => {
+        if (!this.state.showModal) return [];
         let {classData} = this.props;
         let res = [
             {
@@ -158,9 +159,10 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             };
         });
         return res;
-    }
+    };
 
     getAssistants = () => {
+        if (!this.state.showModal) return [];
         let {classData} = this.props;
         let res = [
             {
@@ -182,9 +184,10 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             };
         });
         return res;
-    }
+    };
 
     getTerms = () => {
+        if (!this.state.showModal) return [];
         return [
             {
                 id: null,
@@ -200,11 +203,12 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                 };
             })
         ];
-    }
+    };
 
     onChangeOldStaff = (staff) => {
         this.setState({
             oldStaff: staff,
+            chooseAll: false,
             lessons: this.state.lessons.map(l => {
                 l.is_checked = false;
                 if (this.state.modalType == modalStates.teacher.type &&
@@ -218,17 +222,18 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                 return l;
             }),
         });
-    }
+    };
 
     onChangeTerm = (term) => {
         this.setState({
             currentTerm: term,
+            chooseAll: false,
             lessons: this.state.lessons.map(l => {
 
                 return {...l, is_checked: l.term_id == term.id};
             }),
         });
-    }
+    };
 
     onChangeType = (changeType) => {
         console.log(changeType);
@@ -237,17 +242,17 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             lessons: this.state.lessons.map(l => {
                 return {...l, is_checked: false};
             }),
-            modalData: {},
             oldStaff: {},
             currentTerm: {},
+            chooseAll: false,
             weekDays: this.state.weekDays.map(wd => {
                 return {...wd, status: false};
             }),
         });
-    }
+    };
 
     onCheckLesson = (lesson) => {
-        console.log(lesson)
+        console.log(lesson);
         return this.state.lessons.map(l => {
             let is_checked = l.is_checked;
             if (l.id == lesson.id) is_checked = l.is_checked ? false : true;
@@ -257,7 +262,7 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             };
         });
 
-    }
+    };
 
     getAvailableWeekDays = () => {
         let wds = [];
@@ -266,7 +271,7 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             if (wds.indexOf(day) < 0) wds.push(day);
         });
         return wds;
-    }
+    };
 
     onChooseAll = () => {
         let chooseAll = !this.state.chooseAll;
@@ -275,19 +280,58 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                 return {...l, is_checked: chooseAll};
             }),
             chooseAll,
-            modalData: {},
             oldStaff: {},
             currentTerm: {},
             weekDays: this.state.weekDays.map(wd => {
                 return {...wd, status: chooseAll};
             }),
         });
-    }
+    };
+
+    submitModal = () => {
+        let {staff, oldStaff, lessons, modalType} = this.state;
+        if (staff && oldStaff && staff.id == oldStaff.id) {
+            showErrorNotification('Giảng viên mới phải khác giảng viên cũ!');
+            return;
+        }
+        let class_lesson_ids = lessons
+            .filter(l => l.is_checked)
+            .map(l => l.class_lesson_id);
+        let data = {
+            staff_id: staff.id,
+            teaching_type: modalType,
+            class_lesson_ids
+        };
+        if (class_lesson_ids.length == 0) {
+            showErrorNotification('Bạn chưa chọn buổi học nào!');
+            return;
+
+        }
+
+        showWarningNotification("Đang lưu...");
+        this.setState({isSaving: true});
+        changeTeachMultiLesson(data).then(res => {
+            console.log(res);
+            if (res.data.status == 1) {
+                showNotification("Đổi nhân viên thành công!");
+                if (this.props.refresh) this.props.refresh();
+                this.setState({showModal: false});
+            } else {
+                showErrorNotification("Có lỗi xảy ra!");
+            }
+        }).catch(e => {
+            console.log(e);
+            showErrorNotification("Có lỗi xảy ra!");
+        }).finally(() => {
+            this.setState({isSaving: false});
+
+        });
+    };
 
     render() {
         console.log(this.props);
         let {isLoading} = this.props;
-        let {showModal, modalData, show, changeType, weekDays, oldStaff, currentTerm, lessons, chooseAll} = this.state;
+        let {showModal, isSaving, isPreparing, staff, show, changeType, weekDays, oldStaff, currentTerm, lessons, chooseAll} = this.state;
         let modalType = modalStates[this.state.modalType];
         let teachers = this.getTeachers();
         let assistants = this.getAssistants();
@@ -315,12 +359,12 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
 
                         <button type="button"
                                 className="btn btn-white width-100"
-                                onClick={() => this.openModalChangeTeach()}>
+                                onClick={() => this.openModal(modalStates.teacher.type)}>
                             Đổi giảng viên
                         </button>
                         <button type="button"
                                 className="btn btn-white width-100"
-                                onClick={() => this.openModalChangeAssistant()}>
+                                onClick={() => this.openModal(modalStates.assistant.type)}>
                             Đổi trợ giảng
                         </button>
 
@@ -332,19 +376,19 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                         <h4 className="modal-title text-center">{modalType.modalTitle}</h4>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className="form-grey">
+                        {(isPreparing || isSaving) && <Loading/>}
+                        {!isPreparing && !isSaving && <div className="form-grey">
                             <div className="row">
                                 <div className="col-md-6">
                                     <label>{modalType.selectStaffPlaceholder} mới</label>
-                                    <ReactSelect.Async
-                                        loadOptions={(p1, p2) => this.loadStaffs(p1, p2, 'staff')}
-                                        loadingPlaceholder="Đang tải..."
+                                    <ReactSelect
+                                        options={this.props.staffs.map(s => {
+                                            return {...s, value: s.id, label: s.name};
+                                        })}
                                         className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                                        placeholder={modalType.selectStaffPlaceholder}
-                                        searchPromptText="Không có dữ liệu nhân viên"
-                                        onChange={e => this.onChangeStaff(e)}
+                                        value={staff}
+                                        onChange={(e) => this.onChangeStaff(e)}
                                         clearable={false}
-                                        value={modalData.staff}
                                         optionRenderer={(option) => {
                                             return (
                                                 <ItemReactSelect label={option.label}
@@ -358,6 +402,28 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                                             );
                                         }}
                                     />
+                                    {/*<ReactSelect.Async*/}
+                                    {/*    loadOptions={(p1, p2) => this.loadStaffs(p1, p2, 'staff')}*/}
+                                    {/*    loadingPlaceholder="Đang tải..."*/}
+                                    {/*    className="react-select-white-light-round cursor-pointer margin-bottom-20"*/}
+                                    {/*    placeholder={modalType.selectStaffPlaceholder}*/}
+                                    {/*    searchPromptText="Không có dữ liệu nhân viên"*/}
+                                    {/*    onChange={e => this.onChangeStaff(e)}*/}
+                                    {/*    clearable={false}*/}
+                                    {/*    value={staff}*/}
+                                    {/*    optionRenderer={(option) => {*/}
+                                    {/*        return (*/}
+                                    {/*            <ItemReactSelect label={option.label}*/}
+                                    {/*                             url={option.avatar_url}/>*/}
+                                    {/*        );*/}
+                                    {/*    }}*/}
+                                    {/*    valueRenderer={(option) => {*/}
+                                    {/*        return (*/}
+                                    {/*            <ItemReactSelect label={option.label}*/}
+                                    {/*                             url={option.avatar_url}/>*/}
+                                    {/*        );*/}
+                                    {/*    }}*/}
+                                    {/*/>*/}
                                 </div>
                                 <div className="col-md-6">
                                     <label>Chọn hình thức đổi</label>
@@ -371,14 +437,12 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                                     />
                                 </div>
                             </div>
-
-
                             {changeType == changeTypes[0].value &&
                             <div className="row">
                                 <div className="col-md-12">
                                     <div className="flex flex-justify-content-center">
                                         {weekDays.map((day, key_day) => {
-                                            let className = day.status ? "btn-success " : ""
+                                            let className = day.status ? "btn-success " : "";
                                             if (availableWeekDays.indexOf(day.day) >= 0) return (
                                                 <div key={key_day}
                                                      className={`btn btn-actions bold ${className}`}
@@ -438,9 +502,9 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                                         <label>{chooseAll ? 'Bỏ chọn tất cả' : 'Chọn tất cả'}</label>
                                         <div style={{padding: '0px 21px'}}>
                                             <CheckBoxMaterial
-                                            name="chooseAll"
-                                            checked={chooseAll}
-                                            onChange={() => this.onChooseAll()}/>
+                                                name="chooseAll"
+                                                checked={chooseAll}
+                                                onChange={() => this.onChooseAll()}/>
                                         </div>
                                     </div>
                                 </div>
@@ -451,7 +515,7 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                                         <table className="table" cellSpacing="0" id="list_register">
                                             <tbody>
                                             {lessons.map((lesson, key_cl) => {
-                                                let minWidth = 120;
+                                                let minWidth = 100;
                                                 return (<tr key={key_cl}>
                                                     <td>
                                                         <div><strong>Buổi {lesson.order}</strong></div>
@@ -470,7 +534,7 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                                                             <div>{lesson.time}</div>
                                                         </div>
                                                     </td>
-                                                    <td style={{width: '130px'}}>
+                                                    <td style={{width: minWidth * 2.5}}>
                                                         <div className="flex flex-wrap">
 
                                                             {
@@ -542,7 +606,23 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                            <div className="row">
+                                <div className="col-md-12">
+                                    <div className="flex flex-align-items-center flex-end">
+                                        <div className="btn btn-white"
+                                             onClick={() => this.setState(this.initState)}>Hủy
+                                        </div>
+                                        {isSaving ?
+                                            <div className="btn button-green disabled">
+                                                <i className="fa fa-spinner fa-spin"/> Đang lưu</div>
+                                            :
+                                            <div className="btn button-green" onClick={this.submitModal}>
+                                                Xác nhận đổi</div>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>}
                     </Modal.Body>
                 </Modal>
             </div>

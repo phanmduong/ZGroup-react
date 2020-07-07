@@ -748,7 +748,8 @@ class ClassContainer extends React.Component {
                                         </div>
 
                                     </CreateRegisterOverlay>}
-                                    <ChangeTeachMultiLessonOverlay refresh={()=>this.props.classActions.loadClass(this.classId)}/>
+                                    <ChangeTeachMultiLessonOverlay
+                                        refresh={()=>this.props.classActions.loadClass(this.classId)}/>
                                     <div onClick={this.genCerti} className="btn btn-actions">
                                         Xếp bằng
                                     </div>
