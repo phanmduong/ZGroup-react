@@ -34,6 +34,25 @@ import Checkbox from "../../components/common/Checkbox";
 import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
 
+const TAGS = [
+    {
+        label: "Tất cả",
+        value: ""
+    },
+    {
+        label: "First lead",
+        value: "first_lead"
+    },
+    {
+        label: "Old lead",
+        value: "old_lead"
+    },
+    {
+        label: "New lead",
+        value: "new_lead"
+    },
+]
+
 class LeadContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -64,6 +83,7 @@ class LeadContainer extends React.Component {
             page: 1,
             search: "",
             address: '',
+            lead_tag: '',
             filter: {
                 startTime: '',
                 endTime: '',
@@ -1063,7 +1083,7 @@ class LeadContainer extends React.Component {
                                                        value={this.state.address}
                                                        placeholder="Nhập tỉnh/thành phố"
                                                        disabled={this.props.isLoading}
-                                                       updateFormData={e=>this.changeAddress(e.target.value)}
+                                                       updateFormData={e => this.changeAddress(e.target.value)}
 
                                         />
                                     </div>
@@ -1127,6 +1147,22 @@ class LeadContainer extends React.Component {
                                                 placeholer="Tất cả"
                                                 className="width-100"
                                                 name="duplicate"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-md-3">
+                                    <div className="form-group margin-bottom-20">
+                                        <label>Lead tag</label>
+                                        <div className="flex flex-row-center">
+                                            <ReactSelect
+                                                disabled={this.props.isLoading}
+                                                options={TAGS}
+                                                onChange={e => this.onFilterChange(e ? e.value : e, 'lead_tag')}
+                                                value={this.state.lead_tag}
+                                                placeholer="Tất cả"
+                                                className="width-100"
+                                                name="lead_tag"
                                             />
                                         </div>
                                     </div>
