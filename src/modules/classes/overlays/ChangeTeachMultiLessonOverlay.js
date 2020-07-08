@@ -15,6 +15,8 @@ import moment from "moment";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import {changeTeachMultiLesson} from "../classApi";
+import FormInputDate from "../../../components/common/FormInputDate";
+import {isEmpty} from "../../../helpers/entity/mobx";
 
 const modalStates = {
     teacher: {
@@ -52,6 +54,8 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             oldStaff: {},
             currentTerm: {},
             lessons: [],
+            start_date: null,
+            end_date: null,
             weekDays: [
                 {name: 'Thứ 2', day: 1, status: false},
                 {name: 'Thứ 3', day: 2, status: false},
@@ -81,7 +85,9 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
     };
 
     openModal = (modalType) => {
-        let lessons = [...this.props.classData.lessons];
+        let lessons = this.props.classData.lessons.map(l => {
+            return {...l, is_checked: false};
+        });
         this.setState({lessons, modalType, isPreparing: true, showModal: true});
         setTimeout(() => this.setState({isPreparing: false})
             , 1000);
@@ -139,24 +145,18 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
     getTeachers = () => {
         if (!this.state.showModal) return [];
         let {classData} = this.props;
-        let res = [
-            {
-                id: null,
-                value: null,
-                label: 'Các buổi chưa có giảng viên',
-                name: 'Các buổi chưa có giảng viên',
-                avatar_url: "http://d255zuevr6tr8p.cloudfront.net/no_photo.png",
+        let ids = [];
+        let res = [];
+        classData.lessons.forEach(lesson=>{
+            let itm = lesson.teacher;
+            if(itm && ids.indexOf(itm.id) < 0){
+                ids.push(itm.id);
+                res.push({
+                    ...itm,
+                    value: itm.id,
+                    label: itm.name
+                });
             }
-        ];
-        if (classData.teacher) {
-            res.push(classData.teacher);
-        }
-        res = [...res, ...classData.teachers_detail].map(itm => {
-            return {
-                ...itm,
-                value: itm.id,
-                label: itm.name
-            };
         });
         return res;
     };
@@ -164,24 +164,17 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
     getAssistants = () => {
         if (!this.state.showModal) return [];
         let {classData} = this.props;
-        let res = [
-            {
-                id: null,
-                value: null,
-                label: 'Các buổi chưa có trợ giảng',
-                name: 'Các buổi chưa có trợ giảng',
-                avatar_url: "http://d255zuevr6tr8p.cloudfront.net/no_photo.png",
+        let res = [],ids = [];
+        classData.lessons.forEach(lesson=>{
+            let itm = lesson.teacher_assistant;
+            if(itm && ids.indexOf(itm.id) < 0){
+                ids.push(itm.id);
+                res.push({
+                    ...itm,
+                    value: itm.id,
+                    label: itm.name
+                });
             }
-        ];
-        if (classData.teacher_assistant) {
-            res.push(classData.teacher_assistant);
-        }
-        res = [...res, ...classData.teaching_assistants_detail].map(itm => {
-            return {
-                ...itm,
-                value: itm.id,
-                label: itm.name
-            };
         });
         return res;
     };
@@ -236,7 +229,6 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
     };
 
     onChangeType = (changeType) => {
-        console.log(changeType);
         this.setState({
             changeType: changeType.value,
             lessons: this.state.lessons.map(l => {
@@ -245,6 +237,8 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             oldStaff: {},
             currentTerm: {},
             chooseAll: false,
+            start_date:null,
+            end_date:null,
             weekDays: this.state.weekDays.map(wd => {
                 return {...wd, status: false};
             }),
@@ -252,7 +246,6 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
     };
 
     onCheckLesson = (lesson) => {
-        console.log(lesson);
         return this.state.lessons.map(l => {
             let is_checked = l.is_checked;
             if (l.id == lesson.id) is_checked = l.is_checked ? false : true;
@@ -273,6 +266,21 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
         return wds;
     };
 
+    getLessons = () => {
+        let {start_date, end_date} = this.state;
+        return this.state.lessons.filter(l => {
+            let lesson_time = moment(l.class_lesson_time, DATE_FORMAT_SQL);
+            let start = moment(start_date, DATE_FORMAT_SQL);
+            let end = moment(end_date, DATE_FORMAT_SQL);
+            if ((!isEmpty(start_date) && lesson_time.isBefore(start))
+                ||
+                (!isEmpty(end_date) && lesson_time.isAfter(end))){
+                return false;
+            }
+            return true;
+        });
+    };
+
     onChooseAll = () => {
         let chooseAll = !this.state.chooseAll;
         this.setState({
@@ -289,13 +297,31 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
     };
 
     submitModal = () => {
-        let {staff, oldStaff, lessons, modalType} = this.state;
+        let {staff, oldStaff, modalType, start_date, end_date, lessons} = this.state;
+        if(isEmpty(staff)){
+            showErrorNotification('Bạn chưa chọn giáo viên mới!');
+            return;
+        }
         if (staff && oldStaff && staff.id == oldStaff.id) {
             showErrorNotification('Giảng viên mới phải khác giảng viên cũ!');
             return;
         }
+
         let class_lesson_ids = lessons
-            .filter(l => l.is_checked)
+            .filter(l => {
+                let is_checked = l.is_checked;
+                let lesson_time = moment(l.class_lesson_time, DATE_FORMAT_SQL);
+                let start = moment(start_date, DATE_FORMAT_SQL);
+                let end = moment(end_date, DATE_FORMAT_SQL);
+                if ((!isEmpty(start_date) && lesson_time.isBefore(start))
+                    ||
+                    (!isEmpty(end_date) && lesson_time.isAfter(end))){
+                    is_checked = false;
+                }
+
+
+                return is_checked;
+            })
             .map(l => l.class_lesson_id);
         let data = {
             staff_id: staff.id,
@@ -315,28 +341,46 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             if (res.data.status == 1) {
                 showNotification("Đổi nhân viên thành công!");
                 if (this.props.refresh) this.props.refresh();
-                this.setState({showModal: false});
+                // this.setState({showModal: false});
             } else {
+                this.setState({isSaving:false});
                 showErrorNotification("Có lỗi xảy ra!");
             }
         }).catch(e => {
             console.log(e);
+            this.setState({isSaving:false});
             showErrorNotification("Có lỗi xảy ra!");
-        }).finally(() => {
-            this.setState({isSaving: false});
-
-        });
+        })
+        ;
     };
 
+
+    onChangeDateRange = (e) => {
+        let {name, value} = e.target;
+        this.setState({
+            [name]: value,
+            lessons: this.state.lessons.map(l => {
+                return {...l, is_checked: false};
+            }),
+            chooseAll: false,
+            oldStaff: {},
+            currentTerm: {},
+            weekDays: this.state.weekDays.map(wd => {
+                return {...wd, status: false};
+            }),
+        });
+    }
+
     render() {
-        console.log(this.props);
-        let {isLoading} = this.props;
-        let {showModal, isSaving, isPreparing, staff, show, changeType, weekDays, oldStaff, currentTerm, lessons, chooseAll} = this.state;
+        let {isLoading, classData} = this.props;
+        let {showModal, isSaving, isPreparing, staff, show, changeType, weekDays, oldStaff, currentTerm, chooseAll, start_date, end_date} = this.state;
         let modalType = modalStates[this.state.modalType];
         let teachers = this.getTeachers();
         let assistants = this.getAssistants();
         let terms = this.getTerms();
         let availableWeekDays = this.getAvailableWeekDays();
+        let lessons = this.getLessons();
+
         return (
             <div style={{position: "relative"}} className="">
                 <button className="btn btn-actions"
@@ -357,17 +401,20 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                         left: 0,
                     }}>
 
-                        <button type="button"
-                                className="btn btn-white width-100"
-                                onClick={() => this.openModal(modalStates.teacher.type)}>
+                        {classData.teacher && <button type="button"
+                                                      className="btn btn-white width-100"
+                                                      onClick={() => this.openModal(modalStates.teacher.type)}>
                             Đổi giảng viên
-                        </button>
-                        <button type="button"
-                                className="btn btn-white width-100"
-                                onClick={() => this.openModal(modalStates.assistant.type)}>
+                        </button>}
+                        {classData.teacher_assistant && <button type="button"
+                                                                className="btn btn-white width-100"
+                                                                onClick={() => this.openModal(modalStates.assistant.type)}>
                             Đổi trợ giảng
-                        </button>
-
+                        </button>}
+                        {!(classData.teacher || classData.teacher_assistant) && <button type="button"
+                                                                                        className="btn btn-white width-100">
+                            Lớp chưa có giáo viên nào
+                        </button>}
 
                     </div>
                 </Overlay>
@@ -402,28 +449,6 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                                             );
                                         }}
                                     />
-                                    {/*<ReactSelect.Async*/}
-                                    {/*    loadOptions={(p1, p2) => this.loadStaffs(p1, p2, 'staff')}*/}
-                                    {/*    loadingPlaceholder="Đang tải..."*/}
-                                    {/*    className="react-select-white-light-round cursor-pointer margin-bottom-20"*/}
-                                    {/*    placeholder={modalType.selectStaffPlaceholder}*/}
-                                    {/*    searchPromptText="Không có dữ liệu nhân viên"*/}
-                                    {/*    onChange={e => this.onChangeStaff(e)}*/}
-                                    {/*    clearable={false}*/}
-                                    {/*    value={staff}*/}
-                                    {/*    optionRenderer={(option) => {*/}
-                                    {/*        return (*/}
-                                    {/*            <ItemReactSelect label={option.label}*/}
-                                    {/*                             url={option.avatar_url}/>*/}
-                                    {/*        );*/}
-                                    {/*    }}*/}
-                                    {/*    valueRenderer={(option) => {*/}
-                                    {/*        return (*/}
-                                    {/*            <ItemReactSelect label={option.label}*/}
-                                    {/*                             url={option.avatar_url}/>*/}
-                                    {/*        );*/}
-                                    {/*    }}*/}
-                                    {/*/>*/}
                                 </div>
                                 <div className="col-md-6">
                                     <label>Chọn hình thức đổi</label>
@@ -436,10 +461,40 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                                         searchable={false}
                                     />
                                 </div>
+                                <div className="col-md-6">
+                                    <label>Từ ngày</label>
+                                    <FormInputDate
+                                        name="start_date"
+                                        id="form-lesson-start-date"
+                                        // format={DATE_FORMAT_SQL}
+                                        updateFormData={e => {
+                                            this.onChangeDateRange(e);
+                                        }}
+                                        // minDate={lessons[0] ? lessons[0].time : null}
+                                        // maxDate={end_date}
+                                        value={start_date}
+                                    />
+                                </div>
+                                <div className="col-md-6">
+                                    <label>Đến ngày</label>
+                                    <FormInputDate
+                                        name="end_date"
+                                        id="form-lesson-end-date"
+                                        // format={DATE_FORMAT_SQL}
+                                        updateFormData={e => {
+                                            this.onChangeDateRange(e);
+                                        }}
+                                        // minDate={start_date}
+                                        // maxDate={lessons[lessons.length] ? lessons[lessons.length].time : null}
+                                        value={end_date}
+                                    />
+
+                                </div>
                             </div>
                             {changeType == changeTypes[0].value &&
                             <div className="row">
                                 <div className="col-md-12">
+                                    <label>Chọn ngày trong tuần</label>
                                     <div className="flex flex-justify-content-center">
                                         {weekDays.map((day, key_day) => {
                                             let className = day.status ? "btn-success " : "";
