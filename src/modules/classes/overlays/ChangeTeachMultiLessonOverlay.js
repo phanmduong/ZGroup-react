@@ -147,9 +147,9 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
         let {classData} = this.props;
         let ids = [];
         let res = [];
-        classData.lessons.forEach(lesson=>{
+        classData.lessons.forEach(lesson => {
             let itm = lesson.teacher;
-            if(itm && ids.indexOf(itm.id) < 0){
+            if (itm && ids.indexOf(itm.id) < 0) {
                 ids.push(itm.id);
                 res.push({
                     ...itm,
@@ -164,10 +164,10 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
     getAssistants = () => {
         if (!this.state.showModal) return [];
         let {classData} = this.props;
-        let res = [],ids = [];
-        classData.lessons.forEach(lesson=>{
+        let res = [], ids = [];
+        classData.lessons.forEach(lesson => {
             let itm = lesson.teacher_assistant;
-            if(itm && ids.indexOf(itm.id) < 0){
+            if (itm && ids.indexOf(itm.id) < 0) {
                 ids.push(itm.id);
                 res.push({
                     ...itm,
@@ -237,8 +237,8 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             oldStaff: {},
             currentTerm: {},
             chooseAll: false,
-            start_date:null,
-            end_date:null,
+            start_date: null,
+            end_date: null,
             weekDays: this.state.weekDays.map(wd => {
                 return {...wd, status: false};
             }),
@@ -274,7 +274,7 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
             let end = moment(end_date, DATE_FORMAT_SQL);
             if ((!isEmpty(start_date) && lesson_time.isBefore(start))
                 ||
-                (!isEmpty(end_date) && lesson_time.isAfter(end))){
+                (!isEmpty(end_date) && lesson_time.isAfter(end))) {
                 return false;
             }
             return true;
@@ -298,7 +298,7 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
 
     submitModal = () => {
         let {staff, oldStaff, modalType, start_date, end_date, lessons} = this.state;
-        if(isEmpty(staff)){
+        if (isEmpty(staff)) {
             showErrorNotification('Bạn chưa chọn giáo viên mới!');
             return;
         }
@@ -315,7 +315,7 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                 let end = moment(end_date, DATE_FORMAT_SQL);
                 if ((!isEmpty(start_date) && lesson_time.isBefore(start))
                     ||
-                    (!isEmpty(end_date) && lesson_time.isAfter(end))){
+                    (!isEmpty(end_date) && lesson_time.isAfter(end))) {
                     is_checked = false;
                 }
 
@@ -343,12 +343,12 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                 if (this.props.refresh) this.props.refresh();
                 // this.setState({showModal: false});
             } else {
-                this.setState({isSaving:false});
+                this.setState({isSaving: false});
                 showErrorNotification("Có lỗi xảy ra!");
             }
         }).catch(e => {
             console.log(e);
-            this.setState({isSaving:false});
+            this.setState({isSaving: false});
             showErrorNotification("Có lỗi xảy ra!");
         })
         ;
@@ -463,32 +463,35 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                                 </div>
                                 <div className="col-md-6">
                                     <label>Từ ngày</label>
-                                    <FormInputDate
-                                        name="start_date"
-                                        id="form-lesson-start-date"
-                                        // format={DATE_FORMAT_SQL}
-                                        updateFormData={e => {
-                                            this.onChangeDateRange(e);
-                                        }}
-                                        // minDate={lessons[0] ? lessons[0].time : null}
-                                        // maxDate={end_date}
-                                        value={start_date}
-                                    />
+                                    <div className=" margin-bottom-20">
+                                        <FormInputDate
+                                            name="start_date"
+                                            id="form-lesson-start-date"
+                                            // format={DATE_FORMAT_SQL}
+                                            updateFormData={e => {
+                                                this.onChangeDateRange(e);
+                                            }}
+                                            // minDate={lessons[0] ? lessons[0].time : null}
+                                            // maxDate={end_date}
+                                            value={start_date}
+                                        />
+                                    </div>
                                 </div>
                                 <div className="col-md-6">
                                     <label>Đến ngày</label>
-                                    <FormInputDate
-                                        name="end_date"
-                                        id="form-lesson-end-date"
-                                        // format={DATE_FORMAT_SQL}
-                                        updateFormData={e => {
-                                            this.onChangeDateRange(e);
-                                        }}
-                                        // minDate={start_date}
-                                        // maxDate={lessons[lessons.length] ? lessons[lessons.length].time : null}
-                                        value={end_date}
-                                    />
-
+                                    <div className=" margin-bottom-20">
+                                        <FormInputDate
+                                            name="end_date"
+                                            id="form-lesson-end-date"
+                                            // format={DATE_FORMAT_SQL}
+                                            updateFormData={e => {
+                                                this.onChangeDateRange(e);
+                                            }}
+                                            // minDate={start_date}
+                                            // maxDate={lessons[lessons.length] ? lessons[lessons.length].time : null}
+                                            value={end_date}
+                                        />
+                                    </div>
                                 </div>
                             </div>
                             {changeType == changeTypes[0].value &&
