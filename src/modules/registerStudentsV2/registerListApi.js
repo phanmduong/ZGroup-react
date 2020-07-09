@@ -1,7 +1,6 @@
 import axios from "axios";
-import * as env from "../../constants/env";
 import * as helper from "../../helpers/helper";
-import {NEW_MANAGE_API_URL} from "../../constants/env";
+import {MANAGE_API_URL, NEW_MANAGE_API_URL} from "../../constants/env";
 
 
 
@@ -28,10 +27,11 @@ export function loadRegisters(filter) {
         register_status_id = '',
         source_id = '',
         date_test = '',
+        call_back_time = '',
     } = filter;
     console.log('api',filter);
 
-    let baseUrl = env.NEW_MANAGE_API_URL + "/register/register-list?";
+    let baseUrl = NEW_MANAGE_API_URL + "/register/register-list?";
     let includes = '&include=saler,studyClass,source,register_status,student,gen,coupons,tele_call,course,marketing_campaign';
     let token = localStorage.getItem('token');
     let url =
@@ -47,6 +47,7 @@ export function loadRegisters(filter) {
         "&base_id=" + base_id +
         "&appointment_payment=" + appointment_payment +
         "&date_test=" + date_test +
+        "&call_back_time=" + call_back_time +
         "&class_status=" + class_status +
         "&search_coupon=" + search_coupon +
         "&search_note=" + search_note +
@@ -66,7 +67,7 @@ export function loadRegisters(filter) {
 
 
 export function findUser(search,is_staff) {
-    let url = env.NEW_MANAGE_API_URL + "/user/find-by-name";
+    let url = NEW_MANAGE_API_URL + "/user/find-by-name";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -80,18 +81,18 @@ export function findUser(search,is_staff) {
 export const getCourseActiveApi = () => {
     let url = `${NEW_MANAGE_API_URL}/course/all-active?token=${localStorage.getItem('token')}`;
     return axios.get(url);
-}
+};
 export const getSourcesApi = () => {
     let url = `${NEW_MANAGE_API_URL}/source/all?token=${localStorage.getItem('token')}`;
     return axios.get(url);
-}
+};
 export const getMarketingCampaignsApi = () => {
     let url = `${NEW_MANAGE_API_URL}/marketing-campaign/all?token=${localStorage.getItem('token')}`;
     return axios.get(url);
-}
+};
 
 export function loadStatuses(statusRef) {
-    let url = env.NEW_MANAGE_API_URL + `/statuses/all`;
+    let url = NEW_MANAGE_API_URL + `/statuses/all`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -102,7 +103,7 @@ export function loadStatuses(statusRef) {
 }
 
 export function loadSources() {
-    let url = env.MANAGE_API_URL + `/source/all`;
+    let url = MANAGE_API_URL + `/source/all`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
@@ -113,7 +114,7 @@ export function loadSources() {
 
 
 export function findClass(search) {
-    let url = env.NEW_MANAGE_API_URL + "/class/find-by-name";
+    let url = NEW_MANAGE_API_URL + "/class/find-by-name";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;

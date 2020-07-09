@@ -33,7 +33,7 @@ export default class DashboardAcademyStore {
         showTypeNotification("Đang thay đổi", "info");
         this.classes = this.classes.map((item) => {
             if (item.id == classId) {
-                return {...item, status: item.status == 0 ? 1 : 0}
+                return {...item, status: item.status == 0 ? 1 : 0};
             } else return item;
         });
         changeClassStatus(classId).then(() => {

@@ -1,4 +1,4 @@
-import React from "react";
+ import React from "react";
 import {NAME_COMPANY, LOGO_SIDEBAR, NO_AVATAR} from "../constants/env";
 import Loading from "./common/Loading";
 import PropTypes from "prop-types";

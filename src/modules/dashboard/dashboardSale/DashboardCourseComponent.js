@@ -212,12 +212,12 @@ class DashboardCourseComponent extends React.Component {
 
     componentDidMount() {
         this.loadDataCourses();
-        for(var a = 0; a<=1;++a){
-            for(var b = 0; b<=1;++b)
-                for(var c = 0;c<=1;++c)
-                    for(var d = 0; d<=1;++d)
-                        for(var e = 0; e<=1;++e){
-                            console.log(!((a && (b || c) && e) || !c) && (!d || (c && e)))
+        for(let a = 0; a<=1;++a){
+            for(let b = 0; b<=1;++b)
+                for(let c = 0;c<=1;++c)
+                    for(let d = 0; d<=1;++d)
+                        for(let e = 0; e<=1;++e){
+                            console.log(!((a && (b || c) && e) || !c) && (!d || (c && e)));
                         }
         }
     }

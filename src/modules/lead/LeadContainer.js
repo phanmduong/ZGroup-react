@@ -35,6 +35,25 @@ import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
 import * as baseActions from "../../actions/baseActions";
 
+const TAGS = [
+    {
+        label: "Tất cả",
+        value: ""
+    },
+    {
+        label: "First lead",
+        value: "first_lead"
+    },
+    {
+        label: "Old lead",
+        value: "old_lead"
+    },
+    {
+        label: "New lead",
+        value: "new_lead"
+    },
+]
+
 class LeadContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -65,9 +84,11 @@ class LeadContainer extends React.Component {
             page: 1,
             search: "",
             address: '',
+            lead_tag: '',
             filter: {
                 startTime: '',
                 endTime: '',
+                call_back_time: '',
                 status: '',
             },
             leadStatusId: '',
@@ -135,6 +156,7 @@ class LeadContainer extends React.Component {
                 filter: {
                     startTime: query.startTime,
                     endTime: query.endTime,
+                    call_back_time: query.call_back_time,
                 },
 
             };
@@ -297,7 +319,8 @@ class LeadContainer extends React.Component {
             `&search=${search || ''}` +
             `&staff=${JSON.stringify(staff)}` +
             `&startTime=${filter.startTime || ''}` +
-            `&endTime=${filter.endTime || ''}`;
+            `&endTime=${filter.endTime || ''}`+
+            `&call_back_time=${filter.call_back_time || ''}`;
         return current_link;
     };
 
@@ -442,6 +465,7 @@ class LeadContainer extends React.Component {
             startTime: newState.filter ? newState.filter.startTime : '',
             endTime: newState.filter ? newState.filter.endTime : '',
             staffId: this.isAdmin ? newState.staffId : this.props.user.id,
+            call_back_time: newState.filter ? newState.filter.call_back_time : '',
         });
     };
 
@@ -478,6 +502,7 @@ class LeadContainer extends React.Component {
             search: this.state.search,
             startTime: this.state.filter.startTime,
             endTime: this.state.filter.endTime,
+            call_back_time: this.state.filter.call_back_time,
             base_id: this.state.selectedBaseId,
             staffId: this.isAdmin ? this.state.staffId : this.props.user.id,
         });
@@ -972,6 +997,16 @@ class LeadContainer extends React.Component {
 
                                     />
                                 </div>
+                                <div className="col-md-3">
+                                    <label>Hẹn gọi lại</label>
+                                    <FormInputDate
+                                        label=""
+                                        name="call_back_time"
+                                        updateFormData={this.updateFormFilter}
+                                        id="form-call_back_time"
+                                        value={this.state.filter.call_back_time}
+                                    />
+                                </div>
                                 {
                                     (this.isAdmin) &&
                                     <div className="col-md-3"
@@ -1131,6 +1166,22 @@ class LeadContainer extends React.Component {
                                                 placeholer="Tất cả"
                                                 className="width-100"
                                                 name="duplicate"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-md-3">
+                                    <div className="form-group margin-bottom-20">
+                                        <label>Lead tag</label>
+                                        <div className="flex flex-row-center">
+                                            <ReactSelect
+                                                disabled={this.props.isLoading}
+                                                options={TAGS}
+                                                onChange={e => this.onFilterChange(e ? e.value : e, 'lead_tag')}
+                                                value={this.state.lead_tag}
+                                                placeholer="Tất cả"
+                                                className="width-100"
+                                                name="lead_tag"
                                             />
                                         </div>
                                     </div>

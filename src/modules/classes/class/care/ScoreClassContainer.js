@@ -333,7 +333,8 @@ class ScoreClassContainer extends React.Component {
                                     let {student} = register;
 
                                     let totalWeight = classData.exams.map(e => e.weight).reduce((sum, e) => sum + e);
-                                    let sumScore = register.exam_register.map(e => e.score * e.weight).reduce((sum, e) => sum + e);
+                                    let sumScore = (register.exam_register && register.exam_register.length) ?
+                                    register.exam_register.map(e => e.score * e.weight).reduce((sum, e) => sum + e) : 0;
                                     let totalScore = Math.round(sumScore / totalWeight * 10) / 10;
                                     return (
                                         <tr key={key}>

@@ -106,7 +106,7 @@ class ListClass extends React.Component {
                                                         {helper.getShortName(teacher.name)}
                                                         <div className="ripple-container"/>
                                                     </Link>
-                                                )
+                                                );
                                             })
                                         }
                                     </td>
@@ -140,7 +140,7 @@ class ListClass extends React.Component {
                                                         {helper.getShortName(teacher.name)}
                                                         <div className="ripple-container"/>
                                                     </Link>
-                                                )
+                                                );
                                             })
                                         }
                                     </td>

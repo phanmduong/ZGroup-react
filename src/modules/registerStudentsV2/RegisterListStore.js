@@ -41,6 +41,7 @@ const  const_filter = {
     register_status_id: '',
     source_id: '',
     date_test: '',
+    call_back_time: '',
 };
 
 export const store = new class TargetPersonStore {
@@ -104,7 +105,7 @@ export const store = new class TargetPersonStore {
         let res = '';
         switch (name) {
             case 'appointment_payment':
-            case 'date_test': {
+            case 'call_back_time': case 'date_test': {
                 res = value.target.value;
                 break;
             }

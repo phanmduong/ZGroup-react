@@ -17,7 +17,7 @@ class ProfileEmployee extends React.Component {
         super(props, context);
         this.state = {
             currentRoute: {}
-        }
+        };
         this.store = new ProfileStore();
         this.path = "";
         this.routes = [
@@ -271,12 +271,12 @@ class ProfileEmployee extends React.Component {
                                                                                 </div>
 
                                                                             </div>
-                                                                        )
+                                                                        );
                                                                     })}
                                                                 </div>
                                                             </div>
                                                         </li>
-                                                    )
+                                                    );
                                                 })}
 
                                             </ul>

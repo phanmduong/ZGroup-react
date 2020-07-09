@@ -791,6 +791,7 @@ export const STATUS_REFS = {
     classes: 'classes',
     registers: 'registers',
     tickets: 'tickets',
+    tele_calls: 'tele_calls',
 };
 
 export const CIRCLE_PICKER_COLORS = [
@@ -814,11 +815,13 @@ export const CIRCLE_PICKER_COLORS = [
     "#607d8b",
 ];
 
+
 export const LESSON_EVENT_TYPES_OBJECT ={
-    book:{name:'Kiểm tra sách', type:'book', modalText:'KIỂM TRA SÁCH',placeholder:'Nhập nhận xét', progress_icon:'book'},
-    comment:{name:'Nhận xét', type:'comment', modalText: 'NHẬN XÉT',placeholder:'Nhập nhận xét', progress_icon:'comment'},
-    writing:{name:'Bài viết', type:'writing', modalText: 'BÀI VIẾT',placeholder:'Nhập nhận xét', progress_icon:'subject'},
+    book:{name:'Kiểm tra sách', type:'book', modalText:'KIỂM TRA SÁCH',placeholder:'Nhập nhận xét', progress_icon:'book', progress_bar_color:'#61a1f0'},
+    comment:{name:'Nhận xét', type:'comment', modalText: 'NHẬN XÉT',placeholder:'Nhập nhận xét', progress_icon:'comment', progress_bar_color:'#32ca41'},
+    writing:{name:'Bài viết', type:'writing', modalText: 'BÀI VIẾT',placeholder:'Nhập nhận xét', progress_icon:'subject', progress_bar_color:'#78a2d2'},
 };
+export const LESSON_EVENT_TYPES_ARRAY = Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => LESSON_EVENT_TYPES_OBJECT[entry[0]].type);
 
 export const DAY_CREATE_SHIFT = [
     {

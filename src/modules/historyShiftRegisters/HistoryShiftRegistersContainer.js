@@ -36,8 +36,7 @@ class HistoryShiftRegistersContainer extends React.Component {
                         <div className="tab-content">
                             <h5 className="card-title"><strong>Lịch sử đăng kí lịch trực</strong></h5>
                             <br/>
-                            <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
-                            </div>
+                            <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}} />
                         </div>
                     </div>
                 </div>

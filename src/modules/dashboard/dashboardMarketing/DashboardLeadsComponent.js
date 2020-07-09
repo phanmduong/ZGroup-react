@@ -4,33 +4,57 @@ import {store} from "./DashBoardMarketingStore";
 import BarChartFilterDate from '../BarChartFilterDate';
 
 import moment from "moment";
-import {DATE_FORMAT, DATE_FORMAT_SQL} from "../../../constants/constants";
+import {DATE_FORMAT, DATE_FORMAT_SQL, DATE_VN_FORMAT} from "../../../constants/constants";
 import {checkColor, dotNumber} from "../../../helpers/helper";
 import DashboardLeadFilter from "./DashboardLeadFilter";
 import * as baseActions from "../../../actions/baseActions";
 
 import {bindActionCreators} from "redux";
 import {connect} from "react-redux";
+import setLeadKpiStore from "./setLeadKpiStore";
+import SetLeadKpiModal from "./SetLeadKpiModal";
+import ExpenseCampaignMarketing from "./ExpenseCampaignMarketing";
+import ExpenseSourceMarketing from "./ExpenseSourceMarketing";
+import {Bar} from "react-chartjs-2";
 
-// const optionsBarLead = {
-//     tooltips: {
-//         callbacks: {
-//             label: function (tooltipItem, data) {
-//                 let label = data.datasets[tooltipItem.datasetIndex].label || '';
-//
-//                 if (label) {
-//                     label += ': ';
-//                 }
-//                 label += `${dotNumber(tooltipItem.value)}`;
-//                 return label;
-//             }
-//         }
-//     },
-//     legend: {
-//         display: true,
-//         position: "bottom"
-//     }
-// };
+const optionsBarMoney = {
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                if (label) {
+                    label += ': ';
+                }
+                label += `${dotNumber(tooltipItem.value)}đ`;
+                return label;
+            }
+        }
+    },
+    legend: {
+        display: true,
+        position: "bottom"
+    }
+};
+const optionsBarLead = {
+    tooltips: {
+        callbacks: {
+            label: function (tooltipItem, data) {
+                let label = data.datasets[tooltipItem.datasetIndex].label || '';
+
+                if (label) {
+                    label += ': ';
+                }
+                label += `${dotNumber(tooltipItem.value)}`;
+                return label;
+            }
+        }
+    },
+    legend: {
+        display: true,
+        position: "bottom"
+    }
+};
 const optionsStackedBarLead = {
     scales: {
         xAxes: [{
@@ -49,7 +73,7 @@ const optionsStackedBarLead = {
                 let sumVal = Object.entries(data.datasets).reduce((s, [, val]) => {
                     let item = Object.entries(val.data[tooltipItem.index])[0];
                     let hidden = item && item[1] && item[1].hidden;
-                    return s + (hidden ? 0 : val.data[tooltipItem.index] );
+                    return s + (hidden ? 0 : val.data[tooltipItem.index]);
                 }, 0);
                 let percentage = Math.floor(value / sumVal * 100);
 
@@ -137,6 +161,30 @@ class DashboardLeadsComponent extends React.Component {
         });
     };
 
+    reloadData = () => {
+        store.load();
+    }
+
+
+    openModalSetKpi = () => {
+        const filter = {...store.filter};
+
+        setLeadKpiStore.setKpi = {
+            start_time: filter.start_time,
+            end_time: filter.end_time,
+            gen_id: filter.gen_id,
+        };
+        // setCourseKpiStore.historyFilter = {
+        //     start_time: filter.start_time,
+        //     end_time: filter.end_time,
+        //     course_ids: courseIds
+        // };
+        // setCourseKpiStore.historyKpi({...setCourseKpiStore.historyFilter, base_id: filterStore.base_id});
+        setLeadKpiStore.showModal = true;
+        // setCourseKpiStore.openHistoryPanel = openHistoryPanel;
+        console.log("ok");
+    }
+
     render() {
         this.path = this.props.location.pathname;
         let {isLoading} = store;
@@ -219,18 +267,26 @@ class DashboardLeadsComponent extends React.Component {
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
-                                <h4 className="card-title">
-                                    <strong>Số Lead mới theo ngày tạo</strong>
-                                </h4>
+                                <div className="flex flex-row flex-space-between flex-align-items-center">
+                                    <h4 className="card-title">
+                                        <strong>Số Lead mới theo ngày tạo</strong>
+                                    </h4>
+                                    <div
+                                        className="padding-vertical-10px padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                        style={{width: 120}}
+                                        onClick={() => this.openModalSetKpi()}
+                                    >Set KPI
+                                    </div>
+                                </div>
                                 <br/>
                                 <br/>
                                 <BarChartFilterDate
                                     isLoading={isLoading}
                                     dates={this.formatDates(store.data.analytics.dates)}
-                                    data={[store.data.analytics.leadsCountByDates, store.data.analytics.leadsReachedCountByDates]}
+                                    data={[store.data.analytics.leadsCountByDates, store.data.analytics.leadsReachedCountByDates, store.data.analytics.leadKpiByDates]}
                                     dateFormat={DATE_FORMAT}
                                     id="barchar_lead_by_date"
-                                    optionsBar={optionsStackedBarLead}
+                                    optionsBar={optionsBarLead}
                                     labels={[
                                         {
                                             label: "Số Lead mới",
@@ -241,6 +297,11 @@ class DashboardLeadsComponent extends React.Component {
                                             label: "Số Lead đã tiếp cận",
                                             backgroundColor: '#4caa00',
                                             borderColor: '#4caa00',
+                                        },
+                                        {
+                                            label: "KPI",
+                                            backgroundColor: '#0066aa',
+                                            borderColor: '#0066aa',
                                         }]}
                                 />
                                 <br/>
@@ -317,6 +378,32 @@ class DashboardLeadsComponent extends React.Component {
                         <div className="card-content text-align-left">
                             <div className="tab-content">
                                 <h4 className="card-title">
+
+                                    <strong>Tỉ lệ Lead theo P.I.C</strong>
+                                </h4>
+                                <br/>
+                                <br/>
+                                <BarChartFilterDate
+                                    isLoading={isLoading}
+                                    dates={this.formatDates(store.data.analytics.dates)}
+                                    data={store.data.analytics.leadsByPics}
+                                    id="barchar_lead_by_pic"
+                                    dateFormat={DATE_FORMAT}
+                                    optionsBar={optionsStackedBarLead}
+                                    labels={this.picLabels()}
+                                />
+                                <br/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
                                     <strong>Tỉ lệ Lead theo nguồn</strong>
                                 </h4>
                                 <br/>
@@ -367,18 +454,44 @@ class DashboardLeadsComponent extends React.Component {
                         <div className="card-content text-align-left">
                             <div className="tab-content">
                                 <h4 className="card-title">
-                                    <strong>Tỉ lệ Lead theo P.I.C</strong>
+                                    <strong>Chi phí chiến dịch marketing</strong>
                                 </h4>
+                                <div>
+                                    {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}
+                                </div>
                                 <br/>
+                                <ExpenseCampaignMarketing store={store}/>
                                 <br/>
-                                <BarChartFilterDate
-                                    isLoading={isLoading}
-                                    dates={this.formatDates(store.data.analytics.dates)}
-                                    data={store.data.analytics.leadsByPics}
-                                    id="barchar_lead_by_pic"
-                                    dateFormat={DATE_FORMAT}
-                                    optionsBar={optionsStackedBarLead}
-                                    labels={this.picLabels()}
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
+
+                                    <strong>Thống kê chi phí chiến dịch marketing</strong>
+                                </h4>
+                                <div>
+                                    {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}
+                                </div>
+                                <br/>
+                                <Bar
+                                    data={{
+                                        datasets: store.expenseCampaigns.map((item) => {
+                                            return {
+                                                backgroundColor: "#" + item.color,
+                                                borderColor: "#" + item.color,
+                                                data: [item.total_expense],
+                                                label: item.name
+                                            }
+                                        })
+                                    }}
+                                    options={optionsBarMoney}
                                 />
                                 <br/>
 
@@ -388,6 +501,60 @@ class DashboardLeadsComponent extends React.Component {
                     </div>
                 </div>
 
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
+                                    <strong>Chi phí nguồn marketing</strong>
+                                </h4>
+                                <div>
+                                    {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}
+                                </div>
+                                <br/>
+                                <ExpenseSourceMarketing store={store}/>
+                                <br/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div className="col-md-12">
+                    <div className="card margin-bottom-20 margin-top-0">
+                        <div className="card-content text-align-left">
+                            <div className="tab-content">
+                                <h4 className="card-title">
+
+                                    <strong>Thống kê chi phí nguồn marketing</strong>
+                                </h4>
+                                <div>
+                                    {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}
+                                </div>
+                                <br/>
+                                <Bar
+                                    data={{
+                                        // labels: store.expenseSources.map((item) => item.name),
+                                        datasets: store.expenseSources.map((item) => {
+                                            return {
+                                                backgroundColor: item.color,
+                                                borderColor: item.color,
+                                                data: [item.total_expense],
+                                                label: item.name
+                                            }
+                                        })
+                                    }}
+                                    options={optionsBarMoney}
+                                />
+                                <br/>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <SetLeadKpiModal reload={this.reloadData}/>
             </div>
         );
     }

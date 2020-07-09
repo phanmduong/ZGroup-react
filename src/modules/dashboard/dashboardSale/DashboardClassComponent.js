@@ -117,7 +117,7 @@ class DashboardClassComponent extends React.Component {
                     onText="Bật" offText="Tắt"
 
                     onChange={() => {
-                        this.store.changeClassStatus(props.original.id)
+                        this.store.changeClassStatus(props.original.id);
                     }}
                     value={(props.value === 1)}/>)
             },

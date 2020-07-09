@@ -17,8 +17,9 @@ class BarChart extends React.Component {
 
         let options = {
             seriesBarDistance: 10,
-            height: 30 * data.labels.length + 'px',
-            horizontalBars: true,
+            height:'500px',
+            // height: 30 * data.labels.length + 'px',
+            // horizontalBars: true,
 
             plugins: [
                 // eslint-disable-next-line
@@ -69,7 +70,7 @@ class BarChart extends React.Component {
     }
 
     render() {
-        let style = {maxHeight: 750,position: "relative"};
+        let style = {maxHeight: 750, minHeight:500,position: "relative"};
         if(30 * this.props.label.length > 750 ){
             style = {...style, overflowY: "scroll"};
         }

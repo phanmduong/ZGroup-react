@@ -11,6 +11,9 @@ const routes = [
     {
         path: `${routePrefix}/exams`, text: 'Bài kiểm tra',
     },
+    {
+        path: `${routePrefix}/events`, text: 'Hoạt động',
+    },
 
 
 ];

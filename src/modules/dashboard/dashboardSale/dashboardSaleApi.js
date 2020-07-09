@@ -20,6 +20,15 @@ export function analyticsRegisterApi(filter) {
     return axios.get(url);
 }
 
+export function analyticsRealRevenueApi(filter) {
+    let fields = ['start_time', 'end_time', 'staff_id', 'base_id', "course_id", "source_id", "campaign_id"];
+    let url = `${NEW_MANAGE_API_URL}/dashboard/analytics-real-revenue?token=${localStorage.getItem('token')}`;
+    fields.forEach(field => {
+        url += `&${field}=${filter[field] || ''}`;
+    });
+    return axios.get(url);
+}
+
 
 export const loadStaffs = () => {
     let url = NEW_MANAGE_API_URL + `/staff?limit=-1`;
@@ -99,12 +108,12 @@ export const getHistoryCourseKpiApi = (filter) => {
 export const getCourseActiveApi = () => {
     let url = `${NEW_MANAGE_API_URL}/course/all-active?token=${localStorage.getItem('token')}`;
     return axios.get(url);
-}
+};
 export const getSourcesApi = () => {
     let url = `${NEW_MANAGE_API_URL}/source/all?token=${localStorage.getItem('token')}`;
     return axios.get(url);
-}
+};
 export const getMarketingCampaignsApi = () => {
     let url = `${NEW_MANAGE_API_URL}/marketing-campaign/all?token=${localStorage.getItem('token')}`;
     return axios.get(url);
-}
+};

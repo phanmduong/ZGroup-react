@@ -51,7 +51,7 @@ class FilterStore {
             }
         }).finally(() => {
             this.isLoading = false;
-        })
+        });
 
 
     };

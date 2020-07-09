@@ -61,6 +61,7 @@ export function getRegisterStudent(filter) {
         selectedSalerId = '',
         campaignId = '',
         selectedClassId = '',
+        selectedCourseId = '',
         selectedMoneyFilter = '',
         selectedClassStatus = '',
         startTime = '',
@@ -74,8 +75,9 @@ export function getRegisterStudent(filter) {
         registerStatusId = '',
         registerSourceId = '',
         date_test = '',
+        call_back_time = '',
     } = filter;
-    console.log('api',filter);
+    console.log('api', filter);
 
     let urlType;
     switch (env.TYPE_API) {
@@ -96,10 +98,12 @@ export function getRegisterStudent(filter) {
         "&saler_id=" + selectedSalerId +
         '&campaign_id=' + campaignId +
         "&class_id=" + selectedClassId +
+        "&course_id=" + selectedCourseId +
         "&status=" + selectedMoneyFilter +
         "&base_id=" + selectedBaseId +
         "&appointment_payment=" + appointmentPayment +
         "&date_test=" + date_test +
+        "&call_back_time=" + call_back_time +
         "&type=" + selectedClassStatus +
         "&search_coupon=" + query_coupon +
         "&query_note=" + query_note +
@@ -155,7 +159,7 @@ export function changeMarkRegister(register_id, bookmark) {
     return axios.post(url,);
 }
 
-export function changeCallStatusStudent(callStatus, studentId, telecallId, genId = '', note = '', callerId = '', appointmentPayment = '', dateTest) {
+export function changeCallStatusStudent(callStatus, studentId, telecallId, genId = '', note = '', callerId = '', appointmentPayment = '', dateTest, call_back_time) {
 
     let url = env.MANAGE_API_URL;
 
@@ -181,6 +185,7 @@ export function changeCallStatusStudent(callStatus, studentId, telecallId, genId
             status: callStatus,
             appointment_payment: appointmentPayment,
             date_test: dateTest,
+            call_back_time: call_back_time,
         }
     );
 }
@@ -226,7 +231,7 @@ export function loadClasses(registerId, query) {
     let token = localStorage.getItem('token');
     let url = env.MANAGE_API_URL + `/register-student/${registerId}/classes_without_waiting?token=` + token;
     if (query) {
-        url += '&search='+query;
+        url += '&search=' + query;
     }
     return axios.get(url);
 }

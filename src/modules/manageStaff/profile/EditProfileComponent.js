@@ -18,7 +18,7 @@ class EditProfileComponent extends React.Component {
         super(props, context);
         this.state = {
             profile: props.store.profile
-        }
+        };
     }
 
     checkValidate() {

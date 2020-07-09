@@ -50,7 +50,7 @@ export default class DashboardCourseStore {
                     "total_class_full": data.total_class.total_class_full,
                     "total": data.total_class.total,
                 }
-            }
+            };
         }
         return this.courses && this.courses.length > 0 ? this.courses.reduce((a, b) => {
             return {

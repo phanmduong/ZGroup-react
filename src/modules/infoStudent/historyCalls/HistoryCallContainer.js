@@ -6,6 +6,9 @@ import Loading from '../../../components/common/Loading';
 import PropTypes from 'prop-types';
 import CallRegisterOverlay from "../overlays/CallRegisterOverlay";
 import EmptyData from "../../../components/common/EmptyData";
+import StatusesOverlay from "../overlays/StatusesOverlay";
+import {STATUS_REFS} from "../../../constants/constants";
+import ReactSelect from "react-select";
 
 
 class HistoryCallContainer extends React.Component {
@@ -14,26 +17,59 @@ class HistoryCallContainer extends React.Component {
         this.state = {
             note: '',
             appointmentPayment: '',
-            dateTest: ''
+            dateTest: '',
+            teleCallTagStatus: null,
         };
-        this.studentId = this.props.params ? this.studentId : this.props.studentId;
+        this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
 
     }
 
 
     componentWillMount() {
         this.props.studentActions.loadHistoryCalls(this.studentId);
+        // if(!this.props.isLoadedStatuses){
+        this.props.studentActions.loadStatuses(STATUS_REFS.tele_calls);
+        // }
     }
 
     changeCallStatusStudent = (callStatus, studentId) => {
         this.props.studentActions.changeCallStatusStudent(callStatus, studentId, this.state.note, this.state.appointmentPayment, this.state.dateTest);
     };
 
+    changeFilterTeleCallTagStatus = (e) => {
+        this.setState({
+            teleCallTagStatus: e ? e.id : e
+        });
+    }
+
+    teleCallStatusTagOptions = () => {
+        return [
+            {
+                label: 'Tất cả tag',
+                value: null,
+                id: null,
+            },
+            {
+                label: 'Không có tag',
+                value: -1,
+                id: -1,
+            },
+            ...this.props.statuses[STATUS_REFS.tele_calls].map(itm => {
+                return {
+                    ...itm,
+                    label: itm.name,
+                    value: itm.id,
+                };
+            })
+        ];
+    }
+
     render() {
         return (
             <div className="tab-pane active">
                 {
-                    this.props.isLoadingHistoryCalls ? <Loading/> :
+                    (this.props.isLoadingHistoryCalls || this.props.isLoadingStatuses || !this.props.statuses[STATUS_REFS.tele_calls]) ?
+                        <Loading/> :
                         <ul className="timeline timeline-simple">
                             <li className="timeline-inverted">
                                 <div className="timeline-badge" style={{backgroundColor: '#4855d1'}}>
@@ -51,8 +87,30 @@ class HistoryCallContainer extends React.Component {
 
                                 </div>
                             </li>
+                            <li className="timeline-inverted">
+                                <div className="timeline-badge" style={{backgroundColor: '#4855d1'}}>
+                                    <i className="material-icons">filter_alt</i>
+                                </div>
+                                <div className="timeline-panel">
+                                    <div className="timeline-heading">
+                                        <div className="flex flex-align-items-center margin-top-5">
+
+                                            <ReactSelect
+                                                options={this.teleCallStatusTagOptions()}
+                                                value={this.teleCallStatusTagOptions().filter(o=>o.id == this.state.teleCallTagStatus)[0]}
+                                                defaultMessage="Lọc theo tag"
+                                                style={{minWidth: 150}}
+                                                onChange={this.changeFilterTeleCallTagStatus}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="timeline-body margin-vertical-30"/>
+
+                                </div>
+                            </li>
                             {
-                                this.props.historyCalls && this.props.historyCalls.length > 0 ? this.props.historyCalls.map(function (history, index) {
+                                (this.props.historyCalls && this.props.historyCalls.length > 0) ? this.props.historyCalls
+                                        .map( (history, index) =>{
                                         let btn = '';
                                         if (history.call_status === 'success') {
                                             btn = ' success';
@@ -62,6 +120,13 @@ class HistoryCallContainer extends React.Component {
                                             btn = ' info';
                                         }
 
+                                        let passedFilter = true;
+                                            switch (this.state.teleCallTagStatus) {
+                                                case -1: passedFilter =  !history.status_id; break;
+                                                case null: passedFilter = true; break;
+                                                default: passedFilter = this.state.teleCallTagStatus == history.status_id;
+                                            }
+                                        if(passedFilter)
                                         return (
                                             <li className="timeline-inverted" key={index}>
                                                 <div className={"timeline-badge " + btn}>
@@ -69,18 +134,37 @@ class HistoryCallContainer extends React.Component {
                                                 </div>
                                                 <div className="timeline-panel">
                                                     <div className="timeline-heading">
-                                                                        <span className="label label-default"
+                                                                        <span className="btn btn-xs"
                                                                               style={{backgroundColor: '#' + history.caller.color}}>
-                                                                            {history.caller.name}</span> <span
-                                                        className="label label-default">{history.updated_at}</span>
+                                                                            {history.caller.name}</span>
+                                                        <span
+                                                            className="btn btn-xs">{history.updated_at}</span>
+                                                        <StatusesOverlay
+                                                            data={history.teleCallTagStatus}
+                                                            refId={history.id}
+                                                            statusRef={STATUS_REFS.tele_calls}
+                                                            className="btn status-overlay btn-xs"
+                                                            styleOverlay={{
+                                                                marginLeft: -220, marginTop: 25
+                                                            }}
+                                                        />
                                                     </div>
-                                                    <div className="timeline-body">
-                                                        {history.note}
-                                                    </div>
+                                                    {
+                                                        history.note &&
+                                                        <div className="timeline-body">
+                                                            Ghi chú: {history.note}
+                                                        </div>
+                                                    }
                                                     {
                                                         history.appointment_payment &&
                                                         <div className="timeline-body">
                                                             Hẹn nộp tiền: {history.appointment_payment}
+                                                        </div>
+                                                    }
+                                                    {
+                                                        history.call_back_time &&
+                                                        <div className="timeline-body">
+                                                            Hẹn gọi lại: {history.call_back_time}
                                                         </div>
                                                     }
                                                     {
@@ -209,6 +293,9 @@ function mapStateToProps(state) {
         historyCalls: state.infoStudent.historyCalls,
         isLoadingHistoryCalls: state.infoStudent.isLoadingHistoryCalls,
         isChangingStatusCall: state.infoStudent.isChangingStatusCall,
+        statuses: state.infoStudent.statuses,
+        isLoadingStatuses: state.infoStudent.isLoadingStatuses,
+        isLoadedStatuses: state.infoStudent.isLoadedStatuses,
     };
 }
 

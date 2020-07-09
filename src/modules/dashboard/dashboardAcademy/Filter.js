@@ -107,7 +107,7 @@ class Filter extends React.Component {
     getProvincesData = () => {
         let {provinces} = this.props;
         return [{value: 0, label: "Tất cả thành phố"}, ...provinces.map((province) => {
-            return {value: province.id, label: province.name}
+            return {value: province.id, label: province.name};
         })];
     }
 

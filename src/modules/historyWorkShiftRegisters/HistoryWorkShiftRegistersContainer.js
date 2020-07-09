@@ -38,10 +38,7 @@ class HistoryWorkShiftRegistersContainer extends React.Component {
                             <strong>Lịch sử đăng kí lịch làm việc</strong>
                         </h5>
                         <br/>
-                        <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
-
-
-                        </div>
+                        <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}} />
                     </div>
                 </div>
                 {this.props.isLoading ? <Loading/> :

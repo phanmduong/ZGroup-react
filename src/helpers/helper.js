@@ -5,11 +5,16 @@ import _ from 'lodash';
 import moment from 'moment';
 import XLSX from 'xlsx';
 import * as  FILE_SAVER from 'file-saver';
-import {CIRCLE_PICKER_COLORS, PHONE_HEAD_3, PHONE_HEAD_4} from '../constants/constants';
+import {
+    CIRCLE_PICKER_COLORS,
+    DATE_FORMAT_SQL,
+    PHONE_HEAD_3,
+    PHONE_HEAD_4
+} from '../constants/constants';
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
-    if (str.length > length) {
+    if (!isEmptyInput(str) && str.length > length) {
         return str.slice(0, length - 3) + '...';
     } else {
         return str;
@@ -1555,14 +1560,14 @@ export function setClipboard(str, showNoti) {
     document.execCommand("copy");
     document.body.removeChild(textArea);
 
-    if(showNoti) showNotification('Copy thành công');
+    if (showNoti) showNotification('Copy thành công');
 }
 
 
-export function getObjectArttribute(path = '', obj={}) {
+export function getObjectArttribute(path = '', obj = {}) {
     path = path.split('.');
     let parent = {...obj};
-    for (var k=0, kLen=path.length; k<kLen; k++) {
+    for (let k = 0, kLen = path.length; k < kLen; k++) {
 
         if (parent.hasOwnProperty(path[k])) {
             parent = parent[path[k]];
@@ -1574,11 +1579,81 @@ export function getObjectArttribute(path = '', obj={}) {
     return parent;
 }
 
-export function  checkColor(color, getRand) {
-    let defColor = getRand ? CIRCLE_PICKER_COLORS[Math.floor(Math.random() * CIRCLE_PICKER_COLORS.length)] :'#eeeeee';
+export function checkColor(color, getRand) {
+    let defColor = getRand ? CIRCLE_PICKER_COLORS[Math.floor(Math.random() * CIRCLE_PICKER_COLORS.length)] : '#eeeeee';
 
-    let res =  isEmptyInput(color) ? defColor  : color;
+    let res = isEmptyInput(color) ? defColor : color;
     let needSharp = res[0] !== "#";
-    if(needSharp) res = "#" + res;
+    if (needSharp) res = "#" + res;
+    return res;
+}
+
+export function medianOfArray(values) {
+    if (!values || values.length === 0) return 0;
+
+    values.sort(function (a, b) {
+        return a - b;
+    });
+
+    let half = Math.floor(values.length / 2);
+
+    if (values.length % 2)
+        return values[half];
+
+    return (values[half - 1] + values[half]) / 2.0;
+}
+
+export function modeOfArray(values) {
+    if (!values || values.length === 0) return {
+        modes:['Không có'],
+        frequency: 0
+    };
+    let frequency = {}; // values of frequency.
+    let maxFreq = 0; // holds the max frequency.
+    let modes = [];
+
+    for (let i in values) {
+        frequency[values[i]] = (frequency[values[i]] || 0) + 1; // increment frequency.
+
+        if (frequency[values[i]] > maxFreq) { // is this frequency > max so far ?
+            maxFreq = frequency[values[i]]; // update max.
+        }
+    }
+
+    for (let k in frequency) {
+        if (frequency[k] == maxFreq) {
+            modes.push(k);
+        }
+    }
+
+    return {
+        modes,
+        frequency: maxFreq
+    };
+}
+
+export function meanOfArray(values) {
+    if (!values || values.length === 0) return 0;
+    let sum = 0;
+    values.forEach(val=>sum+=val);
+    return Math.round(sum/values.length*100)/100;
+}
+
+export function generateMonthsArray(dates = [], date_format=DATE_FORMAT_SQL, target_format = 'MM/YYYY') {
+    if(!dates.length) return [];
+    let minDate = moment().add(10, 'years'), maxDate = moment().subtract(10, 'years');
+    dates.forEach(d=>{
+        let _date = moment(d, date_format);
+        if(_date.isAfter(maxDate)) maxDate = _date;
+        if(_date.isBefore(minDate)) minDate = _date;
+    });
+    let res = [];
+    console.log(minDate, maxDate,maxDate.diff(minDate,'months'));
+    for( ; maxDate.diff(minDate,'months'); ){
+        res.push(minDate.format(target_format));
+        minDate = minDate.add(1,'months');
+    }
+
+
     return res;
 }

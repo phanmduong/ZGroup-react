@@ -54,10 +54,10 @@ class BarChartFilterDate extends React.Component {
         let json = this.props.dates.map((item, index) => {
             let data = {
                 "Ngày": item,
-            }
+            };
             this.props.labels.forEach((itemlabel, indexLabel) => {
                 data[itemlabel.label] = this.props.data[indexLabel][index];
-            })
+            });
             return data;
         });
         let wb = helper.newWorkBook();
@@ -169,7 +169,7 @@ class BarChartFilterDate extends React.Component {
             labels: this.getLabels(groupDates),
             datasets: this.getDataSet(groupDates)
         };
-
+        console.log({dataSet});
         return (
             <div>
                 {this.renderFilter()}

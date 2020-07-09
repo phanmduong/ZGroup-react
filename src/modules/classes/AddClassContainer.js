@@ -421,7 +421,7 @@ class AddClassContainer extends React.Component {
                             value={datestart ? datestart.slice(0, 10) : new Date().toISOString().slice(0, 10)}
                             id="form-date-datestart"
                         />
-                        <label>Ngày bế giảng(dự kiến)</label>
+                        <label>Ngày bế giảng (dự kiến)</label>
                         <FormInputDate
                             label=""
                             name="date_end"
@@ -430,7 +430,7 @@ class AddClassContainer extends React.Component {
                             id="form-date-date-end"
                         />
                         <div className="form-group">
-                            <label className="label-control">Chọn khóa(không bắt buộc)</label>
+                            <label className="label-control">Chọn khóa (không bắt buộc)</label>
                             <Select
                                 name="form-field-name"
                                 value={gen_id}
@@ -649,7 +649,7 @@ function mapStateToProps(state) {
     return {
         isStoringClass: state.classes.isStoringClass,
         isLoadingInfoCreateClass: state.classes.isLoadingInfoCreateClass,
-        class: state.classes.class,
+        class: state.classes.editClass,
         infoCreateClass: state.classes.infoCreateClass,
     };
 }

@@ -16,14 +16,21 @@ class MNABarChart extends React.Component {
         };
 
         let options = {
+            ticks:[0,1,2,3,4,5,6,7,8,9,10],
             seriesBarDistance: 10,
+            height:'500px',
             // height: 30 * data.labels.length + 'px',
             // horizontalBars: true,
-            stackBars: true,
+            // stackBars: true,
             // stackMode: 'overlap',
             high: 10,
             low: 0,
             plugins: [
+                // eslint-disable-next-line
+                Chartist.plugins.legend({
+                    position: 'bottom'
+
+                }),
                 // eslint-disable-next-line
                 Chartist.plugins.tooltip({
                     tooltipFnc: (tooltip) =>{
@@ -35,11 +42,6 @@ class MNABarChart extends React.Component {
                     //     return xy;
                     // }
                 }),
-
-                // eslint-disable-next-line
-                // Chartist.plugins.legend({
-                //     position: 'bottom'
-                // }),
             ]
         };
 
@@ -73,15 +75,16 @@ class MNABarChart extends React.Component {
         ];
         // eslint-disable-next-line
         new Chartist.Bar('#' + this.props.id, data, options, responsiveOptions).on('draw', function(data) {
-            // console.log('chart',data);
+            console.log(data);
             if(data.type === 'bar' ){
-                data.element.attr({
-                    style: 'border:none;'
-                });
-                if( data.series && data.series.name === 'Min') {
+                if( data.series) {
+                    let y1 = data.axisY.axisLength /  10 * (10 - data.series.data[data.index].min);
+                    let y2 = y1 - data.axisY.axisLength /  10 * (data.series.data[data.index].range);
+                    console.log(y1,y2,data.series.data[data.index]);
                     data.element.attr({
-                        // style: 'stroke: white; border:none;'
-                        style: 'stroke: transparent;'
+                        y1:y1 +15,
+                        y2:y2+15,
+                        // style: 'padding-bottom: transparent;'
                     });
                 }
             }
@@ -89,7 +92,7 @@ class MNABarChart extends React.Component {
     }
 
     render() {
-        let style = {maxHeight: 750,position: "relative"};
+        let style = {maxHeight: 750, minHeight:500,position: "relative"};
         if(30 * this.props.label.length > 750 ){
             style = {...style, overflowY: "scroll"};
         }

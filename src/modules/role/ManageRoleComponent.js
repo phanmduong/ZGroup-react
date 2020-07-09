@@ -28,7 +28,7 @@ class ManageRoleComponent extends React.Component {
     // }
 
     openModalEdit = (roleId)=>{
-        this.setState({roleId, showModalEdit:true, showModalCreate: false,})
+        this.setState({roleId, showModalEdit:true, showModalCreate: false,});
     }
 
     render() {

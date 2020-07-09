@@ -59,6 +59,7 @@ class RegisterListContainer extends React.Component {
             selectedTeleCallStatus: '',
             selectedStudentId: '',
             classFilter: [],
+            courseFilter: [],
             salerFilter: [],
             campaignFilter: [],
             baseFilter: [],
@@ -95,7 +96,9 @@ class RegisterListContainer extends React.Component {
             selectedStudent: {},
             query_coupon: "",
             query_note: "",
-            dateTest: ""
+            dateTest: "",
+            date_test: "",
+            call_back_time: "",
         };
 
         this.isWaitListPage = false;
@@ -202,7 +205,11 @@ class RegisterListContainer extends React.Component {
                 allClassFilter: this.getFilter(nextProps.classFilter),
             });
             this.onClassStatusFilterChange({value: this.state.selectedClassStatus}, nextProps.classFilter);
-
+        }
+        if (!nextProps.isLoadingCourses && this.props.isLoadingCourses) {
+            this.setState({
+                courseFilter: this.getFilter(nextProps.courses),
+            });
         }
         if (!nextProps.isLoadingSalerFilter && this.props.isLoadingSalerFilter) {
             let filter = this.getSalerFilter(nextProps.salerFilter);
@@ -270,6 +277,7 @@ class RegisterListContainer extends React.Component {
                     this.props.registerActions.loadCampaignFilter();
                     this.props.registerActions.loadBaseFilter();
                     this.props.createRegisterActions.loadSources();
+                    this.props.createRegisterActions.loadCourses();
                     this.props.studentActions.loadStatuses('registers');
                 }
             );
@@ -335,11 +343,15 @@ class RegisterListContainer extends React.Component {
         if (obj) {
             res = obj.value;
         }
-        // if (res != this.state.selectedClassId)
-        //     this.props.registerActions.loadRegisterStudent(
-        //         {...this.state, page: 1, selectedClassId: obj ? obj.value : ''},
-        //     );
         this.setState({selectedClassId: res, page: 1});
+    };
+
+    onCourseFilterChange = (obj) => {
+        let res = '';
+        if (obj) {
+            res = obj.value;
+        }
+        this.setState({selectedCourseId: res, page: 1});
     };
 
     changeStatusPause = (register) => {
@@ -656,7 +668,7 @@ class RegisterListContainer extends React.Component {
 
 
     changeCallStatusStudent = (callStatus, studentId) => {
-        this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal, '', this.state.appointmentPayment, this.state.dateTest);
+        this.props.registerActions.changeCallStatusStudent(callStatus, studentId, this.props.telecallId, this.state.selectGenId, this.state.note, this.closeModal, '', this.state.appointmentPayment, this.state.dateTest, this.state.callBackTime);
     };
 
     deleteRegister = (register) => {
@@ -813,20 +825,19 @@ class RegisterListContainer extends React.Component {
                                             </h2>
                                         </div>
                                         <div>
-                                            <a
-                                                onClick={this.showLoadingModal}
-                                                className="text-white"
-                                                disabled={
-                                                    this.props.isLoadingGens ||
-                                                    // this.props.isLoadingClassFilter ||
-                                                    this.props.isLoading ||
-                                                    this.props.isLoadingRegisters ||
-                                                    this.props.isLoadingBaseFilter ||
-                                                    this.props.isLoadingExcel
-                                                }
-                                            >
+                                            {
+                                                !(this.props.isLoadingGens ||
+                                                // this.props.isLoadingClassFilter ||
+                                                this.props.isLoading ||
+                                                this.props.isLoadingRegisters ||
+                                                this.props.isLoadingBaseFilter ||
+                                                this.props.isLoadingExcel)
+                                                    &&
+                                            <a onClick={this.showLoadingModal}
+                                                className="text-white">
                                                 Tải xuống
                                             </a>
+                                            }
                                         </div>
                                         <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
                                             <Search
@@ -916,6 +927,19 @@ class RegisterListContainer extends React.Component {
                                             value={this.state.selectedClassId}
                                             defaultMessage="Tuỳ chọn"
                                             name="filter_class"
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <label className="">
+                                            Theo môn học
+                                        </label>
+                                        <ReactSelect
+                                            disabled={this.props.isLoading}
+                                            className=""
+                                            options={this.state.courseFilter}
+                                            onChange={this.onCourseFilterChange}
+                                            value={this.state.selectedCourseId}
+                                            defaultMessage="Tuỳ chọn"
                                         />
                                     </div>
 
@@ -1023,6 +1047,15 @@ class RegisterListContainer extends React.Component {
                                             updateFormData={this.updateFormDate}
                                             id="form-date-test"
                                             value={this.state.date_test}
+                                        />
+                                    </div>
+                                    <div className="col-md-3">
+                                        <FormInputDate
+                                            label="Hẹn gọi lại"
+                                            name="call_back_time"
+                                            updateFormData={this.updateFormDate}
+                                            id="form-call_back_time"
+                                            value={this.state.call_back_time}
                                         />
                                     </div>
                                     <div className="col-md-3">
@@ -1499,6 +1532,15 @@ class RegisterListContainer extends React.Component {
                             id="form-date_test"
                             value={this.state.dateTest}
                         />
+                        <FormInputDate
+                            label="Hẹn gọi lại"
+                            name="callBackTime"
+                            updateFormData={(event) => {
+                                this.setState({callBackTime: event.target.value});
+                            }}
+                            id="form-call_back_time"
+                            value={this.state.callBackTime}
+                        />
                         {this.props.isChangingStatus ?
                             (
                                 <div>
@@ -1696,7 +1738,9 @@ function mapStateToProps(state) {
         isCommittingInfoStudent: state.registerStudents.isCommittingInfoStudent,
         isLoadingBaseFilter: state.registerStudents.isLoadingBaseFilter,
         sources: state.createRegister.sources,
+        courses: state.createRegister.courses,
         isLoadingSources: state.createRegister.isLoadingSources,
+        isLoadingCourses: state.createRegister.isLoadingCourses,
         statuses: state.infoStudent.statuses,
         isLoadingStudent: state.infoStudent.isLoadingStudent,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,

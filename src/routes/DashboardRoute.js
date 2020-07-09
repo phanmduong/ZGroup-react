@@ -14,6 +14,10 @@ import DashboardCourseComponent from "../modules/dashboard/dashboardSale/Dashboa
 import DashboardAcademyContainer from "../modules/dashboard/dashboardAcademy/DashboardAcademyContainer";
 import DashboardAcademyComponent from "../modules/dashboard/dashboardAcademy/DashboardAcademyComponent";
 import DashboardExamComponent from "../modules/dashboard/dashboardAcademy/exams/DashboardExamComponent";
+import DashboardClassLessonEventComponent
+    from "../modules/dashboard/dashboardAcademy/classLessonEvents/DashboardClassLessonEventComponent";
+import DashboardRealRevenueComponent from "../modules/dashboard/dashboardSale/DashboardRealRevenueComponent";
+import DashboardContainer from "../modules/dashboard/DashboardContainer";
 
 
 /**
@@ -40,11 +44,19 @@ export default [
                 path: "course",
                 component: DashboardCourseComponent,
             },
+            {
+                path: "real-revenue",
+                component: DashboardRealRevenueComponent,
+            },
         ]
     },
     {
         path: "/dashboard/it",
         component: DashboardItContainer
+    },
+    {
+        path: "/dashboard/old",
+        component: DashboardContainer
     },
     {
         path: "/dashboard/study-pack",
@@ -87,6 +99,10 @@ export default [
             {
                 path: "exams",
                 component: DashboardExamComponent,
+            },
+            {
+                path: "events",
+                component: DashboardClassLessonEventComponent,
             },
         ]
     },

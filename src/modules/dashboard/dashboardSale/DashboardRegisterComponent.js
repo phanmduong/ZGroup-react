@@ -108,7 +108,7 @@ class DashboardRegisterComponent extends React.Component {
         const {isLoading, data} = this.store;
         console.log(data);
         if (!isLoading && data.campaigns) {
-            console.log()
+            console.log();
         }
         return (
             <div>

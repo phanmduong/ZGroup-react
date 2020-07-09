@@ -1,11 +1,8 @@
-/**
- * Created by phanmduong on 9/21/17.
- */
 import React from 'react';
 import * as classActions from "../../classActions";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {avatarEmpty, getShortName} from "../../../../helpers/helper";
+import {avatarEmpty, getShortName, isEmptyInput, shortenStr, showNotification} from "../../../../helpers/helper";
 import TooltipButton from "../../../../components/common/TooltipButton";
 import {Modal, Overlay} from 'react-bootstrap';
 import * as ReactDOM from "react-dom";
@@ -20,6 +17,9 @@ import moment from 'moment';
 import {DATE_FORMAT_SQL, DATE_VN_FORMAT, LESSON_EVENT_TYPES_OBJECT} from "../../../../constants/constants";
 import EmptyData from "../../../../components/common/EmptyData";
 import Checkbox from "../../../../components/common/Checkbox";
+import LessonDetailModal from "../../../attendance/LessonDetailModal";
+import * as attendanceActions from "../../../attendance/attendanceActions";
+import CheckBoxMaterial from "../../../../components/common/CheckBoxMaterial";
 
 class HistoryTeachingContainer extends React.Component {
     constructor(props, context) {
@@ -153,7 +153,8 @@ class HistoryTeachingContainer extends React.Component {
                 class_lesson_event_id: student_class_lesson_event.class_lesson_event_id,
                 lesson_event_id: classLessonEvent.lesson_event_id,
                 class_lesson_id: lessonEvent.id,
-                comment: student_class_lesson_event ? student_class_lesson_event.data : ''
+                comment: student_class_lesson_event ? student_class_lesson_event.data : '',
+                status: student_class_lesson_event ? student_class_lesson_event.status : null,
             };
         });
         this.setState(
@@ -179,10 +180,19 @@ class HistoryTeachingContainer extends React.Component {
         });
     };
 
-    updateFormInputEvent = (e, index) => {
+    updateFormModalEvent = (e, index) => {
         let {name, value} = e.target;
         let lessonEventStudent = {...this.state.lessonEventStudent};
-        lessonEventStudent[index][name] = value;
+        switch (name) {
+            case 'status': {
+                lessonEventStudent[index][name] = lessonEventStudent[index][name] != 'done' ? 'done' : null;
+                break;
+            }
+            default: {
+                lessonEventStudent[index][name] = value;
+                break;
+            }
+        }
         this.setState({lessonEventStudent});
     };
 
@@ -303,12 +313,35 @@ class HistoryTeachingContainer extends React.Component {
         this.setState({show});
     };
 
+    updateModalAttendanceData = (index, value, name) => {
+        this.props.attendanceActions.updateModalData(index, value, name);
+    }
+    commitModalAttendanceData = (data) => {
+        this.props.attendanceActions.takeAttendance(data, this.commitAttendanceSuccess);
+    }
+    commitAttendanceSuccess = () => {
+        showNotification("Lưu thành công!");
+        this.setState({showModalDetailLesson: false});
+        // this.props.attendanceActions.loadClassLessonModal(this.props.params.classId);
+    }
+    closeModalDetailLesson = () => {
+        this.setState({showModalDetailLesson: false});
+    };
+    openModalDetailLessonAttendance = (id) => {
+        this.setState({
+            showModalDetailLesson: true,
+            selectedLessonId: id
+        });
+        this.props.attendanceActions.loadLessonDetailModal(this.props.classData.id, id);
+    };
+
     render() {
         let {classData, isLoading, user, isLoadingSavingClassLessonEvents} = this.props;
         let {show, showModalDelayLessons, showModalLessonEvent, delayLessonIndex, delayData, lessonEventStudent, lessonEventType} = this.state;
         let delayLesson = classData && classData.lessons && classData.lessons[delayLessonIndex] ? classData.lessons[delayLessonIndex] : {};
         let modalEvent = LESSON_EVENT_TYPES_OBJECT[lessonEventType] || {};
-        console.log(classData);
+        // console.log(classData);
+        // console.log(moment().add(1, 'days').format(DATE_VN_FORMAT));
         return (
             <div className="table-responsive table-split table-hover">
                 <table className="table" cellSpacing="0" id="list_register">
@@ -331,11 +364,11 @@ class HistoryTeachingContainer extends React.Component {
                                                 {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
                                                     let de = LESSON_EVENT_TYPES_OBJECT[entry[0]];
                                                     let lesson_event = lesson.events.filter(e => e.event_type == de.type)[0];
-                                                    if(lesson_event) return (<TooltipButton text={de.name} placement="top">
+                                                    if (lesson_event) return (<TooltipButton text={de.name} placement="top">
                                                         <div className="icon8 icon8-wrap cursor-pointer margin-right-5"
                                                              mask="on"
                                                              icon={de.type}
-                                                             onClick={() => this.openModalLessonEvent(lesson,de.type, lesson_event)}
+                                                             onClick={() => this.openModalLessonEvent(lesson, de.type, lesson_event)}
                                                         >
                                                             <div className="icon"/>
                                                         </div>
@@ -344,23 +377,91 @@ class HistoryTeachingContainer extends React.Component {
 
                                             </div>
                                         </td>
+
+                                        <td>
+                                            <button className="btn btn-white float-right"
+                                                    onClick={() => this.openModalDetailLessonAttendance(lesson.id)}>
+
+                                                Điểm danh
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <div style={{position: "relative"}} className="">
+                                                <button className="btn btn-actions" mask="extra-table"
+                                                        ref={"target" + key} onClick={() => this.toggle(key)}>
+
+                                                    <i className="material-icons">arrow_drop_down</i>
+                                                </button>
+                                                <Overlay
+                                                    rootClose={true}
+                                                    show={show[key]}
+                                                    onHide={() => this.close(key)}
+                                                    placement="bottom"
+                                                    container={() => ReactDOM.findDOMNode(this.refs['target' + key]).parentElement}
+                                                    target={() => ReactDOM.findDOMNode(this.refs['target' + key])}>
+                                                    <div className="kt-overlay overlay-container" mask="extra-table"
+                                                         style={{
+                                                             width: 150,
+                                                         }}>
+                                                        {(lesson.is_change || user.role == 2) &&
+                                                        <button className="btn btn-white width-100"
+                                                                onClick={() => this.openModalDelayLessons(key + '')}>
+                                                            Dời lịch học
+                                                        </button>}
+                                                        {(lesson.is_change || user.role == 2) &&
+                                                        <button className="btn btn-white width-100"
+                                                                onClick={() => this.openModalClassLesson(lesson)}>
+                                                            Đổi lịch dạy
+                                                        </button>}
+                                                        {(lesson.is_change || user.role == 2) &&
+                                                        <button className="btn btn-white width-100"
+                                                                onClick={() => this.openModalChangeTeacher(lesson)}>
+                                                            Đổi giảng viên
+                                                        </button>}
+                                                        {(lesson.is_change || user.role == 2) &&
+                                                        <button className="btn btn-white width-100"
+                                                                onClick={() => this.openModalTeachAssis(lesson)}>
+                                                            Đổi trợ giảng
+                                                        </button>}
+                                                        {/*{(lesson.is_change || user.role == 2) &&*/}
+                                                        {/*<button className="btn btn-white width-100"*/}
+                                                        {/*        onClick={() => this.openModalTeachingLesson(lesson, 1)}>*/}
+                                                        {/*    Danh sách giảng viên*/}
+                                                        {/*</button>}*/}
+                                                        {/*{(lesson.is_change || user.role == 2) &&*/}
+                                                        {/*<button className="btn btn-white width-100"*/}
+                                                        {/*        onClick={() => this.openModalTeachingLesson(lesson, 2)}>*/}
+                                                        {/*    Danh sách trợ giảng*/}
+                                                        {/*</button>}*/}
+
+                                                    </div>
+                                                </Overlay>
+                                            </div>
+                                        </td>
                                         <td style={{minWidth: '100px'}}>
                                             <a target="_blank"
                                                href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
+                                            <div>
+                                                <a
+                                                    style={{fontWeight: 400, color: 'black'}}
+                                                    target="_blank"
+                                                    href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
+                                            </div>
+                                        </td>
+                                        <td>
+
+
+                                            <div>
+                                                <a
+                                                    style={{fontWeight: 400, color: 'black'}}
+                                                    target="_blank"
+                                                    href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{shortenStr(lesson.description, 40)}</a>
+                                            </div>
 
                                         </td>
-                                        <td><a
-                                            style={{fontWeight: 400}}
-                                            target="_blank"
-                                            href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
-                                        </td>
-                                        <td><a
-                                            style={{fontWeight: 400}}
-                                            target="_blank"
-                                            href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.description}</a>
-                                        </td>
+                                        <td />
                                         <td>{lesson.term && <a
-                                            style={{fontWeight: 400}}
+                                            style={{fontWeight: 400, color: 'black'}}
                                             target="_blank"
                                             href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.term.name}</a>}
                                         </td>
@@ -370,7 +471,7 @@ class HistoryTeachingContainer extends React.Component {
                                                 <div>{lesson.time}</div>
                                             </div>
                                         </td>
-                                        <td>
+                                        <td style={{maxWidth: '130px'}}>
                                             <div className="flex flex-wrap">
 
                                                 {
@@ -427,59 +528,7 @@ class HistoryTeachingContainer extends React.Component {
                                                 }
                                             </div>
                                         </td>
-                                        <td>
-                                            <div style={{position: "relative"}} className="">
-                                                <button className="btn btn-actions" mask="extra-table"
-                                                        ref={"target" + key} onClick={() => this.toggle(key)}>
 
-                                                    <i className="material-icons">arrow_drop_down</i>
-                                                </button>
-                                                <Overlay
-                                                    rootClose={true}
-                                                    show={show[key]}
-                                                    onHide={() => this.close(key)}
-                                                    placement="bottom"
-                                                    container={() => ReactDOM.findDOMNode(this.refs['target' + key]).parentElement}
-                                                    target={() => ReactDOM.findDOMNode(this.refs['target' + key])}>
-                                                    <div className="kt-overlay overlay-container" mask="extra-table"
-                                                         style={{
-                                                             width: 150,
-                                                         }}>
-                                                        {(lesson.is_change || user.role == 2) &&
-                                                        <button className="btn btn-white width-100"
-                                                                onClick={() => this.openModalDelayLessons(key + '')}>
-                                                            Dời lịch học
-                                                        </button>}
-                                                        {(lesson.is_change || user.role == 2) &&
-                                                        <button className="btn btn-white width-100"
-                                                                onClick={() => this.openModalClassLesson(lesson)}>
-                                                            Đổi lịch dạy
-                                                        </button>}
-                                                        {(lesson.is_change || user.role == 2) &&
-                                                        <button className="btn btn-white width-100"
-                                                                onClick={() => this.openModalChangeTeacher(lesson)}>
-                                                            Đổi giảng viên
-                                                        </button>}
-                                                        {(lesson.is_change || user.role == 2) &&
-                                                        <button className="btn btn-white width-100"
-                                                                onClick={() => this.openModalTeachAssis(lesson)}>
-                                                            Đổi trợ giảng
-                                                        </button>}
-                                                        {/*{(lesson.is_change || user.role == 2) &&*/}
-                                                        {/*<button className="btn btn-white width-100"*/}
-                                                        {/*        onClick={() => this.openModalTeachingLesson(lesson, 1)}>*/}
-                                                        {/*    Danh sách giảng viên*/}
-                                                        {/*</button>}*/}
-                                                        {/*{(lesson.is_change || user.role == 2) &&*/}
-                                                        {/*<button className="btn btn-white width-100"*/}
-                                                        {/*        onClick={() => this.openModalTeachingLesson(lesson, 2)}>*/}
-                                                        {/*    Danh sách trợ giảng*/}
-                                                        {/*</button>}*/}
-
-                                                    </div>
-                                                </Overlay>
-                                            </div>
-                                        </td>
                                     </tr>
                                 );
                             })
@@ -494,12 +543,26 @@ class HistoryTeachingContainer extends React.Component {
                         <h4 className="modal-title text-center">{modalEvent.modalText}</h4>
                     </Modal.Header>
                     <Modal.Body>
-                        <div className="table-responsive table-no-border">
-                            <table className="table" cellSpacing="0" id="list_score">
+
+                        <div className="table-responsive table-no-border  table-split">
+                            <table className="table">
+                                <thead className="text-rose">
+                                <tr>
+                                    <th>Học viên</th>
+                                    <th className="text-center">Đã hoàn thành</th>
+                                    <th className="text-center">Nhận xét</th>
+                                </tr>
+                                </thead>
                                 <tbody>
                                 {classData && classData.registers && classData.registers.map((register, key) => {
                                     let {student} = register;
-                                    let currentObj = lessonEventStudent[key] || {};
+                                    let currentObj = lessonEventStudent[key] || {
+                                        comment: ''
+                                    };
+
+                                    if (isEmptyInput(currentObj.comment) && lessonEventType == LESSON_EVENT_TYPES_OBJECT["comment"].type)
+                                        currentObj.comment = 'Learning attitude:\nParticipation\tBehaviors:\nLanguage skills:\nImprovement points:';
+
                                     return (
                                         <tr key={key}>
                                             <td style={{maxWidth: 130}}>
@@ -514,13 +577,39 @@ class HistoryTeachingContainer extends React.Component {
                                                 </div>
                                             </td>
                                             <td>
-                                                <FormInputText name="comment"
-                                                               value={currentObj.comment}
-                                                               disabled={isLoadingSavingClassLessonEvents}
-                                                               placeholder={modalEvent.placeholder}
-                                                               className="form-grey"
-                                                               updateFormData={(e) => this.updateFormInputEvent(e, key)}
-                                                />
+                                                <div className="flex flex-justify-content-center">
+                                                    <div style={{width: 50}}>
+                                                        <CheckBoxMaterial
+                                                            name="status"
+                                                            checked={currentObj.status == 'done'}
+                                                            onChange={(e) => this.updateFormModalEvent(e, key)}/>
+                                                        {/*    <div><b>Đã hoàn thành</b></div>*/}
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td>
+                                                {/*<FormInputText name="comment"*/}
+                                                {/*               value={currentObj.comment}*/}
+                                                {/*               disabled={isLoadingSavingClassLessonEvents}*/}
+                                                {/*               placeholder={modalEvent.placeholder}*/}
+                                                {/*               className="form-grey"*/}
+                                                {/*               updateFormData={(e) => this.updateFormModalEvent(e, key)}*/}
+                                                {/*/>*/}
+
+                                                <div className="form-grey">
+
+                                                    <div className="form-group text-area-grey">
+                                                         <textarea className="form-control"
+                                                                   rows={5}
+                                                                   disabled={isLoadingSavingClassLessonEvents}
+                                                                   name="comment"
+                                                                   placeholder={modalEvent.placeholder}
+                                                                   value={currentObj.comment}
+                                                                   onChange={(e) => this.updateFormModalEvent(e, key)}/>
+
+                                                    </div>
+                                                </div>
+
                                             </td>
                                         </tr>);
                                 })}
@@ -562,7 +651,8 @@ class HistoryTeachingContainer extends React.Component {
                             <FormInputDate name="newDate" id="form-delay-new-date"
                                            value={delayData.newDate}
                                            format={DATE_VN_FORMAT}
-                                           minDate={moment(delayLesson.time, DATE_VN_FORMAT).add(1, 'days')}
+                                // minDate={moment(delayLesson.time, DATE_VN_FORMAT).add(1, 'days')}
+                                //            minDate={moment.}
                                            updateFormData={(e) => this.setState({
                                                delayData: {...delayData, newDate: e.target.value}
                                            })}/>
@@ -1022,6 +1112,18 @@ class HistoryTeachingContainer extends React.Component {
                         </form>
                     </Modal.Body>
                 </Modal>
+                <LessonDetailModal
+                    show={this.state.showModalDetailLesson}
+                    onHide={this.closeModalDetailLesson}
+                    class={this.props.classData}
+                    list={this.props.lesson}
+                    isLoadingLessonDetailModal={this.props.isLoadingLessonDetailModal}
+                    updateData={this.updateModalAttendanceData}
+                    commitData={this.commitModalAttendanceData}
+                    isCommitting={this.props.isTakingAttendance}
+                    index={this.state.selectedLessonId}
+                    commitSuccess={this.commitAttendanceSuccess}
+                />
             </div>
         );
     }
@@ -1044,11 +1146,15 @@ function mapStateToProps(state) {
         isChangingTeachingLesson: state.classes.isChangingTeachingLesson,
         isAddingCheckinCheckout: state.classes.isAddingCheckinCheckout,
         isLoadingSavingClassLessonEvents: state.classes.isLoadingSavingClassLessonEvents,
+        isLoadingLessonDetailModal: state.attendance.isLoadingLessonDetailModal,
+        isTakingAttendance: state.attendance.isTakingAttendance,
+        lesson: state.attendance.lesson,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
+        attendanceActions: bindActionCreators(attendanceActions, dispatch),
         classActions: bindActionCreators(classActions, dispatch)
     };
 }
