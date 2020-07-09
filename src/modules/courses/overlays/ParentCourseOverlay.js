@@ -215,7 +215,7 @@ class ParentCourseOverlay extends React.Component {
                                                     onClick={() => {
                                                         this.onSelected();
                                                     }}
-                                                    className="btn"
+                                                    className="btn flex flex-align-items-center"
                                                     style={{
                                                         textAlign: "left",
                                                         width: "100%",
@@ -224,7 +224,7 @@ class ParentCourseOverlay extends React.Component {
                                                         backgroundColor: 'transparent',
                                                         border: '1.5px dashed #e6e6e6',
                                                         color: '#a9a9a9',
-                                                        justifyContent: "space-between"
+                                                        justifyContent: "space-between",
                                                     }}>
                                                     Không có
                                                 </button>
@@ -248,7 +248,7 @@ class ParentCourseOverlay extends React.Component {
                                                                         onClick={() => {
                                                                             this.onSelected(item);
                                                                         }}
-                                                                        className="btn"
+                                                                        className="btn flex flex-align-items-center"
                                                                         style={{
                                                                             textAlign: "left",
                                                                             width: "calc(100% - 30px)",

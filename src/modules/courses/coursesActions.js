@@ -346,7 +346,7 @@ export function deleteData() {
 export function loadCourses(page = 1, query = '', only_children = true) {
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_COURSES_DATA});
-        courseApi.loadCoursesData(page, query, only_children)
+        courseApi.loadCoursesData(page, query, only_children, 0)
             .then(res => {
                 dispatch({
                     type: types.LOADED_COURSES_DATA_SUCCESS,

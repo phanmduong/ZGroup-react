@@ -20,10 +20,10 @@ class RegisterList extends React.Component {
 
     }
 
-    onClickButtonChangeFilter = (name,value) => {
-        console.log('list',name,value);
-        if(isEmpty(value)) value = {};
-        store.filter[name] = {...value, value:value.id, label:value.name};
+    onClickButtonChangeFilter = (name, value) => {
+        console.log('list', name, value);
+        if (isEmpty(value)) value = {};
+        store.filter[name] = {...value, value: value.id, label: value.name};
         store.filter[name + '_id'] = value.id;
         store.loadRegisters();
     };
@@ -40,12 +40,14 @@ class RegisterList extends React.Component {
 
                         <th>Lớp</th>
                         <th>Gọi</th>
+                        <th>Retention</th>
                         <th>Họ tên</th>
                         <th>Khóa</th>
                         <th>Mã đăng kí</th>
                         <th>Saler</th>
                         <th>Học phí</th>
                         <th>Trạng thái</th>
+
                         <th>Mã ưu đãi</th>
                         <th>Đăng kí</th>
                         <th/>
@@ -117,6 +119,13 @@ class RegisterList extends React.Component {
                                     </TooltipButton>}
                                 </td>
                                 <td>
+                                    <div className="btn btn-xs btn-main width-100"
+                                    >
+                                        {register.is_retention_course ? "Retention" : "New"}
+                                        <div className="ripple-container"/>
+                                    </div>
+                                </td>
+                                <td>
                                     {register.student && <div>
                                         <StudyProgressTooltip
                                             openModalRegisterDetail={openModalRegisterDetail}
@@ -175,7 +184,7 @@ class RegisterList extends React.Component {
                                                 :
                                                 (
                                                     <button className="btn btn-xs btn-main"
-                                                            onClick={() => this.onClickButtonChangeFilter("campaign",  store.defaultEmptySelectObject)}
+                                                            onClick={() => this.onClickButtonChangeFilter("campaign", store.defaultEmptySelectObject)}
                                                     >
                                                         Không có
                                                         <div className="ripple-container"/>
@@ -196,7 +205,7 @@ class RegisterList extends React.Component {
                                     {
                                         register.paid_status ?
                                             <TooltipButton text={register.note} placement="top">
-                                                <div className="btn btn-xs btn-main main-background-color">
+                                                <div className="btn btn-xs btn-main main-background-color width-100">
                                                     {helper.dotNumber(register.money)} vnd
                                                 </div>
                                             </TooltipButton>
@@ -223,6 +232,7 @@ class RegisterList extends React.Component {
                                         className="status-overlay margin-bottom-10"
                                     />
                                 </td>
+
                                 <td>
                                     {register.coupon && <div className="btn btn-xs btn-main">
                                         {register.coupon}

@@ -152,7 +152,10 @@ class ListCourse extends React.Component {
                                                 selectedParentId={course.parent_id}
                                                 updateParentCourse={this.updateParentCourse}
                                                 // onChange={(term) => this.selectedTerm(lesson, term)}
-                                                onChange={(course) => {
+                                                onChange={(parentCourse) => {
+                                                    const courseData = {...course}
+                                                    courseData.parent_id = parentCourse ? parentCourse.id : '';
+                                                    this.props.updateCourse(courseData);
                                                 }}
                                                 style={{minWidth: 200, zIndex: this.props.courses.length - index}}
                                             />

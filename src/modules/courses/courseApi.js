@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 
-export function loadCoursesData(page = 1, query = '', only_children = false) {
+export function loadCoursesData(page = 1, query = '', only_children = false, is_parent = '') {
 
     let url = env.MANAGE_API_URL + "/v2/course/get-all";
     let token = localStorage.getItem('token');
@@ -10,6 +10,7 @@ export function loadCoursesData(page = 1, query = '', only_children = false) {
             "&page=" + page +
             '&search=' + query +
             '&only_children=' + only_children +
+            '&is_parent=' + is_parent +
             '&limit=20';
     }
     return axios.get(url);
