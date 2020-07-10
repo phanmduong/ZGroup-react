@@ -6,7 +6,6 @@ import Loading from '../../../components/common/Loading';
 import PropTypes from 'prop-types';
 import CallRegisterOverlay from "../overlays/CallRegisterOverlay";
 import EmptyData from "../../../components/common/EmptyData";
-import StatusesOverlay from "../overlays/StatusesOverlay";
 import {STATUS_REFS} from "../../../constants/constants";
 import ReactSelect from "react-select";
 
@@ -68,7 +67,7 @@ class HistoryCallContainer extends React.Component {
         return (
             <div className="tab-pane active">
                 {
-                    (this.props.isLoadingHistoryCalls || this.props.isLoadingStatuses || !this.props.statuses[STATUS_REFS.tele_calls]) ?
+                    (this.props.isLoadingHistoryCalls || !this.props.statuses[STATUS_REFS.tele_calls]) ?
                         <Loading/> :
                         <ul className="timeline timeline-simple">
                             <li className="timeline-inverted">
@@ -97,7 +96,7 @@ class HistoryCallContainer extends React.Component {
 
                                             <ReactSelect
                                                 options={this.teleCallStatusTagOptions()}
-                                                value={this.teleCallStatusTagOptions().filter(o=>o.id == this.state.teleCallTagStatus)[0]}
+                                                value={this.teleCallStatusTagOptions().filter(o => o.id == this.state.teleCallTagStatus)[0]}
                                                 defaultMessage="Lọc theo tag"
                                                 style={{minWidth: 150}}
                                                 onChange={this.changeFilterTeleCallTagStatus}
@@ -110,74 +109,74 @@ class HistoryCallContainer extends React.Component {
                             </li>
                             {
                                 (this.props.historyCalls && this.props.historyCalls.length > 0) ? this.props.historyCalls
-                                        .map( (history, index) =>{
-                                        let btn = '';
-                                        if (history.call_status === 'success') {
-                                            btn = ' success';
-                                        } else if (history.call_status === 'failed') {
-                                            btn = ' danger';
-                                        } else if (history.call_status === 'calling') {
-                                            btn = ' info';
-                                        }
-
-                                        let passedFilter = true;
-                                            switch (this.state.teleCallTagStatus) {
-                                                case -1: passedFilter =  !history.status_id; break;
-                                                case null: passedFilter = true; break;
-                                                default: passedFilter = this.state.teleCallTagStatus == history.status_id;
+                                        .map((history, index) => {
+                                            let btn = '';
+                                            if (history.call_status === 'success') {
+                                                btn = ' success';
+                                            } else if (history.call_status === 'failed') {
+                                                btn = ' danger';
+                                            } else if (history.call_status === 'calling') {
+                                                btn = ' info';
                                             }
-                                        if(passedFilter)
-                                        return (
-                                            <li className="timeline-inverted" key={index}>
-                                                <div className={"timeline-badge " + btn}>
-                                                    <i className="material-icons">phone</i>
-                                                </div>
-                                                <div className="timeline-panel">
-                                                    <div className="timeline-heading">
+
+                                            let passedFilter = true;
+                                            switch (this.state.teleCallTagStatus) {
+                                                case -1:
+                                                    passedFilter = !history.status_id;
+                                                    break;
+                                                case null:
+                                                    passedFilter = true;
+                                                    break;
+                                                default:
+                                                    passedFilter = this.state.teleCallTagStatus == history.status_id;
+                                            }
+                                            if (passedFilter)
+                                                return (
+                                                    <li className="timeline-inverted" key={index}>
+                                                        <div className={"timeline-badge " + btn}>
+                                                            <i className="material-icons">phone</i>
+                                                        </div>
+                                                        <div className="timeline-panel">
+                                                            <div className="timeline-heading">
                                                                         <span className="btn btn-xs"
                                                                               style={{backgroundColor: '#' + history.caller.color}}>
                                                                             {history.caller.name}</span>
-                                                        <span
-                                                            className="btn btn-xs">{history.updated_at}</span>
-                                                        <StatusesOverlay
-                                                            data={history.teleCallTagStatus}
-                                                            refId={history.id}
-                                                            statusRef={STATUS_REFS.tele_calls}
-                                                            className="btn status-overlay btn-xs"
-                                                            styleOverlay={{
-                                                                marginLeft: -220, marginTop: 25
-                                                            }}
-                                                        />
-                                                    </div>
-                                                    {
-                                                        history.note &&
-                                                        <div className="timeline-body">
-                                                            Ghi chú: {history.note}
+                                                                <span
+                                                                    className="btn btn-xs">{history.updated_at}</span>
+                                                                <div className="btn status-overlay btn-xs"
+                                                                     style={{backgroundColor: history.teleCallTagStatus ? history.teleCallTagStatus.color : ''}}>
+                                                                    {history.teleCallTagStatus ? history.teleCallTagStatus.name : 'No tag'}
+                                                                </div>
+                                                            </div>
+                                                            {
+                                                                history.note &&
+                                                                <div className="timeline-body">
+                                                                    Ghi chú: {history.note}
+                                                                </div>
+                                                            }
+                                                            {
+                                                                history.appointment_payment &&
+                                                                <div className="timeline-body">
+                                                                    Hẹn nộp tiền: {history.appointment_payment}
+                                                                </div>
+                                                            }
+                                                            {
+                                                                history.call_back_time &&
+                                                                <div className="timeline-body">
+                                                                    Hẹn gọi lại: {history.call_back_time}
+                                                                </div>
+                                                            }
+                                                            {
+                                                                history.date_test &&
+                                                                <div
+                                                                    className="timeline-body">
+                                                                    Hẹn kiểm tra: {history.date_test}
+                                                                </div>
+                                                            }
                                                         </div>
-                                                    }
-                                                    {
-                                                        history.appointment_payment &&
-                                                        <div className="timeline-body">
-                                                            Hẹn nộp tiền: {history.appointment_payment}
-                                                        </div>
-                                                    }
-                                                    {
-                                                        history.call_back_time &&
-                                                        <div className="timeline-body">
-                                                            Hẹn gọi lại: {history.call_back_time}
-                                                        </div>
-                                                    }
-                                                    {
-                                                        history.date_test &&
-                                                        <div
-                                                            className="timeline-body">
-                                                            Hẹn kiểm tra: {history.date_test}
-                                                        </div>
-                                                    }
-                                                </div>
-                                            </li>
-                                        );
-                                    }) :
+                                                    </li>
+                                                );
+                                        }) :
                                     <EmptyData title={"Không có dữ liệu cuộc gọi"}/>
                             }
                         </ul>

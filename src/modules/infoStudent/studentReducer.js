@@ -323,7 +323,7 @@ export default function studentReducer(state = initialState.infoStudent, action)
             return {
                 ...state,
                 ...{
-                    historyCalls: [...state.historyCalls, action.historyCall],
+                    historyCalls: [action.historyCall,...state.historyCalls],
                     isChangingStatusCall: false,
                     errorChangeStatusCall: false,
                 }
