@@ -173,6 +173,21 @@ export function loadStudentCareHistory(studentId) {
             });
     };
 }
+export function loadStudentMockExams(studentId) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_STUDENT_MOCK_EXAMS});
+        studentApi.loadStudentMockExams(studentId)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_STUDENT_MOCK_EXAMS_SUCCESS,
+                    mockExams: res.data.mock_exams,
+                });
+            })
+            .catch(() => {
+                dispatch({type: types.LOAD_STUDENT_MOCK_EXAMS_ERROR});
+            });
+    };
+}
 
 export function loadProgress(studentId) {
     return function (dispatch) {

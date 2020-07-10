@@ -210,3 +210,26 @@ export function uploadImage(file, completeHandler, id, imageField) {
     ajax.open("POST", url);
     ajax.send(formdata);
 }
+
+
+
+export function createMockExam(data) {
+    let url = env.NEW_MANAGE_API_URL + '/mock-exam/create';
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        ...data
+    });
+}
+
+export function loadStudentMockExams(student_id) {
+    let url = env.NEW_MANAGE_API_URL + '/mock-exam/by-user/' + student_id;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    url += '&include=course';
+    return axios.get(url );
+}

@@ -26,6 +26,7 @@ import * as leadActions from "../lead/leadActions";
 import PicOverlay from "./overlays/PicOverlay";
 import StatusesOverlay from "./overlays/StatusesOverlay";
 import UploadManyImages from "../../components/common/UploadManyImages";
+import MockExamsContainer from "./mockExams/MockExamsContainer";
 
 
 class InfoStudentContainer extends React.Component {
@@ -62,6 +63,11 @@ class InfoStudentContainer extends React.Component {
                 path: `/sales/info-student/${this.studentId}/logs`,
                 text: 'Lịch sử chăm sóc',
                 component: <HistoryCareContainer studentId={this.studentId}/>
+            },
+            {
+                path: `/sales/info-student/${this.studentId}/mock-exams`,
+                text: 'Thi thử',
+                component: <MockExamsContainer studentId={this.studentId}/>
             },
         ];
         this.state = {
@@ -553,7 +559,7 @@ class InfoStudentContainer extends React.Component {
                     </Modal>
                     <Modal show={this.state.showModal} onHide={this.closeModal}>
                         <Modal.Header closeButton>
-                            <Modal.Title>Chỉnh sửa thông tin học viên2</Modal.Title>
+                            <Modal.Title>Chỉnh sửa thông tin học viên</Modal.Title>
                         </Modal.Header>
                         <Modal.Body>
                             <form id="form-edit-student" className="form-grey" onSubmit={(e) => {
