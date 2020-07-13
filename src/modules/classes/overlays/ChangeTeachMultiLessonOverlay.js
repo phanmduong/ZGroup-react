@@ -246,15 +246,14 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
     };
 
     onCheckLesson = (lesson) => {
-        return this.state.lessons.map(l => {
-            let is_checked = l.is_checked;
-            if (l.id == lesson.id) is_checked = l.is_checked ? false : true;
+        let lessons = this.state.lessons.map(l => {
+            let is_checked = l.id == lesson.id ? l.is_checked : !l.is_checked;
             return {
                 ...l,
                 is_checked,
             };
         });
-
+        this.setState({lessons});
     };
 
     getAvailableWeekDays = () => {
