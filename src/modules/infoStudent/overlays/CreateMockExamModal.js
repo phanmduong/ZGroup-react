@@ -45,7 +45,7 @@ class CreateMockExamButtonModal extends React.Component {
     }
 
     closeModal = () => {
-        this.setState({showModal: false});
+        this.setState({showModal: false, data: defaultData});
     };
 
     showModal = () => {
@@ -176,7 +176,7 @@ class CreateMockExamButtonModal extends React.Component {
                                         disabled={isSaving}
                                         className="btn btn-white width-50-percent text-center"
                                         data-dismiss="modal"
-                                        onClick={this.close}>
+                                        onClick={this.closeModal}>
                                     Hủy
                                 </button>
                                 <button type="button"

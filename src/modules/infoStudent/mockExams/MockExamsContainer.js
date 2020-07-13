@@ -63,7 +63,10 @@ class MockExamsContainer extends React.Component {
                                     <div className="timeline-panel">
                                         <div className="">
 
-                                            <h4 onClick={()=>this.openModalEdit({...mock_exam})}><b>{mock_exam.type}</b></h4>
+                                            <h4 className="cursor-pointer"
+                                                onClick={()=>this.openModalEdit({...mock_exam})}>
+                                                <b>{mock_exam.type}</b>
+                                            </h4>
                                             <div className="timeline-body">
                                                 {!isEmptyInput(mock_exam.time) &&<div className="flex-row-center">
                                                     <i className="material-icons">access_time</i>
