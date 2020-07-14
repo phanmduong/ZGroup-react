@@ -99,6 +99,7 @@ class LeadContainer extends React.Component {
                 {value: 'created_at', label: 'Lead từ mới đến cũ', type: 'desc'},
                 // {value:'oldest',label:'Lead từ cũ đến mới'},
                 {value: 'rate', label: 'Số sao', type: 'asc'},
+                {value: 'last_time_interact', label: 'Tương tác gần đây', type: 'desc'},
                 // {value: 'donwstar', label: 'Sao giảm dần'},
             ],
             statusFilter: [],

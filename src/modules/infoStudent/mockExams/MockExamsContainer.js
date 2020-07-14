@@ -81,7 +81,7 @@ class MockExamsContainer extends React.Component {
                                                     <i className="material-icons font-size-14px">info</i>
                                                     &nbsp; &nbsp;Điểm:&nbsp;{mock_exam.score}
                                                 </div>}
-                                                {!isEmptyInput(mock_exam.course_id) && <div className="">
+                                                {!isEmptyInput(mock_exam.course_id) && mock_exam.course && <div className="">
                                                     <i className="material-icons font-size-14px">info</i>
                                                     &nbsp; &nbsp;Môn học:&nbsp;{mock_exam.course.name}
                                                 </div>}

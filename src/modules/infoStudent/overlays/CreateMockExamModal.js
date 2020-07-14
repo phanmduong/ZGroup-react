@@ -15,7 +15,12 @@ import {createMockExam} from "../studentApi";
 
 const defaultData = {
     id:-1,
-    note:'Speaking () - Writing () - Listening () - Reading ()'
+    date: null,
+    note: "Speaking () - Writing () - Listening () - Reading ()",
+    score: null,
+    time: null,
+    type: null,
+    user_id: null,
 };
 class CreateMockExamButtonModal extends React.Component {
     constructor(props, context) {
@@ -23,7 +28,7 @@ class CreateMockExamButtonModal extends React.Component {
         this.initState = {
             showModal: false,
             isLoading: false,
-            data: defaultData,
+            data: {...defaultData},
         };
         this.state = this.initState;
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
@@ -39,17 +44,18 @@ class CreateMockExamButtonModal extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (nextProps.mockExam != this.state.data.id && nextProps.mockExam.id !== -1) {
+        if (nextProps.mockExam && nextProps.mockExam.id != this.state.data.id && nextProps.mockExam.id !== -1) {
+            console.log('props change')
             this.setState({data: nextProps.mockExam, showModal: true});
         }
     }
 
     closeModal = () => {
-        this.setState({showModal: false, data: defaultData});
+        this.setState({showModal: false, data: {...defaultData}});
     };
 
     showModal = () => {
-        this.setState({showModal: true, data: defaultData});
+        this.setState({showModal: true, data: {...defaultData}});
     };
 
     updateForm = (e) => {
@@ -92,6 +98,7 @@ class CreateMockExamButtonModal extends React.Component {
             createMockExam(data).then(res => {
                 if(res.data.status == 1){
                     showNotification('Lưu thành công.');
+                    this.closeModal();
                     this.props.studentActions.loadStudentMockExams(this.studentId);
                 }else {
                     showErrorNotification('Có lỗi xảy ra!');
