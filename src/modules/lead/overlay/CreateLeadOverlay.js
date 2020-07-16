@@ -16,6 +16,9 @@ import SourceOverlay from "../../infoStudent/overlays/SourceOverlay";
 import MarketingCampaignOverlay from "../../infoStudent/overlays/MarketingCampaignOverlay";
 import PicOverlay from "../../infoStudent/overlays/PicOverlay";
 import StatusesOverlay from "../../infoStudent/overlays/StatusesOverlay";
+import CardLabelReactSelectOption from "./CardLabelReactSelectOption";
+import CardLabelReactSelectValue from "./CardLabelReactSelectValue";
+import {getParentCourses} from "../../courses/courseApi";
 
 
 // function getSelectSaler(items) {
@@ -45,6 +48,8 @@ class CreateLeadOverlay extends React.Component {
         this.initState = {
             show: false,
             showModal: false,
+            selectedInterests: [],
+            parentCourses: [],
             lead: {
                 carer_id: this.props.user && this.props.user.id,
                 rate: 5,
@@ -63,6 +68,17 @@ class CreateLeadOverlay extends React.Component {
         // this.props.registerActions.loadSalerFilter();
 
         // this.loadStatuses(false);
+        getParentCourses().then((res) => {
+            let parentCourses = res.data.courses.map(c=>{
+               return {
+                  ...c,
+                  value:c.id,
+                  label:c.name,
+                  color: c.color ? c.color : '#999999',
+               } ;
+            });
+            this.setState({parentCourses });
+        });
     }
 
     loadStatuses = (singleLoad) => {
@@ -115,12 +131,6 @@ class CreateLeadOverlay extends React.Component {
         this.setState({lead});
     };
 
-    updateBase = (e) => {
-        let lead = {...this.state.lead};
-        lead["base_id"] = e ? e.value : e;
-        this.setState({lead});
-    };
-
     getDataAddress = () => {
         if (!this.props.provinces || this.props.provinces.length <= 0) return;
         let address = [];
@@ -135,17 +145,6 @@ class CreateLeadOverlay extends React.Component {
 
         });
         return address;
-    };
-
-    getBases = () => {
-
-        return this.props.bases.map((item) => {
-            return {
-                value: item.id,
-                label: item.name,
-            }
-        })
-
     };
 
     create = (e) => {
@@ -194,7 +193,16 @@ class CreateLeadOverlay extends React.Component {
 
         e.preventDefault();
     };
-
+    updateInterest =(selectedInterests)=>{
+        let interest = '';
+        if(selectedInterests){
+            selectedInterests.forEach((si, key)=>{
+                interest += `${key >0 ? ',' : ''} ${si.name}`;
+            });
+        }
+        this.updateFormData({target:{name:'interest',value: interest}});
+        this.setState({selectedInterests});
+    }
     toggle = () => {
         this.setState({show: !this.state.show});
     };
@@ -214,8 +222,8 @@ class CreateLeadOverlay extends React.Component {
     };
 
     render() {
-        let {lead, duplicate_leads} = this.state;
-        let {isEditing, className} = this.props;
+        let {lead, duplicate_leads,selectedInterests,parentCourses} = this.state;
+        let {isEditing, className,} = this.props;
         // statuses = statuses[this.statusRef];
         let provinces = this.props.provinces ? this.props.provinces.map((province) => {
             return {value: province.id, label: province.name};
@@ -372,15 +380,6 @@ class CreateLeadOverlay extends React.Component {
                                             />
                                         </div>
                                         <div>
-                                            <label>Cơ sở</label>
-                                            <ReactSelect
-                                                value={lead.base_id}
-                                                options={this.getBases()}
-                                                onChange={this.updateBase}
-                                                placeholder="Cơ sở"
-                                            />
-                                        </div>
-                                        <div>
                                             <label>Giới tính</label>
                                             <ReactSelect
                                                 value={lead.gender}
@@ -401,11 +400,22 @@ class CreateLeadOverlay extends React.Component {
                                         </div>
                                         <div>
                                             <label>Quan tâm</label>
-                                            <FormInputText
-                                                name="interest"
-                                                placeholder="Interest"
-                                                value={lead.interest}
-                                                updateFormData={this.updateFormData}
+                                            {/*<FormInputText*/}
+                                            {/*    name="interest"*/}
+                                            {/*    placeholder="Interest"*/}
+                                            {/*    value={lead.interest}*/}
+                                            {/*    updateFormData={this.updateFormData}*/}
+                                            {/*/>*/}
+                                            <ReactSelect
+                                                placeholder="Chọn chương trình học"
+
+                                                value={selectedInterests}
+                                                name="selectedInterests"
+                                                optionComponent={CardLabelReactSelectOption}
+                                                multi={true}
+                                                options={parentCourses}
+                                                valueComponent={CardLabelReactSelectValue}
+                                                onChange={this.updateInterest}
                                             />
                                         </div>
 
@@ -526,9 +536,10 @@ class CreateLeadOverlay extends React.Component {
 
 
 function mapStateToProps(state) {
-    const {sources, isLoading, isLoadingSources, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
+    const {bases, sources, isLoading, isLoadingSources, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces} = state.createRegister;
     return {
         salers: state.registerStudents.salerFilter,
+        bases,
         isEditing: state.lead.isEditing,
         statuses: state.infoStudent.statuses,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
@@ -543,7 +554,7 @@ function mapStateToProps(state) {
         isLoadingCampaigns,
         campaigns,
         provinces,
-        bases: state.global.bases,
+
 
     };
 }
