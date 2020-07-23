@@ -51,7 +51,7 @@ const TAGS = [
         label: "New lead",
         value: "new_lead"
     },
-]
+];
 
 class LeadContainer extends React.Component {
     constructor(props, context) {

@@ -35,7 +35,7 @@ const TAGS = [
         label: "New",
         value: "new_lead"
     },
-]
+];
 
 class ListLead extends React.Component {
     constructor(props, context) {
