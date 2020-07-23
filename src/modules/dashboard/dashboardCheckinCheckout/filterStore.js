@@ -6,7 +6,7 @@ class FilterStore {
     @observable gens = [];
 
     @observable filter = {
-        start_time: moment().subtract(30, 'days'),
+        start_time: moment().subtract(7, 'days'),
         end_time: moment().subtract(0, 'days'),
         base_id: 0,
         checkin_out_status: '',
