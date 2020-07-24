@@ -26,7 +26,7 @@ export default class DashboardClassStore {
     get classes() {
         let data = this.historyClasses.map((item) => {
             let classes = item.classes.map((itemClass) => {
-                const overtime = item.timestamp <= Math.floor(Date.now() / 1000);
+                const overtime = item.timestamp <  Math.floor(Date.now() / 1000);
                 const nullTeacher = getValueFromKey(itemClass, "current_lesson.teacher") == null;
                 const nullTa = getValueFromKey(itemClass, "current_lesson.teaching_assistant") == null;
                 const startTime = convertTimeToSecond(getValueFromKey(itemClass, "current_lesson.start_time"));

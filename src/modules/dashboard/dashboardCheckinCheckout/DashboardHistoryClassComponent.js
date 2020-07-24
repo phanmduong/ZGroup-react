@@ -122,7 +122,7 @@ class DashboardHistoryClassComponent extends React.Component {
                                                                             <div className={"btn btn-xs btn-main"}
                                                                                  style={{
                                                                                      backgroundColor: "#" + getValueFromKey(itemClass, "current_lesson.teaching_assistant.color"),
-                                                                                     minWidth: 80
+                                                                                     minWidth: 100
                                                                                  }}>
                                                                                 {getValueFromKey(itemClass, "current_lesson.teaching_assistant.name") ?
                                                                                     getShortName(getValueFromKey(itemClass, "current_lesson.teaching_assistant.name")) : "Không có"}</div>

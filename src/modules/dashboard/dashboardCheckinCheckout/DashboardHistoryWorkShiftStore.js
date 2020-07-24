@@ -30,7 +30,7 @@ export default class DashboardHistoryWorkShiftStore {
                     const endTime = convertTimeToSecond(shift.end_time);
                     const check_in_time = shift.check_in_time ? convertTimeToSecond(shift.check_in_time) : 0;
                     const check_out_time = shift.check_out_time ? convertTimeToSecond(shift.check_out_time) : 0;
-                    const status = (check_in_time && check_out_time) || item.timestamp <= Math.floor(Date.now() / 1000) ? startTime >= check_in_time && endTime <= check_out_time ? "accepted" : "no-accepted" : "none";
+                    const status = (check_in_time && check_out_time) || item.timestamp < Math.floor(Date.now() / 1000) ? startTime >= check_in_time && endTime <= check_out_time ? "accepted" : "no-accepted" : "none";
 
                     return {
                         ...shift,
