@@ -245,7 +245,7 @@ class AddClassContainer extends React.Component {
     }
 
     checkValidate() {
-        let {gen_id, course_id, schedule_id, datestart, room_id, type} = this.props.class;
+        let {study_time, course_id, schedule_id, datestart, room_id, type} = this.props.class;
         helper.setFormValidation("#form-add-class");
         if ($("#form-add-class").valid()) {
             if (helper.isEmptyInput(datestart)) {
@@ -264,8 +264,8 @@ class AddClassContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng chọn môn học", "warning");
                 return false;
             }
-            if (helper.isEmptyInput(gen_id)) {
-                helper.showTypeNotification("Vui lòng chọn khóa học", "warning");
+            if (helper.isEmptyInput(study_time)) {
+                helper.showTypeNotification("Vui lòng giờ học", "warning");
                 return false;
             }
             if (helper.isEmptyInput(type)) {
