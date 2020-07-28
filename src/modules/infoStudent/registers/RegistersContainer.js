@@ -78,6 +78,7 @@ class RegistersContainer extends React.Component {
             refundValue = currentRegister.money;
         }
         let {isRefunding, student} = this.props;
+        console.log(currentRegister,refundValue);
         return (
             <div className="tab-pane active">
 
