@@ -22,6 +22,20 @@ import * as leadActions from "./leadActions";
 
 
 //import TooltipButton from "../../components/common/TooltipButton";
+const TAGS = [
+    {
+        label: "First",
+        value: "first_lead"
+    },
+    {
+        label: "Old",
+        value: "old_lead"
+    },
+    {
+        label: "New",
+        value: "new_lead"
+    },
+];
 
 class ListLead extends React.Component {
     constructor(props, context) {
@@ -147,9 +161,11 @@ class ListLead extends React.Component {
                                                             <a className="text-name-student-register"
                                                                onClick={() => openModalRegisterDetail(`/sales/info-student/${lead.id}`)}>
                                                                 {lead.name}
-                                                                {(!lead.lead_status || !lead.lead_status['id']) &&
                                                                 <span className="btn-danger btn-xs margin-left-5"
-                                                                      style={{fontSize: 10, padding: '3px'}}>MỚI</span>}
+                                                                      style={{
+                                                                          fontSize: 10,
+                                                                          padding: '3px'
+                                                                      }}>{TAGS.filter(item => item.value == lead.lead_tag)[0].label.toUpperCase()}</span>
                                                             </a>
 
 

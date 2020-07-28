@@ -12,6 +12,7 @@ import Select from './SelectGen';
 import ReactSelect from 'react-select';
 import {Modal, Panel} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
+import {isEmptyInput, setClipboard} from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
 import {
@@ -28,8 +29,6 @@ import {openModalRegisterDetail} from "../globalModal/globalModalActions";
 import CreateRegisterOverlay from "../infoStudent/overlays/CreateRegisterOverlay";
 import * as studentActions from "../infoStudent/studentActions";
 import EmptyData from "../../components/common/EmptyData";
-import {isEmptyInput} from "../../helpers/helper";
-import {setClipboard} from "../../helpers/helper";
 
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
@@ -272,7 +271,7 @@ class RegisterListContainer extends React.Component {
             this.setState(newState);
             this.props.registerActions.loadRegisterStudent(
                 {...newState, page: 1,},
-                ()=>{
+                () => {
                     this.props.registerActions.loadSalerFilter();
                     this.props.registerActions.loadCampaignFilter();
                     this.props.registerActions.loadBaseFilter();
@@ -324,7 +323,7 @@ class RegisterListContainer extends React.Component {
         let current_link = window.location.href.split('?')[0];
         let {
             selectedClassId, selectedSalerId, registerSourceId, registerStatusId, selectedMoneyFilter, selectedClassStatus, selectedBookmarkStatus,
-            selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, query_note, query_coupon, appointmentPayment, endTime, startTime,date_test
+            selectedTeleCallStatus, selectedStudentId, campaignId, selectGenId, selectedBaseId, query, query_note, query_coupon, appointmentPayment, endTime, startTime, date_test
         } = this.state;
         current_link += `?class_id=${selectedClassId}&saler_id=${(newFilter.saler_id || newFilter.saler_id === '') ? newFilter.saler_id : selectedSalerId}&source_id=${registerSourceId}` +
             `&status_id=${registerStatusId}&money_filter=${selectedMoneyFilter}&class_status=${selectedClassStatus}&bookmark_status=${selectedBookmarkStatus}` +
@@ -631,6 +630,7 @@ class RegisterListContainer extends React.Component {
 
     changeGens = (value) => {
         let gen = this.state.gens.filter(g => g.id == value)[0] || {};
+        console.log(value, gen);
         let startTime = gen.start_time || '';
         let endTime = gen.end_time || '';
 
@@ -709,7 +709,7 @@ class RegisterListContainer extends React.Component {
             helper.showErrorNotification("Không có dữ liệu");
             return;
         }
-        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 30}, {"wch": 30}, {"wch": 12}, {"wch": 12}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22},];//độ rộng cột
+        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 30}, {"wch": 30}, {"wch": 12}, {"wch": 12}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 150},];//độ rộng cột
         //begin điểm danh
         json = this.props.excel.registers.map((item, index) => {
             if (item) {
@@ -721,6 +721,19 @@ class RegisterListContainer extends React.Component {
                     titleCall = 'Gọi thất bại';
                 } else if (item.call_status === 'calling') {
                     titleCall = 'Đang gọi';
+                }
+                let mock_exams_text = '';
+                if (item.mock_exams) {
+                    item.mock_exams.forEach((ex, ex_index) => {
+                        if (ex_index > 0) mock_exams_text += '\n';
+                        if (ex.type) mock_exams_text += 'Loại: ' + ex.type;
+                        if (ex.score) mock_exams_text += ' - Điểm: ' + ex.score;
+                        if (ex.time) mock_exams_text += ' - Giờ: ' + ex.time;
+                        if (ex.date) mock_exams_text += ' - Ngày: ' + ex.date;
+                        if (ex.note) mock_exams_text += ' - Ghi chú: ' + ex.note;
+                        if (ex.course) mock_exams_text += ' - Môn: ' + ex.course.name;
+
+                    });
                 }
                 let res = {
                     'STT': index + 1,
@@ -742,6 +755,7 @@ class RegisterListContainer extends React.Component {
                     'Ngày đăng kí': item.created_at,
                     'Ngày': item.created_at_date,
                     'Giờ': item.created_at_time,
+                    'Thi thử': mock_exams_text,
                 };
                 /* eslint-enable */
                 return res;
@@ -827,16 +841,16 @@ class RegisterListContainer extends React.Component {
                                         <div>
                                             {
                                                 !(this.props.isLoadingGens ||
-                                                // this.props.isLoadingClassFilter ||
-                                                this.props.isLoading ||
-                                                this.props.isLoadingRegisters ||
-                                                this.props.isLoadingBaseFilter ||
-                                                this.props.isLoadingExcel)
-                                                    &&
-                                            <a onClick={this.showLoadingModal}
-                                                className="text-white">
-                                                Tải xuống
-                                            </a>
+                                                    // this.props.isLoadingClassFilter ||
+                                                    this.props.isLoading ||
+                                                    this.props.isLoadingRegisters ||
+                                                    this.props.isLoadingBaseFilter ||
+                                                    this.props.isLoadingExcel)
+                                                &&
+                                                <a onClick={this.showLoadingModal}
+                                                   className="text-white">
+                                                    Tải xuống
+                                                </a>
                                             }
                                         </div>
                                         <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>

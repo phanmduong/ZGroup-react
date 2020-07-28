@@ -26,6 +26,7 @@ import * as leadActions from "../lead/leadActions";
 import PicOverlay from "./overlays/PicOverlay";
 import StatusesOverlay from "./overlays/StatusesOverlay";
 import UploadManyImages from "../../components/common/UploadManyImages";
+import MockExamsContainer from "./mockExams/MockExamsContainer";
 
 
 class InfoStudentContainer extends React.Component {
@@ -62,6 +63,11 @@ class InfoStudentContainer extends React.Component {
                 path: `/sales/info-student/${this.studentId}/logs`,
                 text: 'Lịch sử chăm sóc',
                 component: <HistoryCareContainer studentId={this.studentId}/>
+            },
+            {
+                path: `/sales/info-student/${this.studentId}/mock-exams`,
+                text: 'Thi thử',
+                component: <MockExamsContainer studentId={this.studentId}/>
             },
         ];
         this.state = {
@@ -649,9 +655,9 @@ class InfoStudentContainer extends React.Component {
                                         rows={5}
                                         className="form-control "
                                         value={
-                                            this.state.student.note ? this.state.student.note : ""
+                                            this.state.student.description ? this.state.student.description : ""
                                         }
-                                        name="note"
+                                        name="description"
                                         onChange={this.updateFormData}
                                     />
                                     <span className="material-input"/>
@@ -675,7 +681,8 @@ class InfoStudentContainer extends React.Component {
                             </form>
                         </Modal.Body>
                     </Modal>
-                    <Modal show={this.state.showModalDuplicateLeads} onHide={()=>this.setState({showModalDuplicateLeads: false})}>
+                    <Modal show={this.state.showModalDuplicateLeads}
+                           onHide={() => this.setState({showModalDuplicateLeads: false})}>
                         <Modal.Header closeButton
                                       closeplaceholder="Đóng">
                             <Modal.Title><b>Lead bị trùng lặp</b></Modal.Title>

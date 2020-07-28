@@ -1232,6 +1232,10 @@ export default {
             isLoading: false,
             historyCares: [],
         },
+        mockExam: {
+            isLoading: false,
+            mockExams: [],
+        },
     },
 
     dashboard: {

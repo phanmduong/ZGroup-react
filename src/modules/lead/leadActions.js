@@ -12,10 +12,10 @@ import async from "async";
 
 /*eslint no-console: 0 */
 export function getLeads(filter) {
-    let{limit,page, search, startTime, endTime, staffId, rate, top, address,leadStatusId, orderBy,orderByType,source_id ,campaign_id,duplicate,call_back_time } = filter;
+    let {limit, page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate, lead_tag, call_back_time} = filter;
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_LIST_LEAD});
-        leadApi.loadLeads(limit,page, search, startTime, endTime, staffId, rate, top,address,leadStatusId,orderBy,orderByType,source_id ,campaign_id,duplicate,call_back_time)
+        leadApi.loadLeads(limit, page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate, lead_tag, call_back_time)
             .then(res => {
                 dispatch({
                     type: types.LOAD_LIST_LEAD_SUCCESS,
@@ -59,7 +59,7 @@ export function editInfoLead(lead, closeModal, openModalDuplicateLeads) {
         leadApi.editInfoLead(lead)
             .then(res => {
                 if (res.data.status == 1) {
-                    if(closeModal)closeModal(true);
+                    if (closeModal) closeModal(true);
                     dispatch({
                         type: types.EDIT_INFO_LEAD_SUCCESS,
                         lead: res.data.data.lead

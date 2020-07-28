@@ -27,12 +27,31 @@ import {
 import CreateRegisterModalContainer from "../registerStudents/CreateRegisterModalContainer";
 import * as createRegisterActions from '../registerStudents/createRegisterActions';
 import moment from "moment";
-import {DATE_FORMAT_SQL, STATUS_REFS} from "../../constants/constants";
+import {DATE_FORMAT_SQL, REGISTER_STATUS, STATUS_REFS} from "../../constants/constants";
 import CreateLeadOverlay from "./overlay/CreateLeadOverlay";
 import * as studentActions from "../infoStudent/studentActions";
 import Checkbox from "../../components/common/Checkbox";
 import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
+
+const TAGS = [
+    {
+        label: "Tất cả",
+        value: ""
+    },
+    {
+        label: "First lead",
+        value: "first_lead"
+    },
+    {
+        label: "Old lead",
+        value: "old_lead"
+    },
+    {
+        label: "New lead",
+        value: "new_lead"
+    },
+];
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -64,6 +83,7 @@ class LeadContainer extends React.Component {
             page: 1,
             search: "",
             address: '',
+            lead_tag: '',
             filter: {
                 startTime: '',
                 endTime: '',
@@ -79,6 +99,7 @@ class LeadContainer extends React.Component {
                 {value: 'created_at', label: 'Lead từ mới đến cũ', type: 'desc'},
                 // {value:'oldest',label:'Lead từ cũ đến mới'},
                 {value: 'rate', label: 'Số sao', type: 'asc'},
+                {value: 'last_time_interact', label: 'Tương tác gần đây', type: 'desc'},
                 // {value: 'donwstar', label: 'Sao giảm dần'},
             ],
             statusFilter: [],
@@ -292,7 +313,7 @@ class LeadContainer extends React.Component {
             `&search=${search || ''}` +
             `&staff=${JSON.stringify(staff)}` +
             `&startTime=${filter.startTime || ''}` +
-            `&endTime=${filter.endTime || ''}`+
+            `&endTime=${filter.endTime || ''}` +
             `&call_back_time=${filter.call_back_time || ''}`;
         return current_link;
     };
@@ -763,6 +784,45 @@ class LeadContainer extends React.Component {
                 if (!isEmptyInput(item.courses) && item.courses.length > 0) {
                     item.courses.forEach(c => courses += `, ${c.name}`);
                 }
+                let mock_exams_text = '';
+                if (item.mock_exams) {
+                    item.mock_exams.forEach((ex, ex_index) => {
+                        if (ex_index > 0) mock_exams_text += '\n';
+                        if (ex.type) mock_exams_text += 'Loại: ' + ex.type;
+                        if (ex.score) mock_exams_text += ' - Điểm: ' + ex.score;
+                        if (ex.time) mock_exams_text += ' - Giờ: ' + ex.time;
+                        if (ex.date) mock_exams_text += ' - Ngày: ' + ex.date;
+                        if (ex.note) mock_exams_text += ' - Ghi chú: ' + ex.note;
+                        if (ex.course) mock_exams_text += ' - Môn: ' + ex.course.name;
+
+                    });
+                }
+                let last_call_result;
+                switch (item.last_call_result) {
+                    case 'success':
+                        last_call_result = 'Gọi thành công';
+                        break;
+                    case 'calling':
+                        last_call_result = 'Đang gọi';
+                        break;
+                    case 'failed':
+                        last_call_result = 'Gọi thất bại';
+                        break;
+                    default:
+                        last_call_result = 'Chưa gọi';
+                }
+                let last_deal_status_text = 'Không có',
+                    last_deal_status = REGISTER_STATUS.filter(s => s.register == item.last_deal_status)[0];
+                if (last_deal_status) {
+                    last_deal_status_text = last_deal_status.label;
+                }
+                let all_tele_call_notes = 'Không có';
+                if (item.notes && item.notes.length > 0) {
+                    all_tele_call_notes = '';
+                    item.notes.forEach((note, note_index) => {
+                        all_tele_call_notes += `${note_index > 0 ? '\n' : ''}${note}`;
+                    });
+                }
                 let res = {
                     'STT': index + 1,
                     'Họ tên': item.name,
@@ -780,6 +840,14 @@ class LeadContainer extends React.Component {
                     'Ngày nhập': item.imported_at,
                     'Đánh giá': item.rate || 0,
                     'Ghi chú': item.note || '',
+                    'Nội dung tất cả cuộc gọi': all_tele_call_notes,
+                    'Thi thử': mock_exams_text,
+                    'Import person': item.imported_by ? item.importer.name : 'Không có',
+                    'Person in charge': item.staff_id ? item.carer.name : 'Không có',
+                    'Latest Call': item.last_call_time ? item.last_call_time : 'Không có',
+                    'Latest Status': last_call_result,
+                    'Classes Enrolled': item.all_class_names ? item.all_class_names : 'Không có',
+                    'Latest  Deal status': last_deal_status_text,
                 };
                 /* eslint-enable */
                 return res;
@@ -1063,7 +1131,7 @@ class LeadContainer extends React.Component {
                                                        value={this.state.address}
                                                        placeholder="Nhập tỉnh/thành phố"
                                                        disabled={this.props.isLoading}
-                                                       updateFormData={e=>this.changeAddress(e.target.value)}
+                                                       updateFormData={e => this.changeAddress(e.target.value)}
 
                                         />
                                     </div>
@@ -1127,6 +1195,22 @@ class LeadContainer extends React.Component {
                                                 placeholer="Tất cả"
                                                 className="width-100"
                                                 name="duplicate"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col-md-3">
+                                    <div className="form-group margin-bottom-20">
+                                        <label>Lead tag</label>
+                                        <div className="flex flex-row-center">
+                                            <ReactSelect
+                                                disabled={this.props.isLoading}
+                                                options={TAGS}
+                                                onChange={e => this.onFilterChange(e ? e.value : e, 'lead_tag')}
+                                                value={this.state.lead_tag}
+                                                placeholer="Tất cả"
+                                                className="width-100"
+                                                name="lead_tag"
                                             />
                                         </div>
                                     </div>

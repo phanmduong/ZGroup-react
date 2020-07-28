@@ -4,12 +4,13 @@ import Loading from "../../../components/common/Loading";
 import {assignStatuses, createStatuses, deleteStatuses} from "../studentApi";
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
-import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
+import {isEmptyInput, showErrorNotification, upperCaseFirstLetter} from "../../../helpers/helper";
 import {CirclePicker} from "react-color";
 import Search from "../../../components/common/Search";
 import * as studentActions from "../studentActions";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
+import {isEmpty} from "../../../helpers/entity/mobx";
 
 
 class StatusesOverlay extends React.Component {
@@ -47,7 +48,7 @@ class StatusesOverlay extends React.Component {
             .then(() => {
                 this.loadStatuses();
             }).catch(() => {
-            showErrorNotification("Trạng thái đang sử dụng không thể xóa!");
+            showErrorNotification(`${upperCaseFirstLetter(this.props.viName)} đang sử dụng không thể xóa!`);
         }).finally(() => {
             this.setState({
                 isProcessing: false
@@ -86,9 +87,9 @@ class StatusesOverlay extends React.Component {
 
     saveStatuses = () => {
         if (isEmptyInput(this.state.status.name)) {
-            showErrorNotification("Bạn cần nhập tên trạng thái");
+            showErrorNotification(`Bạn cần nhập tên`);
         } else if (this.state.status.name.length > 20) {
-            showErrorNotification("Độ dài tên trạng thái không quá 20 kí tự");
+            showErrorNotification("Độ dài tên không quá 20 kí tự");
         } else if (isEmptyInput(this.state.status.color)) {
             showErrorNotification("Bạn cần chọn màu");
         } else {
@@ -112,7 +113,7 @@ class StatusesOverlay extends React.Component {
 
     assignStatuses = (status) => {
         if(isEmptyInput(this.props.refId)) {
-            this.props.onChange(status);
+            if(this.props.onChange) this.props.onChange(status);
             this.setState({
                 isProcessing: false,
                 show: false,
@@ -164,15 +165,19 @@ class StatusesOverlay extends React.Component {
         let statuses =  this.props.statuses[this.props.statusRef] || [];
         let showLoading = isLoading || isLoadingStatuses || isProcessing;
         let zIndex = show ? 1 : 0;
+        let viName = isEmpty(this.props.viName) ? 'trạng thái' : this.props.viName;
         const current = (data && statuses.filter(s => s.id == data.id)[0]) || {};
 
         return (
-            <div style={{position: "relative",backgroundColor: current.color, borderRadius:3, cursor:'pointer',zIndex, ...styleWrapper}} className={className} ref="StatusesOverlay">
+            <div style={{position: "relative",backgroundColor: current.color, borderRadius:3, cursor:'pointer',zIndex, ...styleWrapper}}
+                 className={className}
+                 onClick={() => this.setState({show: true})}
+                 ref="StatusesOverlay">
                 <div
                      data-toggle="tooltip"
                      rel="tooltip"
-                     data-original-title="Trạng thái"
-                     onClick={() => this.setState({show: true})} style={styleButton}>
+                     data-original-title={upperCaseFirstLetter(viName)}
+                     style={styleButton}>
                     {this.statusName()}
                 </div>
                 <Overlay
@@ -210,8 +215,8 @@ class StatusesOverlay extends React.Component {
                                 <span aria-hidden="true">×</span>
                                 <span className="sr-only">Close</span>
                             </button>
-                            <div style={{textAlign: "center", fontSize: 16, color: 'black', marginBottom: 15}}>Trạng
-                                thái
+                            <div style={{textAlign: "center", fontSize: 16, color: 'black', marginBottom: 15}}>
+                                {upperCaseFirstLetter(viName)}
                             </div>
                         </div>}
                         <div>{showLoading && <Loading/>}</div>
@@ -226,7 +231,7 @@ class StatusesOverlay extends React.Component {
                             this.state.create && !isProcessing ? (
                                 <div>
                                     <FormInputText
-                                        placeholder="Tên trạng thái"
+                                        placeholder={`Tên ${viName}`}
                                         name="name"
                                         updateFormData={this.updateFormData}
                                         value={this.state.status.name || ""}/>
@@ -289,7 +294,7 @@ class StatusesOverlay extends React.Component {
                                                        create: !this.state.create,
                                                        status: {}
                                                    })}>
-                                                    Thêm trạng thái mới
+                                                    Thêm {viName} mới
                                                     <i className="material-icons">add</i>
                                                 </a>
                                                 }
@@ -309,7 +314,7 @@ class StatusesOverlay extends React.Component {
                                                         justifyContent: "space-between",
                                                         alignItems: "center",
                                                     }}>
-                                                    Không có trạng thái
+                                                    Không có {viName}
                                                     <div>
                                                         {(!data || (data && !data.id) )?
                                                             <i className="material-icons">done</i> : ""}

@@ -17,6 +17,7 @@ import TargetListContainer from '../modules/sales/TargetListContainer';
 import EvaluateSalerContainer from "../modules/evaluateSalers/EvaluateSalerContainer";
 import LogsContainer from "../modules/infoStudent/logsStudent/HistoryCareContainer";
 import RegisterListContainerV2 from "../modules/registerStudentsV2/RegisterListContainer";
+import MockExamsContainer from "../modules/infoStudent/mockExams/MockExamsContainer";
 
 
 /**
@@ -126,6 +127,10 @@ export default [
             {
                 path: "logs",
                 component: LogsContainer
+            },
+            {
+                path: "mock-exams",
+                component: MockExamsContainer
             },
         ]
     },

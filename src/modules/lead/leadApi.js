@@ -2,14 +2,14 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import {isEmptyInput} from "../../helpers/helper";
 
-export function loadLeads(limit=20,page = 1, search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "", address = '', leadStatusId = '', orderBy = '', orderByType = '', source_id = '', campaign_id = '', duplicate = '',call_back_time='') {
+export function loadLeads(limit = 20, page = 1, search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "", address = '', leadStatusId = '', orderBy = '', orderByType = '', source_id = '', campaign_id = '', duplicate = '', lead_tag = "",call_back_time='') {
 
     let url = env.MANAGE_API_URL + "/lead/all";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    console.log(page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate,call_back_time);
+    console.log(page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate, lead_tag, call_back_time);
 
     url += "&limit=" + limit;
     url += "&page=" + page;
@@ -27,6 +27,7 @@ export function loadLeads(limit=20,page = 1, search = "", startTime = "", endTim
     url += "&source_id=" + (isEmptyInput(source_id) ? '' : source_id);
     url += "&campaign_id=" + (isEmptyInput(campaign_id) ? '' : campaign_id);
     url += "&duplicate=" + (isEmptyInput(duplicate) ? '' : duplicate);
+    url += "&lead_tag=" + (isEmptyInput(lead_tag) ? '' : lead_tag);
     console.log(url);
     return axios.get(url);
 }

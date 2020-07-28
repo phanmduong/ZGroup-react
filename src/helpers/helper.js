@@ -11,6 +11,7 @@ import {
     PHONE_HEAD_3,
     PHONE_HEAD_4
 } from '../constants/constants';
+import {isEmpty} from "./entity/mobx";
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -1656,4 +1657,9 @@ export function generateMonthsArray(dates = [], date_format=DATE_FORMAT_SQL, tar
 
 
     return res;
+}
+
+export function upperCaseFirstLetter(string) {
+    if(isEmpty(string)) return '';
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
