@@ -36,6 +36,10 @@ class CoursesContainer extends React.Component {
 
     componentWillMount() {
         this.props.coursesActions.loadCourses();
+        setTimeout(() => {
+            this.props.coursesActions.loadAllTypes();
+            this.props.coursesActions.loadAllCategories();
+        }, 2000);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -75,7 +79,6 @@ class CoursesContainer extends React.Component {
             this.state.query
         );
     }
-
 
 
     changeStatusCourse(index, course, e) {

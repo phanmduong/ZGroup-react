@@ -43,6 +43,12 @@ class coursesCreateEditGeneral extends React.Component {
 
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.isLoadingCourse != this.props.isLoadingCourse && !nextProps.isLoadingCourse) {
+            this.setState({data: nextProps.data});
+        }
+    }
+
     commitCourseData() {
         if (this.checkValidate())
             this.props.coursesActions.commitCourseData(this.state.data, this.onSaveSuccess);
@@ -50,6 +56,7 @@ class coursesCreateEditGeneral extends React.Component {
 
     onSaveSuccess = () => {
         this.props.closeModalEdit();
+        this.props.coursesActions.loadCourses();
     }
 
     updateEditor(content) {
@@ -121,6 +128,8 @@ class coursesCreateEditGeneral extends React.Component {
     }
 
     render() {
+        if (this.props.isLoadingCourse) return (<div className="padding-vertical-20px"><Loading/></div>);
+        console.log(this.props.types);
         return (
             <form role="form" id="form-course-create-edit" onSubmit={e => e.preventDefault()}>
                 <div className="row">
@@ -254,7 +263,6 @@ class coursesCreateEditGeneral extends React.Component {
                                                 </label>
                                                 <ReactSelect
                                                     name="type_id"
-                                                    className=""
                                                     options={this.props.types}
                                                     onChange={this.updateFormData}
                                                     value={this.state.data.type_id || ""}
@@ -425,7 +433,7 @@ class coursesCreateEditGeneral extends React.Component {
 
 
 coursesCreateEditGeneral.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
+    isLoadingCourse: PropTypes.bool.isRequired,
     data: PropTypes.object,
     isUpdatingAvatar: PropTypes.bool,
     updateAvatarError: PropTypes.bool,
@@ -444,7 +452,7 @@ coursesCreateEditGeneral.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.courses.isLoading,
+        isLoadingCourse: state.courses.isLoadingCourse,
         data: state.courses.data,
         isUpdatingAvatar: state.courses.isUpdatingAvatar,
         updateAvatarError: state.courses.updateAvatarError,

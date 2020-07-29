@@ -121,7 +121,7 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
                 ...{
-                    isLoading: true,
+                    isLoadingCourse: true,
                     error: false,
                     data: defaultData,
                     link: state.link,
@@ -139,7 +139,7 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
                 ...{
-                    isLoading: false,
+                    isLoadingCourse: false,
                     error: false,
                     data: {...action.data, categories},
                     link: state.link,
@@ -150,7 +150,7 @@ export default function courseReducer(state = initialState.courses, action) {
             return {
                 ...state,
                 ...{
-                    isLoading: false,
+                    isLoadingCourse: false,
                     error: true,
                 }
             };
@@ -597,7 +597,7 @@ export default function courseReducer(state = initialState.courses, action) {
             };
         }
         case types.LOAD_ALL_TYPES_SUCCESS: {
-            action.types.map((obj) => {
+            let data = action.types.map((obj) => {
                 return {...obj, value: obj.id, label: obj.name,};
             });
             return {

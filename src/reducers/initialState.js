@@ -1742,6 +1742,7 @@ export default {
     },
     courses: {
         isLoading: false,
+        isLoadingCourse: false,
         isDuplicating: false,
         isUploadingLinkIcon: false,
         isStoringGroupExam: false,

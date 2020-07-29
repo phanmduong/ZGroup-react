@@ -53,7 +53,7 @@ class EditCoursesContainer extends React.Component {
             <div className="margin-top-10">
                 <div className={"card"}>
                     <div className={"card-content"}>
-                        {this.props.isLoading ? <Loading/> :
+                        {this.props.isLoadingCourse ? <Loading/> :
                             <div className="row">
                                 <div className="col-md-4">
                                     <div className="card" mask="blue">
@@ -179,7 +179,7 @@ class EditCoursesContainer extends React.Component {
 }
 
 EditCoursesContainer.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
+    isLoadingCourse: PropTypes.bool.isRequired,
     data: PropTypes.object,
     link: PropTypes.object,
     isUpdatingAvatar: PropTypes.bool,
@@ -199,7 +199,7 @@ EditCoursesContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.courses.isLoading,
+        isLoadingCourse: state.courses.isLoadingCourse,
         data: state.courses.data,
         isUpdatingAvatar: state.courses.isUpdatingAvatar,
         updateAvatarError: state.courses.updateAvatarError,
