@@ -317,7 +317,7 @@ class ClassContainer extends React.Component {
                 showModalChangeTeacher: true,
                 teacherSelected: data,
                 changeTeacher: {
-                    id: data.staff.id
+                    id: data.staff ? data.staff.id : null
                 }
             }
         );
@@ -333,7 +333,7 @@ class ClassContainer extends React.Component {
                 showModalChangeTeachAssis: true,
                 teachAssisSelected: data,
                 changeTeachAssis: {
-                    id: data.staff.id
+                    id: data.staff ? data.staff.id : null
                 }
             }
         );
