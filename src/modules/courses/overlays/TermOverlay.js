@@ -326,7 +326,7 @@ class TermOverlay extends React.Component {
                                                         color: '#a9a9a9',
                                                         justifyContent: "space-between"
                                                     }}>
-                                                    Không có trạng thái
+                                                    Không có học phần
                                                 </button>
 
                                                 <div className="kt-scroll">
@@ -357,7 +357,7 @@ class TermOverlay extends React.Component {
                                                                             display: "flex",
                                                                             justifyContent: "space-between",
                                                                             height: 35,
-                                                                            padding: '0 15px',
+                                                                            padding: '9px 15px',
                                                                         }}>
                                                                         {item.name}
                                                                         <div>

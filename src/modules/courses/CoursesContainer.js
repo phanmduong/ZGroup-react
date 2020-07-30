@@ -54,7 +54,7 @@ class CoursesContainer extends React.Component {
     }
 
     deleteCourse(course) {
-        if (this.props.user.role == 2) {
+        if (this.props.user.role != 2) {
             helper.showTypeNotification("Bạn không có quyền xóa khóa học này!", "info");
             return;
         }
