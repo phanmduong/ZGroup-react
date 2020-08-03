@@ -25,12 +25,17 @@ import DashboardHistoryWorkShiftComponent
     from "../modules/dashboard/dashboardCheckinCheckout/DashboardHistoryWorkShiftComponent";
 import DashboardHistoryShiftComponent
     from "../modules/dashboard/dashboardCheckinCheckout/DashboardHistoryShiftComponent";
+import ShortcutContainer from "../modules/shortcut/ShortcutContainer";
 
 
 /**
  * Tab trang chủ
  */
 export default [
+    {
+        path: "/",
+        component: ShortcutContainer
+    },
     {
         path: "/dashboard/sale",
         component: DashboardSaleContainer,
