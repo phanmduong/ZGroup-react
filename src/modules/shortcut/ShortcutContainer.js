@@ -1,5 +1,6 @@
 import React from 'react';
 import {connect} from 'react-redux';
+import {isEmpty} from "../../helpers/entity/mobx";
 
 const SHORTCUTS = [
     {
@@ -90,32 +91,38 @@ const SHORTCUTS = [
 class ShortcutContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            search: null
+        }
     }
 
     render() {
-
+        let shortcuts = SHORTCUTS.filter((item) => item.name.includes(this.state.search) || item.description.includes(this.state.search) || isEmpty(this.state.search));
         return (
             <div className="container-fluid">
                 <div className="card">
                     <div className="padding-horizontal-20px padding-vertical-20px" style={{paddingBottom: 40}}>
-                        <div
-                            className="flex flex-col flex-justify-content-center flex-align-items-center margin-vertical-15">
-                            <div
-                                className="search-shortcut flex-row flex flex-justify-content-center flex-align-items-center ">
+                        <div className="row">
+                            <div className="col-md-4 col-md-offset-4">
+                                <div
+                                    className="search-shortcut flex-row flex flex-justify-content-center flex-align-items-center ">
                                <span className="material-icons margin-left-10 margin-right-5">
                                 search
                                 </span>
-                                <input type="text" placeholder="Bạn đang muốn làm gì?"/>
+                                    <input type="text" placeholder="Bạn đang muốn làm gì?" onChange={(e) => {
+                                        this.setState({search: e.target.value})
+                                    }}/>
+                                </div>
                             </div>
                         </div>
                         <div className="row">
                             {
-                                SHORTCUTS.map((shortcut) => {
+                                shortcuts.map((shortcut) => {
                                         return (
                                             <div className="col-md-3 col-sm-4 col-xs-6">
                                                 <a
                                                     href={shortcut.link}
-                                                    className="flex flex-col flex-justify-content-center flex-align-items-center padding-vertical-20px cursor-pointer shortcut">
+                                                    className="flex flex-col flex-justify-content-center flex-align-items-center padding-vertical-20px cursor-pointer shortcut margin-bottom-20">
                                                     <div style={{
                                                         width: 100,
                                                         height: 100,
@@ -133,7 +140,7 @@ class ShortcutContainer extends React.Component {
                                                     <div className="bold">
                                                         {shortcut.name}
                                                     </div>
-                                                    <div className="text-center" style={{height: 30}}>
+                                                    <div className="text-center" style={{height: 30, maxWidth: 200}}>
                                                         {shortcut.description}
                                                     </div>
                                                 </a>
