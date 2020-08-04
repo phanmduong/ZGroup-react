@@ -1,6 +1,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {isEmpty} from "../../helpers/entity/mobx";
+import Loading from "../../components/common/Loading";
+import _ from "lodash";
 
 const SHORTCUTS = [
     {
@@ -97,7 +99,16 @@ class ShortcutContainer extends React.Component {
     }
 
     render() {
-        let shortcuts = SHORTCUTS.filter((item) => item.name.includes(this.state.search) || item.description.includes(this.state.search) || isEmpty(this.state.search));
+        let shortcuts = SHORTCUTS.filter((shortcut) => {
+            return _.find(this.props.tabsListData, function (tab) {
+                if (tab.url[0] != "/") {
+                    tab.url = "/" + tab.url;
+                }
+                return tab.url == shortcut.link;
+            }) || shortcut.link == "#" || isEmpty(shortcut.link) || shortcut.link == '/profile/my-profile';
+        })
+        shortcuts = shortcuts.filter((item) => item.name.includes(this.state.search) || item.description.includes(this.state.search) || isEmpty(this.state.search));
+
         return (
             <div className="container-fluid">
                 <div className="card">
@@ -115,42 +126,44 @@ class ShortcutContainer extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="row">
-                            {
-                                shortcuts.map((shortcut) => {
-                                        return (
-                                            <div className="col-md-3 col-sm-4 col-xs-6">
-                                                <a
-                                                    href={shortcut.link}
-                                                    className="flex flex-col flex-justify-content-center flex-align-items-center padding-vertical-20px cursor-pointer shortcut margin-bottom-20">
-                                                    <div style={{
-                                                        width: 100,
-                                                        height: 100,
-                                                        backgroundColor: shortcut.color,
-                                                        padding: 10,
-                                                        margin: 10,
-                                                        borderRadius: 10
-                                                    }}
-                                                         className="flex flex-col flex-justify-content-center flex-align-items-center"
-                                                    >
+                        {this.props.isLoadingTab ? <Loading/> :
+                            <div className="row">
+                                {
+                                    shortcuts.map((shortcut) => {
+                                            return (
+                                                <div className="col-md-3 col-sm-4 col-xs-6">
+                                                    <a
+                                                        href={shortcut.link}
+                                                        className="flex flex-col flex-justify-content-center flex-align-items-center padding-vertical-20px cursor-pointer shortcut margin-bottom-20">
+                                                        <div style={{
+                                                            width: 100,
+                                                            height: 100,
+                                                            backgroundColor: shortcut.color,
+                                                            padding: 10,
+                                                            margin: 10,
+                                                            borderRadius: 10
+                                                        }}
+                                                             className="flex flex-col flex-justify-content-center flex-align-items-center"
+                                                        >
                                                         <span className="material-icons">
                                                             {shortcut.icon}
                                                         </span>
-                                                    </div>
-                                                    <div className="bold">
-                                                        {shortcut.name}
-                                                    </div>
-                                                    <div className="text-center" style={{height: 30, maxWidth: 200}}>
-                                                        {shortcut.description}
-                                                    </div>
-                                                </a>
+                                                        </div>
+                                                        <div className="bold">
+                                                            {shortcut.name}
+                                                        </div>
+                                                        <div className="text-center" style={{height: 30, maxWidth: 200}}>
+                                                            {shortcut.description}
+                                                        </div>
+                                                    </a>
 
-                                            </div>
-                                        );
-                                    }
-                                )
-                            }
-                        </div>
+                                                </div>
+                                            );
+                                        }
+                                    )
+                                }
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -162,7 +175,8 @@ class ShortcutContainer extends React.Component {
 function mapStateToProps(state) {
     return {
         user: state.login.user,
-
+        isLoadingTab: state.tabs.isLoading,
+        tabsListData: state.tabs.tabListData
     };
 }
 
