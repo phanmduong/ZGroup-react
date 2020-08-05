@@ -50,6 +50,7 @@ export function getUserLocal() {
 }
 
 export function logOut() {
+    localStorage.removeItem("token");
     return {
         type: types.LOG_OUT,
     };
