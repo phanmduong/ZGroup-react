@@ -10,6 +10,7 @@ import EmptyData from "../../components/common/EmptyData";
 import Filter from "./Filter";
 import filterStore from "./filterStore";
 import {getValueFromKey} from "../../helpers/entity/object";
+import ChangePassword from "./ChangePassword";
 
 @observer
 class ProfileEmployee extends React.Component {
@@ -49,11 +50,11 @@ class ProfileEmployee extends React.Component {
 
     closeModalEditProfile = () => {
         this.store.showModalEditProfile = false;
-    }
+    };
 
     openModalEditProfile = () => {
         this.store.showModalEditProfile = true;
-    }
+    };
 
     getRouteItem(route, index) {
         const changeRoute = () => {
@@ -74,11 +75,12 @@ class ProfileEmployee extends React.Component {
 
     classesByDate = (filter) => {
         this.store.loadClassesByDate(filter);
-    }
+    };
 
     render() {
-        const {profile, isLoading, showModalEditProfile, role, base, department, classesByDate} = this.store;
+        const {profile, isLoading, showModalEditProfile, role, base, department, classesByDate, showModalChangePassword} = this.store;
         const {name, email, phone, address, age, bank_name_account, bank_number, avatar_url, homeland, city, start_company, id} = profile;
+        let editable = true;
         return (
             <div>
                 <div className={location ? "card" : ''}>
@@ -143,13 +145,13 @@ class ProfileEmployee extends React.Component {
                                             >Sửa thông tin
                                             </div>
 
-                                            {/*{*/}
-                                            {/*    editable &&*/}
-                                            {/*    <div className="btn width-100 cursor-pointer"*/}
-                                            {/*         onClick={() => this.store.resetPassword(profile.id)}*/}
-                                            {/*    >Thay đổi mật khẩu*/}
-                                            {/*    </div>*/}
-                                            {/*}*/}
+                                            {
+                                                editable &&
+                                                <div className="btn width-100 cursor-pointer"
+                                                     onClick={() => this.store.changePassword(profile.id)}
+                                                >Thay đổi mật khẩu
+                                                </div>
+                                            }
 
 
                                         </div>
@@ -295,6 +297,16 @@ class ProfileEmployee extends React.Component {
                     <Modal.Body>
                         {showModalEditProfile && <EditProfileComponent store={this.store}/>}
                         {/*<EditProfileContainer/>*/}
+                    </Modal.Body>
+                </Modal>
+                <Modal show={showModalChangePassword} onHide={() => this.store.showModalChangePassword = false}>
+                    <Modal.Header closeButton closeLabel="Đóng">
+                        <Modal.Title>Đổi mật khẩu</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {showModalChangePassword &&
+                        <ChangePassword closeModal={() => this.store.showModalChangePassword = false}/>}
+
                     </Modal.Body>
                 </Modal>
             </div>
