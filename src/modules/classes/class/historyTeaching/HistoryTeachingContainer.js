@@ -2,7 +2,14 @@ import React from 'react';
 import * as classActions from "../../classActions";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {avatarEmpty, getShortName, isEmptyInput, shortenStr, showNotification} from "../../../../helpers/helper";
+import {
+    avatarEmpty,
+    findNextInstanceInDaysArray,
+    getShortName,
+    isEmptyInput,
+    shortenStr,
+    showNotification
+} from "../../../../helpers/helper";
 import TooltipButton from "../../../../components/common/TooltipButton";
 import {Modal, Overlay} from 'react-bootstrap';
 import * as ReactDOM from "react-dom";
@@ -196,21 +203,15 @@ class HistoryTeachingContainer extends React.Component {
         this.setState({lessonEventStudent});
     };
 
-    saveDelayLessons = () => {
-        let {classData, params, classActions} = this.props;
-        let {delayLessonIndex, delayData} = this.state;
-        let delayLesson = classData && classData.lessons && classData.lessons[delayLessonIndex] ? classData.lessons[delayLessonIndex] : {};
-        console.log(delayLessonIndex, delayLesson);
-        let lessons = [];
-        if (classData && classData.lessons) classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson) => {
-            let delayDate = moment(delayData.newDate, DATE_VN_FORMAT).diff(moment(delayLesson.time, DATE_VN_FORMAT), 'days');
-            let newDate = moment(lesson.time, DATE_VN_FORMAT).add(delayDate, 'days').format(DATE_FORMAT_SQL);
-            lessons.push({
-                time: newDate,
+    saveDelayLessons = (moveLessons) => {
+        let {params, classActions} = this.props;
+        let lessons = moveLessons.map((lesson) => {
+            return {
+                time: moment(lesson.time, DATE_VN_FORMAT).format(DATE_FORMAT_SQL),
                 class_lesson_id: lesson.class_lesson_id,
-                note: delayData.note || ''
-            });
-        });
+                note: ""
+            }
+        })
         classActions.changeClassLessons(lessons, () => {
             classActions.loadClass(params.classId);
         });
@@ -342,6 +343,40 @@ class HistoryTeachingContainer extends React.Component {
         let modalEvent = LESSON_EVENT_TYPES_OBJECT[lessonEventType] || {};
         // console.log(classData);
         // console.log(moment().add(1, 'days').format(DATE_VN_FORMAT));
+        let moveLessons = [];
+        if (classData && classData.lessons) {
+            let daysArray = classData.study_session.map((item) => item.order).sort();
+            let lessons = classData.lessons.slice(delayLessonIndex, classData.lessons.length);
+            for (let i = 0; i < lessons.length; i++) {
+                let date = i == 0 ? "" : moment(moveLessons[i - 1].time, DATE_VN_FORMAT).add(1, "days");
+                let newDate = i == 0 ? delayData.newDate : findNextInstanceInDaysArray(date, daysArray).format(DATE_VN_FORMAT);
+                let newDateNoFormat = moment(newDate, DATE_VN_FORMAT)
+                moveLessons = [...moveLessons, {
+                    ...lessons[i],
+                    time: newDate,
+                    oldTime: lessons[i].time,
+                    timeNoFormat: newDateNoFormat
+                }]
+            }
+        }
+
+        // {classData && classData.lessons && classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson, key) => {
+        //     let currentDate = moment(lesson.time, DATE_VN_FORMAT)
+        //     let newDate = key == 0 ? delayLesson.time : findNextInstanceInDaysArray(moment(lesson.time, DATE_VN_FORMAT) lesson[key - 1], )
+        //     let delayDate = moment(delayData.newDate, DATE_VN_FORMAT).diff(moment(delayLesson.time, DATE_VN_FORMAT), 'days');
+        //     let newDate = moment(lesson.time, DATE_VN_FORMAT).add(delayDate, 'days');
+        //     newDate = findNextInstanceInDaysArray(newDate, [2, 4]).format(DATE_VN_FORMAT);
+        //     return (
+        //         <tr key={key}>
+        //             <td style={{width: 80}}><b>Buổi {lesson.order}</b></td>
+        //             <td style={{width: 80}}>{lesson.time}</td>
+        //             <td style={{width: 25}}><b>→</b></td>
+        //             <td style={{width: 80}}>{newDate}</td>
+        //         </tr>);
+        // })}
+
+        // moveLesson =
+
         return (
             <div className="table-responsive table-split table-hover">
                 <table className="table" cellSpacing="0" id="list_register">
@@ -459,7 +494,7 @@ class HistoryTeachingContainer extends React.Component {
                                             </div>
 
                                         </td>
-                                        <td />
+                                        <td/>
                                         <td>{lesson.term && <a
                                             style={{fontWeight: 400, color: 'black'}}
                                             target="_blank"
@@ -675,24 +710,38 @@ class HistoryTeachingContainer extends React.Component {
                                     </thead>
                                     <br/>
                                     <tbody>
-                                    {classData && classData.lessons && classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson, key) => {
-                                        let delayDate = moment(delayData.newDate, DATE_VN_FORMAT).diff(moment(delayLesson.time, DATE_VN_FORMAT), 'days');
-                                        let newDate = moment(lesson.time, DATE_VN_FORMAT).add(delayDate, 'days').format(DATE_VN_FORMAT);
+                                    {moveLessons.map((lesson, key) => {
                                         return (
                                             <tr key={key}>
                                                 <td style={{width: 80}}><b>Buổi {lesson.order}</b></td>
-                                                <td style={{width: 80}}>{lesson.time}</td>
+                                                <td style={{width: 80}}>{lesson.oldTime}</td>
                                                 <td style={{width: 25}}><b>→</b></td>
-                                                <td style={{width: 80}}>{newDate}</td>
+                                                <td style={{width: 80}}>{lesson.time}</td>
                                             </tr>);
                                     })}
+                                    {/*{classData && classData.lessons && classData.lessons.slice(delayLessonIndex, classData.lessons.length).map((lesson, key) => {*/}
+                                    {/*    let currentDate = moment(lesson.time, DATE_VN_FORMAT)*/}
+                                    {/*    let newDate = key == 0 ? delayLesson.time : findNextInstanceInDaysArray(moment(lesson.time, DATE_VN_FORMAT)*/}
+                                    {/*    lesson[key - 1],*/}
+                                    {/*)*/}
+                                    {/*    let delayDate = moment(delayData.newDate, DATE_VN_FORMAT).diff(moment(delayLesson.time, DATE_VN_FORMAT), 'days');*/}
+                                    {/*    let newDate = moment(lesson.time, DATE_VN_FORMAT).add(delayDate, 'days');*/}
+                                    {/*    newDate = findNextInstanceInDaysArray(newDate, [2, 4]).format(DATE_VN_FORMAT);*/}
+                                    {/*    return (*/}
+                                    {/*        <tr key={key}>*/}
+                                    {/*            <td style={{width: 80}}><b>Buổi {lesson.order}</b></td>*/}
+                                    {/*            <td style={{width: 80}}>{lesson.time}</td>*/}
+                                    {/*            <td style={{width: 25}}><b>→</b></td>*/}
+                                    {/*            <td style={{width: 80}}>{newDate}</td>*/}
+                                    {/*        </tr>);*/}
+                                    {/*})}*/}
                                     </tbody>
                                 </table>
                             </div>
                             <div className="flex-end margin-top-10">
                                 <div className="btn btn-white">Hủy</div>
                                 <div className="btn button-green"
-                                     onClick={this.saveDelayLessons}
+                                     onClick={() => this.saveDelayLessons(moveLessons)}
                                 >Xác nhận
                                 </div>
                             </div>
@@ -1160,3 +1209,4 @@ function mapDispatchToProps(dispatch) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(HistoryTeachingContainer);
+
