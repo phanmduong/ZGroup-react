@@ -1663,3 +1663,30 @@ export function upperCaseFirstLetter(string) {
     if(isEmpty(string)) return '';
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
+
+
+// const daysINeed = [1,4]; // Monday, Thursday
+// we will assume the days are in order for this demo, but inputs should be sanitized and sorted
+
+function isThisInFuture(currentDate, targetDayNum) {
+    // param: positive integer for weekday
+    // returns: matching moment or false
+    const todayNum = currentDate.isoWeekday();
+    if (todayNum <= targetDayNum) {
+        return moment(currentDate).isoWeekday(targetDayNum);
+    }
+    return false;
+}
+
+export function findNextInstanceInDaysArray(currentDate, daysArray) {
+    const tests = daysArray.map((item) => isThisInFuture(currentDate, item));
+    // select the first matching day of this week, ignoring subsequent ones, by finding the first moment object
+    const thisWeek = tests.find((sample) => {
+        return sample instanceof moment
+    });
+
+    // // but if there are none, we'll return the first valid day of next week (again, assuming the days are sorted)
+    return thisWeek || moment(currentDate).add(1, 'weeks').isoWeekday(daysArray[0]);
+    // return currentDate;
+}
+
