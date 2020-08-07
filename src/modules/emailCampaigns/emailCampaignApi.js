@@ -1,7 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
 import moment from "moment";
-import {DATETIME_FORMAT} from "../../constants/constants";
+import {DATETIME_FORMAT, DATETIME_FORMAT_SQL} from "../../constants/constants";
 
 export function loadCampaigns(page = 1, query = null, ownerId = "") {
     let url = env.MANAGE_API_URL + "/email/campaigns?page=" + page + "&owner_id=" + ownerId;
@@ -25,7 +25,7 @@ export function loadSubscribersList() {
 }
 
 export function storeCampaign(campaign) {
-    let timer = moment(campaign.timer, DATETIME_FORMAT).format("YYYY-MM-DD HH:mm:ss");
+    let dateIsValid = moment(campaign.timer, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
     let url = env.MANAGE_API_URL + "/email/campaign/store";
     let token = localStorage.getItem('token');
     if (token) {
@@ -33,7 +33,7 @@ export function storeCampaign(campaign) {
     }
     return axios.post(url, {
         ...campaign, ... {
-            timer: timer
+            timer: dateIsValid ? moment(this.state.campaign.timer, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT) : null
         }
     });
 }

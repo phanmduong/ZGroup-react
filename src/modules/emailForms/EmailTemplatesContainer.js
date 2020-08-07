@@ -10,7 +10,6 @@ import ListTemplate from './ListTemplate';
 import _ from 'lodash';
 import * as emailFormsActions from './emailFormsActions';
 import Search from "../../components/common/Search";
-import {DOMAIN} from '../../constants/env';
 
 class EmailTemplatesContainer extends React.Component {
     constructor(props, context) {
@@ -115,7 +114,7 @@ class EmailTemplatesContainer extends React.Component {
                                     this.state.selectedTemplate.id ?
                                         (
                                             <iframe
-                                                src={`${DOMAIN}/email-form-view/${this.props.emailForm.id}/${this.state.selectedTemplate.id}`}
+                                                src={`/email-form-view/${this.props.emailForm.id}/${this.state.selectedTemplate.id}`}
                                                 id="iframe-template"
                                                 frameBorder="0"
                                                 style={{
