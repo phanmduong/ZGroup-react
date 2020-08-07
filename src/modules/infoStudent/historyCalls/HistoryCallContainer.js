@@ -145,7 +145,7 @@ class HistoryCallContainer extends React.Component {
                                                                     className="btn btn-xs">{history.updated_at}</span>
                                                                 <div className="btn status-overlay btn-xs"
                                                                      style={{backgroundColor: history.teleCallTagStatus ? history.teleCallTagStatus.color : ''}}>
-                                                                    {history.teleCallTagStatus ? history.teleCallTagStatus.name : 'No tag'}
+                                                                    {history.teleCallTagStatus && history.teleCallTagStatus.name ? history.teleCallTagStatus.name : 'No tag'}
                                                                 </div>
                                                             </div>
                                                             {
