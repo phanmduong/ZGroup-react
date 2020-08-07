@@ -29,6 +29,7 @@ const  const_filter = {
     saler: defaultSelectObject,
     campaign_id: '',
     class_id: '',
+    gen_id: 0,
     course_id: '',
     pay_status: '',
     class_status: '',
@@ -139,15 +140,22 @@ export const store = new class TargetPersonStore {
         this.filter[name] = res;
     };
 
-    @action loadRegisters(filter) {
-        this.isLoading = true;
+    @action solveFilter(filter){
         if (isEmpty(filter)) filter = this.filter;
-        console.log(filter.campaign_id,this.filter.campaign_id);
+        // console.log(filter.campaign_id,this.filter.campaign_id);
         filter = {
             ...filter,
             start_time: filter.start_time.format(DATE_FORMAT_SQL),
             end_time: filter.end_time.format(DATE_FORMAT_SQL),
         };
+
+        return filter
+    }
+
+    @action loadRegisters(filter) {
+        this.isLoading = true;
+        filter = this.solveFilter(filter);
+
         loadRegisters(filter).then(res => {
             console.log(res.data);
             this.registers = res.data.items;
@@ -195,12 +203,12 @@ export const store = new class TargetPersonStore {
                         ...res.data.data.gens.map(gen => {
                         return {...gen, value: gen.id, label: 'Khóa ' + gen.name,};
                     })];
-                    const currentGen = this.filter_data.gens.filter((gen) => gen.id == res.data.data.current_gen.id)[0];
+                    // const currentGen = this.filter_data.gens.filter((gen) => gen.id == res.data.data.current_gen.id)[0];
 
-                    this.filter.start_time = moment(currentGen.start_time);
-                    this.filter.end_time = moment(currentGen.end_time);
+                    // this.filter.start_time = moment(currentGen.start_time);
+                    // this.filter.end_time = moment(currentGen.end_time);
 
-                    this.filter.gen_id = res.data.data.current_gen.id;
+                    // this.filter.gen_id = res.data.data.current_gen.id;
                     callback(null, {});
                 }).catch((e) => {
                     showErrorNotification('Có lỗi xảy ra!');
