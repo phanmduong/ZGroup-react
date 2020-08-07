@@ -25,6 +25,7 @@ export function loadSubscribersList() {
 }
 
 export function storeCampaign(campaign) {
+    console.log(campaign);
     let dateIsValid = moment(campaign.timer, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
     let url = env.MANAGE_API_URL + "/email/campaign/store";
     let token = localStorage.getItem('token');
@@ -33,7 +34,7 @@ export function storeCampaign(campaign) {
     }
     return axios.post(url, {
         ...campaign, ... {
-            timer: dateIsValid ? moment(this.state.campaign.timer, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT) : null
+            timer: dateIsValid ? moment(campaign.timer, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FORMAT_SQL) : null
         }
     });
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import FormInputText from '../../components/common/FormInputText';
-import {DATETIME_FORMAT, DATETIME_FORMAT_SQL, linkUploadImageEditor} from '../../constants/constants';
+import {linkUploadImageEditor} from '../../constants/constants';
 import ReactEditor from '../../components/common/ReactEditor';
 import * as helper from '../../helpers/helper';
 import {NO_IMAGE} from '../../constants/env';
