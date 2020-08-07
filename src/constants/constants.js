@@ -376,6 +376,7 @@ export const TYPE_CLASSES_OBJECT =
         "waiting": "Chờ",
         "solo": "Kèm 1-1",
         "business": "Doanh nghiệp",
+        null: 'Không có'
     }
 ;
 

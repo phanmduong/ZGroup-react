@@ -34,6 +34,9 @@ export function loadRegisters(filter) {
     let baseUrl = NEW_MANAGE_API_URL + "/register/register-list?";
     let includes = '&include=saler,studyClass,source,register_status,student,gen,coupons,tele_call,course,marketing_campaign';
     let token = localStorage.getItem('token');
+    if(limit == -1){
+        includes += ',base.district.province,source,marketing_campaign';
+    }
     let url =
         baseUrl +
         includes +
@@ -52,7 +55,7 @@ export function loadRegisters(filter) {
         "&search_coupon=" + search_coupon +
         "&search_note=" + search_note +
         "&bookmark=" + bookmark +
-        "&register_status_id =" + register_status_id +
+        "&register_status_id=" + register_status_id +
         "&source_id=" + source_id +
         "&tele_call_status=" + tele_call_status
     ;
