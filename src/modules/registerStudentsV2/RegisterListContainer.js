@@ -232,6 +232,7 @@ class RegisterListContainer extends React.Component {
                                     <CreateRegisterOverlay
                                         className="btn btn-white btn-round btn-icon"
                                         onSuccess={() => {
+                                            store.loadRegisters();
                                         }}
                                     />
                                 </div>
