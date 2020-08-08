@@ -9,7 +9,7 @@ import * as createRegisterActions from "../../registerStudents/createRegisterAct
 import FormInputText from "../../../components/common/FormInputText";
 import MemberReactSelectOption from "../../registerStudents/MemberReactSelectOption";
 import MemberReactSelectValue from "../../registerStudents/MemberReactSelectValue";
-import {GENDER, STATUS_REFS} from "../../../constants/constants";
+import {DATE_FORMAT_SQL, DATE_VN_FORMAT, GENDER, STATUS_REFS} from "../../../constants/constants";
 import ReactSelect from "react-select";
 import {dotNumber, isEmptyInput, showTypeNotification, sortCoupon} from "../../../helpers/helper";
 import * as studentActions from "../studentActions";
@@ -21,6 +21,7 @@ import StatusesOverlay from "./StatusesOverlay";
 import SourceOverlay from "./SourceOverlay";
 import MarketingCampaignOverlay from "./MarketingCampaignOverlay";
 import CreateCouponOverlay from "./CreateCouponOverlay";
+import moment from "moment";
 
 
 function getSelectSaler(items) {
@@ -78,12 +79,18 @@ function getSelectClass(items) {
 class CreateRegisterOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
+        let dob =  this.props.student.dob ?
+            moment(this.props.student.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : '';
+        console.log(dob);
         this.initState = {
             show: false,
             showModal: false,
             coursePrice: 0,
             register: {
-                ...this.props.student, ...this.props.studentData,
+                ...this.props.student,
+                ...this.props.studentData,
+                dob,
+
                 coupons: [],
                 saler_id: this.props.user && this.props.user.id
             },
@@ -594,9 +601,8 @@ class CreateRegisterOverlay extends React.Component {
                                                 placeholder="Chọn giới tính"
                                             /></div>
                                         <div>
-                                            <label>Ngày sinh</label>
+                                            <label>Ngày sinh(mm/dd/yyyy)</label>
                                             <FormInputText
-                                                placeholder="dd/mm/yyyy"
                                                 value={register.dob}
                                                 updateFormData={this.updateFormData}
                                                 id="form-change-dob"

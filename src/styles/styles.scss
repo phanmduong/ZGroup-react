@@ -766,6 +766,10 @@ $starInactive: #c4c5c6;
 .text-align-left {
   text-align: left !important;
 }
+.required-label:after {
+  color: #c50000;
+  content: ' *';
+}
 
 .text-align-right {
   text-align: right !important;
@@ -5013,7 +5017,18 @@ input[type=date]::-webkit-outer-spin-button {
 .modal-header {
   button.close {
     transform: scale(1.5);
+    border: 1px solid;
+    border-radius: 50%;
+    width: 13px;
+    height: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    span{
+      margin-top: -1.5px;
+    }
   }
+  min-height: 40px;
 }
 
 $ct-series-colors: (
