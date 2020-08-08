@@ -112,7 +112,8 @@ class ExtraRegisterOverlay extends React.Component {
     render() {
         let {isChangingStatusCall, register} = this.props;
         // let {isLoading} = this.state;
-        let refundable = register && register.total_lesson_done < register.total_lesson;
+        let refundable = register && register.money > 0 ;
+        if(register)console.log(refundable, this.props.openModalRefund,register.money ,register.total_lesson_done,register.total_lesson);
         return (
 
             <div style={{position: "relative"}} className="" ref="extraRegisterOverlay">
@@ -136,7 +137,7 @@ class ExtraRegisterOverlay extends React.Component {
                         left: 0,
                         // right:0
                     }}>
-                        {this.props.openModalRefund && register && register.money > 0 && refundable &&
+                        {this.props.openModalRefund && register && refundable &&
                         <button type="button"
                                 className="btn btn-white width-100"
                                 onClick={this.props.openModalRefund}>
