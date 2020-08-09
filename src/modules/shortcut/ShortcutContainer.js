@@ -9,7 +9,7 @@ const SHORTCUTS = [
         name: 'Học viên',
         description: 'Quản lý danh sách, thông tin chi tiết về học viên',
         color: '#F44236',
-        link: '/sales/registerlist',
+        link: '/sales/register-list',
         icon: 'school'
     },
     {
