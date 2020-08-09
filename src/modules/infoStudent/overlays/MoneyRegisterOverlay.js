@@ -53,7 +53,6 @@ class MoneyRegisterOverlay extends React.Component {
     };
     updateFormData = (event) => {
         const {name, value} = event.target;
-        console.log(name, value);
         let register = {...this.state.register};
 
         if (name == "money") {
@@ -160,7 +159,6 @@ class MoneyRegisterOverlay extends React.Component {
                 style = {backgroundColor: '#F7F5F7'};
             }
         }
-        console.log(this.props);
         return (
             <div style={{position: "relative"}} className="">
                 <button className="btn btn-actions" mask="money"

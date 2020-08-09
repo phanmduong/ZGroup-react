@@ -9,7 +9,7 @@ import * as createRegisterActions from "../../registerStudents/createRegisterAct
 import FormInputText from "../../../components/common/FormInputText";
 import MemberReactSelectOption from "../../registerStudents/MemberReactSelectOption";
 import MemberReactSelectValue from "../../registerStudents/MemberReactSelectValue";
-import {GENDER, STATUS_REFS} from "../../../constants/constants";
+import {DATE_FORMAT_SQL, DATE_VN_FORMAT, GENDER, STATUS_REFS} from "../../../constants/constants";
 import ReactSelect from "react-select";
 import {dotNumber, isEmptyInput, showTypeNotification, sortCoupon} from "../../../helpers/helper";
 import * as studentActions from "../studentActions";
@@ -21,6 +21,7 @@ import StatusesOverlay from "./StatusesOverlay";
 import SourceOverlay from "./SourceOverlay";
 import MarketingCampaignOverlay from "./MarketingCampaignOverlay";
 import CreateCouponOverlay from "./CreateCouponOverlay";
+import moment from "moment";
 
 
 function getSelectSaler(items) {
@@ -78,12 +79,17 @@ function getSelectClass(items) {
 class CreateRegisterOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
+        let dob =  this.props.student.dob ?
+            moment(this.props.student.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : '';
         this.initState = {
             show: false,
             showModal: false,
             coursePrice: 0,
             register: {
-                ...this.props.student, ...this.props.studentData,
+                ...this.props.student,
+                ...this.props.studentData,
+                dob,
+
                 coupons: [],
                 saler_id: this.props.user && this.props.user.id
             },
@@ -118,14 +124,12 @@ class CreateRegisterOverlay extends React.Component {
     }
 
     componentDidMount() {
-        // console.log(this.state.register);
         if (this.state.register.class_id) {
             this.props.createRegisterActions.loadClassesByCourse(this.state.register.course_id);
         }
     }
 
     componentWillReceiveProps(nextProps) {
-
         if (this.props.student && nextProps.student && (this.props.student.id != nextProps.student.id)) {
             this.setState({
                 register: {...this.state.register, ...nextProps.student},
@@ -140,7 +144,6 @@ class CreateRegisterOverlay extends React.Component {
     // };
     updateFormData = (event) => {
         const {name, value} = event.target;
-        // console.log((name, value));
         let register = {...this.state.register};
         register[name] = value;
         this.setState({register});
@@ -193,7 +196,6 @@ class CreateRegisterOverlay extends React.Component {
         let register = {...this.state.register};
         register["status_id"] = e ? e.id : e;
         // register["status"] = e;
-        console.log(e, register);
         this.setState({register});
     };
     updateBase = (e) => {
@@ -251,13 +253,13 @@ class CreateRegisterOverlay extends React.Component {
         e.preventDefault();
     };
 
-    toggle = () => {
-        this.setState({show: !this.state.show});
-        if (this.props.onShow && !this.state.show) {
-
-            this.props.onShow();
-        }
-    };
+    // toggle = () => {
+    //     this.setState({show: !this.state.show});
+    //     if (this.props.onShow && !this.state.show) {
+    //
+    //         this.props.onShow();
+    //     }
+    // };
 
 
     close = () => {
@@ -309,6 +311,10 @@ class CreateRegisterOverlay extends React.Component {
 
     showModal = () => {
         this.setState({showModal: true});
+            if (this.props.onShow) {
+
+                this.props.onShow();
+            }
     };
 
     render() {
@@ -594,9 +600,8 @@ class CreateRegisterOverlay extends React.Component {
                                                 placeholder="Chọn giới tính"
                                             /></div>
                                         <div>
-                                            <label>Ngày sinh</label>
+                                            <label>Ngày sinh(mm/dd/yyyy)</label>
                                             <FormInputText
-                                                placeholder="dd/mm/yyyy"
                                                 value={register.dob}
                                                 updateFormData={this.updateFormData}
                                                 id="form-change-dob"
@@ -716,7 +721,10 @@ CreateRegisterOverlay.propTypes = {
 
 function mapStateToProps(state) {
     const {
-        bases, isSavingRegister, sources, isLoading, isLoadingSources, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces,
+        bases, isSavingRegister, sources, isLoading,
+        isLoadingSources, register, courses,
+        classes, isLoadingCourses, campaigns,
+        isLoadingCampaigns, provinces,
         isLoadedCourses,
         isLoadedCampaigns,
         isLoadedSources,

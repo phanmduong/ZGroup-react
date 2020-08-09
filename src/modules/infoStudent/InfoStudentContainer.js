@@ -8,8 +8,7 @@ import {isEmptyInput} from '../../helpers/helper';
 import {Modal} from 'react-bootstrap';
 import FormInputText from '../../components/common/FormInputText';
 import ChangePassword from "./ChangePassword";
-import {GENDER, STATUS_REFS} from "../../constants/constants";
-import FormInputDate from "../../components/common/FormInputDate";
+import {DATE_FORMAT_SQL, DATE_VN_FORMAT, GENDER, STATUS_REFS} from "../../constants/constants";
 import ReactSelect from "react-select";
 import * as createRegisterActions from "../registerStudents/createRegisterActions";
 import Loading from "../../components/common/Loading";
@@ -27,7 +26,7 @@ import PicOverlay from "./overlays/PicOverlay";
 import StatusesOverlay from "./overlays/StatusesOverlay";
 import UploadManyImages from "../../components/common/UploadManyImages";
 import MockExamsContainer from "./mockExams/MockExamsContainer";
-
+import moment from "moment";
 
 class InfoStudentContainer extends React.Component {
     constructor(props, context) {
@@ -127,10 +126,13 @@ class InfoStudentContainer extends React.Component {
     }
 
     openModal() {
+        let dob =  this.props.student.dob ?
+            moment(this.props.student.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : '';
+        console.log(dob);
         this.setState(
             {
                 showModal: true,
-                student: this.props.student
+                student: {...this.props.student,dob}
             }
         );
     }
@@ -597,13 +599,20 @@ class InfoStudentContainer extends React.Component {
                                     onChange={this.updateGender}
                                     placeholder="Chọn giới tính"
                                 />
-                                <label>Chọn ngày sinh</label>
-                                <FormInputDate
-                                    placeholder="Chọn ngày sinh"
+                                <label>Chọn ngày sinh (mm/dd/yyyy)</label>
+                                {/*<FormInputDate*/}
+                                {/*    placeholder="Chọn ngày sinh"*/}
+                                {/*    value={this.state.student.dob}*/}
+                                {/*    updateFormData={this.updateFormData}*/}
+                                {/*    id="form-change-dob"*/}
+                                {/*    name="dob"*/}
+                                {/*/>*/}
+                                <FormInputText
                                     value={this.state.student.dob}
                                     updateFormData={this.updateFormData}
                                     id="form-change-dob"
                                     name="dob"
+                                    type="date"
                                 />
                                 <label>Địa chỉ</label>
                                 <ReactSelect

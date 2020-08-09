@@ -74,6 +74,8 @@ export const store = new class TargetPersonStore {
             {value: '', label: 'Tất cả',},
             {value: 'active', label: 'Hoạt động',},
             {value: 'waiting', label: 'Chờ',},
+            {value: 'solo', label: 'Lớp 1-1',},
+            {value: 'business', label: 'Lớp doanh nghiệp',},
         ],
         tele_call_statuses: [
             {value: '', label: 'Tất cả',},

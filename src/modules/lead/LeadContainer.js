@@ -365,7 +365,7 @@ class LeadContainer extends React.Component {
     };
 
     loadData = (page = 1) => {
-        this.setState({page: page});
+        this.setState({page, isAll: false});
         this.props.leadActions.getLeads({
             ...this.state,
             page,
@@ -634,10 +634,10 @@ class LeadContainer extends React.Component {
 
     onChangeAll = event => {
         this.setState({isAll: event.target.checked});
-        this.changeStatusAll(event.target.checked, this.props);
+        this.changeStatusAll(event.target.checked, this.props, true);
     };
 
-    changeStatusAll = (status, props) => {
+    changeStatusAll = (status, props, currentPageOnly) => {
         let leads = props.leads.map((lead) => {
             return {
                 ...lead,
@@ -645,9 +645,10 @@ class LeadContainer extends React.Component {
             };
         });
         let selectedLeads = this.state.selectedLeads.map((lead) => {
+            let checked = (leads.filter(l => l.id == lead.id)[0] && currentPageOnly) ? status : lead.status;
             return {
                 ...lead,
-                checked: status
+                checked,
             };
         });
         leads.map((lead) => {
@@ -1258,6 +1259,8 @@ class LeadContainer extends React.Component {
                     currentPage={this.state.page}
                     isDistribution={this.state.isDistribution}
                     selectedLeads={this.state.selectedLeads}
+                    isAll={this.state.isAll}
+                    onChangeAll={this.onChangeAll}
                     changeStatusLead={this.changeStatusLead}
                     openCreateRegisterModal={this.openCreateRegisterModal}
                     // removeLead={this.props.route.type === "my-leads" ? this.removeLead : null}

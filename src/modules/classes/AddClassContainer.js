@@ -245,7 +245,7 @@ class AddClassContainer extends React.Component {
     }
 
     checkValidate() {
-        let {study_time, course_id, schedule_id, datestart, room_id, type} = this.props.class;
+        let { course_id, schedule_id, datestart, room_id, type} = this.props.class;
         helper.setFormValidation("#form-add-class");
         if ($("#form-add-class").valid()) {
             if (helper.isEmptyInput(datestart)) {
@@ -264,10 +264,10 @@ class AddClassContainer extends React.Component {
                 helper.showTypeNotification("Vui lòng chọn môn học", "warning");
                 return false;
             }
-            if (helper.isEmptyInput(study_time)) {
-                helper.showTypeNotification("Vui lòng giờ học", "warning");
-                return false;
-            }
+            // if (helper.isEmptyInput(study_time)) {
+            //     helper.showTypeNotification("Vui lòng giờ học", "warning");
+            //     return false;
+            // }
             if (helper.isEmptyInput(type)) {
                 helper.showTypeNotification("Vui lòng chọn thể loại lớp", "warning");
                 return false;
@@ -322,7 +322,7 @@ class AddClassContainer extends React.Component {
                     <form id="form-add-class" className="form-grey" onSubmit={(e) => {
                         e.preventDefault();
                     }}>
-                        <label>Chọn môn</label>
+                        <label className="required-label">Chọn môn</label>
                         <Select
                             name="form-field-name"
                             value={course_id}
@@ -341,7 +341,7 @@ class AddClassContainer extends React.Component {
                                 );
                             }}
                         />
-                        <label>Chọn phòng học</label>
+                        <label className="required-label">Chọn phòng học</label>
                         <SelectDropdown
                             options={this.state.optionsSelectRoom}
                             onChange={(value) => this.changeRoom(value)}
@@ -350,13 +350,13 @@ class AddClassContainer extends React.Component {
                             isPaddingLeft
                             className="form-grey-select"
                         />
-                        <label>Tên lớp học</label>
+                        <label className="required-label">Tên lớp học</label>
                         <FormInputText
 
                             name="name"
                             updateFormData={this.updateFormData}
                             value={name}
-                            required={true}
+                            required
                             type="text"
                         />
                         <label>Mô tả ngắn</label>
@@ -367,7 +367,7 @@ class AddClassContainer extends React.Component {
                             value={description}
                             type="text"
                         />
-                        <label>Số học viên tối đa</label>
+                        <label className="required-label">Số học viên tối đa</label>
                         <FormInputText
                             label=""
                             name="target"
@@ -377,10 +377,10 @@ class AddClassContainer extends React.Component {
                                 }
                             }}
                             value={target}
-                            required={true}
+                            required
                             type="text"
                         />
-                        <label>Số đăng kí tối đa</label>
+                        <label className="required-label">Số đăng kí tối đa</label>
                         <FormInputText
                             label=""
                             name="regis_target"
@@ -390,10 +390,10 @@ class AddClassContainer extends React.Component {
                                 }
                             }}
                             value={regis_target}
-                            required={true}
+                            required
                             type="text"
                         />
-                        <label>Lịch học</label>
+                        <label className="required-label">Lịch học</label>
                         <div style={{display: "flex", alignItems: "center"}}>
                             <div style={{width: "100%"}}
                             >
@@ -457,7 +457,7 @@ class AddClassContainer extends React.Component {
                             id="form-enroll-date-end"
                         />
 
-                        <label className="label-control">Thể loại lớp</label>
+                        <label className="label-control required-label">Thể loại lớp</label>
                         <Select
                             name="form-field-name"
                             value={type}
@@ -481,7 +481,7 @@ class AddClassContainer extends React.Component {
                                 this.updateFormData(event);
                             }}
                             value={study_time}
-                            required={true}
+                            // required
                             type="text"
                         />
 

@@ -19,7 +19,8 @@ import * as studentActions from "../infoStudent/studentActions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as leadActions from "./leadActions";
-
+import {DATE_FORMAT_SQL, DATE_VN_FORMAT} from "../../constants/constants";
+import moment from "moment";
 
 //import TooltipButton from "../../components/common/TooltipButton";
 const TAGS = [
@@ -86,8 +87,16 @@ class ListLead extends React.Component {
                         <table className="table">
                             <thead className="text-rose">
                             <tr>
-                                {this.props.isDistribution && <th/>}
-                                <th/>
+                                {this.props.isDistribution && <th>
+                                    <div className="form-group">
+                                        <Checkbox
+                                            onChange={this.props.onChangeAll}
+                                            name="isAll"
+                                            checked={this.props.isAll}
+                                        />
+                                    </div>
+                                </th>}
+                                {this.props.isDistribution ? <th>Chọn cả trang</th> : <th/>}
                                 <th>Họ tên</th>
                                 <th>Nguồn</th>
                                 <th>Trạng thái</th>
@@ -301,7 +310,13 @@ class ListLead extends React.Component {
                                                             <i className="material-icons">delete</i>
                                                         </a>}
                                                         {!this.props.showSelectedLead && <CreateRegisterOverlay
-                                                            onShow={() => this.props.studentActions.setInfoStudent(lead)}
+                                                            onShow={() => {
+                                                                let student = {
+                                                                    ...lead,
+                                                                    dob: lead.dob ? moment(lead.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : ''
+                                                                };
+                                                                this.props.studentActions.setInfoStudent(student);
+                                                            }}
                                                             className="register-lead-overlay cursor-pointer"
                                                             direction="right"
                                                         ><i className="material-icons">add</i>
