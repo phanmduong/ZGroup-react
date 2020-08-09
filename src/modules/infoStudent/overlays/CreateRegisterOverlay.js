@@ -81,7 +81,6 @@ class CreateRegisterOverlay extends React.Component {
         super(props, context);
         let dob =  this.props.student.dob ?
             moment(this.props.student.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : '';
-        console.log(dob);
         this.initState = {
             show: false,
             showModal: false,
@@ -125,14 +124,12 @@ class CreateRegisterOverlay extends React.Component {
     }
 
     componentDidMount() {
-        // console.log(this.state.register);
         if (this.state.register.class_id) {
             this.props.createRegisterActions.loadClassesByCourse(this.state.register.course_id);
         }
     }
 
     componentWillReceiveProps(nextProps) {
-
         if (this.props.student && nextProps.student && (this.props.student.id != nextProps.student.id)) {
             this.setState({
                 register: {...this.state.register, ...nextProps.student},
@@ -147,7 +144,6 @@ class CreateRegisterOverlay extends React.Component {
     // };
     updateFormData = (event) => {
         const {name, value} = event.target;
-        // console.log((name, value));
         let register = {...this.state.register};
         register[name] = value;
         this.setState({register});
@@ -200,7 +196,6 @@ class CreateRegisterOverlay extends React.Component {
         let register = {...this.state.register};
         register["status_id"] = e ? e.id : e;
         // register["status"] = e;
-        console.log(e, register);
         this.setState({register});
     };
     updateBase = (e) => {
@@ -258,13 +253,13 @@ class CreateRegisterOverlay extends React.Component {
         e.preventDefault();
     };
 
-    toggle = () => {
-        this.setState({show: !this.state.show});
-        if (this.props.onShow && !this.state.show) {
-
-            this.props.onShow();
-        }
-    };
+    // toggle = () => {
+    //     this.setState({show: !this.state.show});
+    //     if (this.props.onShow && !this.state.show) {
+    //
+    //         this.props.onShow();
+    //     }
+    // };
 
 
     close = () => {
@@ -316,6 +311,10 @@ class CreateRegisterOverlay extends React.Component {
 
     showModal = () => {
         this.setState({showModal: true});
+            if (this.props.onShow) {
+
+                this.props.onShow();
+            }
     };
 
     render() {
@@ -722,7 +721,10 @@ CreateRegisterOverlay.propTypes = {
 
 function mapStateToProps(state) {
     const {
-        bases, isSavingRegister, sources, isLoading, isLoadingSources, register, courses, classes, isLoadingCourses, campaigns, isLoadingCampaigns, provinces,
+        bases, isSavingRegister, sources, isLoading,
+        isLoadingSources, register, courses,
+        classes, isLoadingCourses, campaigns,
+        isLoadingCampaigns, provinces,
         isLoadedCourses,
         isLoadedCampaigns,
         isLoadedSources,
