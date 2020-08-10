@@ -510,7 +510,77 @@ class RegisterListContainer extends React.Component {
                         </li>);
                     })}
                 </ul>
-
+                <div className="row">
+                    <div className="col-sm-4">
+                        <div className={"flex"}>
+                            <div
+                                style={{
+                                    background: '#ffffff',
+                                    border: 'solid 1px',
+                                    height: '15px',
+                                    width: '30px',
+                                    margin: '3px 10px'
+                                }}/>
+                            <p> Chưa đóng tiền</p>
+                        </div>
+                    </div>
+                    <div className="col-sm-4">
+                        <div className={"flex"}>
+                            <div style={{
+                                background: '#dff0d8',
+                                height: '15px',
+                                width: '30px',
+                                margin: '3px 10px'
+                            }}/>
+                            <p>Đã nộp tiền</p>
+                        </div>
+                    </div>
+                    <div className="col-sm-4">
+                        <div className={"flex"}>
+                            <div
+                                style={{
+                                    background: '#fcf8e3',
+                                    height: '15px',
+                                    width: '30px',
+                                    margin: '3px 10px'
+                                }}/>
+                            <p>Danh sách chờ</p>
+                        </div>
+                    </div>
+                    <div className="col-sm-4">
+                        <div className={"flex"}>
+                            <div style={{
+                                background: '#f2dede',
+                                height: '15px',
+                                width: '30px',
+                                margin: '3px 10px'
+                            }}/>
+                            <p> Đang bảo lưu</p>
+                        </div>
+                    </div>
+                    <div className="col-sm-4">
+                        <div className={"flex"}>
+                            <div style={{
+                                background: '#daedf7',
+                                height: '15px',
+                                width: '30px',
+                                margin: '3px 10px'
+                            }}/>
+                            <p>Đang học lại</p>
+                        </div>
+                    </div>
+                    <div className="col-sm-4">
+                        <div className={"flex"}>
+                            <div style={{
+                                background: '#8c8c8c',
+                                height: '15px',
+                                width: '30px',
+                                margin: '3px 10px'
+                            }}/>
+                            <p>Đã học xong</p>
+                        </div>
+                    </div>
+                </div>
                 <div>
                     {isLoading && <Loading/>}
                     {!isLoading && <RegisterList/>}

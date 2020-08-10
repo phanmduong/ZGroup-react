@@ -21,8 +21,8 @@ class ListGen extends React.Component {
                         <th>Tên</th>
                         <th>Bắt đầu</th>
                         <th>Kết thúc</th>
-                        <th>Tuyển sinh</th>
-                        <th>Hiện tại</th>
+                        <th>Đang tuyển sinh</th>
+                        <th>Đang dạy</th>
                         <th/>
                     </tr>
                     </thead>
@@ -82,26 +82,26 @@ class ListGen extends React.Component {
 
                                                     </ul>
                                                 </div>}
-                                                {this.props.user.role == 2 &&
-                                                <div className="dropdown">
-                                                    <TooltipButton text="Lương" placement="top">
-                                                        <button className="btn btn-rose btn-round btn-xs button-add none-margin" type="button" data-toggle="dropdown">
-                                                            <i className="material-icons" style={{
-                                                                width: 14,
-                                                                marginLeft: -4,
-                                                                paddingTop: 2,
-                                                            }}>file_download</i>
-                                                        </button>
-                                                    </TooltipButton>
-                                                    <ul className="dropdown-menu dropdown-primary">
-                                                        {/*<li>*/}
-                                                            {/*<a onClick={() => {}}>Giảng viên</a>*/}
-                                                        {/*</li>*/}
-                                                        <li>
-                                                            <a onClick={() => this.props.getSalarySales(gen.id)}>Sales</a>
-                                                        </li>
-                                                    </ul>
-                                                </div>}
+                                                {/*{this.props.user.role == 2 &&*/}
+                                                {/*<div className="dropdown">*/}
+                                                {/*    <TooltipButton text="Lương" placement="top">*/}
+                                                {/*        <button className="btn btn-rose btn-round btn-xs button-add none-margin" type="button" data-toggle="dropdown">*/}
+                                                {/*            <i className="material-icons" style={{*/}
+                                                {/*                width: 14,*/}
+                                                {/*                marginLeft: -4,*/}
+                                                {/*                paddingTop: 2,*/}
+                                                {/*            }}>file_download</i>*/}
+                                                {/*        </button>*/}
+                                                {/*    </TooltipButton>*/}
+                                                {/*    <ul className="dropdown-menu dropdown-primary">*/}
+                                                {/*        /!*<li>*!/*/}
+                                                {/*            /!*<a onClick={() => {}}>Giảng viên</a>*!/*/}
+                                                {/*        /!*</li>*!/*/}
+                                                {/*        <li>*/}
+                                                {/*            <a onClick={() => this.props.getSalarySales(gen.id)}>Sales</a>*/}
+                                                {/*        </li>*/}
+                                                {/*    </ul>*/}
+                                                {/*</div>}*/}
                                             </div>
                                         }
                                     />

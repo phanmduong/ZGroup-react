@@ -7,14 +7,11 @@ import FormInputText from '../../../components/common/FormInputText';
 import * as helper from '../../../helpers/helper';
 // import MemberReactSelectOption from "../../tasks/board/filter/MemberReactSelectOption";
 // import MemberReactSelectValue from "../../tasks/board/filter/MemberReactSelectValue";
-import ReactSelect from 'react-select';
 import {CirclePicker} from 'react-color';
 // import ReactEditor from '../../../components/common/ReactEditor';
 // import {linkUploadImageEditor} from '../../../constants/constants';
 import Loading from "../../../components/common/Loading";
 import ImageUploader from "../../../components/common/ImageUploader";
-import TooltipButton from "../../../components/common/TooltipButton";
-import CategoriesModal from "./CategoriesModal";
 
 
 class coursesCreateEditGeneral extends React.Component {
@@ -57,7 +54,7 @@ class coursesCreateEditGeneral extends React.Component {
     onSaveSuccess = () => {
         this.props.closeModalEdit();
         this.props.coursesActions.loadCourses();
-    }
+    };
 
     updateEditor(content) {
         let data = {...this.state.data};
@@ -69,7 +66,7 @@ class coursesCreateEditGeneral extends React.Component {
         let data = {...this.state.data};
         data.short_detail = content;
         this.setState({data});
-    }
+    };
 
     uploadAvatar(url) {
         let data = {...this.state.data};
@@ -133,22 +130,23 @@ class coursesCreateEditGeneral extends React.Component {
         return (
             <form role="form" id="form-course-create-edit" onSubmit={e => e.preventDefault()}>
                 <div className="row">
-                    <CategoriesModal
-                        showModal={this.state.showCategoryModal}
-                        close={() => this.setState({showCategoryModal: false})}
-                    />
+                    {/*<CategoriesModal*/}
+                    {/*    showModal={this.state.showCategoryModal}*/}
+                    {/*    close={() => this.setState({showCategoryModal: false})}*/}
+                    {/*/>*/}
                     <div className="col-md-8">
                         <div className="card">
                             <div className="card-content">
                                 {
 
-                                    <div>
+                                    <div className="form-grey">
 
                                         <div className="row">
 
                                             <div className="col-md-12">
+                                                <label>Tên môn học</label>
                                                 <FormInputText
-                                                    label="Tên môn học"
+                                                    label=""
                                                     required
                                                     name="name"
                                                     updateFormData={this.updateFormData}
@@ -165,8 +163,9 @@ class coursesCreateEditGeneral extends React.Component {
                                             {/*value={this.state.data.duration}*/}
                                             {/*/></div>*/}
                                             <div className="col-md-12">
+                                                <label>Giá</label>
                                                 <FormInputText
-                                                    label="Giá"
+                                                    label=""
                                                     required
                                                     name="price"
                                                     updateFormData={this.updateFormData}
@@ -175,28 +174,32 @@ class coursesCreateEditGeneral extends React.Component {
                                             </div>
 
                                             <div className="col-md-12">
+                                                <label>Mô tả ngắn</label>
                                                 <FormInputText
-                                                    label="Mô tả ngắn"
+                                                    label=""
                                                     required
                                                     name="description"
                                                     updateFormData={this.updateFormData}
                                                     value={this.state.data.description}
                                                 /></div>
                                             <div className="col-md-12">
+                                                <label>Landing Page URL</label>
                                                 <FormInputText
-                                                    label="Landing Page URL"
+                                                    label=""
                                                     name="landingpage_url"
                                                     updateFormData={this.updateFormData}
                                                     value={this.state.data.landingpage_url}
                                                 /></div>
                                             <div className="col-md-12">
+                                                <label>Front Image</label>
                                                 <FormInputText
-                                                    label="Front Image"
+                                                    label=""
                                                     name="front_image"
                                                     updateFormData={this.updateFormData}
                                                     value={this.state.data.front_image}
                                                 /></div>
                                             <div className="col-md-12">
+                                                <label>Back Image</label>
                                                 <FormInputText
                                                     label="Back Image"
                                                     name="back_image"
@@ -204,71 +207,75 @@ class coursesCreateEditGeneral extends React.Component {
                                                     value={this.state.data.back_image}
                                                 /></div>
                                             <div className="col-md-6">
+                                                <label>Link tải phần mềm trên Windows</label>
                                                 <FormInputText
-                                                    label="Link tải phần mềm trên Windows"
+                                                    label=""
                                                     name="linkwindow"
                                                     updateFormData={this.updateFormData}
                                                     value={this.state.data.linkwindow}
                                                 /></div>
                                             <div className="col-md-6">
+                                                <label>Link hướng dẫn trên Windows</label>
                                                 <FormInputText
-                                                    label="Link hướng dẫn trên Windows"
+                                                    label=""
                                                     name="window_how_install"
                                                     updateFormData={this.updateFormData}
                                                     value={this.state.data.window_how_install}
                                                 />
                                             </div>
                                             <div className="col-md-6">
+                                                <label>Link tải phần mềm trên Mac</label>
                                                 <FormInputText
-                                                    label="Link tải phần mềm trên Mac"
+                                                    label=""
                                                     name="linkmac"
                                                     updateFormData={this.updateFormData}
                                                     value={this.state.data.linkmac}
                                                 /></div>
                                             <div className="col-md-6">
+                                                <label>Link hướng dẫn trên Mac</label>
                                                 <FormInputText
-                                                    label="Link hướng dẫn trên Mac"
+                                                    label=""
                                                     name="mac_how_install"
                                                     updateFormData={this.updateFormData}
                                                     value={this.state.data.mac_how_install}
                                                 />
                                             </div>
-                                            <div className="col-md-6">
-                                                <label>
-                                                    Category
-                                                </label>
-                                                <div style={{display: "flex", alignItems: "center"}}>
-                                                    <div style={{width: "100%"}}
-                                                    >
-                                                        <ReactSelect
-                                                            placeholder="Nhập nhãn"
-                                                            value={this.state.data.categories}
-                                                            name="categories"
-                                                            // valueComponent={MemberReactSelectValue}
-                                                            // optionComponent={MemberReactSelectOption}
-                                                            options={this.props.categories}
-                                                            onChange={this.onCategoryChange}
-                                                        /></div>
-                                                    <TooltipButton text="Thêm category" placement="top">
-                                                        <button onClick={() => this.setState({showCategoryModal: true})}
-                                                                className="btn btn-rose btn-round btn-xs button-add none-margin">
-                                                            <strong>+</strong>
-                                                        </button>
-                                                    </TooltipButton>
-                                                </div>
-                                            </div>
-                                            <div className="col-md-6">
-                                                <label>
-                                                    Hình thức
-                                                </label>
-                                                <ReactSelect
-                                                    name="type_id"
-                                                    options={this.props.types}
-                                                    onChange={this.updateFormData}
-                                                    value={this.state.data.type_id || ""}
-                                                    defaultMessage="Tuỳ chọn"
-                                                />
-                                            </div>
+                                            {/*<div className="col-md-6">*/}
+                                            {/*    <label>*/}
+                                            {/*        Category*/}
+                                            {/*    </label>*/}
+                                            {/*    <div style={{display: "flex", alignItems: "center"}}>*/}
+                                            {/*        <div style={{width: "100%"}}*/}
+                                            {/*        >*/}
+                                            {/*            <ReactSelect*/}
+                                            {/*                placeholder="Nhập nhãn"*/}
+                                            {/*                value={this.state.data.categories}*/}
+                                            {/*                name="categories"*/}
+                                            {/*                // valueComponent={MemberReactSelectValue}*/}
+                                            {/*                // optionComponent={MemberReactSelectOption}*/}
+                                            {/*                options={this.props.categories}*/}
+                                            {/*                onChange={this.onCategoryChange}*/}
+                                            {/*            /></div>*/}
+                                            {/*        <TooltipButton text="Thêm category" placement="top">*/}
+                                            {/*            <button onClick={() => this.setState({showCategoryModal: true})}*/}
+                                            {/*                    className="btn btn-rose btn-round btn-xs button-add none-margin">*/}
+                                            {/*                <strong>+</strong>*/}
+                                            {/*            </button>*/}
+                                            {/*        </TooltipButton>*/}
+                                            {/*    </div>*/}
+                                            {/*</div>*/}
+                                            {/*<div className="col-md-6">*/}
+                                            {/*    <label>*/}
+                                            {/*        Hình thức*/}
+                                            {/*    </label>*/}
+                                            {/*    <ReactSelect*/}
+                                            {/*        name="type_id"*/}
+                                            {/*        options={this.props.types}*/}
+                                            {/*        onChange={this.updateFormData}*/}
+                                            {/*        value={this.state.data.type_id || ""}*/}
+                                            {/*        defaultMessage="Tuỳ chọn"*/}
+                                            {/*    />*/}
+                                            {/*</div>*/}
                                         </div>
                                     </div>
 
@@ -295,13 +302,12 @@ class coursesCreateEditGeneral extends React.Component {
                                  aria-labelledby="headingTwo"
                                  aria-expanded="false"
                                  style={{height: '0px'}}>
-                                <div className="panel-body" style={{paddingLeft: 20, paddingRight: 20}}>
+                                <div className="panel-body form-grey" style={{paddingLeft: 20, paddingRight: 20}}>
                                     <div>
                                         <h4 className="card-title"><strong>Chi tiết khoá học</strong>
                                         </h4>
-                                        <br/>
                                         {this.props.isLoading ? <Loading/> :
-                                            <div>
+                                            <div className="form-group text-area-grey">
                                                 {/*{this.state.tabEditorDetail == 2 ?*/}
                                                 <div>
                                                     <textarea
@@ -324,9 +330,8 @@ class coursesCreateEditGeneral extends React.Component {
                                     <div className="">
                                         <h4 className="card-title"><strong>Chi tiết khác</strong>
                                         </h4>
-                                        <br/>
                                         {this.props.isLoading ? <Loading/> :
-                                            <div>
+                                            <div className="form-group text-area-grey">
                                                 {/*{this.state.tabEditorShortDetail == 2 ?*/}
                                                 <div>
                                                     <textarea
@@ -385,22 +390,22 @@ class coursesCreateEditGeneral extends React.Component {
                                                   onChangeComplete={this.changeColor}
                                     />
                                 </div>
+                                <div className="flex flex-end">
+                                    {this.props.isCommitting ?
+                                        <button className="btn btn-success disabled" type="button">
+                                            <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                        </button>
+                                        :
 
-                                {this.props.isCommitting ?
-                                    <button className="btn btn-success disabled" type="button">
-                                        <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                    </button>
-                                    :
 
+                                        <button
+                                            className="btn btn-fill btn-success"
+                                            type="button"
+                                            onClick={this.commitCourseData}
+                                        > Lưu </button>
 
-                                    <button
-                                        className="btn btn-fill btn-success"
-                                        type="button"
-                                        onClick={this.commitCourseData}
-                                    > Lưu </button>
-
-                                }
-
+                                    }
+                                </div>
 
                             </div>
                         </div>
