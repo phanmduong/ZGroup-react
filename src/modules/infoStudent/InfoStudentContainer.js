@@ -244,9 +244,9 @@ class InfoStudentContainer extends React.Component {
         this.setState({duplicate_leads, showModalDuplicateLeads: true});
     };
 
+    //cmnd quoc tich gioi tinh
+
     render() {
-
-
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
         const googleDriveImage = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1597133406dEa6rLqpNIunHoU.png';
         // let gender = GENDER.filter((item) => item.value == student.gender)[0];
@@ -313,6 +313,7 @@ class InfoStudentContainer extends React.Component {
                                         <div className="detail-wrap">
                                             {student.dob && <p>Ngày sinh<strong>{student.dob || "Chưa có"}</strong></p>}
                                             {student.age && <p>Tuổi<strong>{student.age || "Chưa có"}</strong></p>}
+                                            {student.gender && <p>Giới tính<strong>{student.gender || "Chưa có"}</strong></p>}
                                             {student.address &&
                                             <p>Địa chỉ<strong>{student.address || "Chưa có"}</strong></p>}
                                             {student.father_name &&
