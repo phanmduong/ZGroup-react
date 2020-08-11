@@ -129,6 +129,7 @@ class InfoStudentContainer extends React.Component {
         let dob = this.props.student.dob ?
             moment(this.props.student.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : '';
         console.log(dob);
+        console.log(this.props.student);
         this.setState(
             {
                 showModal: true,
@@ -249,10 +250,10 @@ class InfoStudentContainer extends React.Component {
     render() {
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
         const googleDriveImage = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1597133406dEa6rLqpNIunHoU.png';
-        // let gender = GENDER.filter((item) => item.value == student.gender)[0];
         let {student, studentActions, location} = this.props;
+        let gender = student ? GENDER.filter((g) => g.id == student.gender)[0] : null;
         let {duplicate_leads} = this.state;
-
+        console.log('gender',gender,student.gender);
         return (
             <div className={location ? "card" : ''}>
                 <div className={location ? "card-content" : ''}>
@@ -291,7 +292,6 @@ class InfoStudentContainer extends React.Component {
 
                                         <h6 className="category text-gray text-email">
                                             {student.email}
-
                                         </h6>
                                         <h6 className="category text-gray text-email">
                                             <span>{student.phone}</span>
@@ -312,16 +312,19 @@ class InfoStudentContainer extends React.Component {
                                     <div className="card-content">
                                         <div className="detail-wrap">
                                             {student.dob && <p>Ngày sinh<strong>{student.dob || "Chưa có"}</strong></p>}
-                                            {student.age && <p>Tuổi<strong>{student.age || "Chưa có"}</strong></p>}
-                                            {student.gender && <p>Giới tính<strong>{student.gender || "Chưa có"}</strong></p>}
+                                            {student.yob && <p>Năm sinh<strong>{student.yob || "Chưa có"}</strong></p>}
+                                            {/*{student.age && <p>Tuổi<strong>{student.age || "Chưa có"}</strong></p>}*/}
+                                            {student.identity_code && <p>CMND<strong>{student.identity_code || "Chưa có"}</strong></p>}
+                                            {student.nationality && <p>Quốc tịch<strong>{student.nationality || "Chưa có"}</strong></p>}
                                             {student.address &&
                                             <p>Địa chỉ<strong>{student.address || "Chưa có"}</strong></p>}
                                             {student.father_name &&
                                             <p>Phụ huynh<strong>{student.father_name || "Chưa có"}</strong></p>}
+                                            {student.mother_name &&
+                                            <p>Phụ huynh 2<strong>{student.mother_name || "Chưa có"}</strong></p>}
                                             {student.work &&
                                             <p>Nơi làm việc<strong>{student.work || "Chưa có"}</strong></p>}
-                                            {GENDER[student.gender] && <p>Giới
-                                                tính<strong>{GENDER[student.gender] == null ? "Khác" : GENDER[student.gender].name}</strong>
+                                            {gender && <p>Giới tính<strong>{gender.name}</strong>
                                             </p>}
                                             {student.university &&
                                             <p>Trường học<strong>{student.university || "Chưa có"}</strong></p>}
@@ -329,6 +332,8 @@ class InfoStudentContainer extends React.Component {
                                             <p>Ghi chú<strong>{student.note || "Chưa có"}</strong></p>}
                                             {student.facebook &&
                                             <p>Facebook<strong>{student.facebook || "Chưa có"}</strong></p>}
+                                            {student.interest && <p>Quan tâm<strong>{student.interest || "Chưa có"}</strong></p>}
+                                            {student.how_know && <p>Nhận biết<strong>{student.how_know || "Chưa có"}</strong></p>}
                                         </div>
                                         {this.props.isEditingStudent ?
                                             (
@@ -655,11 +660,40 @@ class InfoStudentContainer extends React.Component {
                                     value={this.state.student.father_name}
                                     updateFormData={this.updateFormData}
                                 />
+                                <label>Tên phụ huynh 2</label>
+                                <FormInputText
+                                    name="mother_name"
+                                    placeholder="Tên phụ huynh 2"
+                                    value={this.state.student.mother_name}
+                                    updateFormData={this.updateFormData}
+                                />
                                 <label>Trường học</label>
                                 <FormInputText
                                     name="university"
                                     placeholder="Trường học"
                                     value={this.state.student.university}
+                                    updateFormData={this.updateFormData}
+                                />
+                                <label>CMND</label>
+                                <FormInputText
+                                    name="identity_code"
+                                    placeholder="Chứng minh nhân dân"
+                                    value={this.state.student.identity_code}
+                                    updateFormData={this.updateFormData}
+                                />
+
+                                <label>Quốc tịch</label>
+                                <FormInputText
+                                    name="nationality"
+                                    placeholder="Quốc tịch"
+                                    value={this.state.student.nationality}
+                                    updateFormData={this.updateFormData}
+                                />
+                                <label>Quan tâm</label>
+                                <FormInputText
+                                    name="interest"
+                                    placeholder="Quan tâm"
+                                    value={this.state.student.interest}
                                     updateFormData={this.updateFormData}
                                 />
                                 <label>Nơi làm việc</label>

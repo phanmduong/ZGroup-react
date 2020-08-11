@@ -151,6 +151,7 @@ export function editStudent(student) {
         url += "?token=" + token;
     }
     return axios.post(url, {
+        ...student,
         id: student.id,
         name: student.name,
         email: student.email,
