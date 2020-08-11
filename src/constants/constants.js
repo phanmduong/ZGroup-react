@@ -761,7 +761,7 @@ export const googleAnalyticDimensions = {
     date: "ga:date",
 };
 
-export const allowedDateFormats = ['DD/MM/YYYY', 'D/M/YYYY', 'DD.MM.YYYY', 'D.M.YYYY', 'DD. MM. YYYY', 'D. M. YYYY',
+export const allowedDateFormats = ['DD/MM/YYYY', 'D/M/YYYY', 'DD.MM.YYYY', 'D.M.YYYY', 'DD. MM. YYYY', 'D. M. YYYY', "YYYY/MM/DD", "YYYY-MM-DD",
     'DD-MM-YYYY', 'D-M-YYYY', "DD-MM", "DD/MM", "MM/YYYY", "MM-YYYY", "M/YYYY", "M-YYYY", "M.YYYY", "MM.YYYY", "YYYY",
     "HH:mm DD/MM/YYYY", "HH:mm:ss DD/MM/YYYY", "HH:mm DD-MM-YYYY", "HH:mm:ss DD-MM-YYYY",
     "DD/MM/YYYY HH:mm", "DD/MM/YYYY HH:mm:ss", "DD-MM-YYYY HH:mm", "DD-MM-YYYY HH:mm:ss",
@@ -780,9 +780,14 @@ export const HISTORY_CARE_TYPES = {
         study_history: {name: 'Học tập trước đó', icon: 'hourglass_empty', color: '#fe874e'},
         note: {name: 'Ghi chú', icon: 'notes', color: '#4855d1'},
         appointment: {name: 'Hẹn gặp mặt', icon: 'face', color: '#4e9fb4'},
-        email: {name: 'Đã gửi Email tự động', icon: 'mail_outline', color: '#E25241', status:'Thành công'},
-        sms: {name: 'Đã gửi SMS tự động', icon: 'chat', color: '#32CA41', status:'Thành công'},
-        notification: {name: 'Đã gửi Notification tự động', icon: 'notifications', color: '#FFDB5A', status:'Thành công'},
+        email: {name: 'Đã gửi Email tự động', icon: 'mail_outline', color: '#E25241', status: 'Thành công'},
+        sms: {name: 'Đã gửi SMS tự động', icon: 'chat', color: '#32CA41', status: 'Thành công'},
+        notification: {
+            name: 'Đã gửi Notification tự động',
+            icon: 'notifications',
+            color: '#FFDB5A',
+            status: 'Thành công'
+        },
         null: {name: 'Thông tin', icon: 'info', color: 'grey'}
     }
 };
@@ -817,10 +822,31 @@ export const CIRCLE_PICKER_COLORS = [
 ];
 
 
-export const LESSON_EVENT_TYPES_OBJECT ={
-    book:{name:'Kiểm tra sách', type:'book', modalText:'KIỂM TRA SÁCH',placeholder:'Nhập nhận xét', progress_icon:'book', progress_bar_color:'#61a1f0'},
-    comment:{name:'Nhận xét', type:'comment', modalText: 'NHẬN XÉT',placeholder:'Nhập nhận xét', progress_icon:'comment', progress_bar_color:'#32ca41'},
-    writing:{name:'Bài viết', type:'writing', modalText: 'BÀI VIẾT',placeholder:'Nhập nhận xét', progress_icon:'subject', progress_bar_color:'#78a2d2'},
+export const LESSON_EVENT_TYPES_OBJECT = {
+    book: {
+        name: 'Kiểm tra sách',
+        type: 'book',
+        modalText: 'KIỂM TRA SÁCH',
+        placeholder: 'Nhập nhận xét',
+        progress_icon: 'book',
+        progress_bar_color: '#61a1f0'
+    },
+    comment: {
+        name: 'Nhận xét',
+        type: 'comment',
+        modalText: 'NHẬN XÉT',
+        placeholder: 'Nhập nhận xét',
+        progress_icon: 'comment',
+        progress_bar_color: '#32ca41'
+    },
+    writing: {
+        name: 'Bài viết',
+        type: 'writing',
+        modalText: 'BÀI VIẾT',
+        placeholder: 'Nhập nhận xét',
+        progress_icon: 'subject',
+        progress_bar_color: '#78a2d2'
+    },
 };
 export const LESSON_EVENT_TYPES_ARRAY = Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => LESSON_EVENT_TYPES_OBJECT[entry[0]].type);
 
@@ -853,9 +879,9 @@ export const DAY_CREATE_SHIFT = [
 ];
 
 export const REGISTER_CALL_STATUS_CLASS_NAMES = {
-    success :'btn-success',
-    failed :'btn-danger',
-    calling :'btn-info',
+    success: 'btn-success',
+    failed: 'btn-danger',
+    calling: 'btn-info',
 };
 
 
