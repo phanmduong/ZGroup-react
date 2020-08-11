@@ -12,6 +12,7 @@ export function loadRegisters(filter) {
         limit = 16,
         search = '',
         saler_id = '',
+        coupon_id = '',
         campaign_id = '',
         class_id = '',
         pay_status = '',
@@ -57,6 +58,7 @@ export function loadRegisters(filter) {
         "&bookmark=" + bookmark +
         "&register_status_id=" + register_status_id +
         "&source_id=" + source_id +
+        "&coupon_id=" + coupon_id +
         "&tele_call_status=" + tele_call_status
     ;
     if (!helper.isEmptyInput(start_time) && !helper.isEmptyInput(end_time)) {

@@ -4768,9 +4768,11 @@ input[type=search], .form-control {
     align-items: center;
     margin-left: 5px;
     font-size: 12px;
-    padding: 0px 15px;
+    padding: 0px 10px;
   }
-
+  .Select-multi-value-wrapper .Select-value{
+    justify-content: space-between;
+  }
   .Select-control, select {
     border: none;
     background-color: #f3f4f3 !important;

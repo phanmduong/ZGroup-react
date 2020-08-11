@@ -11,11 +11,12 @@ import {
 import {isEmptyInput, showErrorNotification, showNotification, showWarningNotification} from "../../helpers/helper";
 import {changeMarkRegister} from "../registerStudents/registerStudentsApi";
 import moment from "moment";
-import {DATE_FORMAT_SQL, STATUS_REFS} from "../../constants/constants";
+import {DATE_FORMAT_SQL, DISCOUNTYPE, STATUS_REFS} from "../../constants/constants";
 import {isEmpty} from "../../helpers/entity/mobx";
 import {NO_AVATAR} from "../../constants/env";
 import {loadGens} from "../dashboard/dashboardApi";
 import {parallel} from "async";
+import {loadDiscountsApi} from "../discount/dicountApis";
 
 const defaultSelectObject = {id :'', avatar_url: NO_AVATAR,name:'Tất cả', label:'Tất cả', value:''};
 const defaultEmptySelectObject = {id :'-1', avatar_url: NO_AVATAR, name:'Không có', label:'Không có', value:''};
@@ -36,6 +37,7 @@ const  const_filter = {
     base_id: '',
     appointment_payment: '',
     search_coupon: '',
+    coupon_id: '',
     search_note: '',
     tele_call_status: '',
     bookmark: '',
@@ -63,6 +65,7 @@ export const store = new class TargetPersonStore {
         marketing_campaigns: [],
         gens: [],
         courses: [],
+        coupons: [],
         sources: [],
         register_statuses: [],
         pay_statuses: [
@@ -273,7 +276,18 @@ export const store = new class TargetPersonStore {
                     callback(e, null);
                 });
             },
-
+            coupons: ()=>{
+                loadDiscountsApi({limit:-1}).then((res)=>{
+                    this.filter_data.coupons = res.data.coupons.map(c=>{
+                        let type = DISCOUNTYPE.filter(t => t.id == c.discount_type)[0] || {};
+                        let label = `${c.name} (-${c.discount_value}${type.suffix})`;
+                        return {
+                          ...c,
+                            value: c.id, label,
+                        };
+                    });
+                });
+            }
         }).then(() => {
         }).finally(() => {
             this.isLoading = false;

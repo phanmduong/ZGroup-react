@@ -126,13 +126,13 @@ class InfoStudentContainer extends React.Component {
     }
 
     openModal() {
-        let dob =  this.props.student.dob ?
+        let dob = this.props.student.dob ?
             moment(this.props.student.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : '';
         console.log(dob);
         this.setState(
             {
                 showModal: true,
-                student: {...this.props.student,dob}
+                student: {...this.props.student, dob}
             }
         );
     }
@@ -248,9 +248,11 @@ class InfoStudentContainer extends React.Component {
 
 
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
+        const googleDriveImage = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1597133406dEa6rLqpNIunHoU.png';
         // let gender = GENDER.filter((item) => item.value == student.gender)[0];
         let {student, studentActions, location} = this.props;
         let {duplicate_leads} = this.state;
+
         return (
             <div className={location ? "card" : ''}>
                 <div className={location ? "card-content" : ''}>
@@ -406,37 +408,60 @@ class InfoStudentContainer extends React.Component {
                                 <label className="bold color-black">Ảnh xác thực</label>
                                 <div className="card  margin-top-0" mask="transparent">
                                     <div className="father position-relative">
-                                        <TooltipButton text="Nhấp chọn ảnh" placement="top">
-                                            <img className="img-user"
+                                        <TooltipButton text="Chọn ảnh tải lên" placement="top">
+                                            {helper.checkThirdPartyImageUrl(student.image1) ?
+                                                <img className="img-user"
+                                                     style={{border:'solid 1px #ececec'}}
+                                                     onClick={() => this.handleFileUpload('image1')}
+                                                     src={googleDriveImage}/>
+                                                :
+                                                <img className="img-user"
                                                  onClick={() => this.handleFileUpload('image1')}
                                                  src={helper.validateLinkImage(student.image1, dfImg)}/>
+                                            }
                                         </TooltipButton>
-                                        {!helper.isEmptyInput(student.image1) &&
-                                        <TooltipButton text="Xem ảnh" placement="top">
-                                            <div className="son position-absolute cursor-pointer color-grey"
-                                                 style={{top: 5, right: 5}}
-                                                 onClick={() => this.openModalImageView(student.image1)}
-                                            >
-                                                <i className="material-icons">info</i>
-                                            </div>
+                                        {!helper.isEmptyInput(student.image1) && <TooltipButton text="Xem ảnh" placement="top">
+                                            {helper.checkThirdPartyImageUrl(student.image1) ?
+                                                <a className="son position-absolute cursor-pointer color-grey"
+                                                   href={student.image1} target="_blank"
+                                                   style={{top: 5, right: 5}}
+                                                ><i className="material-icons">info</i>
+                                                </a>
+                                                :
+                                                <img className="img-user"
+                                                     onClick={() => this.handleFileUpload('image1')}
+                                                     src={helper.validateLinkImage(student.image1, dfImg)}/>
+                                            }
                                         </TooltipButton>}
+
                                     </div>
 
 
                                     <div className="father position-relative">
-                                        <TooltipButton text="Nhấp chọn ảnh" placement="top">
-                                            <img className="img-user"
-                                                 onClick={() => this.handleFileUpload('image2')}
-                                                 src={helper.validateLinkImage(student.image2, dfImg)}/>
+                                        <TooltipButton text="Chọn ảnh tải lên" placement="top">
+                                            {helper.checkThirdPartyImageUrl(student.image2) ?
+                                                <img className="img-user"
+                                                     style={{border:'solid 1px #ececec'}}
+                                                     onClick={() => this.handleFileUpload('image2')}
+                                                     src={googleDriveImage}/>
+                                                :
+                                                <img className="img-user"
+                                                     onClick={() => this.handleFileUpload('image2')}
+                                                     src={helper.validateLinkImage(student.image2, dfImg)}/>
+                                            }
                                         </TooltipButton>
-                                        {!helper.isEmptyInput(student.image2) &&
-                                        <TooltipButton text="Xem ảnh" placement="top">
-                                            <div className="son position-absolute cursor-pointer color-grey"
-                                                 style={{top: 5, right: 5}}
-                                                 onClick={() => this.openModalImageView(student.image2)}
-                                            >
-                                                <i className="material-icons">info</i>
-                                            </div>
+                                        {!helper.isEmptyInput(student.image2) && <TooltipButton text="Xem ảnh" placement="top">
+                                            {helper.checkThirdPartyImageUrl(student.image2) ?
+                                                <a className="son position-absolute cursor-pointer color-grey"
+                                                   href={student.image2} target="_blank"
+                                                   style={{top: 5, right: 5}}
+                                                ><i className="material-icons">info</i>
+                                                </a>
+                                                :
+                                                <img className="img-user"
+                                                     onClick={() => this.handleFileUpload('image2')}
+                                                     src={helper.validateLinkImage(student.image2, dfImg)}/>
+                                            }
                                         </TooltipButton>}
                                     </div>
 
