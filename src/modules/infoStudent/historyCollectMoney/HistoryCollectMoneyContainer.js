@@ -68,11 +68,15 @@ class HistoryCollectMoneyContainer extends React.Component {
                                                         <i className="material-icons">create</i>&nbsp; &nbsp;
                                                         Ghi chú: {register.note}
                                                     </div>}
+                                                     <div className="flex-row-center">
+                                                        <i className="material-icons">account_box</i>&nbsp; &nbsp;
+                                                        <b>Hình thức: </b> {register.money < 0 ? 'Hoàn tiền' : 'Nộp tiền'}
+                                                    </div>
                                                     {
                                                         register.collector &&
                                                         <div className="flex-row-center">
                                                             <i className="material-icons">account_box
-                                                            </i>&nbsp; &nbsp; Người thu: {register.collector.name}
+                                                            </i>&nbsp; &nbsp; <b>Người thu:</b> {register.collector.name}
                                                         </div>
                                                     }
                                                     {register.coupons && register.coupons.map((coupon, i) => {
@@ -94,10 +98,10 @@ class HistoryCollectMoneyContainer extends React.Component {
                                                 </div>
                                                 <div className="timeline-heading margin-top-10">
                                                     <div className="flex-row-center">
-                                                        <button className="btn btn-xs btn-rose"
+                                                        <button className={`btn btn-xs ${register.money < 0 ? 'btn-warning' : 'btn-rose'}`}
                                                                 style={{width: '70px'}}
                                                         >
-                                                            {dotNumber(register.money)}
+                                                            {dotNumber(Math.abs(register.money))}
                                                             <div className="ripple-container"/>
                                                         </button>
                                                         <button className="btn btn-xs btn-success"

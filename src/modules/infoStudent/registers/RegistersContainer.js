@@ -64,7 +64,7 @@ class RegistersContainer extends React.Component {
     };
 
     showModalRefund = (currentRegister) => {
-        let {total_lesson, total_lesson_done} = currentRegister;
+        let {total_lesson, total_lesson_done} = {...currentRegister};
         currentRegister.refundValue = 0;
         if (total_lesson > 0 && total_lesson_done) {
             currentRegister.refundValue = Math.round(currentRegister.money / total_lesson * (total_lesson - total_lesson_done));
@@ -297,8 +297,8 @@ class RegistersContainer extends React.Component {
                                                         reload={this.reload}
                                                     />
                                                     <ExtraRegisterOverlay
-                                                        openModalRefund={() => this.showModalRefund(register)}
-                                                        register={register}
+                                                        openModalRefund={() => this.showModalRefund({...register})}
+                                                        register={{...register}}
                                                         studentId={this.studentId}
                                                         reload={this.reload}
                                                     />
