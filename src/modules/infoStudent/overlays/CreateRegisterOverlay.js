@@ -398,6 +398,15 @@ class CreateRegisterOverlay extends React.Component {
                                     updateFormData={this.updateFormData}
                                 /></div>
                             <div>
+                                <label>Tên phụ huynh 2</label>
+                                <FormInputText
+                                    name="mother_name"
+                                    placeholder="Tên phụ huynh 2"
+                                    required
+                                    value={register.mother_name}
+                                    updateFormData={this.updateFormData}
+                                /></div>
+                            <div>
                                 <label>Số điện thoại</label>
                                 <FormInputText
                                     name="phone"
@@ -631,7 +640,8 @@ class CreateRegisterOverlay extends React.Component {
                                                 placeholder="Trường học"
                                                 value={register.university}
                                                 updateFormData={this.updateFormData}
-                                            /></div>
+                                            />
+                                        </div>
                                         <div>
                                             <label>Nơi làm việc</label>
                                             <FormInputText
@@ -639,7 +649,22 @@ class CreateRegisterOverlay extends React.Component {
                                                 placeholder="Nơi làm việc"
                                                 value={register.work}
                                                 updateFormData={this.updateFormData}
-                                            /></div>
+                                            />
+                                        </div>
+                                        <label>CMND</label>
+                                        <FormInputText
+                                            name="identity_code"
+                                            placeholder="Chứng minh nhân dân"
+                                            value={register.identity_code}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <label>Quốc tịch</label>
+                                        <FormInputText
+                                            name="nationality"
+                                            placeholder="Quốc tịch"
+                                            value={register.nationality}
+                                            updateFormData={this.updateFormData}
+                                        />
                                         <div>
                                             <label>Lý do biết đến</label>
                                             <FormInputText
@@ -649,7 +674,7 @@ class CreateRegisterOverlay extends React.Component {
                                                 updateFormData={this.updateFormData}
                                             /></div>
                                         <div>
-                                            <label>Facebook</label>
+                                            <label>Link Facebook</label>
                                             <FormInputText
                                                 name="facebook"
                                                 placeholder="Link Facebook"
