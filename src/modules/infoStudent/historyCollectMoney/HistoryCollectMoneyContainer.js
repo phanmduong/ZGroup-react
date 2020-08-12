@@ -70,13 +70,13 @@ class HistoryCollectMoneyContainer extends React.Component {
                                                     </div>}
                                                      <div className="flex-row-center">
                                                         <i className="material-icons">account_box</i>
-                                                         <b>&nbsp; &nbsp; Hình thức: </b> {register.money < 0 ? 'Hoàn tiền' : 'Nộp tiền'}
+                                                         <b>&nbsp; &nbsp; Hình thức: &nbsp;</b> {register.money < 0 ? 'Hoàn tiền' : 'Nộp tiền'}
                                                     </div>
                                                     {
                                                         register.collector &&
                                                         <div className="flex-row-center">
                                                             <i className="material-icons">account_box
-                                                            </i><b>&nbsp; &nbsp; Người thu:</b> {register.collector.name}
+                                                            </i><b>&nbsp; &nbsp; Người thu: &nbsp;</b> {register.collector.name}
                                                         </div>
                                                     }
                                                     {register.coupons && register.coupons.map((coupon, i) => {
