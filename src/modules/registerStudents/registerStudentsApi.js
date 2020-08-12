@@ -303,6 +303,9 @@ export function saveRegisterApi(register) {
     }
     return axios.post(url, {
         father_name: register.father_name,
+        mother_name: register.mother_name,
+        identity_code: register.identity_code,
+        nationality: register.nationality,
         saler_id: register.saler_id,
         base_id: register.base_id,
         course_id: register.course_id,
