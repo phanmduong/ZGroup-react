@@ -226,6 +226,21 @@ const types = [
                 name: "Mã đăng kí"
             },
             {
+                key: "register.created_at",
+                name: "Ngày đăng kí",
+                format: 'date',
+                checkFormat: (data) => {
+                    return isEmptyInput(data) || validation.isDate(data);
+                },
+                reformat: (data) => {
+                    if (isEmptyInput(data)) return null;
+                    if (validation.isDate(data)) {
+                        return (moment(data, allowedDateFormats).format(DATETIME_FORMAT_SQL));
+                    }
+                    return null;
+                }
+            },
+            {
                 key: "register.money",
                 name: "Số tiền",
                 checkFormat: (data) => {
