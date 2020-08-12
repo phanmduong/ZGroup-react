@@ -86,8 +86,8 @@ const types = [
                 key: "user.gender",
                 name: "Giới tính",
                 reformat: (data) => {
-                    if (data.trim().toLowerCase().includes("nữ")) return 1;
-                    if (data.trim().toLowerCase().includes("nam")) return 2;
+                    if (data.trim().toLowerCase().includes("nữ")) return 2;
+                    if (data.trim().toLowerCase().includes("nam")) return 1;
                     return 0;
                 }
             },

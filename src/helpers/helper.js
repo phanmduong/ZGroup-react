@@ -911,7 +911,7 @@ export function readExcel(file, isSkipReadFile, ignoreHeader = true) {
             const bstr = e.target.result;
             const wb = XLSX.read(bstr, {type: 'binary'});
             /* Get first worksheet */
-            const wsname = wb.SheetNames[0];
+            const wsname = wb.SheetNames.filter((sheetname) => wb.Sheets[sheetname]['!ref'])[0];
             const ws = wb.Sheets[wsname];
 
             if (isSkipReadFile) {
