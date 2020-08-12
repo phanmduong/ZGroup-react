@@ -21,6 +21,7 @@ import CreateRegisterOverlay from "../overlays/CreateRegisterOverlay";
 import CreateCouponOverlay from "../overlays/CreateCouponOverlay";
 import EmptyData from "../../../components/common/EmptyData";
 import FormInputText from "../../../components/common/FormInputText";
+import {DATE_VN_FORMAT} from "../../../constants/constants";
 
 class RegistersContainer extends React.Component {
     constructor(props, context) {
@@ -88,13 +89,13 @@ class RegistersContainer extends React.Component {
             return ;
         }
             let {currentRegister} = this.state;
-        let now = new moment().format('D/M/YYYY');
+        let now = new moment().format(DATE_VN_FORMAT);
 
         let data = {
             value,
             student_id: currentRegister.student_id,
             register_id: currentRegister.id,
-            note: ` [Hoàn số tiền (${dotNumber(value)}đ) ngày ${now}]`
+            note: `\nHoàn số tiền (${dotNumber(value)}đ) ngày ${now}`
         };
         this.props.studentActions.refundStudent(data, () => {
             this.closeModalRefund();
@@ -253,7 +254,10 @@ class RegistersContainer extends React.Component {
                                                 {register.note &&
                                                 <div>
                                                     <div className="flex-row-center">
-                                                        <i className="material-icons">create</i>&nbsp; &nbsp;{register.note}
+                                                        <i className="material-icons">create</i>&nbsp; &nbsp;
+                                                        <div
+                                                            //eslint-disable-next-line
+                                                            dangerouslySetInnerHTML={{__html: register.note.replace(/\n/g,"<br />")}}/>
                                                     </div>
                                                 </div>
                                                 }
