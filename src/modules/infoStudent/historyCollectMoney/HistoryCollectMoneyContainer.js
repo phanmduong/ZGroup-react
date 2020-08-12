@@ -4,7 +4,7 @@ import {bindActionCreators} from 'redux';
 import PropTypes from "prop-types";
 import * as studentActions from "../studentActions";
 import Loading from "../../../components/common/Loading";
-import {dotNumber} from "../../../helpers/helper";
+import {dotNumber, isEmptyInput} from "../../../helpers/helper";
 import {DISCOUNTYPE, PAYMENT_METHODS_OBJECT} from "../../../constants/constants";
 import CreateCouponOverlay from "../overlays/CreateCouponOverlay";
 import EmptyData from "../../../components/common/EmptyData";
@@ -58,12 +58,16 @@ class HistoryCollectMoneyContainer extends React.Component {
                                                 <div className="timeline-body">
                                                     <div className="flex-row-center">
                                                         <i className="material-icons">access_time</i>
-                                                        <b>&nbsp; &nbsp; {register.paid_time} </b>
+                                                        <b>&nbsp; &nbsp; Ngày tạo: {register.paid_time} </b>
                                                     </div>
                                                     <div className="flex-row-center">
+                                                        <i className="material-icons">access_time</i>
+                                                        <b>&nbsp; &nbsp; Ngày thực nhận: {register.actual_input_at} </b>
+                                                    </div>
+                                                    {!isEmptyInput(register.note) && <div className="flex-row-center">
                                                         <i className="material-icons">create</i>&nbsp; &nbsp;
                                                         Ghi chú: {register.note}
-                                                    </div>
+                                                    </div>}
                                                     {
                                                         register.collector &&
                                                         <div className="flex-row-center">
