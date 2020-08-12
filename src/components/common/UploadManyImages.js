@@ -1,11 +1,8 @@
-/**
- * Created by NguyenTienTai on 03/31/18.
- */
 import React from 'react';
 import PropTypes from 'prop-types';
 import TooltipButton from "./TooltipButton";
 import {MANAGE_API_URL} from "../../constants/env";
-import {checkFileSize, showErrorNotification, showNotification} from "../../helpers/helper";
+import {checkFileSize, showErrorNotification, showNotification, checkThirdPartyImageUrl} from "../../helpers/helper";
 import {Modal} from 'react-bootstrap';
 
 
@@ -87,7 +84,12 @@ class UploadManyImages extends React.Component {
     }
 
     showModalZoomImage = (currentModalImageUrl)=>{
-        this.setState({showModalZoomImage:true,currentModalImageUrl});
+        if(checkThirdPartyImageUrl(currentModalImageUrl)){
+            window.open(currentModalImageUrl,'_blank');
+        }else {
+            this.setState({showModalZoomImage:true,currentModalImageUrl});
+
+        }
     }
     closeModalZoomImage = ()=>{
         this.setState({showModalZoomImage:false});
@@ -98,10 +100,13 @@ class UploadManyImages extends React.Component {
     render() {
         const images_url = this.props.images_url;
         let {imageStyle, imageContainerStyle} = this.props;
+        const googleDriveImage = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1597139118vJhS8Xu3W0A0ShE.png';
+
         return (
             <div className={this.props.box}>
                 {
                     images_url && images_url.map((image, index) => {
+                        let checkedImageUrl = checkThirdPartyImageUrl(image) ? googleDriveImage : image;
                         return (
                             <div key={index}
                                  style={{
@@ -111,7 +116,7 @@ class UploadManyImages extends React.Component {
                                     <img style={{
                                         width: "100%",
                                         height: "100%",
-                                        background: "url(" + image + ") center center / cover",
+                                        background: "url(" + checkedImageUrl + ") center center / cover",
                                         position: "absolute",
                                         left: "0",
                                         borderRadius: "5px",
@@ -119,7 +124,9 @@ class UploadManyImages extends React.Component {
                                     }}
                                          data-original-title=""/>
                                     <TooltipButton text="Nhấp để xem ảnh" placement="top">
-                                        <div className="overlay-for-images cursor-pointer" onClick={()=>this.showModalZoomImage(image)}/>
+                                        <div className="overlay-for-images cursor-pointer"
+                                             onClick={()=>this.showModalZoomImage(image)}
+                                        />
                                     </TooltipButton>
                                     <TooltipButton text="Xóa" placement="top">
                                         <div className="button-for-images">

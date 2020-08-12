@@ -27,7 +27,7 @@ import {
 import CreateRegisterModalContainer from "../registerStudents/CreateRegisterModalContainer";
 import * as createRegisterActions from '../registerStudents/createRegisterActions';
 import moment from "moment";
-import {DATE_FORMAT_SQL, REGISTER_STATUS, STATUS_REFS} from "../../constants/constants";
+import {DATE_FORMAT_SQL, GENDER, REGISTER_STATUS, STATUS_REFS} from "../../constants/constants";
 import CreateLeadOverlay from "./overlay/CreateLeadOverlay";
 import * as studentActions from "../infoStudent/studentActions";
 import Checkbox from "../../components/common/Checkbox";
@@ -824,6 +824,8 @@ class LeadContainer extends React.Component {
                         all_tele_call_notes += `${note_index > 0 ? '\n' : ''}${note}`;
                     });
                 }
+                let gender =  GENDER.filter((g) => g.id == item.gender)[0];
+
                 let res = {
                     'STT': index + 1,
                     'Họ tên': item.name,
@@ -849,6 +851,17 @@ class LeadContainer extends React.Component {
                     'Latest Status': last_call_result,
                     'Classes Enrolled': item.all_class_names ? item.all_class_names : 'Không có',
                     'Latest  Deal status': last_deal_status_text,
+                    'Giới tính': gender || '',
+                    'CMND': item.identity_code || '',
+                    'Công việc': item.work || '',
+                    'Trường học': item.university || '',
+                    'Tên phụ huynh 1': item.father_name || '',
+                    'Tên phụ huynh 2': item.mother_name || '',
+                    'Link Ảnh': item.image_urls ? JSON.parse(item.image_urls).join('\n') : '',
+                    'Quốc tịch': item.nationality || '',
+                    'Địa chỉ': item.address || '',
+                    'Ảnh CMND 1': item.image1 || '',
+                    'Ảnh CMND 2': item.image2 || '',
                 };
                 /* eslint-enable */
                 return res;

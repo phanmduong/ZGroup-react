@@ -295,15 +295,6 @@ class CreateLeadOverlay extends React.Component {
                                      aria-expanded="false"
                                      style={{height: '0px'}}>
                                     <div className="panel-body">
-                                        <div>
-                                            <label>Tên phụ huynh</label>
-                                            <FormInputText
-                                                name="father_name"
-                                                placeholder="Tên phụ huynh"
-                                                required
-                                                value={lead.father_name}
-                                                updateFormData={this.updateFormData}
-                                            /></div>
 
                                         <div>
                                             <label>Nguồn</label>
@@ -365,6 +356,26 @@ class CreateLeadOverlay extends React.Component {
                                         </div>
 
                                         <div>
+                                            <label>Tên phụ huynh</label>
+                                            <FormInputText
+                                                name="father_name"
+                                                placeholder="Tên phụ huynh"
+                                                required
+                                                value={lead.father_name}
+                                                updateFormData={this.updateFormData}
+                                            />
+                                        </div>
+                                        <div>
+
+                                            <label>Tên phụ huynh 2</label>
+                                            <FormInputText
+                                                name="mother_name"
+                                                placeholder="Tên phụ huynh 2"
+                                                value={lead.mother_name}
+                                                updateFormData={this.updateFormData}
+                                            />
+                                        </div>
+                                        <div>
                                             <label>Trường học</label>
                                             <FormInputText
                                                 name="university"
@@ -377,12 +388,46 @@ class CreateLeadOverlay extends React.Component {
                                             <label>Quan tâm</label>
                                             <FormInputText
                                                 name="interest"
-                                                placeholder="Interest"
+                                                placeholder="Quan tâm"
                                                 value={lead.interest}
                                                 updateFormData={this.updateFormData}
                                             />
                                         </div>
-
+                                        <label>CMND</label>
+                                        <FormInputText
+                                            name="identity_code"
+                                            placeholder="Chứng minh nhân dân"
+                                            value={lead.identity_code}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <label>Quốc tịch</label>
+                                        <FormInputText
+                                            name="nationality"
+                                            placeholder="Quốc tịch"
+                                            value={lead.nationality}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <label>Nơi làm việc</label>
+                                        <FormInputText
+                                            name="work"
+                                            placeholder="Nơi làm việc"
+                                            value={lead.work}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <label>Lý do biết đến</label>
+                                        <FormInputText
+                                            name="how_know"
+                                            placeholder="Lý do biết đến"
+                                            value={lead.how_know}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <label>Link Facebook</label>
+                                        <FormInputText
+                                            name="facebook"
+                                            placeholder="Link Facebook"
+                                            value={lead.facebook}
+                                            updateFormData={this.updateFormData}
+                                        />
                                         <div>
                                             <label>P.I.C</label>
                                             {/*<ReactSelect*/}

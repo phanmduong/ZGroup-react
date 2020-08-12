@@ -46,6 +46,11 @@ export function avatarEmpty(input) {
     return false;
 }
 
+export function checkThirdPartyImageUrl(url){
+    if(isEmptyInput(url) || (url && url instanceof String)) return  false;
+    return url.indexOf('google') > 0;
+}
+
 export function confirm(type, title, html, success, cancel) {
     //  warning, error, success, info and question
     swal({

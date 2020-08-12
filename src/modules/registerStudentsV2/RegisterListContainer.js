@@ -407,12 +407,21 @@ class RegisterListContainer extends React.Component {
                                 />
                             </div>
                             <div className="col-md-3">
-                                <Search
-                                    onChange={(e) => store.onChangeFilter('search_coupon', e)}
-                                    value={filter.search_coupon}
-                                    label="Tìm kiếm theo coupon"
-                                    placeholder="Nhập coupon"
+                                {/*<Search*/}
+                                {/*    onChange={(e) => store.onChangeFilter('search_coupon', e)}*/}
+                                {/*    value={filter.search_coupon}*/}
+                                {/*    label="Tìm kiếm theo coupon"*/}
+                                {/*    placeholder="Nhập coupon"*/}
+                                {/*    disabled={isLoading}*/}
+                                {/*/>*/}
+                                <label>Tìm kiếm theo coupon</label>
+                                <ReactSelect
                                     disabled={isLoading}
+                                    options={filter_data.coupons}
+                                    onChange={(e) => store.onChangeFilter('coupon_id', e)}
+                                    value={filter.coupon_id}
+                                    defaultMessage="Chọn coupon"
+                                    name="coupon_id"
                                 />
                             </div>
                             <div className="col-md-3">
@@ -510,77 +519,77 @@ class RegisterListContainer extends React.Component {
                         </li>);
                     })}
                 </ul>
-                <div className="row">
-                    <div className="col-sm-4">
-                        <div className={"flex"}>
-                            <div
-                                style={{
-                                    background: '#ffffff',
-                                    border: 'solid 1px',
-                                    height: '15px',
-                                    width: '30px',
-                                    margin: '3px 10px'
-                                }}/>
-                            <p> Chưa đóng tiền</p>
-                        </div>
-                    </div>
-                    <div className="col-sm-4">
-                        <div className={"flex"}>
-                            <div style={{
-                                background: '#dff0d8',
-                                height: '15px',
-                                width: '30px',
-                                margin: '3px 10px'
-                            }}/>
-                            <p>Đã nộp tiền</p>
-                        </div>
-                    </div>
-                    <div className="col-sm-4">
-                        <div className={"flex"}>
-                            <div
-                                style={{
-                                    background: '#fcf8e3',
-                                    height: '15px',
-                                    width: '30px',
-                                    margin: '3px 10px'
-                                }}/>
-                            <p>Danh sách chờ</p>
-                        </div>
-                    </div>
-                    <div className="col-sm-4">
-                        <div className={"flex"}>
-                            <div style={{
-                                background: '#f2dede',
-                                height: '15px',
-                                width: '30px',
-                                margin: '3px 10px'
-                            }}/>
-                            <p> Đang bảo lưu</p>
-                        </div>
-                    </div>
-                    <div className="col-sm-4">
-                        <div className={"flex"}>
-                            <div style={{
-                                background: '#daedf7',
-                                height: '15px',
-                                width: '30px',
-                                margin: '3px 10px'
-                            }}/>
-                            <p>Đang học lại</p>
-                        </div>
-                    </div>
-                    <div className="col-sm-4">
-                        <div className={"flex"}>
-                            <div style={{
-                                background: '#8c8c8c',
-                                height: '15px',
-                                width: '30px',
-                                margin: '3px 10px'
-                            }}/>
-                            <p>Đã học xong</p>
-                        </div>
-                    </div>
-                </div>
+                {/*<div className="row">*/}
+                {/*    <div className="col-sm-4">*/}
+                {/*        <div className={"flex"}>*/}
+                {/*            <div*/}
+                {/*                style={{*/}
+                {/*                    background: '#ffffff',*/}
+                {/*                    border: 'solid 1px',*/}
+                {/*                    height: '15px',*/}
+                {/*                    width: '30px',*/}
+                {/*                    margin: '3px 10px'*/}
+                {/*                }}/>*/}
+                {/*            <p> Chưa đóng tiền</p>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*    <div className="col-sm-4">*/}
+                {/*        <div className={"flex"}>*/}
+                {/*            <div style={{*/}
+                {/*                background: '#dff0d8',*/}
+                {/*                height: '15px',*/}
+                {/*                width: '30px',*/}
+                {/*                margin: '3px 10px'*/}
+                {/*            }}/>*/}
+                {/*            <p>Đã nộp tiền</p>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*    <div className="col-sm-4">*/}
+                {/*        <div className={"flex"}>*/}
+                {/*            <div*/}
+                {/*                style={{*/}
+                {/*                    background: '#fcf8e3',*/}
+                {/*                    height: '15px',*/}
+                {/*                    width: '30px',*/}
+                {/*                    margin: '3px 10px'*/}
+                {/*                }}/>*/}
+                {/*            <p>Danh sách chờ</p>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*    <div className="col-sm-4">*/}
+                {/*        <div className={"flex"}>*/}
+                {/*            <div style={{*/}
+                {/*                background: '#f2dede',*/}
+                {/*                height: '15px',*/}
+                {/*                width: '30px',*/}
+                {/*                margin: '3px 10px'*/}
+                {/*            }}/>*/}
+                {/*            <p> Đang bảo lưu</p>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*    <div className="col-sm-4">*/}
+                {/*        <div className={"flex"}>*/}
+                {/*            <div style={{*/}
+                {/*                background: '#daedf7',*/}
+                {/*                height: '15px',*/}
+                {/*                width: '30px',*/}
+                {/*                margin: '3px 10px'*/}
+                {/*            }}/>*/}
+                {/*            <p>Đang học lại</p>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*    <div className="col-sm-4">*/}
+                {/*        <div className={"flex"}>*/}
+                {/*            <div style={{*/}
+                {/*                background: '#8c8c8c',*/}
+                {/*                height: '15px',*/}
+                {/*                width: '30px',*/}
+                {/*                margin: '3px 10px'*/}
+                {/*            }}/>*/}
+                {/*            <p>Đã học xong</p>*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
                 <div>
                     {isLoading && <Loading/>}
                     {!isLoading && <RegisterList/>}
