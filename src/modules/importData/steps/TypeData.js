@@ -299,7 +299,24 @@ const types = [
                 },
                 check_key_data: "statuses_register",
             },
-
+            {
+                key: "marketing_campaign.name",
+                name: "Chiến dịch",
+                check_new: true,
+                check_description: (total, not_available_total) => {
+                    return `Chúng tôi nhận thấy có ${total} chiến dịch, trong đó có ${not_available_total} chiến dịch chưa xác định, vui lòng cho chúng tôi biết đó là chiến nào`;
+                },
+                check_key_data: "marketing_campaigns"
+            },
+            {
+                key: "source.name",
+                name: "Nguồn học viên",
+                check_new: true,
+                check_description: (total, not_available_total) => {
+                    return `Chúng tôi nhận thấy có ${total} nguồn học viên, trong đó có ${not_available_total} nguồn chưa xác định, vui lòng cho chúng tôi biết đó là nguồn nào`;
+                },
+                check_key_data: "sources",
+            },
         ]
     },
     {
