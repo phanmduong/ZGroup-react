@@ -81,6 +81,9 @@ const types = [
             {
                 key: "user.identity_code",
                 name: "Chứng minh nhân dân",
+                reformat: (data) => {
+                    return data + '';
+                }
             },
             {
                 key: "user.gender",
@@ -239,6 +242,25 @@ const types = [
                     }
                     return null;
                 }
+            },
+            {
+                key: "register_payment.actual_input_at",
+                name: "Ngày nộp tiền",
+                format: 'date',
+                checkFormat: (data) => {
+                    return isEmptyInput(data) || validation.isDate(data);
+                },
+                reformat: (data) => {
+                    if (isEmptyInput(data)) return null;
+                    if (validation.isDate(data)) {
+                        return (moment(data, allowedDateFormats).format(DATETIME_FORMAT_SQL));
+                    }
+                    return null;
+                }
+            },
+            {
+                key: "coupon.name",
+                name: "Mã giảm giá",
             },
             {
                 key: "register.money",
