@@ -632,12 +632,7 @@ class LeadContainer extends React.Component {
         }.bind(this), 500);
     };
 
-    onChangeAll = event => {
-        this.setState({isAll: event.target.checked});
-        this.changeStatusAll(event.target.checked, this.props, true);
-    };
-
-    changeStatusAll = (status, props, currentPageOnly) => {
+    changeStatusAll = (status, props) => {
         let leads = props.leads.map((lead) => {
             return {
                 ...lead,
@@ -645,7 +640,7 @@ class LeadContainer extends React.Component {
             };
         });
         let selectedLeads = this.state.selectedLeads.map((lead) => {
-            let checked = (leads.filter(l => l.id == lead.id)[0] && currentPageOnly) ? status : lead.status;
+            let checked = (leads.filter(l => l.id == lead.id)[0]) ? status : lead.status;
             return {
                 ...lead,
                 checked,
@@ -685,7 +680,13 @@ class LeadContainer extends React.Component {
     };
 
     deleteAllSelected = () => {
-        this.setState({selectedLeads: [], isOpenModalSelectedLeads: false, isAll: false});
+        if(this.state.isAll){
+            this.setState({selectedLeads: [], isOpenModalSelectedLeads: false, isAll: false});
+        }else {
+            this.setState({isAll: true});
+            this.changeStatusAll(true, this.props);
+        }
+
     };
 
     removeLeadSuccess = () => {
@@ -712,8 +713,17 @@ class LeadContainer extends React.Component {
         let leadIds = this.state.selectedLeads.map((lead) => {
             return lead.id;
         });
-        this.props.leadActions.uploadDistributionLead(leadIds, this.state.carer.id, this.state.isAll, this.state.search,
-            this.state.filter.startTime, this.state.filter.endTime, this.state.staff, this.state.rate, this.state.top, () => {
+        this.props.leadActions.uploadDistributionLead(
+            leadIds,
+            this.state.carer.id,
+            this.state.isAll,
+            this.state.search,
+            this.state.filter.startTime,
+            this.state.filter.endTime,
+            this.state.staff ? this.state.staff.id : '',
+            this.state.rate,
+            this.state.top,
+            () => {
                 this.closeModalSelectedLeadsModal();
                 this.resetLoad();
             });
@@ -762,7 +772,7 @@ class LeadContainer extends React.Component {
                 let leads = res.data.data.leads;
                 this.exportAllLeadsToExcel(leads);
             } else {
-                showErrorMessage("Có lỗi xảy ra!");
+                showErrorMessage("Dữ liệu quá lớn, vui lòng giới hạn bằng bộ lọc!");
             }
 
         }).catch((e) => {
@@ -874,7 +884,13 @@ class LeadContainer extends React.Component {
     };
 
     render() {
-        console.log('render', this.props);
+        // console.log('render', this.props);
+        let selectedLeadsCount =  0;
+        if(this.state.isAll){
+            selectedLeadsCount = this.props.totalCount;
+        }else if(this.state.selectedLeads){
+            selectedLeadsCount = this.state.selectedLeads.length;
+        }
         return (
             <div>
                 <CreateRegisterModalContainer/>
@@ -1273,7 +1289,6 @@ class LeadContainer extends React.Component {
                     isDistribution={this.state.isDistribution}
                     selectedLeads={this.state.selectedLeads}
                     isAll={this.state.isAll}
-                    onChangeAll={this.onChangeAll}
                     changeStatusLead={this.changeStatusLead}
                     openCreateRegisterModal={this.openCreateRegisterModal}
                     // removeLead={this.props.route.type === "my-leads" ? this.removeLead : null}
@@ -1297,7 +1312,7 @@ class LeadContainer extends React.Component {
 
 
                                     <td style={{minWidth: 200}} className="text-align-left"><b>
-                                        Đã chọn: {this.state.selectedLeads ? this.state.selectedLeads.length : 0} lead
+                                        Đã chọn: {selectedLeadsCount} lead
                                     </b></td>
 
 
@@ -1382,7 +1397,7 @@ class LeadContainer extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <div className="flex flex-align-items-center flex-space-between">
-                            <h5><b>Tổng số leads: {this.state.selectedLeads ? this.state.selectedLeads.length : 0}</b>
+                            <h5><b>Tổng số leads: {selectedLeadsCount}</b>
                             </h5>
                             {this.state.selectedLeads && this.state.selectedLeads.length > 0 && this.renderButtonDistribution()}
                         </div>
@@ -1390,8 +1405,10 @@ class LeadContainer extends React.Component {
                         <ListLead
                             showSelectedLead
                             leads={this.state.selectedLeads}
+                            isAll={this.state.isAll}
                             deleteLeadSelected={this.deleteLeadSelected}
                             deleteAllSelected={this.deleteAllSelected}
+                            selectedLeadsCount={selectedLeadsCount}
                             openCreateRegisterModal={this.openCreateRegisterModal}
 
                         />

@@ -193,7 +193,7 @@ class SourceOverlay extends React.Component {
         return (
             <div style={{position: "relative", backgroundColor: current.color,zIndex, ...styleWrapper}} className={className}
                  ref="SourceOverlay">
-                <div onClick={() => this.setState({show: true})} style={styleButton}>
+                <div onClick={() => this.setState({show: !this.props.disabled})} style={styleButton}>
                     {this.sourceName()}
                 </div>
                 <Overlay

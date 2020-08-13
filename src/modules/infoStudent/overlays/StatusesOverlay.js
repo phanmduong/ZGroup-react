@@ -167,11 +167,10 @@ class StatusesOverlay extends React.Component {
         let zIndex = show ? 1 : 0;
         let viName = isEmpty(this.props.viName) ? 'trạng thái' : this.props.viName;
         const current = (data && statuses.filter(s => s.id == data.id)[0]) || {};
-
         return (
             <div style={{position: "relative",backgroundColor: current.color, borderRadius:3, cursor:'pointer',zIndex, ...styleWrapper}}
                  className={className}
-                 onClick={() => this.setState({show: true})}
+                 onClick={() => this.setState({show: !this.props.disabled})}
                  ref="StatusesOverlay">
                 <div
                      data-toggle="tooltip"
