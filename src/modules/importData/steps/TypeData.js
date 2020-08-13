@@ -322,7 +322,7 @@ const types = [
                 check_key_data: "sources",
             },
             {
-                key: "register.saler",
+                key: "register_saler.email",
                 name: "Saler (Mail)",
                 checkFormat: (data) => {
                     // return validation.isNotEmpty(data) && validation.isEmailAddress(data);
