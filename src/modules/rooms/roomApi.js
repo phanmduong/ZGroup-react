@@ -103,7 +103,7 @@ export function storeRoom(room) {
 
 export function editRoom(room) {
     let url =
-        env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/room/" + room.id;
+        env.MANAGE_API_URL + "/v2/base/edit-room";
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
