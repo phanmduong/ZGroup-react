@@ -215,6 +215,12 @@ const types = [
         selected: false,
         properties: [
             {
+                key: "course.name",
+                name: "Tên môn học",
+                text_error: 'Tên môn học là bắt buộc',
+                required: true,
+            },
+            {
                 key: "class.name",
                 name: "Tên lớp",
                 text_error: 'Tên lớp là bắt buộc',
@@ -293,12 +299,7 @@ const types = [
                 },
                 check_key_data: "statuses_register",
             },
-            {
-                key: "course.name",
-                name: "Tên môn học",
-                text_error: 'Tên môn học là bắt buộc',
-                required: true,
-            }
+
         ]
     },
     {
