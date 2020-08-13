@@ -158,6 +158,10 @@ const types = [
                 name: "Trường học"
             },
             {
+                key: "user.code",
+                name: "Mã học viên"
+            },
+            {
                 key: "user.rate",
                 name: "Phận loại(Sao)"
             },
@@ -316,6 +320,14 @@ const types = [
                     return `Chúng tôi nhận thấy có ${total} nguồn học viên, trong đó có ${not_available_total} nguồn chưa xác định, vui lòng cho chúng tôi biết đó là nguồn nào`;
                 },
                 check_key_data: "sources",
+            },
+            {
+                key: "register.saler",
+                name: "Saler (Mail)",
+                checkFormat: (data) => {
+                    // return validation.isNotEmpty(data) && validation.isEmailAddress(data);
+                    return !validation.isNotEmpty(data) || validation.isEmailAddress(data);
+                }
             },
         ]
     },
