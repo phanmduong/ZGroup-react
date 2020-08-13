@@ -766,6 +766,7 @@ $starInactive: #c4c5c6;
 .text-align-left {
   text-align: left !important;
 }
+
 .required-label:after {
   color: #c50000;
   content: ' *';
@@ -1613,7 +1614,10 @@ table tr td .avatar-honor {
     background-color: white;
     padding: 15px 10px !important;
     font-weight: 400 !important;
+  }
+  tr:hover > td{
 
+      background-color: #f7f7f7;
 
   }
 
@@ -4770,9 +4774,11 @@ input[type=search], .form-control {
     font-size: 12px;
     padding: 0px 10px;
   }
-  .Select-multi-value-wrapper .Select-value{
+
+  .Select-multi-value-wrapper .Select-value {
     justify-content: space-between;
   }
+
   .Select-control, select {
     border: none;
     background-color: #f3f4f3 !important;
@@ -5026,10 +5032,12 @@ input[type=date]::-webkit-outer-spin-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    span{
+
+    span {
       margin-top: -1.5px;
     }
   }
+
   min-height: 40px;
 }
 
@@ -5183,4 +5191,8 @@ $ct-series-colors: (
     height: 100%;
     width: 100%;
   }
+}
+
+.tooltip-register-list-row{
+  margin-top: -65px!important;
 }

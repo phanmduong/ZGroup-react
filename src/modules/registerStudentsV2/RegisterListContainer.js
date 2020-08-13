@@ -26,6 +26,33 @@ import FormInputDate from "../../components/common/FormInputDate";
 import {loadRegisters} from "./registerListApi";
 import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL, TYPE_CLASSES_OBJECT} from "../../constants/constants";
 
+const register_statuses = [
+    {
+      text:'Chưa đóng tiền',
+      id: 0,
+      color:'#ffffff',
+    },
+    {
+      text:'Đã nộp tiền',
+      id: 1,
+      color:'#dff0d8',
+    },
+    {
+      text:'Danh sách chờ',
+      id: 2,
+      color:'#fcf8e3',
+    },
+    {
+      text:'Đã học xong',
+      id: 5,
+      color:'#8c8c8c',
+    },
+    {
+      text:'Đã hoàn tiền',
+      id: 6,
+      color:'#c5e2ec',
+    },
+];
 
 @observer
 class RegisterListContainer extends React.Component {
@@ -506,7 +533,25 @@ class RegisterListContainer extends React.Component {
                             </div>
                         </div>
 
-
+                        <div className="row">
+                            {register_statuses.map((register_status,key)=>{
+                                return(
+                                    <div className="col-sm-4" key={key}>
+                                        <div className="flex">
+                                            <div
+                                                style={{
+                                                    background: register_status.color,
+                                                    border: 'solid 1px',
+                                                    height: '15px',
+                                                    width: '30px',
+                                                    margin: '3px 10px'
+                                                }}/>
+                                            <p>{register_status.text}</p>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 </Panel>
                 <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
@@ -519,77 +564,7 @@ class RegisterListContainer extends React.Component {
                         </li>);
                     })}
                 </ul>
-                {/*<div className="row">*/}
-                {/*    <div className="col-sm-4">*/}
-                {/*        <div className={"flex"}>*/}
-                {/*            <div*/}
-                {/*                style={{*/}
-                {/*                    background: '#ffffff',*/}
-                {/*                    border: 'solid 1px',*/}
-                {/*                    height: '15px',*/}
-                {/*                    width: '30px',*/}
-                {/*                    margin: '3px 10px'*/}
-                {/*                }}/>*/}
-                {/*            <p> Chưa đóng tiền</p>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*    <div className="col-sm-4">*/}
-                {/*        <div className={"flex"}>*/}
-                {/*            <div style={{*/}
-                {/*                background: '#dff0d8',*/}
-                {/*                height: '15px',*/}
-                {/*                width: '30px',*/}
-                {/*                margin: '3px 10px'*/}
-                {/*            }}/>*/}
-                {/*            <p>Đã nộp tiền</p>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*    <div className="col-sm-4">*/}
-                {/*        <div className={"flex"}>*/}
-                {/*            <div*/}
-                {/*                style={{*/}
-                {/*                    background: '#fcf8e3',*/}
-                {/*                    height: '15px',*/}
-                {/*                    width: '30px',*/}
-                {/*                    margin: '3px 10px'*/}
-                {/*                }}/>*/}
-                {/*            <p>Danh sách chờ</p>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*    <div className="col-sm-4">*/}
-                {/*        <div className={"flex"}>*/}
-                {/*            <div style={{*/}
-                {/*                background: '#f2dede',*/}
-                {/*                height: '15px',*/}
-                {/*                width: '30px',*/}
-                {/*                margin: '3px 10px'*/}
-                {/*            }}/>*/}
-                {/*            <p> Đang bảo lưu</p>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*    <div className="col-sm-4">*/}
-                {/*        <div className={"flex"}>*/}
-                {/*            <div style={{*/}
-                {/*                background: '#daedf7',*/}
-                {/*                height: '15px',*/}
-                {/*                width: '30px',*/}
-                {/*                margin: '3px 10px'*/}
-                {/*            }}/>*/}
-                {/*            <p>Đang học lại</p>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*    <div className="col-sm-4">*/}
-                {/*        <div className={"flex"}>*/}
-                {/*            <div style={{*/}
-                {/*                background: '#8c8c8c',*/}
-                {/*                height: '15px',*/}
-                {/*                width: '30px',*/}
-                {/*                margin: '3px 10px'*/}
-                {/*            }}/>*/}
-                {/*            <p>Đã học xong</p>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>*/}
+
                 <div>
                     {isLoading && <Loading/>}
                     {!isLoading && <RegisterList/>}

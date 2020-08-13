@@ -20,12 +20,27 @@ class RegisterList extends React.Component {
 
     }
 
-    onClickButtonChangeFilter = (name,value) => {
-        console.log('list',name,value);
-        if(isEmpty(value)) value = {};
-        store.filter[name] = {...value, value:value.id, label:value.name};
+    componentDidMount() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
+    onClickButtonChangeFilter = (name, value) => {
+        console.log('list', name, value);
+        if (isEmpty(value)) value = {};
+        store.filter[name] = {...value, value: value.id, label: value.name};
         store.filter[name + '_id'] = value.id;
         store.loadRegisters();
+    };
+
+    onMouseEnterRow = (id, state) => {
+        let tooltip_id = `#row-tooltip-${id}`;
+        $(tooltip_id).tooltip({
+            trigger: 'manual',
+            tooltipClass: "tooltip-register-list-row"
+        }).data('bs.tooltip')
+            .tip()
+            .addClass('tooltip-register-list-row');;
+        $(tooltip_id).tooltip(state);
     };
 
     render() {
@@ -61,7 +76,10 @@ class RegisterList extends React.Component {
                         }
 
                         return (
-                            <tr key={register.id} className={color}>
+                            <tr key={register.id} className={`${color} cursor-pointer`}
+                                onMouseEnter={() => this.onMouseEnterRow(register.id,'show')}
+                                onMouseLeave={() => this.onMouseEnterRow(register.id,'hide')}
+                            >
                                 <td>
                                     <ToggleStar
                                         value={register.bookmark}
@@ -135,7 +153,27 @@ class RegisterList extends React.Component {
                                 </td>
                                 <td>{register.gen && register.gen.name}</td>
 
-                                <td>{register.code}</td>
+                                <td>
+                                    <div
+                                        data-toggle="tooltip"
+                                        title={
+                                            {
+                                                0:'Chưa đóng tiền',
+                                                1:'Đã nộp tiền',
+                                                2:'Danh sách chờ',
+                                                3:'Bảo lưu',
+                                                4:'Học lại',
+                                                5:'Đã học xong',
+                                                6:'Đã hoàn tiền',
+                                            }[register.status]
+                                        }
+                                        type="button"
+                                        rel="tooltip"
+                                        id={`row-tooltip-${register.id}`}
+                                    >
+                                    {register.code}
+                                    </div>
+                                </td>
                                 <td>
                                     <div className="flex flex-col">
                                         {
@@ -175,7 +213,7 @@ class RegisterList extends React.Component {
                                                 :
                                                 (
                                                     <button className="btn btn-xs btn-main"
-                                                            onClick={() => this.onClickButtonChangeFilter("campaign",  store.defaultEmptySelectObject)}
+                                                            onClick={() => this.onClickButtonChangeFilter("campaign", store.defaultEmptySelectObject)}
                                                     >
                                                         Không có
                                                         <div className="ripple-container"/>
