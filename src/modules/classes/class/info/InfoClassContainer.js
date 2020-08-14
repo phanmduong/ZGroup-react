@@ -67,6 +67,17 @@ class InfoClassContainer extends React.Component {
         globalModalActions.openModalRegisterDetail(link);
     }
 
+    onMouseEnterRow = (id, state) => {
+        let tooltip_id = `#row-tooltip-${id}`;
+        $(tooltip_id).tooltip({
+            trigger: 'manual',
+            tooltipClass: "tooltip-register-list-row"
+        }).data('bs.tooltip')
+            .tip()
+            .addClass('tooltip-register-list-row');;
+        $(tooltip_id).tooltip(state);
+    };
+
     render() {
         if (this.props.isLoadingClass) {
             return (
@@ -216,6 +227,7 @@ class InfoClassContainer extends React.Component {
                                         <th>Tình trạng học</th>
                                         <th>Bài tập</th>
                                         <th>Mã học viên</th>
+                                        <th className="display-none"/>
                                         <th>Học phí</th>
                                         <th>Bằng</th>
                                         <th>Thiết bị</th>
@@ -244,7 +256,10 @@ class InfoClassContainer extends React.Component {
                                                 break;
                                         }
                                         return (
-                                            <tr key={register.id} className={color}>
+                                            <tr key={register.id} className={color}
+                                                onMouseEnter={() => this.onMouseEnterRow(register.id,'show')}
+                                                onMouseLeave={() => this.onMouseEnterRow(register.id,'hide')}
+                                            >
                                                 <td>
                                                     <div style={{
                                                         background: "url('" + avatar + "') center center / cover",
@@ -298,23 +313,40 @@ class InfoClassContainer extends React.Component {
                                                         </div>
                                                     </div>
                                                 </td>
+
                                                 <td className="text-center">
                                                     {
                                                         register.code &&
-                                                        <TooltipButton
-                                                            text={register.received_id_card ? "Đã nhận thẻ" : "Chưa nhận thẻ"}
-                                                            placement="top"
-                                                        >
 
-                                                            <button
-                                                                className={(register.received_id_card ? "btn btn-xs btn-rose" : "btn btn-xs") + " min-width-100-px"}>
-                                                                {register.code}
-                                                                <div className="ripple-container"/>
-                                                            </button>
-                                                        </TooltipButton>
+
+                                                        <button
+                                                            className={(register.received_id_card ? "btn btn-xs btn-rose" : "btn btn-xs") + " min-width-100-px"}>
+                                                            {register.code}
+                                                            <div className="ripple-container"/>
+                                                        </button>
+
                                                     }
 
 
+                                                </td>
+                                                <td className="display-none">
+                                                    <div
+                                                        data-toggle="tooltip"
+                                                        title={
+                                                            {
+                                                                0:'Chưa đóng tiền',
+                                                                1:'Đã nộp tiền',
+                                                                2:'Danh sách chờ',
+                                                                3:'Bảo lưu',
+                                                                4:'Học lại',
+                                                                5:'Đã học xong',
+                                                                6:'Đã hoàn tiền',
+                                                            }[register.status]
+                                                        }
+                                                        type="button"
+                                                        rel="tooltip"
+                                                        id={`row-tooltip-${register.id}`}
+                                                    />
                                                 </td>
                                                 <td className="text-center">
                                                     {
