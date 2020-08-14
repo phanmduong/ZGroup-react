@@ -39,7 +39,7 @@ class RegisterList extends React.Component {
             tooltipClass: "tooltip-register-list-row"
         }).data('bs.tooltip')
             .tip()
-            .addClass('tooltip-register-list-row');;
+            .addClass('tooltip-register-list-row');
         $(tooltip_id).tooltip(state);
     };
 
