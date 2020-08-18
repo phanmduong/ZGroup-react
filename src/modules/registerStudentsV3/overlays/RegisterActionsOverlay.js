@@ -14,6 +14,7 @@ import {isEmpty} from "../../../helpers/entity/mobx";
 import {DATE_VN_FORMAT} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import FormInputText from "../../../components/common/FormInputText";
+import moment from 'moment';
 
 // import {showNotification} from "../../../../helpers/helper";
 
@@ -29,7 +30,7 @@ class RegisterActionsOverlay extends React.Component {
             note: '',
             appointmentPayment: '',
             dateTest: '',
-            currentRegister:{}
+            currentRegister: {}
         };
         this.state = this.initState;
     }
@@ -73,7 +74,7 @@ class RegisterActionsOverlay extends React.Component {
     }
 
     confirmChangeClass = (classData) => {
-        this.props.registerActions.confirmChangeClass(this.state.selectRegisterId, classData.id, ()=>{
+        this.props.registerActions.confirmChangeClass(this.state.selectRegisterId, classData.id, () => {
             this.closeModalChangeClass();
             this.reload();
         });
@@ -142,9 +143,9 @@ class RegisterActionsOverlay extends React.Component {
         });
     }
     refundStudent = (value) => {
-        if(!value){
+        if (!value) {
             showErrorNotification('Bạn chưa nhập học phí hoàn lại!');
-            return ;
+            return;
         }
         let {currentRegister} = this.state;
         let now = new moment().format(DATE_VN_FORMAT);
@@ -161,14 +162,15 @@ class RegisterActionsOverlay extends React.Component {
         });
     }
 
-    reload = ()=>{
-        if(this.props.reload){
+    reload = () => {
+        if (this.props.reload) {
             this.props.reload();
         }
     }
+
     render() {
         let {isChangingStatusCall, register} = this.props;
-        let {currentRegister,isRefunding} = this.state;
+        let {currentRegister, isRefunding} = this.state;
         let refundable = register && register.money > 0 && register.money < 5;
         return (
 
@@ -196,7 +198,7 @@ class RegisterActionsOverlay extends React.Component {
                         {refundable &&
                         <button type="button"
                                 className="btn btn-white width-100"
-                                onClick={()=>this.showModalRefund(this.props.register)}>
+                                onClick={() => this.showModalRefund(this.props.register)}>
                             Hoàn lại học phí
                         </button>}
                         {register && //register.status < 3 &&
