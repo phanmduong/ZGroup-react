@@ -2393,6 +2393,16 @@ ul.nav.nav-pills.nav-pills-dark {
       text-align: left;
     }
   }
+  &[mask=register-actions] {
+    left: unset!important;
+    right: 0;
+    padding: 15px 5px;
+
+    button.btn.btn-white {
+      padding: 10px 10px !important;
+      text-align: left;
+    }
+  }
 
   &[mask=extra-table] {
     width: 150px;

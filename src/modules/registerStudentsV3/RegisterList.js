@@ -10,6 +10,7 @@ import {openModalRegisterDetail} from "../globalModal/globalModalActions";
 import SourceOverlay from "../infoStudent/overlays/SourceOverlay";
 import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
 import {isEmpty} from "../../helpers/entity/mobx";
+import RegisterActionsOverlay from "./overlays/RegisterActionsOverlay";
 
 @observer
 class RegisterList extends React.Component {
@@ -32,7 +33,7 @@ class RegisterList extends React.Component {
         store.loadRegisters();
     };
 
-    onMouseEnterRow = (id, state) => {
+    onMouseOverRow = (id, state) => {
         let tooltip_id = `#row-tooltip-${id}`;
         $(tooltip_id).tooltip({
             trigger: 'manual',
@@ -51,18 +52,18 @@ class RegisterList extends React.Component {
                        cellSpacing="0" width="100%" style={{width: "100%"}}>
                     <thead>
                     <tr>
-                        <th>Đánh dấu</th>
 
-                        <th>Lớp</th>
-                        <th>Gọi</th>
+                        <th/>
+                        <th/>
                         <th>Họ tên</th>
-                        <th>Khóa</th>
-                        <th>Mã đăng kí</th>
+                        <th>Môn học</th>
+                        <th>Lớp học</th>
                         <th>Saler</th>
-                        <th>Học phí</th>
+                        <th>Source</th>
+                        <th>Campaign</th>
                         <th>Trạng thái</th>
-                        <th>Mã ưu đãi</th>
-                        <th>Đăng kí</th>
+                        <th>Học phí</th>
+                        <th>Thời gian</th>
                         <th/>
                     </tr>
                     </thead>
@@ -70,15 +71,15 @@ class RegisterList extends React.Component {
                     {store.registers.map((register, index) => {
                         let color = ['', 'success', 'warning', 'danger', 'info', 'gray'][register.status];
 
-                        let btn = '';
+                        let btnCallClass = '';
                         if (register.tele_call) {
-                            btn = REGISTER_CALL_STATUS_CLASS_NAMES[register.tele_call.call_status];
+                            btnCallClass = REGISTER_CALL_STATUS_CLASS_NAMES[register.tele_call.call_status];
                         }
 
                         return (
                             <tr key={register.id} className={`${color} cursor-pointer`}
-                                onMouseEnter={() => this.onMouseEnterRow(register.id,'show')}
-                                onMouseLeave={() => this.onMouseEnterRow(register.id,'hide')}
+                                onMouseEnter={() => this.onMouseOverRow(register.id, 'show')}
+                                onMouseLeave={() => this.onMouseOverRow(register.id, 'hide')}
                             >
                                 <td>
                                     <ToggleStar
@@ -88,47 +89,15 @@ class RegisterList extends React.Component {
                                     />
                                 </td>
                                 <td>
-                                    <div>
-
-                                        {register.studyClass && <div>
-                                            <a href={`/teaching/courses/edit/${register.course.id}`} target="_blank"
-                                               className="text-name-student-register">
-                                                <TooltipButton text="Môn học" placement="top"><b>
-                                                    {register.course.name}
-                                                </b></TooltipButton>
-                                            </a>
-                                        </div>}
-                                        {register.course && <div>
-                                            <a href={`/teaching/class/${register.studyClass.id}`} target="_blank"
-                                               className="text-name-student-register">
-                                                <TooltipButton text="Lớp học" placement="top"><b>
-                                                    {register.studyClass.name}
-                                                </b></TooltipButton></a>
-                                        </div>}
-                                    </div>
-                                    {/*<div className="container-dot-bottom-right">*/}
-                                    {/*    {register.studyClass &&*/}
-                                    {/*    <button className="btn btn-round btn-fab btn-fab-mini text-white">*/}
-                                    {/*        {register.course && register.course.icon_url &&*/}
-                                    {/*        <TooltipButton text={register.studyClass.name} placement="top">*/}
-                                    {/*            <img src={register.course.icon_url} alt=""/>*/}
-                                    {/*        </TooltipButton>}*/}
-                                    {/*    </button>}*/}
-                                    {/*</div>*/}
-                                </td>
-
-                                <td>
                                     {register.tele_call &&
                                     <TooltipButton text={register.tele_call.call_status_text} placement="top">
                                         <div className="container-call-status">
-
                                             <button
-                                                className={"btn btn-round " + btn + " full-width padding-left-right-10"}
+                                                className={"btn btn-round " + btnCallClass + " full-width padding-left-right-10"}
                                                 // onClick={() => this.props.viewCall(register)}
                                             >
-
                                                 <i className="material-icons">phone</i>
-                                                {register.tele_call.call_status !== 'calling' && (register.time_to_reach + 'h')}
+                                                {/*{register.tele_call.call_status !== 'calling' && (register.time_to_reach + 'h')}*/}
 
                                             </button>
                                         </div>
@@ -149,37 +118,63 @@ class RegisterList extends React.Component {
                                             {helper.formatPhone(register.student.phone)}
                                         </a>
                                     </div>}
-
                                 </td>
-                                <td>{register.gen && register.gen.name}</td>
+                                <td>
+                                    <div>
 
+                                        {register.studyClass && <div>
+                                            <a href={`/teaching/courses/edit/${register.course.id}`} target="_blank"
+                                               className="text-name-student-register">
+                                                <TooltipButton text="Môn học" placement="top"><b>
+                                                    {register.course.name}
+                                                </b></TooltipButton>
+                                            </a>
+                                        </div>}
+                                    </div>
+                                </td>
+                                <td>
+
+                                    <div>
+                                        {register.course && <div>
+                                            <a href={`/teaching/class/${register.studyClass.id}`} target="_blank"
+                                               className="text-name-student-register">
+                                                <TooltipButton text="Lớp học" placement="top"><b>
+                                                    {register.studyClass.name}
+                                                </b></TooltipButton></a>
+                                        </div>}
+                                    </div>
+                                    {/*<div className="container-dot-bottom-right">*/}
+                                    {/*    {register.studyClass &&*/}
+                                    {/*    <button className="btn btn-round btn-fab btn-fab-mini text-white">*/}
+                                    {/*        {register.course && register.course.icon_url &&*/}
+                                    {/*        <TooltipButton text={register.studyClass.name} placement="top">*/}
+                                    {/*            <img src={register.course.icon_url} alt=""/>*/}
+                                    {/*        </TooltipButton>}*/}
+                                    {/*    </button>}*/}
+                                    {/*</div>*/}
+                                </td>
                                 <td>
                                     <div
                                         data-toggle="tooltip"
                                         title={
                                             {
-                                                0:'Chưa đóng tiền',
-                                                1:'Đã nộp tiền',
-                                                2:'Danh sách chờ',
-                                                3:'Bảo lưu',
-                                                4:'Học lại',
-                                                5:'Đã học xong',
-                                                6:'Đã hoàn tiền',
+                                                0: 'Chưa đóng tiền',
+                                                1: 'Đã nộp tiền',
+                                                2: 'Danh sách chờ',
+                                                3: 'Bảo lưu',
+                                                4: 'Học lại',
+                                                5: 'Đã học xong',
+                                                6: 'Đã hoàn tiền',
                                             }[register.status]
                                         }
                                         type="button"
                                         rel="tooltip"
                                         id={`row-tooltip-${register.id}`}
                                     >
-                                    {register.code}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div className="flex flex-col">
                                         {
                                             register.saler ?
                                                 (
-                                                    <a className="btn btn-xs btn-main"
+                                                    <a className="btn btn-xs btn-main none-margin"
                                                        style={{backgroundColor: '#' + register.saler.color}}
                                                        onClick={() => this.onClickButtonChangeFilter("saler", register.saler)}
                                                     >
@@ -189,7 +184,7 @@ class RegisterList extends React.Component {
                                                 )
                                                 :
                                                 (
-                                                    <a className="btn btn-xs btn-main"
+                                                    <a className="btn btn-xs btn-main none-margin"
                                                        onClick={() => this.onClickButtonChangeFilter("saler", store.defaultEmptySelectObject)}
                                                     >
                                                         No saler
@@ -198,43 +193,47 @@ class RegisterList extends React.Component {
                                                 )
 
                                         }
-                                        {
-                                            register.marketing_campaign ?
-                                                (
-                                                    <button className="btn btn-xs btn-main"
-                                                            style={{backgroundColor: '#' + register.marketing_campaign.color}}
-                                                            onClick={() => this.onClickButtonChangeFilter("campaign", register.marketing_campaign)}
-
-                                                    >
-                                                        {register.marketing_campaign.name}
-                                                        <div className="ripple-container"/>
-                                                    </button>
-                                                )
-                                                :
-                                                (
-                                                    <button className="btn btn-xs btn-main"
-                                                            onClick={() => this.onClickButtonChangeFilter("campaign", store.defaultEmptySelectObject)}
-                                                    >
-                                                        Không có
-                                                        <div className="ripple-container"/>
-                                                    </button>
-                                                )
-                                        }
-
-
-                                        <SourceOverlay
-                                            className="btn-xs width-100 padding-vertical-10px source-value  margin-bottom-10"
-                                            student={register}
-                                        />
-
-
                                     </div>
+                                </td>
+                                <td><SourceOverlay
+                                    className="btn-xs width-100 source-value "
+                                    student={register}
+                                /></td>
+                                <td>{
+                                    register.marketing_campaign ?
+                                        (
+                                            <button className="btn btn-xs btn-main none-margin"
+                                                    style={{backgroundColor: '#' + register.marketing_campaign.color}}
+                                                    onClick={() => this.onClickButtonChangeFilter("campaign", register.marketing_campaign)}
+
+                                            >
+                                                {register.marketing_campaign.name}
+                                                <div className="ripple-container"/>
+                                            </button>
+                                        )
+                                        :
+                                        (
+                                            <button className="btn btn-xs btn-main none-margin"
+                                                    onClick={() => this.onClickButtonChangeFilter("campaign", store.defaultEmptySelectObject)}
+                                            >
+                                                Không có
+                                                <div className="ripple-container"/>
+                                            </button>
+                                        )
+                                }</td>
+                                <td>
+                                    <StatusesOverlay
+                                        data={register.register_status}
+                                        refId={register.id}
+                                        statusRef="registers"
+                                        className="btn btn-xs source-value width-100 bold"
+                                    />
                                 </td>
                                 <td>
                                     {
                                         register.paid_status ?
                                             <TooltipButton text={register.note} placement="top">
-                                                <div className="btn btn-xs btn-main main-background-color">
+                                                <div className="btn btn-xs btn-main none-margin main-background-color">
                                                     {helper.dotNumber(register.money)} vnd
                                                 </div>
                                             </TooltipButton>
@@ -253,27 +252,7 @@ class RegisterList extends React.Component {
                                             </TooltipButton>}</div>
                                     }
                                 </td>
-                                <td>
-                                    <StatusesOverlay
-                                        data={register.register_status}
-                                        refId={register.id}
-                                        statusRef="registers"
-                                        className="status-overlay margin-bottom-10"
-                                    />
-                                </td>
-                                <td>
-                                    {register.coupon && <div className="btn btn-xs btn-main">
-                                        {register.coupon}
-                                    </div>}
 
-                                    {register.coupons && register.coupons.map((coupon, key_coupon) => {
-                                        return (<div key={key_coupon} className="btn btn-xs btn-main"
-                                                     style={{background: coupon.color}}>
-                                            {coupon.name}
-                                        </div>);
-                                    })}
-
-                                </td>
                                 <td>
                                     <div data-toggle="tooltip" title=""
                                          type="button" rel="tooltip"
@@ -281,7 +260,30 @@ class RegisterList extends React.Component {
                                         {register.created_at}
                                     </div>
                                 </td>
-                                <td/>
+                                <td>
+                                    <RegisterActionsOverlay
+                                        openModalRefund={() => this.showModalRefund({...register})}
+                                        register={{...register}}
+                                        studentId={(register && register.user) ? register.user.id : null}
+                                        reload={store.loadRegisters}
+                                    />
+                                </td>
+
+
+                                {/*<td>*/}
+                                {/*    {register.coupon && <div className="btn btn-xs btn-main none-margin">*/}
+                                {/*        {register.coupon}*/}
+                                {/*    </div>}*/}
+
+                                {/*    {register.coupons && register.coupons.map((coupon, key_coupon) => {*/}
+                                {/*        return (<div key={key_coupon} className="btn btn-xs btn-main none-margin"*/}
+                                {/*                     style={{background: coupon.color}}>*/}
+                                {/*            {coupon.name}*/}
+                                {/*        </div>);*/}
+                                {/*    })}*/}
+
+                                {/*</td>*/}
+                                {/*<td/>*/}
                             </tr>
                         );
                     })}

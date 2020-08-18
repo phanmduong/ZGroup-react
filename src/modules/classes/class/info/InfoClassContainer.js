@@ -315,21 +315,6 @@ class InfoClassContainer extends React.Component {
                                                 </td>
 
                                                 <td className="text-center">
-                                                    {
-                                                        register.code &&
-
-
-                                                        <button
-                                                            className={(register.received_id_card ? "btn btn-xs btn-rose" : "btn btn-xs") + " min-width-100-px"}>
-                                                            {register.code}
-                                                            <div className="ripple-container"/>
-                                                        </button>
-
-                                                    }
-
-
-                                                </td>
-                                                <td className="display-none">
                                                     <div
                                                         data-toggle="tooltip"
                                                         title={
@@ -346,7 +331,22 @@ class InfoClassContainer extends React.Component {
                                                         type="button"
                                                         rel="tooltip"
                                                         id={`row-tooltip-${register.id}`}
-                                                    />
+                                                    >
+                                                        {
+                                                            register.code &&
+
+
+                                                            <button
+                                                                className={(register.received_id_card ? "btn btn-xs btn-rose" : "btn btn-xs") + " min-width-100-px"}>
+                                                                {register.code}
+                                                                <div className="ripple-container"/>
+                                                            </button>
+
+                                                        }
+                                                    </div>
+
+
+
                                                 </td>
                                                 <td className="text-center">
                                                     {
