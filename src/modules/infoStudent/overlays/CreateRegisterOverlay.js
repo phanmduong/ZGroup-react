@@ -319,7 +319,7 @@ class CreateRegisterOverlay extends React.Component {
 
     render() {
         let {register, coursePrice} = this.state;
-        let {isSavingRegister, isLoadingCoupons, isLoadingCampaigns,isLoadingCourses,coupons, salers, bases, className, student} = this.props;
+        let {isSavingRegister, isLoadingCoupons, isLoadingCampaigns,isLoadingCourses,coupons, salers, bases, className, student, btnStyle} = this.props;
         let classes = ([...this.props.classes] || []).filter(c => ((register.base_id * 1) && c.base) ? c.base.id == register.base_id : true);
         // let statuses = this.props.statuses.registers;
         coupons = this.getCouponSelectOptions([...coupons], register);
@@ -333,7 +333,9 @@ class CreateRegisterOverlay extends React.Component {
                      ref="target"
                      onClick={this.showModal}
                     // onClick={this.toggle}
-                     disabled={isSavingRegister}>
+                     disabled={isSavingRegister}
+                    style={{...btnStyle}}
+                >
                     Tạo đăng kí mới {!student.id && <i className="material-icons">
                     add
                 </i>}

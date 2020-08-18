@@ -28,29 +28,29 @@ import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL, TYPE_CLASSES_OBJECT} fro
 
 const register_statuses = [
     {
-      text:'Chưa đóng tiền',
-      id: 0,
-      color:'#ffffff',
+        text: 'Chưa đóng tiền',
+        id: 0,
+        color: '#ffffff',
     },
     {
-      text:'Đã nộp tiền',
-      id: 1,
-      color:'#dff0d8',
+        text: 'Đã nộp tiền',
+        id: 1,
+        color: '#dff0d8',
     },
     {
-      text:'Danh sách chờ',
-      id: 2,
-      color:'#fcf8e3',
+        text: 'Danh sách chờ',
+        id: 2,
+        color: '#fcf8e3',
     },
     {
-      text:'Đã học xong',
-      id: 5,
-      color:'#8c8c8c',
+        text: 'Đã học xong',
+        id: 5,
+        color: '#8c8c8c',
     },
     {
-      text:'Đã hoàn tiền',
-      id: 6,
-      color:'#c5e2ec',
+        text: 'Đã hoàn tiền',
+        id: 6,
+        color: '#c5e2ec',
     },
 ];
 
@@ -64,14 +64,14 @@ class RegisterListContainer extends React.Component {
         };
         this.tabViews = [
             {
-                text: 'TẤT CẢ',
+                text: 'Tất cả',
                 value: '',
-                label: "TẤT CẢ"
+                label: "Tất cả"
             },
             {
                 value: this.props.user.id,
-                label: "CỦA BẠN",
-                text: 'CỦA BẠN',
+                label: "Đăng kí của bạn",
+                text: 'Đăng kí của bạn',
             },
         ];
     }
@@ -213,68 +213,69 @@ class RegisterListContainer extends React.Component {
         console.log(filter);
         return (
             <div className="container-fluid">
-                <div className="card" mask="purple">
-                    <img className="img-absolute"/>
-                    <div className="card-content">
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <div className="flex-row flex">
-                                    <h2 className="card-title">
-                                        <strong>Danh sách đăng kí</strong>
-                                    </h2>
-                                </div>
-                                <div>
-                                    <a
-                                        onClick={this.showLoadingModal}
-                                        className="text-white"
-                                        disabled={isLoading}
-                                    >Tải xuống</a>
-                                </div>
-                                <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
-                                    <Search
-                                        onChange={this.registersSearchChange}
-                                        value={filter.search}
-                                        placeholder="Tìm kiếm học viên"
-                                        className="round-white-seacrh"
-                                        onSearch={this.onSearchRegisters}
-                                        disabled={isLoading}
-                                    />
-                                    <button
-                                        onClick={this.openFilterPanel}
-                                        className="btn btn-white btn-round btn-icon"
-                                        disabled={false}
-                                    >Lọc
-                                    </button>
-                                    <Select
-                                        options={filter_data.gens}
-                                        onChange={(e) => {
-                                            store.onChangeFilter('gen_id', e);
-                                            store.loadRegisters();
-                                        }}
-                                        value={filter.gen_id}
-                                        defaultMessage="Chọn khóa học"
-                                        name="gen_id"
-                                        disabled={isLoading}
-                                    />
-                                    <CreateRegisterOverlay
-                                        className="btn btn-white btn-round btn-icon"
-                                        onSuccess={() => {
-                                            store.loadRegisters();
-                                        }}
-                                    />
-                                </div>
-
-                            </div>
-
-                        </div>
+                <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
+                    {this.tabViews.map((tab, key) => {
+                        let className = tab.value == store.filter.saler_id ? 'active' : '';
+                        return (<li className={className} key={key}
+                                    onClick={() => this.changeTabView(tab)}
+                        >
+                            <a style={{borderRadius: 5, textTransform: 'none'}}>{tab.text}</a>
+                        </li>);
+                    })}
+                </ul>
+                <div className="flex flex-space-between">
+                    <div className="flex tool-bar-register">
+                        <CreateRegisterOverlay
+                            className="btn btn-white btn-icon "
+                            onSuccess={() => {
+                                store.loadRegisters();
+                            }}
+                            btnStyle={{padding: "12px 30px", height: 42, margin: '10px 5px 0 0', borderRadius: 5}}
+                        />
+                        <Search
+                            onChange={this.registersSearchChange}
+                            value={filter.search}
+                            placeholder="Tìm kiếm học viên"
+                            className="white-seacrh margin-right-5"
+                            onSearch={this.onSearchRegisters}
+                            disabled={isLoading}
+                        />
+                        <button
+                            onClick={this.openFilterPanel}
+                            className="btn btn-white btn-icon"
+                            style={{padding: "12px 20px", height: 42, margin: '10px 5px 0 0'}}
+                        >Lọc&nbsp;&nbsp;&nbsp;&nbsp;<span className="material-icons">filter_alt</span>
+                        </button>
+                        <Select
+                            options={filter_data.gens}
+                            onChange={(e) => {
+                                store.onChangeFilter('gen_id', e);
+                                store.loadRegisters();
+                            }}
+                            value={filter.gen_id}
+                            defaultMessage="Chọn khóa học"
+                            name="gen_id"
+                            disabled={isLoading}
+                            wrapClassName="margin-right-5 react-select-white-light-round"
+                            className="btn btn-white"
+                        />
+                        <a
+                            onClick={this.showLoadingModal}
+                            className="btn btn-white btn-icon"
+                            style={{padding: "12px 20px", height: 42, margin: '10px 5px 0 0'}}
+                            disabled={isLoading}
+                        >Tải xuống&nbsp;&nbsp;&nbsp;&nbsp;<span className="material-icons">get_app</span>
+                        </a>
                     </div>
+                    <div></div>
                 </div>
+
                 <Panel collapsible expanded={
                     this.state.openFilterPanel
                     &&
                     !(isLoading)
                 }>
-                    <div className="card-filter">
+                    <div className="card-filter" style={{borderRadius: 5}}>
 
                         <div className="row">
 
@@ -534,8 +535,8 @@ class RegisterListContainer extends React.Component {
                         </div>
 
                         <div className="row">
-                            {register_statuses.map((register_status,key)=>{
-                                return(
+                            {register_statuses.map((register_status, key) => {
+                                return (
                                     <div className="col-sm-4" key={key}>
                                         <div className="flex">
                                             <div
@@ -554,16 +555,7 @@ class RegisterListContainer extends React.Component {
                         </div>
                     </div>
                 </Panel>
-                <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
-                    {this.tabViews.map((tab, key) => {
-                        let className = tab.value == store.filter.saler_id ? 'active' : '';
-                        return (<li className={className} key={key}
-                                    onClick={() => this.changeTabView(tab)}
-                        >
-                            <a>{tab.text}</a>
-                        </li>);
-                    })}
-                </ul>
+
 
                 <div>
                     {isLoading && <Loading/>}

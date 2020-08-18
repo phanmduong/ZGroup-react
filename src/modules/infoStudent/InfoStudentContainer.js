@@ -316,6 +316,7 @@ class InfoStudentContainer extends React.Component {
                                             {/*{student.age && <p>Tuổi<strong>{student.age || "Chưa có"}</strong></p>}*/}
                                             {student.identity_code && <p>CMND<strong>{student.identity_code || "Chưa có"}</strong></p>}
                                             {student.nationality && <p>Quốc tịch<strong>{student.nationality || "Chưa có"}</strong></p>}
+                                            {student.code && <p>Mã học viên<strong>{student.code || "Chưa có"}</strong></p>}
                                             {student.address &&
                                             <p>Địa chỉ<strong>{student.address || "Chưa có"}</strong></p>}
                                             {student.father_name &&

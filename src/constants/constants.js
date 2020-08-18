@@ -254,7 +254,12 @@ export const REGISTER_STATUS = [
         register: 5,
         label: "Kết thúc",
         value: "end"
-    }
+    },
+    {
+        register: 6,
+        label: "Đã hoàn tiền",
+        value: "refunded"
+    },
 ];
 
 export const ORDERED_STATUS = [
