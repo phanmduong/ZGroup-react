@@ -112,7 +112,7 @@ class ExtraRegisterOverlay extends React.Component {
     render() {
         let {isChangingStatusCall, register} = this.props;
         // let {isLoading} = this.state;
-        let refundable = register && register.money > 0 && register.money < 5;
+        let refundable = register && register.money > 0;
         return (
 
             <div style={{position: "relative"}} className="" ref="extraRegisterOverlay">

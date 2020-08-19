@@ -5,8 +5,13 @@ import {connect} from "react-redux";
 import * as studentActions from "../../infoStudent/studentActions";
 import {bindActionCreators} from "redux";
 import * as registerActions from "../../registerStudents/registerActions";
-import * as helper from "../../../helpers/helper";
-import {dotNumber, showErrorNotification, showNotification, showWarningNotification} from "../../../helpers/helper";
+import {
+    confirm,
+    dotNumber,
+    showErrorNotification,
+    showNotification,
+    showWarningNotification
+} from "../../../helpers/helper";
 import ListClass from "../../registerStudents/ListClass";
 import {Modal, Overlay} from 'react-bootstrap';
 import {deleteRegisterStudent} from "../../registerStudents/registerStudentsApi";
@@ -14,8 +19,7 @@ import {isEmpty} from "../../../helpers/entity/mobx";
 import {DATE_VN_FORMAT} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import FormInputText from "../../../components/common/FormInputText";
-
-// import {showNotification} from "../../../../helpers/helper";
+import moment from "moment";
 
 class RegisterActionsOverlay extends React.Component {
     constructor(props, context) {
@@ -29,22 +33,22 @@ class RegisterActionsOverlay extends React.Component {
             note: '',
             appointmentPayment: '',
             dateTest: '',
-            currentRegister:{}
+            currentRegister: {}
         };
         this.state = this.initState;
     }
 
     toggle = () => {
         this.setState({show: !this.state.show});
-    }
+    };
 
     changeCallStatus = (callStatus) => {
         this.setState({callStatus});
-    }
+    };
 
     close = () => {
         this.setState(this.initState);
-    }
+    };
 
     changeCallStatusStudent = () => {
         let {studentId} = this.props;
@@ -57,7 +61,7 @@ class RegisterActionsOverlay extends React.Component {
             dateTest,
             this.close
         );
-    }
+    };
 
 
     openModalChangeClass = (registerId) => {
@@ -66,20 +70,20 @@ class RegisterActionsOverlay extends React.Component {
             selectRegisterId: registerId
         });
         this.props.registerActions.loadClasses(registerId);
-    }
+    };
     closeModalChangeClass = () => {
         if (this.props.isChangingClass) return;
         this.setState({showModalChangeClass: false});
-    }
+    };
 
     confirmChangeClass = (classData) => {
-        this.props.registerActions.confirmChangeClass(this.state.selectRegisterId, classData.id, ()=>{
+        this.props.registerActions.confirmChangeClass(this.state.selectRegisterId, classData.id, () => {
             this.closeModalChangeClass();
             this.reload();
         });
-    }
+    };
     deleteRegisterStudent = (register) => {
-        helper.confirm('error', 'Xóa', "Bạn có muốn xóa đăng kí này không?", () => {
+        confirm('error', 'Xóa', "Bạn có muốn xóa đăng kí này không?", () => {
             if (this.refs.RegisterActionsOverlay) this.setState({isLoading: true});
             showWarningNotification('Đang xóa');
             deleteRegisterStudent(register.id).then(res => {
@@ -97,15 +101,15 @@ class RegisterActionsOverlay extends React.Component {
                 this.reload();
             });
         });
-    }
+    };
 
     printNotiInvoice = (register) => {
         window.open("/noti-invoice/" + register.id, "_blank");
-    }
+    };
 
     printInvoice = (register) => {
         window.open("/invoice/" + register.id, "_blank");
-    }
+    };
 
     showModalRefund = (currentRegister) => {
         if (isEmpty(currentRegister)) return;
@@ -118,11 +122,11 @@ class RegisterActionsOverlay extends React.Component {
             currentRegister.refundValue = currentRegister.money;
         }
         this.setState({showModalRefund: true, currentRegister: {...currentRegister}});
-    }
+    };
 
     closeModalRefund = () => {
         this.setState({showModalRefund: false});
-    }
+    };
     updateRefundRegisterMoney = (event) => {
         const {name, value} = event.target;
         console.log(name, value);
@@ -140,11 +144,11 @@ class RegisterActionsOverlay extends React.Component {
             rules: {money: 'required'},
             messages: {'money': 'Vui lòng nhập số tiền!'}
         });
-    }
+    };
     refundStudent = (value) => {
-        if(!value){
+        if (!value) {
             showErrorNotification('Bạn chưa nhập học phí hoàn lại!');
-            return ;
+            return;
         }
         let {currentRegister} = this.state;
         let now = new moment().format(DATE_VN_FORMAT);
@@ -159,17 +163,18 @@ class RegisterActionsOverlay extends React.Component {
             this.closeModalRefund();
             this.reload();
         });
-    }
+    };
 
-    reload = ()=>{
-        if(this.props.reload){
+    reload = () => {
+        if (this.props.reload) {
             this.props.reload();
         }
-    }
+    };
+
     render() {
         let {isChangingStatusCall, register} = this.props;
-        let {currentRegister,isRefunding} = this.state;
-        let refundable = register && register.money > 0 && register.money < 5;
+        let {currentRegister, isRefunding} = this.state;
+        let refundable = register && register.money > 0;
         return (
 
             <div style={{position: "relative"}} className="" mask="register-actions" ref="RegisterActionsOverlay">
@@ -196,7 +201,7 @@ class RegisterActionsOverlay extends React.Component {
                         {refundable &&
                         <button type="button"
                                 className="btn btn-white width-100"
-                                onClick={()=>this.showModalRefund(this.props.register)}>
+                                onClick={() => this.showModalRefund(this.props.register)}>
                             Hoàn lại học phí
                         </button>}
                         {register && //register.status < 3 &&
