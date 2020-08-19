@@ -149,7 +149,7 @@ class ExtraRegisterOverlay extends React.Component {
                                 onClick={this.props.openModalChangePassword}>
                             Thay đổi mật khẩu
                         </button>}
-                        {register && //register.status < 3 &&
+                        {register && register.status < 3 &&
                         <button type="button"
                                 className="btn btn-white width-100"
                                 onClick={() => this.openModalChangeClass(register.id)}>

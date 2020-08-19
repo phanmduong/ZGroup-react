@@ -15,7 +15,6 @@ import {
 import ListClass from "../../registerStudents/ListClass";
 import {Modal, Overlay} from 'react-bootstrap';
 import {deleteRegisterStudent} from "../../registerStudents/registerStudentsApi";
-import {isEmpty} from "../../../helpers/entity/mobx";
 import {DATE_VN_FORMAT} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import FormInputText from "../../../components/common/FormInputText";
@@ -28,18 +27,20 @@ class RegisterActionsOverlay extends React.Component {
             show: false,
             isLoading: false,
             isRefunding: false,
+            showModalChangeClass: false,
+            showModalRefund: false,
             callStatus: 1,
             page: 1,
             note: '',
             appointmentPayment: '',
             dateTest: '',
-            currentRegister: {}
+            // currentRegister: {}
         };
         this.state = this.initState;
     }
 
     toggle = () => {
-        this.setState({show: !this.state.show});
+        this.setState({show: !this.state.show,});
     };
 
     changeCallStatus = (callStatus) => {
@@ -47,20 +48,28 @@ class RegisterActionsOverlay extends React.Component {
     };
 
     close = () => {
-        this.setState(this.initState);
+        let {showModalChangeClass, showModalRefund} = this.state;
+        this.setState({
+            ...this.initState,
+            showModalChangeClass,
+            showModalRefund,
+
+        });
     };
 
     changeCallStatusStudent = () => {
-        let {studentId} = this.props;
-        let {callStatus, note, appointmentPayment, dateTest} = this.state;
-        this.props.studentActions.changeCallStatusStudent(
-            callStatus,
-            studentId,
-            note,
-            appointmentPayment,
-            dateTest,
-            this.close
-        );
+        if (this.props.register && this.props.register.student) {
+            let {studentId} = this.props.register.student.id;
+            let {callStatus, note, appointmentPayment, dateTest} = this.state;
+            this.props.studentActions.changeCallStatusStudent(
+                callStatus,
+                studentId,
+                note,
+                appointmentPayment,
+                dateTest,
+                this.close
+            );
+        }
     };
 
 
@@ -112,15 +121,17 @@ class RegisterActionsOverlay extends React.Component {
     };
 
     showModalRefund = (currentRegister) => {
-        if (isEmpty(currentRegister)) return;
-        let {total_lesson, total_lesson_done} = {...currentRegister};
+        if (!currentRegister) return;
+        if (!currentRegister.studyClass) return;
+        let {total_lesson, passed_lesson} = {...currentRegister.studyClass};
         currentRegister.refundValue = 0;
-        if (total_lesson > 0 && total_lesson_done) {
-            currentRegister.refundValue = Math.round(currentRegister.money / total_lesson * (total_lesson - total_lesson_done));
+        if (total_lesson > 0 && passed_lesson) {
+            currentRegister.refundValue = Math.round(currentRegister.money / total_lesson * (total_lesson - passed_lesson));
         }
-        if (total_lesson === 0 || total_lesson_done === 0) {
+        if (total_lesson === 0 || passed_lesson === 0) {
             currentRegister.refundValue = currentRegister.money;
         }
+
         this.setState({showModalRefund: true, currentRegister: {...currentRegister}});
     };
 
@@ -129,9 +140,7 @@ class RegisterActionsOverlay extends React.Component {
     };
     updateRefundRegisterMoney = (event) => {
         const {name, value} = event.target;
-        console.log(name, value);
         let currentRegister = {...this.state.currentRegister};
-
         if (name == "refundValue") {
             if (!isNaN(Number(value.toString().replace(/\./g, "")))) {
                 currentRegister[name] = Number(value.toString().replace(/\./g, ""));
@@ -146,23 +155,25 @@ class RegisterActionsOverlay extends React.Component {
         });
     };
     refundStudent = (value) => {
-        if (!value) {
-            showErrorNotification('Bạn chưa nhập học phí hoàn lại!');
-            return;
-        }
         let {currentRegister} = this.state;
-        let now = new moment().format(DATE_VN_FORMAT);
+        if (currentRegister && currentRegister.student) {
+            if (!value) {
+                showErrorNotification('Bạn chưa nhập học phí hoàn lại!');
+                return;
+            }
+            let now = new moment().format(DATE_VN_FORMAT);
 
-        let data = {
-            value,
-            student_id: currentRegister.student_id,
-            register_id: currentRegister.id,
-            note: `\nHoàn số tiền (${dotNumber(value)}đ) ngày ${now}`
-        };
-        this.props.studentActions.refundStudent(data, () => {
-            this.closeModalRefund();
-            this.reload();
-        });
+            let data = {
+                value,
+                student_id: currentRegister.student.id,
+                register_id: currentRegister.id,
+                note: `\nHoàn số tiền (${dotNumber(value)}đ) ngày ${now}`
+            };
+            this.props.studentActions.refundStudent(data, () => {
+                this.closeModalRefund();
+                this.reload();
+            });
+        }
     };
 
     reload = () => {
@@ -172,8 +183,8 @@ class RegisterActionsOverlay extends React.Component {
     };
 
     render() {
-        let {isChangingStatusCall, register} = this.props;
-        let {currentRegister, isRefunding} = this.state;
+        let {isChangingStatusCall, register, isRefunding} = this.props;
+        let {currentRegister,} = this.state;
         let refundable = register && register.money > 0;
         return (
 
@@ -204,7 +215,7 @@ class RegisterActionsOverlay extends React.Component {
                                 onClick={() => this.showModalRefund(this.props.register)}>
                             Hoàn lại học phí
                         </button>}
-                        {register && //register.status < 3 &&
+                        {register && register.status < 3 &&
                         <button type="button"
                                 className="btn btn-white width-100"
                                 onClick={() => this.openModalChangeClass(register.id)}>
@@ -256,7 +267,8 @@ class RegisterActionsOverlay extends React.Component {
 
                     </Modal.Body>
                 </Modal>
-                {currentRegister && currentRegister.class && <Modal show={this.state.showModalRefund}>
+                {currentRegister &&
+                <Modal show={this.state.showModalRefund}>
                     <Modal.Header closeButton={!this.props.isRefunding}
                                   onHide={this.props.isRefunding ? '' : this.closeModalRefund}
                                   closeLabel="Đóng">
@@ -271,23 +283,24 @@ class RegisterActionsOverlay extends React.Component {
                                     <div>Học viên:</div>
                                     <div><b>{currentRegister.name}</b></div>
                                 </div>
-                                <div className="flex flex-space-between">
+                                {currentRegister.course && <div className="flex flex-space-between">
                                     <div>Môn học:</div>
-                                    <div><b>{currentRegister.class.name}</b></div>
-                                </div>
-                                <div className="flex flex-space-between">
+                                    <div><b>{currentRegister.course.name}</b></div>
+                                </div>}
+                                {currentRegister.studyClass && <div className="flex flex-space-between">
                                     <div>Lớp:</div>
-                                    <div><b>{currentRegister.class.name}</b></div>
-                                </div>
+                                    <div><b>{currentRegister.studyClass.name}</b></div>
+                                </div>}
                                 <div className="flex flex-space-between">
                                     <div>Học phí đã đóng:</div>
                                     <div><b>{dotNumber(currentRegister.money)}đ</b></div>
                                 </div>
-                                <div className="flex flex-space-between">
+                                {currentRegister.studyClass && <div className="flex flex-space-between">
                                     <div>Tiến trình lớp:</div>
-                                    <div><b>{currentRegister.total_lesson_done}/{currentRegister.total_lesson} buổi</b>
+                                    <div>
+                                        <b>{currentRegister.studyClass.passed_lesson || 0}/{currentRegister.studyClass.total_lesson || 0} buổi</b>
                                     </div>
-                                </div>
+                                </div>}
                                 <hr/>
                                 <div className="flex flex-space-between flex-align-items-center">
                                     <div>Học phí hoàn lại:</div>
@@ -333,12 +346,13 @@ RegisterActionsOverlay.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        classes: state.registerStudents.classes,
         historyCalls: state.infoStudent.historyCalls,
         isLoadingHistoryCalls: state.infoStudent.isLoadingHistoryCalls,
+        isRefunding: state.infoStudent.isRefunding,
+        isChangingStatusCall: state.infoStudent.isChangingStatusCall,
+        classes: state.registerStudents.classes,
         isLoadingClasses: state.registerStudents.isLoadingClasses,
         isChangingClass: state.registerStudents.isChangingClass,
-        isChangingStatusCall: state.infoStudent.isChangingStatusCall,
     };
 }
 
