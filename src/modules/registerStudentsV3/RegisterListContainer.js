@@ -253,7 +253,7 @@ class RegisterListContainer extends React.Component {
                                 store.loadRegisters();
                             }}
                             value={filter.gen_id}
-                            defaultMessage="Chọn khóa học"
+                            defaultMessage="Chọn giai đoạn"
                             name="gen_id"
                             disabled={isLoading}
                             wrapClassName="margin-right-5 react-select-white-light-round"
