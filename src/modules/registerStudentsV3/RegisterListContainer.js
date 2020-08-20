@@ -270,12 +270,12 @@ class RegisterListContainer extends React.Component {
                     <div></div>
                 </div>
 
-                <Panel collapsible expanded={
+                <Panel className="none-margin" collapsible expanded={
                     this.state.openFilterPanel
                     &&
                     !(isLoading)
                 }>
-                    <div className="card-filter" style={{borderRadius: 5}}>
+                    <div className="card-filter margin-bottom-10" style={{borderRadius: 5}}>
 
                         <div className="row">
 
