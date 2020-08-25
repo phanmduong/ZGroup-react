@@ -264,8 +264,7 @@ class RegisterList extends React.Component {
                                     <RegisterActionsOverlay
                                         openModalRefund={() => this.showModalRefund({...register})}
                                         register={{...register}}
-                                        studentId={(register && register.user) ? register.user.id : null}
-                                        reload={store.loadRegisters}
+                                        reload={()=>store.loadRegisters()}
                                     />
                                 </td>
 

@@ -33,7 +33,7 @@ export function loadRegisters(filter) {
     console.log('api',filter);
 
     let baseUrl = NEW_MANAGE_API_URL + "/register/register-list?";
-    let includes = '&include=saler,studyClass,source,register_status,student,gen,coupons,tele_call,course,marketing_campaign';
+    let includes = '&include=saler,studyClass.teaching_progress,source,register_status,student,gen,coupons,tele_call,course,marketing_campaign';
     let token = localStorage.getItem('token');
     if(limit == -1){
         includes += ',base.district.province,source,marketing_campaign';
