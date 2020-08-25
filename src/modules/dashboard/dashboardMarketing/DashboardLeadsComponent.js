@@ -488,7 +488,7 @@ class DashboardLeadsComponent extends React.Component {
                                                 borderColor: "#" + item.color,
                                                 data: [item.total_expense],
                                                 label: item.name
-                                            }
+                                            };
                                         })
                                     }}
                                     options={optionsBarMoney}
@@ -541,7 +541,7 @@ class DashboardLeadsComponent extends React.Component {
                                                 borderColor: item.color,
                                                 data: [item.total_expense],
                                                 label: item.name
-                                            }
+                                            };
                                         })
                                     }}
                                     options={optionsBarMoney}

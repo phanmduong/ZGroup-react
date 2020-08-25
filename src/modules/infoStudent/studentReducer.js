@@ -192,6 +192,40 @@ export default function studentReducer(state = initialState.infoStudent, action)
                 }
 
             };
+        case types.BEGIN_LOAD_STUDENT_MOCK_EXAMS:
+            return {
+                ...state,
+                mockExam: {
+                    ...state.mockExams,
+                    ...{
+                        isLoading: true,
+                        error: false,
+                    }
+                }
+            };
+        case types.LOAD_STUDENT_MOCK_EXAMS_SUCCESS:
+            return {
+                ...state,
+                mockExam: {
+                    ...state.mockExams,
+                    ...{
+                        isLoading: false,
+                        mockExams: action.mockExams,
+                    }
+                }
+            };
+        case types.LOAD_STUDENT_MOCK_EXAMS_ERROR:
+            return {
+                ...state,
+                mockExam: {
+                    ...state.mockExams,
+                    ...{
+                        isLoading: false,
+                        error: true,
+                    }
+                }
+
+            };
         case types.BEGIN_LOAD_HISTORY_COLLECT_MONEY_INFO_STUDENT:
             return {
                 ...state,
@@ -323,7 +357,7 @@ export default function studentReducer(state = initialState.infoStudent, action)
             return {
                 ...state,
                 ...{
-                    historyCalls: [...state.historyCalls, action.historyCall],
+                    historyCalls: [action.historyCall,...state.historyCalls],
                     isChangingStatusCall: false,
                     errorChangeStatusCall: false,
                 }

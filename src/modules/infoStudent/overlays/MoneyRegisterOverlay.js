@@ -17,6 +17,7 @@ import {
 import Checkbox from "../../../components/common/Checkbox";
 import moment from "moment";
 import FormInputDate from "../../../components/common/FormInputDate";
+import {isEmpty} from "../../../helpers/entity/mobx";
 
 class MoneyRegisterOverlay extends React.Component {
     constructor(props, context) {
@@ -53,9 +54,8 @@ class MoneyRegisterOverlay extends React.Component {
     };
     updateFormData = (event) => {
         const {name, value} = event.target;
-        console.log(name, value);
         let register = {...this.state.register};
-
+        console.log(name, value);
         if (name == "money") {
             if (!isNaN(Number(value.toString().replace(/\./g, "")))) {
                 register[name] = Number(value.toString().replace(/\./g, ""));
@@ -80,7 +80,8 @@ class MoneyRegisterOverlay extends React.Component {
     payMoneyStudent = () => {
         let {register} = this.state;
 
-
+        // console.log(register);
+        // return ;
         if ($('#form-collect-money').valid()) {
             if (isEmptyInput(this.state.register.payment_method)) {
                 showTypeNotification("Vui lòng chọn phương thức thanh toán", "warning");
@@ -96,7 +97,7 @@ class MoneyRegisterOverlay extends React.Component {
             if(received_book){
                 received_book_at = moment().format(DATE_FORMAT_SQL);
             }
-            let actual_input_at = moment(register.actual_input_at, DATE_VN_FORMAT).format(DATE_FORMAT_SQL);
+            let actual_input_at = isEmpty(register.actual_input_at) ? null : moment(register.actual_input_at, DATE_VN_FORMAT).format(DATE_FORMAT_SQL);
             // console.log(received_book_at);
             payMoney({
                 id: register.id,
@@ -160,7 +161,6 @@ class MoneyRegisterOverlay extends React.Component {
                 style = {backgroundColor: '#F7F5F7'};
             }
         }
-        console.log(this.props);
         return (
             <div style={{position: "relative"}} className="">
                 <button className="btn btn-actions" mask="money"
@@ -266,7 +266,7 @@ class MoneyRegisterOverlay extends React.Component {
                                         id="form-actual_input_at"
                                         format={DATE_VN_FORMAT}
                                         updateFormData={this.updateFormData}
-                                        value={this.state.register.actual_input_at}
+                                        value={this.state.register.actual_input_at || ''}
                                     />
                                 </div>
                                 <div><label>Phương thức thanh toán</label>

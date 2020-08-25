@@ -20,12 +20,27 @@ class RegisterList extends React.Component {
 
     }
 
+    componentDidMount() {
+        $('[data-toggle="tooltip"]').tooltip();
+    }
+
     onClickButtonChangeFilter = (name, value) => {
         console.log('list', name, value);
         if (isEmpty(value)) value = {};
         store.filter[name] = {...value, value: value.id, label: value.name};
         store.filter[name + '_id'] = value.id;
         store.loadRegisters();
+    };
+
+    onMouseEnterRow = (id, state) => {
+        let tooltip_id = `#row-tooltip-${id}`;
+        $(tooltip_id).tooltip({
+            trigger: 'manual',
+            tooltipClass: "tooltip-register-list-row"
+        }).data('bs.tooltip')
+            .tip()
+            .addClass('tooltip-register-list-row');
+        $(tooltip_id).tooltip(state);
     };
 
     render() {
@@ -40,14 +55,12 @@ class RegisterList extends React.Component {
 
                         <th>Lớp</th>
                         <th>Gọi</th>
-                        <th>Retention</th>
                         <th>Họ tên</th>
                         <th>Khóa</th>
                         <th>Mã đăng kí</th>
                         <th>Saler</th>
                         <th>Học phí</th>
                         <th>Trạng thái</th>
-
                         <th>Mã ưu đãi</th>
                         <th>Đăng kí</th>
                         <th/>
@@ -63,7 +76,10 @@ class RegisterList extends React.Component {
                         }
 
                         return (
-                            <tr key={register.id} className={color}>
+                            <tr key={register.id} className={`${color} cursor-pointer`}
+                                onMouseEnter={() => this.onMouseEnterRow(register.id,'show')}
+                                onMouseLeave={() => this.onMouseEnterRow(register.id,'hide')}
+                            >
                                 <td>
                                     <ToggleStar
                                         value={register.bookmark}
@@ -119,13 +135,6 @@ class RegisterList extends React.Component {
                                     </TooltipButton>}
                                 </td>
                                 <td>
-                                    <div className="btn btn-xs btn-main width-100"
-                                    >
-                                        {register.is_retention_course ? "Retention" : "New"}
-                                        <div className="ripple-container"/>
-                                    </div>
-                                </td>
-                                <td>
                                     {register.student && <div>
                                         <StudyProgressTooltip
                                             openModalRegisterDetail={openModalRegisterDetail}
@@ -144,7 +153,27 @@ class RegisterList extends React.Component {
                                 </td>
                                 <td>{register.gen && register.gen.name}</td>
 
-                                <td>{register.code}</td>
+                                <td>
+                                    <div
+                                        data-toggle="tooltip"
+                                        title={
+                                            {
+                                                0:'Chưa đóng tiền',
+                                                1:'Đã nộp tiền',
+                                                2:'Danh sách chờ',
+                                                3:'Bảo lưu',
+                                                4:'Học lại',
+                                                5:'Đã học xong',
+                                                6:'Đã hoàn tiền',
+                                            }[register.status]
+                                        }
+                                        type="button"
+                                        rel="tooltip"
+                                        id={`row-tooltip-${register.id}`}
+                                    >
+                                    {register.code}
+                                    </div>
+                                </td>
                                 <td>
                                     <div className="flex flex-col">
                                         {
@@ -205,7 +234,7 @@ class RegisterList extends React.Component {
                                     {
                                         register.paid_status ?
                                             <TooltipButton text={register.note} placement="top">
-                                                <div className="btn btn-xs btn-main main-background-color width-100">
+                                                <div className="btn btn-xs btn-main main-background-color">
                                                     {helper.dotNumber(register.money)} vnd
                                                 </div>
                                             </TooltipButton>
@@ -232,7 +261,6 @@ class RegisterList extends React.Component {
                                         className="status-overlay margin-bottom-10"
                                     />
                                 </td>
-
                                 <td>
                                     {register.coupon && <div className="btn btn-xs btn-main">
                                         {register.coupon}

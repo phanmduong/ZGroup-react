@@ -10,19 +10,57 @@ import RegisterList from "./RegisterList";
 import {store} from "./RegisterListStore";
 import Pagination from "../../components/common/Pagination";
 import DateRangePicker from "../../components/common/DateTimePicker";
-import {showWarningNotification} from "../../helpers/helper";
-import {Panel} from 'react-bootstrap';
+import moment from "moment";
+import {
+    appendJsonToWorkBook,
+    isEmptyInput,
+    newWorkBook,
+    saveWorkBookToExcel,
+    showErrorNotification,
+    showWarningNotification
+} from "../../helpers/helper";
+import {Modal, Panel} from 'react-bootstrap';
 import ItemReactSelect from "../../components/common/ItemReactSelect";
 import ReactSelect from "react-select";
 import FormInputDate from "../../components/common/FormInputDate";
+import {loadRegisters} from "./registerListApi";
+import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL, TYPE_CLASSES_OBJECT} from "../../constants/constants";
 
+const register_statuses = [
+    {
+      text:'Chưa đóng tiền',
+      id: 0,
+      color:'#ffffff',
+    },
+    {
+      text:'Đã nộp tiền',
+      id: 1,
+      color:'#dff0d8',
+    },
+    {
+      text:'Danh sách chờ',
+      id: 2,
+      color:'#fcf8e3',
+    },
+    {
+      text:'Đã học xong',
+      id: 5,
+      color:'#8c8c8c',
+    },
+    {
+      text:'Đã hoàn tiền',
+      id: 6,
+      color:'#c5e2ec',
+    },
+];
 
 @observer
 class RegisterListContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            openFilterPanel: false
+            openFilterPanel: false,
+            showLoadingModal: false,
         };
         this.tabViews = [
             {
@@ -71,6 +109,7 @@ class RegisterListContainer extends React.Component {
     };
 
     changeDateRangePicker = (start_time, end_time) => {
+        if (store.isLoading) return;
         store.filter = {...store.filter, start_time, end_time, gen_id: 0};
     };
 
@@ -82,9 +121,96 @@ class RegisterListContainer extends React.Component {
         }
     };
 
+    showLoadingModal = () => {
+        this.setState({showLoadingModal: true});
+        let filter = store.solveFilter();
+        filter.limit = -1;
+        loadRegisters(filter).then(res => {
+            this.setState({showLoadingModal: false});
+            this.exportData(res.data.items);
+        });
+    };
+
+    exportData = (registers) => {
+        console.log(registers);
+
+        if (!registers || registers.length == 0) {
+            showErrorNotification("Không có dữ liệu");
+            return;
+        }
+        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 30}, {"wch": 30}, {"wch": 12}, {"wch": 12}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 150},];//độ rộng cột
+
+        let json = registers.map((item, index) => {
+            if (item) {
+                /* eslint-disable */
+                item = {
+                    ...item,
+                    tele_call: item.tele_call ? item.tele_call : {call_status_text: 'Chưa gọi'},
+                    studyClass: item.studyClass ? item.studyClass : {name: 'Không có', type: 'null'},
+                    how_know: item.how_know ? item.how_know : 'Không có',
+                    course: item.course ? item.course : {name: 'Không có'},
+                    base: item.base ? item.base : {name: 'Không có'},
+                    province: (item.base && item.base.district && item.base.district.province) ? item.base.district.province.name : 'Không có',
+                    source: item.source ? item.source : {name: 'Không có'},
+                    saler: item.saler ? item.saler : {name: 'Không có'},
+                    marketing_campaign: item.marketing_campaign ? item.marketing_campaign : {name: 'Không có'},
+                    student: item.student ? item.student : {name: 'Không có', email: 'Không có', phone: 'Không có'},
+
+                };
+
+                let mock_exams_text = '';
+                if (item.mock_exams) {
+                    item.mock_exams.forEach((ex, ex_index) => {
+                        if (ex_index > 0) mock_exams_text += '\n';
+                        if (ex.type) mock_exams_text += 'Loại: ' + ex.type;
+                        if (ex.score) mock_exams_text += ' - Điểm: ' + ex.score;
+                        if (ex.time) mock_exams_text += ' - Giờ: ' + ex.time;
+                        if (ex.date) mock_exams_text += ' - Ngày: ' + ex.date;
+                        if (ex.note) mock_exams_text += ' - Ghi chú: ' + ex.note;
+                        if (ex.course) mock_exams_text += ' - Môn: ' + ex.course.name;
+
+                    });
+                }
+                let res = {
+                    'STT': index + 1,
+                    'Lớp': item.studyClass.name,
+                    'Loại lớp': TYPE_CLASSES_OBJECT[item.studyClass.type],
+                    'Môn học': item.course.name,
+                    'Gọi': item.tele_call.call_status_text,
+                    'Họ tên': item.student.name,
+                    'Email': item.student.email,
+                    'Phone': item.student.phone,
+                    'Thành phố': item.province,
+                    'Mã thẻ': item.code,
+                    'Học phí': item.money,
+                    'Saler': item.saler.name,
+                    'Chiến dịch': item.marketing_campaign.name,
+                    'Cơ sở': `${item.base.name} ${item.base.address}`,
+                    'Nguồn': item.source.name,
+                    'Cách tiếp cận': item.how_know,
+                    'Ngày đăng kí': item.created_at,
+                    'Thi thử': mock_exams_text,
+                };
+                /* eslint-enable */
+                return res;
+            }
+        });
+        let wb = newWorkBook();
+        appendJsonToWorkBook(json, wb, 'Danh sách', cols, []);
+
+        let startTime = moment(store.filter.start_time, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+        let endTime = moment(store.filter.end_time, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+
+        saveWorkBookToExcel(wb,
+            'Danh sách đăng kí' +
+            `${isEmptyInput(store.filter.start_time) ? '' : (' - ' + startTime)}` +
+            `${isEmptyInput(store.filter.end_time) ? '' : (' - ' + endTime)}`
+        );
+    };
+
     render() {
         let {filter, filter_data, isLoading, paginator} = store;
-
+        console.log(filter);
         return (
             <div className="container-fluid">
                 <div className="card" mask="purple">
@@ -101,7 +227,7 @@ class RegisterListContainer extends React.Component {
                                     <a
                                         onClick={this.showLoadingModal}
                                         className="text-white"
-                                        disabled={false}
+                                        disabled={isLoading}
                                     >Tải xuống</a>
                                 </div>
                                 <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
@@ -111,6 +237,7 @@ class RegisterListContainer extends React.Component {
                                         placeholder="Tìm kiếm học viên"
                                         className="round-white-seacrh"
                                         onSearch={this.onSearchRegisters}
+                                        disabled={isLoading}
                                     />
                                     <button
                                         onClick={this.openFilterPanel}
@@ -127,10 +254,12 @@ class RegisterListContainer extends React.Component {
                                         value={filter.gen_id}
                                         defaultMessage="Chọn khóa học"
                                         name="gen_id"
+                                        disabled={isLoading}
                                     />
                                     <CreateRegisterOverlay
                                         className="btn btn-white btn-round btn-icon"
                                         onSuccess={() => {
+                                            store.loadRegisters();
                                         }}
                                     />
                                 </div>
@@ -170,6 +299,7 @@ class RegisterListContainer extends React.Component {
                                         onChange={(e) => store.onChangeFilter('saler_id', e)}
                                         value={filter.saler}
                                         id="select-async-importer"
+                                        disabled={isLoading}
                                         optionRenderer={(option) => {
                                             return (
                                                 <ItemReactSelect label={option.label}
@@ -209,6 +339,7 @@ class RegisterListContainer extends React.Component {
                                         onChange={(e) => store.onChangeFilter('class_id', e)}
                                         value={filter.class_id}
                                         id="select-async-class"
+                                        disabled={isLoading}
                                         optionRenderer={(option) => {
                                             return (
                                                 <ItemReactSelect label={option.label}
@@ -274,6 +405,7 @@ class RegisterListContainer extends React.Component {
                                     id="form-appointment-payment"
                                     value={filter.appointment_payment}
                                     clearable
+                                    disabled={isLoading}
                                 />
                             </div>
                         </div>
@@ -287,6 +419,7 @@ class RegisterListContainer extends React.Component {
                                     id="form-date-test"
                                     value={filter.date_test}
                                     clearable
+                                    disabled={isLoading}
                                 />
                             </div>
                             <div className="col-md-3">
@@ -297,14 +430,25 @@ class RegisterListContainer extends React.Component {
                                     id="form-call_back_time"
                                     value={filter.call_back_time}
                                     clearable
+                                    disabled={isLoading}
                                 />
                             </div>
                             <div className="col-md-3">
-                                <Search
-                                    onChange={(e) => store.onChangeFilter('search_coupon', e)}
-                                    value={filter.search_coupon}
-                                    label="Tìm kiếm theo coupon"
-                                    placeholder="Nhập coupon"
+                                {/*<Search*/}
+                                {/*    onChange={(e) => store.onChangeFilter('search_coupon', e)}*/}
+                                {/*    value={filter.search_coupon}*/}
+                                {/*    label="Tìm kiếm theo coupon"*/}
+                                {/*    placeholder="Nhập coupon"*/}
+                                {/*    disabled={isLoading}*/}
+                                {/*/>*/}
+                                <label>Tìm kiếm theo coupon</label>
+                                <ReactSelect
+                                    disabled={isLoading}
+                                    options={filter_data.coupons}
+                                    onChange={(e) => store.onChangeFilter('coupon_id', e)}
+                                    value={filter.coupon_id}
+                                    defaultMessage="Chọn coupon"
+                                    name="coupon_id"
                                 />
                             </div>
                             <div className="col-md-3">
@@ -313,6 +457,7 @@ class RegisterListContainer extends React.Component {
                                     value={filter.search_note}
                                     label="Tìm kiếm theo note"
                                     placeholder="Nhập note"
+                                    disabled={isLoading}
                                 />
                             </div>
 
@@ -374,21 +519,39 @@ class RegisterListContainer extends React.Component {
                             <div className="col-md-12">
                                 <div className="flex flex-end">
                                     <div className="btn button-green btn-warning" onClick={store.resetFilters}
-                                         style={{"margin-rigth": "5px",}}
+                                         style={{"margin-rigth": "5px",}} disabled={isLoading}
                                     >
                                         Xóa bộ lọc
                                     </div>
                                     {/*<div className="btn button-green"*/}
                                     {/*     onClick={this.copyShareUrl}>Sao chép đường dẫn*/}
                                     {/*</div>*/}
-                                    <div className="btn button-green"
+                                    <div className="btn button-green" disabled={isLoading}
                                          onClick={this.applyFilter}>Áp dụng
                                     </div>
                                 </div>
                             </div>
                         </div>
 
-
+                        <div className="row">
+                            {register_statuses.map((register_status,key)=>{
+                                return(
+                                    <div className="col-sm-4" key={key}>
+                                        <div className="flex">
+                                            <div
+                                                style={{
+                                                    background: register_status.color,
+                                                    border: 'solid 1px',
+                                                    height: '15px',
+                                                    width: '30px',
+                                                    margin: '3px 10px'
+                                                }}/>
+                                            <p>{register_status.text}</p>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
                     </div>
                 </Panel>
                 <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
@@ -414,6 +577,14 @@ class RegisterListContainer extends React.Component {
                                     store.loadRegisters();
                                 }}/>}
                 </div>
+                <Modal
+                    show={this.state.showLoadingModal}
+                    onHide={() => {
+                    }}
+                >
+                    <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
+                    <Modal.Body><Loading/></Modal.Body>
+                </Modal>
             </div>
 
         );

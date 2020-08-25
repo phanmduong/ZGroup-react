@@ -102,7 +102,7 @@ class PicOverlay extends React.Component {
         return (
             <div style={{position: "relative", backgroundColor: `#${current.color}`,zIndex, ...styleWrapper}} className={className}
                  ref="PicOverlay">
-                <div onClick={() => this.setState({show: true})} style={styleButton}>
+                <div onClick={() => this.setState({show: !this.props.disabled})} style={styleButton}>
                     {this.staffName()}
                 </div>
                 <Overlay
@@ -244,7 +244,7 @@ class PicOverlay extends React.Component {
                                                                             display: "flex",
                                                                             justifyContent: "space-between",
                                                                             height: 35,
-                                                                            padding: '0 15px',
+                                                                            padding: '9px 15px',
                                                                         }}>
                                                                         {staff.name}
                                                                         <div>

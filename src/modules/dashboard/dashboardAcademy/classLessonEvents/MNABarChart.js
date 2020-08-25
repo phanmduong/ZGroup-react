@@ -80,7 +80,7 @@ class MNABarChart extends React.Component {
                 if( data.series) {
                     let y1 = data.axisY.axisLength /  high * (high - data.series.data[data.index].min);
                     let y2 = y1 - data.axisY.axisLength /  high * (data.series.data[data.index].range);
-                    console.log(y1,y2,data.series.data[data.index])
+                    console.log(y1,y2,data.series.data[data.index]);
                     data.element.attr({
                         y1:y1 +15,
                         y2:y2+15,

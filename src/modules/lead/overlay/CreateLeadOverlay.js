@@ -16,9 +16,6 @@ import SourceOverlay from "../../infoStudent/overlays/SourceOverlay";
 import MarketingCampaignOverlay from "../../infoStudent/overlays/MarketingCampaignOverlay";
 import PicOverlay from "../../infoStudent/overlays/PicOverlay";
 import StatusesOverlay from "../../infoStudent/overlays/StatusesOverlay";
-import CardLabelReactSelectOption from "./CardLabelReactSelectOption";
-import CardLabelReactSelectValue from "./CardLabelReactSelectValue";
-import {getParentCourses} from "../../courses/courseApi";
 
 
 // function getSelectSaler(items) {
@@ -48,8 +45,6 @@ class CreateLeadOverlay extends React.Component {
         this.initState = {
             show: false,
             showModal: false,
-            selectedInterests: [],
-            parentCourses: [],
             lead: {
                 carer_id: this.props.user && this.props.user.id,
                 rate: 5,
@@ -68,17 +63,6 @@ class CreateLeadOverlay extends React.Component {
         // this.props.registerActions.loadSalerFilter();
 
         // this.loadStatuses(false);
-        getParentCourses().then((res) => {
-            let parentCourses = res.data.courses.map(c=>{
-               return {
-                  ...c,
-                  value:c.id,
-                  label:c.name,
-                  color: c.color ? c.color : '#999999',
-               } ;
-            });
-            this.setState({parentCourses });
-        });
     }
 
     loadStatuses = (singleLoad) => {
@@ -193,16 +177,7 @@ class CreateLeadOverlay extends React.Component {
 
         e.preventDefault();
     };
-    updateInterest =(selectedInterests)=>{
-        let interest = '';
-        if(selectedInterests){
-            selectedInterests.forEach((si, key)=>{
-                interest += `${key >0 ? ',' : ''} ${si.name}`;
-            });
-        }
-        this.updateFormData({target:{name:'interest',value: interest}});
-        this.setState({selectedInterests});
-    }
+
     toggle = () => {
         this.setState({show: !this.state.show});
     };
@@ -222,8 +197,8 @@ class CreateLeadOverlay extends React.Component {
     };
 
     render() {
-        let {lead, duplicate_leads,selectedInterests,parentCourses} = this.state;
-        let {isEditing, className,} = this.props;
+        let {lead, duplicate_leads} = this.state;
+        let {isEditing, className} = this.props;
         // statuses = statuses[this.statusRef];
         let provinces = this.props.provinces ? this.props.provinces.map((province) => {
             return {value: province.id, label: province.name};
@@ -320,15 +295,6 @@ class CreateLeadOverlay extends React.Component {
                                      aria-expanded="false"
                                      style={{height: '0px'}}>
                                     <div className="panel-body">
-                                        <div>
-                                            <label>Tên phụ huynh</label>
-                                            <FormInputText
-                                                name="father_name"
-                                                placeholder="Tên phụ huynh"
-                                                required
-                                                value={lead.father_name}
-                                                updateFormData={this.updateFormData}
-                                            /></div>
 
                                         <div>
                                             <label>Nguồn</label>
@@ -390,6 +356,26 @@ class CreateLeadOverlay extends React.Component {
                                         </div>
 
                                         <div>
+                                            <label>Tên phụ huynh</label>
+                                            <FormInputText
+                                                name="father_name"
+                                                placeholder="Tên phụ huynh"
+                                                required
+                                                value={lead.father_name}
+                                                updateFormData={this.updateFormData}
+                                            />
+                                        </div>
+                                        <div>
+
+                                            <label>Tên phụ huynh 2</label>
+                                            <FormInputText
+                                                name="mother_name"
+                                                placeholder="Tên phụ huynh 2"
+                                                value={lead.mother_name}
+                                                updateFormData={this.updateFormData}
+                                            />
+                                        </div>
+                                        <div>
                                             <label>Trường học</label>
                                             <FormInputText
                                                 name="university"
@@ -400,25 +386,48 @@ class CreateLeadOverlay extends React.Component {
                                         </div>
                                         <div>
                                             <label>Quan tâm</label>
-                                            {/*<FormInputText*/}
-                                            {/*    name="interest"*/}
-                                            {/*    placeholder="Interest"*/}
-                                            {/*    value={lead.interest}*/}
-                                            {/*    updateFormData={this.updateFormData}*/}
-                                            {/*/>*/}
-                                            <ReactSelect
-                                                placeholder="Chọn chương trình học"
-
-                                                value={selectedInterests}
-                                                name="selectedInterests"
-                                                optionComponent={CardLabelReactSelectOption}
-                                                multi={true}
-                                                options={parentCourses}
-                                                valueComponent={CardLabelReactSelectValue}
-                                                onChange={this.updateInterest}
+                                            <FormInputText
+                                                name="interest"
+                                                placeholder="Quan tâm"
+                                                value={lead.interest}
+                                                updateFormData={this.updateFormData}
                                             />
                                         </div>
-
+                                        <label>CMND</label>
+                                        <FormInputText
+                                            name="identity_code"
+                                            placeholder="Chứng minh nhân dân"
+                                            value={lead.identity_code}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <label>Quốc tịch</label>
+                                        <FormInputText
+                                            name="nationality"
+                                            placeholder="Quốc tịch"
+                                            value={lead.nationality}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <label>Nơi làm việc</label>
+                                        <FormInputText
+                                            name="work"
+                                            placeholder="Nơi làm việc"
+                                            value={lead.work}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <label>Lý do biết đến</label>
+                                        <FormInputText
+                                            name="how_know"
+                                            placeholder="Lý do biết đến"
+                                            value={lead.how_know}
+                                            updateFormData={this.updateFormData}
+                                        />
+                                        <label>Link Facebook</label>
+                                        <FormInputText
+                                            name="facebook"
+                                            placeholder="Link Facebook"
+                                            value={lead.facebook}
+                                            updateFormData={this.updateFormData}
+                                        />
                                         <div>
                                             <label>P.I.C</label>
                                             {/*<ReactSelect*/}

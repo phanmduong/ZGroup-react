@@ -67,7 +67,7 @@ class DashboardLeadFilter extends React.Component {
                 <div className="col-md-3">
                     <DateRangePicker className="background-white padding-vertical-10px cursor-pointer margin-bottom-20"
                                      start={moment(filter.start_time)} end={moment(filter.end_time)}
-                                     style={{padding: '5px 10px 5px 20px', lineHeight: '34px'}}
+                                     style={{padding: '5px 10px 5px 20px', lineHeight: '33px'}}
                                      onChange={store.changeDateRangePicker}
 
                     />

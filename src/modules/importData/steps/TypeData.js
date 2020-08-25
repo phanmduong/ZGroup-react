@@ -83,6 +83,26 @@ const types = [
                 }
             },
             {
+                key: "user.identity_code",
+                name: "Chứng minh nhân dân",
+                reformat: (data) => {
+                    return data + '';
+                }
+            },
+            {
+                key: "user.gender",
+                name: "Giới tính",
+                reformat: (data) => {
+                    if (data.trim().toLowerCase().includes("nữ")) return 2;
+                    if (data.trim().toLowerCase().includes("nam")) return 1;
+                    return 0;
+                }
+            },
+            {
+                key: "user.work",
+                name: "Công việc",
+            },
+            {
                 key: "user.imported_at",
                 name: "Ngày nhập",
                 format: 'date',
@@ -115,6 +135,10 @@ const types = [
                 name: "Quan tâm"
             },
             {
+                key: "user.nationality",
+                name: "Quốc tịch"
+            },
+            {
                 key: "user.district",
                 name: "Quận/Huyện"
             },
@@ -136,6 +160,10 @@ const types = [
             {
                 key: "user.university",
                 name: "Trường học"
+            },
+            {
+                key: "user.code",
+                name: "Mã học viên"
             },
             {
                 key: "user.rate",
@@ -168,6 +196,23 @@ const types = [
                 },
                 check_key_data: "statuses_user",
             },
+            {
+                key: "user.image1",
+                name: "Ảnh CMND mặt trước",
+            },
+            {
+                key: "user.image2",
+                name: "Ảnh CMND mặt sau",
+            },
+            {
+                key: "user.image_urls",
+                name: "Ảnh khác",
+                reformat: (data) => {
+                    data = data.trim().split(",").reduce((accumulator, item) => accumulator + `"${item}",`, "");
+                    data = data.slice(0, data.length - 1);
+                    return data;
+                }
+            },
         ]
     },
     {
@@ -178,6 +223,12 @@ const types = [
         selected: false,
         properties: [
             {
+                key: "course.name",
+                name: "Tên môn học",
+                text_error: 'Tên môn học là bắt buộc',
+                required: true,
+            },
+            {
                 key: "class.name",
                 name: "Tên lớp",
                 text_error: 'Tên lớp là bắt buộc',
@@ -186,6 +237,44 @@ const types = [
             {
                 key: "register.note",
                 name: "Ghi chú"
+            },
+            {
+                key: "register.code",
+                name: "Mã đăng kí"
+            },
+            {
+                key: "register.created_at",
+                name: "Ngày đăng kí",
+                format: 'date',
+                checkFormat: (data) => {
+                    return isEmptyInput(data) || validation.isDate(data);
+                },
+                reformat: (data) => {
+                    if (isEmptyInput(data)) return null;
+                    if (validation.isDate(data)) {
+                        return (moment(data, allowedDateFormats).format(DATETIME_FORMAT_SQL));
+                    }
+                    return null;
+                }
+            },
+            {
+                key: "register_payment.actual_input_at",
+                name: "Ngày nộp tiền",
+                format: 'date',
+                checkFormat: (data) => {
+                    return isEmptyInput(data) || validation.isDate(data);
+                },
+                reformat: (data) => {
+                    if (isEmptyInput(data)) return null;
+                    if (validation.isDate(data)) {
+                        return (moment(data, allowedDateFormats).format(DATETIME_FORMAT_SQL));
+                    }
+                    return null;
+                }
+            },
+            {
+                key: "coupon.name",
+                name: "Mã giảm giá",
             },
             {
                 key: "register.money",
@@ -219,11 +308,31 @@ const types = [
                 check_key_data: "statuses_register",
             },
             {
-                key: "course.name",
-                name: "Tên môn học",
-                text_error: 'Tên môn học là bắt buộc',
-                required: true,
-            }
+                key: "marketing_campaign.name",
+                name: "Chiến dịch",
+                check_new: true,
+                check_description: (total, not_available_total) => {
+                    return `Chúng tôi nhận thấy có ${total} chiến dịch, trong đó có ${not_available_total} chiến dịch chưa xác định, vui lòng cho chúng tôi biết đó là chiến nào`;
+                },
+                check_key_data: "marketing_campaigns"
+            },
+            {
+                key: "source.name",
+                name: "Nguồn học viên",
+                check_new: true,
+                check_description: (total, not_available_total) => {
+                    return `Chúng tôi nhận thấy có ${total} nguồn học viên, trong đó có ${not_available_total} nguồn chưa xác định, vui lòng cho chúng tôi biết đó là nguồn nào`;
+                },
+                check_key_data: "sources",
+            },
+            {
+                key: "register_saler.email",
+                name: "Saler (Mail)",
+                checkFormat: (data) => {
+                    // return validation.isNotEmpty(data) && validation.isEmailAddress(data);
+                    return !validation.isNotEmpty(data) || validation.isEmailAddress(data);
+                }
+            },
         ]
     },
     {

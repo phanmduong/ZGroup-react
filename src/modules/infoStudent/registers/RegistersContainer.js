@@ -8,7 +8,7 @@ import {bindActionCreators} from 'redux';
 import * as studentActions from '../studentActions';
 import Loading from '../../../components/common/Loading';
 import * as helper from '../../../helpers/helper';
-import {dotNumber} from '../../../helpers/helper';
+import {dotNumber, showErrorNotification} from '../../../helpers/helper';
 import PropTypes from 'prop-types';
 import CallRegisterOverlay from "../overlays/CallRegisterOverlay";
 import ExtraRegisterOverlay from "../overlays/ExtraRegisterOverlay";
@@ -20,12 +20,15 @@ import SourceOverlay from "../overlays/SourceOverlay";
 import CreateRegisterOverlay from "../overlays/CreateRegisterOverlay";
 import CreateCouponOverlay from "../overlays/CreateCouponOverlay";
 import EmptyData from "../../../components/common/EmptyData";
+import FormInputText from "../../../components/common/FormInputText";
+import {DATE_VN_FORMAT} from "../../../constants/constants";
 
 class RegistersContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            register: {}
+            currentRegister: {},
+
         };
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
     }
@@ -33,6 +36,25 @@ class RegistersContainer extends React.Component {
     componentWillMount() {
         this.props.studentActions.loadRegisters(this.studentId);
     }
+
+    updateRefundRegisterMoney = (event) => {
+        const {name, value} = event.target;
+        console.log(name, value);
+        let currentRegister = {...this.state.currentRegister};
+
+        if (name == "refundValue") {
+            if (!isNaN(Number(value.toString().replace(/\./g, "")))) {
+                currentRegister[name] = Number(value.toString().replace(/\./g, ""));
+            }
+        } else {
+            currentRegister[name] = value;
+        }
+        this.setState({currentRegister});
+        $('#form-collect-money').validate({
+            rules: {money: 'required'},
+            messages: {'money': 'Vui lòng nhập số tiền!'}
+        });
+    };
 
     closeModalChangePassword = () => {
         this.setState({showModalChangePassword: false});
@@ -42,8 +64,16 @@ class RegistersContainer extends React.Component {
         this.setState({showModalRefund: false});
     };
 
-    showModalRefund = (register) => {
-        this.setState({showModalRefund: true, register});
+    showModalRefund = (currentRegister) => {
+        let {total_lesson, total_lesson_done} = {...currentRegister};
+        currentRegister.refundValue = 0;
+        if (total_lesson > 0 && total_lesson_done) {
+            currentRegister.refundValue = Math.round(currentRegister.money / total_lesson * (total_lesson - total_lesson_done));
+        }
+        if (total_lesson === 0 || total_lesson_done === 0) {
+            currentRegister.refundValue = currentRegister.money;
+        }
+        this.setState({showModalRefund: true,currentRegister: {...currentRegister}});
     };
 
     openModalChangePassword = () => {
@@ -54,13 +84,18 @@ class RegistersContainer extends React.Component {
     };
 
     refundStudent = (value) => {
-        let {register} = this.state;
-        let now = new moment().format('D/M/YYYY');
+        if(!value){
+            showErrorNotification('Bạn chưa nhập học phí hoàn lại!');
+            return ;
+        }
+            let {currentRegister} = this.state;
+        let now = new moment().format(DATE_VN_FORMAT);
+
         let data = {
             value,
-            student_id: register.student_id,
-            register_id: register.id,
-            note: ` - Hoàn số tiền (${dotNumber(value)}đ) ngày ${now}`
+            student_id: currentRegister.student_id,
+            register_id: currentRegister.id,
+            note: `\nHoàn số tiền (${dotNumber(value)}đ) ngày ${now}`
         };
         this.props.studentActions.refundStudent(data, () => {
             this.closeModalRefund();
@@ -69,15 +104,9 @@ class RegistersContainer extends React.Component {
     };
 
     render() {
-        let currentRegister = this.state.register;
-        let {total_lesson, total_lesson_done} = currentRegister, refundValue = 0;
-        if (total_lesson && total_lesson_done) {
-            refundValue = Math.round(currentRegister.money / total_lesson * (total_lesson - total_lesson_done));
-        }
-        if(total_lesson === 0){
-            refundValue = currentRegister.money;
-        }
+        let {currentRegister} = this.state;
         let {isRefunding, student} = this.props;
+
         return (
             <div className="tab-pane active">
 
@@ -225,7 +254,10 @@ class RegistersContainer extends React.Component {
                                                 {register.note &&
                                                 <div>
                                                     <div className="flex-row-center">
-                                                        <i className="material-icons">create</i>&nbsp; &nbsp;{register.note}
+                                                        <i className="material-icons">create</i>&nbsp; &nbsp;
+                                                        <div
+                                                            //eslint-disable-next-line
+                                                            dangerouslySetInnerHTML={{__html: register.note.replace(/\n/g,"<br />")}}/>
                                                     </div>
                                                 </div>
                                                 }
@@ -269,8 +301,8 @@ class RegistersContainer extends React.Component {
                                                         reload={this.reload}
                                                     />
                                                     <ExtraRegisterOverlay
-                                                        openModalRefund={() => this.showModalRefund(register)}
-                                                        register={register}
+                                                        openModalRefund={() => this.showModalRefund({...register})}
+                                                        register={{...register}}
                                                         studentId={this.studentId}
                                                         reload={this.reload}
                                                     />
@@ -328,12 +360,23 @@ class RegistersContainer extends React.Component {
                                 </div>
                                 <div className="flex flex-space-between">
                                     <div>Tiến trình lớp:</div>
-                                    <div><b>{currentRegister.name}</b></div>
+                                    <div><b>{currentRegister.total_lesson_done}/{currentRegister.total_lesson} buổi</b>
+                                    </div>
                                 </div>
                                 <hr/>
-                                <div className="flex flex-space-between">
+                                <div className="flex flex-space-between flex-align-items-center">
                                     <div>Học phí hoàn lại:</div>
-                                    <div><b>{dotNumber(refundValue)}đ</b></div>
+
+                                    <div className="form-grey">
+                                        <FormInputText
+                                            name="refundValue"
+                                            placeholder="Số tiền"
+                                            value={dotNumber(currentRegister.refundValue)}
+                                            required
+                                            type="text"
+                                            updateFormData={this.updateRefundRegisterMoney}
+                                        />
+                                    </div>
                                 </div>
                                 <div className="flex flex-end flex-align-items-center">
                                     <div className="margin-right-20 cursor-pointer"
@@ -341,8 +384,8 @@ class RegistersContainer extends React.Component {
                                         <b>Hủy</b>
                                     </div>
                                     <div className="btn btn-success radius-8"
-                                         onClick={() => this.refundStudent(refundValue)}>
-                                        Hoàn lại {dotNumber(refundValue)}đ
+                                         onClick={() => this.refundStudent(currentRegister.refundValue)}>
+                                        Hoàn lại {dotNumber(currentRegister.refundValue)}đ
                                     </div>
 
                                 </div>

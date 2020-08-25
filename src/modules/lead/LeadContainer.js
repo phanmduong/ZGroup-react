@@ -27,7 +27,7 @@ import {
 import CreateRegisterModalContainer from "../registerStudents/CreateRegisterModalContainer";
 import * as createRegisterActions from '../registerStudents/createRegisterActions';
 import moment from "moment";
-import {DATE_FORMAT_SQL, STATUS_REFS} from "../../constants/constants";
+import {DATE_FORMAT_SQL, GENDER, REGISTER_STATUS, STATUS_REFS} from "../../constants/constants";
 import CreateLeadOverlay from "./overlay/CreateLeadOverlay";
 import * as studentActions from "../infoStudent/studentActions";
 import Checkbox from "../../components/common/Checkbox";
@@ -52,7 +52,7 @@ const TAGS = [
         label: "New lead",
         value: "new_lead"
     },
-]
+];
 
 class LeadContainer extends React.Component {
     constructor(props, context) {
@@ -100,6 +100,7 @@ class LeadContainer extends React.Component {
                 {value: 'created_at', label: 'Lead từ mới đến cũ', type: 'desc'},
                 // {value:'oldest',label:'Lead từ cũ đến mới'},
                 {value: 'rate', label: 'Số sao', type: 'asc'},
+                {value: 'last_time_interact', label: 'Tương tác gần đây', type: 'desc'},
                 // {value: 'donwstar', label: 'Sao giảm dần'},
             ],
             statusFilter: [],
@@ -319,7 +320,7 @@ class LeadContainer extends React.Component {
             `&search=${search || ''}` +
             `&staff=${JSON.stringify(staff)}` +
             `&startTime=${filter.startTime || ''}` +
-            `&endTime=${filter.endTime || ''}`+
+            `&endTime=${filter.endTime || ''}` +
             `&call_back_time=${filter.call_back_time || ''}`;
         return current_link;
     };
@@ -371,7 +372,7 @@ class LeadContainer extends React.Component {
     };
 
     loadData = (page = 1) => {
-        this.setState({page: page});
+        this.setState({page, isAll: false});
         this.props.leadActions.getLeads({
             ...this.state,
             page,
@@ -650,11 +651,6 @@ class LeadContainer extends React.Component {
         }.bind(this), 500);
     };
 
-    onChangeAll = event => {
-        this.setState({isAll: event.target.checked});
-        this.changeStatusAll(event.target.checked, this.props);
-    };
-
     changeStatusAll = (status, props) => {
         let leads = props.leads.map((lead) => {
             return {
@@ -663,9 +659,10 @@ class LeadContainer extends React.Component {
             };
         });
         let selectedLeads = this.state.selectedLeads.map((lead) => {
+            let checked = (leads.filter(l => l.id == lead.id)[0]) ? status : lead.status;
             return {
                 ...lead,
-                checked: status
+                checked,
             };
         });
         leads.map((lead) => {
@@ -702,7 +699,13 @@ class LeadContainer extends React.Component {
     };
 
     deleteAllSelected = () => {
-        this.setState({selectedLeads: [], isOpenModalSelectedLeads: false, isAll: false});
+        if(this.state.isAll){
+            this.setState({selectedLeads: [], isOpenModalSelectedLeads: false, isAll: false});
+        }else {
+            this.setState({isAll: true});
+            this.changeStatusAll(true, this.props);
+        }
+
     };
 
     removeLeadSuccess = () => {
@@ -729,8 +732,17 @@ class LeadContainer extends React.Component {
         let leadIds = this.state.selectedLeads.map((lead) => {
             return lead.id;
         });
-        this.props.leadActions.uploadDistributionLead(leadIds, this.state.carer.id, this.state.isAll, this.state.search,
-            this.state.filter.startTime, this.state.filter.endTime, this.state.staff, this.state.rate, this.state.top, () => {
+        this.props.leadActions.uploadDistributionLead(
+            leadIds,
+            this.state.carer.id,
+            this.state.isAll,
+            this.state.search,
+            this.state.filter.startTime,
+            this.state.filter.endTime,
+            this.state.staff ? this.state.staff.id : '',
+            this.state.rate,
+            this.state.top,
+            () => {
                 this.closeModalSelectedLeadsModal();
                 this.resetLoad();
             });
@@ -779,7 +791,7 @@ class LeadContainer extends React.Component {
                 let leads = res.data.data.leads;
                 this.exportAllLeadsToExcel(leads);
             } else {
-                showErrorMessage("Có lỗi xảy ra!");
+                showErrorMessage("Dữ liệu quá lớn, vui lòng giới hạn bằng bộ lọc!");
             }
 
         }).catch((e) => {
@@ -802,6 +814,47 @@ class LeadContainer extends React.Component {
                 if (!isEmptyInput(item.courses) && item.courses.length > 0) {
                     item.courses.forEach(c => courses += `, ${c.name}`);
                 }
+                let mock_exams_text = '';
+                if (item.mock_exams) {
+                    item.mock_exams.forEach((ex, ex_index) => {
+                        if (ex_index > 0) mock_exams_text += '\n';
+                        if (ex.type) mock_exams_text += 'Loại: ' + ex.type;
+                        if (ex.score) mock_exams_text += ' - Điểm: ' + ex.score;
+                        if (ex.time) mock_exams_text += ' - Giờ: ' + ex.time;
+                        if (ex.date) mock_exams_text += ' - Ngày: ' + ex.date;
+                        if (ex.note) mock_exams_text += ' - Ghi chú: ' + ex.note;
+                        if (ex.course) mock_exams_text += ' - Môn: ' + ex.course.name;
+
+                    });
+                }
+                let last_call_result;
+                switch (item.last_call_result) {
+                    case 'success':
+                        last_call_result = 'Gọi thành công';
+                        break;
+                    case 'calling':
+                        last_call_result = 'Đang gọi';
+                        break;
+                    case 'failed':
+                        last_call_result = 'Gọi thất bại';
+                        break;
+                    default:
+                        last_call_result = 'Chưa gọi';
+                }
+                let last_deal_status_text = 'Không có',
+                    last_deal_status = REGISTER_STATUS.filter(s => s.register == item.last_deal_status)[0];
+                if (last_deal_status) {
+                    last_deal_status_text = last_deal_status.label;
+                }
+                let all_tele_call_notes = 'Không có';
+                if (item.notes && item.notes.length > 0) {
+                    all_tele_call_notes = '';
+                    item.notes.forEach((note, note_index) => {
+                        all_tele_call_notes += `${note_index > 0 ? '\n' : ''}${note}`;
+                    });
+                }
+                let gender =  GENDER.filter((g) => g.id == item.gender)[0];
+
                 let res = {
                     'STT': index + 1,
                     'Họ tên': item.name,
@@ -819,6 +872,25 @@ class LeadContainer extends React.Component {
                     'Ngày nhập': item.imported_at,
                     'Đánh giá': item.rate || 0,
                     'Ghi chú': item.note || '',
+                    'Nội dung tất cả cuộc gọi': all_tele_call_notes,
+                    'Thi thử': mock_exams_text,
+                    'Import person': item.imported_by ? item.importer.name : 'Không có',
+                    'Person in charge': item.staff_id ? item.carer.name : 'Không có',
+                    'Latest Call': item.last_call_time ? item.last_call_time : 'Không có',
+                    'Latest Status': last_call_result,
+                    'Classes Enrolled': item.all_class_names ? item.all_class_names : 'Không có',
+                    'Latest  Deal status': last_deal_status_text,
+                    'Giới tính': gender || '',
+                    'CMND': item.identity_code || '',
+                    'Công việc': item.work || '',
+                    'Trường học': item.university || '',
+                    'Tên phụ huynh 1': item.father_name || '',
+                    'Tên phụ huynh 2': item.mother_name || '',
+                    'Link Ảnh': item.image_urls ? JSON.parse(item.image_urls).join('\n') : '',
+                    'Quốc tịch': item.nationality || '',
+                    'Địa chỉ': item.address || '',
+                    'Ảnh CMND 1': item.image1 || '',
+                    'Ảnh CMND 2': item.image2 || '',
                 };
                 /* eslint-enable */
                 return res;
@@ -831,7 +903,13 @@ class LeadContainer extends React.Component {
     };
 
     render() {
-        console.log('render', this.props);
+        // console.log('render', this.props);
+        let selectedLeadsCount =  0;
+        if(this.state.isAll){
+            selectedLeadsCount = this.props.totalCount;
+        }else if(this.state.selectedLeads){
+            selectedLeadsCount = this.state.selectedLeads.length;
+        }
         return (
             <div>
                 <CreateRegisterModalContainer/>
@@ -1246,6 +1324,7 @@ class LeadContainer extends React.Component {
                     currentPage={this.state.page}
                     isDistribution={this.state.isDistribution}
                     selectedLeads={this.state.selectedLeads}
+                    isAll={this.state.isAll}
                     changeStatusLead={this.changeStatusLead}
                     openCreateRegisterModal={this.openCreateRegisterModal}
                     // removeLead={this.props.route.type === "my-leads" ? this.removeLead : null}
@@ -1269,7 +1348,7 @@ class LeadContainer extends React.Component {
 
 
                                     <td style={{minWidth: 200}} className="text-align-left"><b>
-                                        Đã chọn: {this.state.selectedLeads ? this.state.selectedLeads.length : 0} lead
+                                        Đã chọn: {selectedLeadsCount} lead
                                     </b></td>
 
 
@@ -1354,7 +1433,7 @@ class LeadContainer extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <div className="flex flex-align-items-center flex-space-between">
-                            <h5><b>Tổng số leads: {this.state.selectedLeads ? this.state.selectedLeads.length : 0}</b>
+                            <h5><b>Tổng số leads: {selectedLeadsCount}</b>
                             </h5>
                             {this.state.selectedLeads && this.state.selectedLeads.length > 0 && this.renderButtonDistribution()}
                         </div>
@@ -1362,8 +1441,10 @@ class LeadContainer extends React.Component {
                         <ListLead
                             showSelectedLead
                             leads={this.state.selectedLeads}
+                            isAll={this.state.isAll}
                             deleteLeadSelected={this.deleteLeadSelected}
                             deleteAllSelected={this.deleteAllSelected}
+                            selectedLeadsCount={selectedLeadsCount}
                             openCreateRegisterModal={this.openCreateRegisterModal}
 
                         />

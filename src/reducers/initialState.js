@@ -1232,6 +1232,10 @@ export default {
             isLoading: false,
             historyCares: [],
         },
+        mockExam: {
+            isLoading: false,
+            mockExams: [],
+        },
     },
 
     dashboard: {
@@ -1738,6 +1742,7 @@ export default {
     },
     courses: {
         isLoading: false,
+        isLoadingCourse: false,
         isDuplicating: false,
         isUploadingLinkIcon: false,
         isStoringGroupExam: false,

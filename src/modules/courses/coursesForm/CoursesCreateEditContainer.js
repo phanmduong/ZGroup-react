@@ -133,171 +133,168 @@ class CreateEditCoursesContainer extends React.Component {
                     <form role="form" id="form-course-create-edit">
                         <div className="col-md-12">
                             <div className="row">
-                                {this.props.isLoading ? <Loading/> :
+                                {this.props.isLoadingCourse ? <Loading/> :
                                     <div className="content">
                                         <div className="col-md-12">
 
 
-
-
-                                                <div>{this.props.children}</div>
-
+                                            <div>{this.props.children}</div>
 
 
                                             {/*<div className="">*/}
-                                                {/*<div className="card">*/}
-                                                    {/*<div className="card-content">*/}
-                                                        {/*<div className="tab-content">*/}
-                                                            {/*<h4 className="card-title"><strong>Chi tiết khoá*/}
-                                                                {/*học</strong></h4><br/>*/}
-                                                            {/*{this.props.isLoading ? <Loading/> :*/}
-                                                                {/*<ReactEditor*/}
-                                                                    {/*urlPost={linkUploadImageEditor()}*/}
-                                                                    {/*fileField="image"*/}
-                                                                    {/*name="detail"*/}
-                                                                    {/*updateEditor={this.updateEditor}*/}
-                                                                    {/*value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}*/}
-                                                                {/*/>*/}
-                                                            {/*}*/}
-                                                        {/*</div>*/}
-                                                    {/*</div>*/}
-                                                {/*</div>*/}
+                                            {/*<div className="card">*/}
+                                            {/*<div className="card-content">*/}
+                                            {/*<div className="tab-content">*/}
+                                            {/*<h4 className="card-title"><strong>Chi tiết khoá*/}
+                                            {/*học</strong></h4><br/>*/}
+                                            {/*{this.props.isLoading ? <Loading/> :*/}
+                                            {/*<ReactEditor*/}
+                                            {/*urlPost={linkUploadImageEditor()}*/}
+                                            {/*fileField="image"*/}
+                                            {/*name="detail"*/}
+                                            {/*updateEditor={this.updateEditor}*/}
+                                            {/*value={this.props.data.detail ? `<div>${this.props.data.detail}</div>` : ""}*/}
+                                            {/*/>*/}
+                                            {/*}*/}
+                                            {/*</div>*/}
+                                            {/*</div>*/}
+                                            {/*</div>*/}
                                             {/*</div>*/}
                                         </div>
                                         {/*<div className="col-md-4">*/}
-                                            {/*<div className="card">*/}
-                                                {/*<div className="card-content">*/}
-                                                    {/*<div className="tab-content">*/}
-                                                    {/*/!*<h4 className="card-title">*!/*/}
-                                                    {/*/!*<strong>Thông tin về form</strong>*!/*/}
-                                                    {/*/!*</h4>*!/*/}
-                                                    {/*</div>  */}
-                                                    {/*<br/>  */}
-                                                    {/*<img*/}
-                                                        {/*src={helper.isEmptyInput(this.props.data.icon_url) ? NO_IMAGE : this.props.data.icon_url}/>*/}
-                                                    {/*{this.props.isUpdatingLogo ?*/}
-                                                        {/*(*/}
-                                                            {/*<button className="btn btn-rose  disabled" type="button"*/}
-                                                                    {/*style={btn}>*/}
-                                                                {/*<i className="fa fa-spinner fa-spin"/> Đang tải lên*/}
-                                                            {/*</button>*/}
-                                                        {/*)*/}
-                                                        {/*:*/}
-                                                        {/*(*/}
-                                                            {/*<button className="btn btn-fill btn-rose" type="button"*/}
-                                                                    {/*style={btn}>*/}
-                                                                {/*Chọn ảnh icon*/}
-                                                                {/*<input type="file"*/}
-                                                                       {/*accept=".jpg,.png,.gif"*/}
-                                                                       {/*onChange={this.uploadLogo}*/}
-                                                                       {/*style={{*/}
-                                                                           {/*cursor: 'pointer',*/}
-                                                                           {/*opacity: "0.0",*/}
-                                                                           {/*position: "absolute",*/}
-                                                                           {/*top: 0,*/}
-                                                                           {/*left: 0,*/}
-                                                                           {/*bottom: 0,*/}
-                                                                           {/*right: 0,*/}
-                                                                           {/*width: "100%",*/}
-                                                                           {/*height: "100%"*/}
-                                                                       {/*}}*/}
-                                                                {/*/>*/}
-                                                            {/*</button>*/}
-                                                        {/*)*/}
-                                                    {/*}*/}
-                                                    {/*<img*/}
-                                                        {/*src={helper.isEmptyInput(this.props.data.image_url) ? NO_IMAGE : this.props.data.image_url}/>*/}
-                                                    {/*{this.props.isUpdatingAvatar ?*/}
-                                                        {/*(*/}
-                                                            {/*<button className="btn btn-rose  disabled" type="button"*/}
-                                                                    {/*style={btn}>*/}
-                                                                {/*<i className="fa fa-spinner fa-spin"/> Đang tải lên*/}
-                                                            {/*</button>*/}
-                                                        {/*)*/}
-                                                        {/*:*/}
-                                                        {/*(*/}
-                                                            {/*<button className="btn btn-fill btn-rose" type="button"*/}
-                                                                    {/*style={btn}>*/}
-                                                                {/*Chọn ảnh đại diện*/}
-                                                                {/*<input type="file"*/}
-                                                                       {/*accept=".jpg,.png,.gif"*/}
-                                                                       {/*onChange={this.uploadAvatar}*/}
-                                                                       {/*style={{*/}
-                                                                           {/*cursor: 'pointer',*/}
-                                                                           {/*opacity: "0.0",*/}
-                                                                           {/*position: "absolute",*/}
-                                                                           {/*top: 0,*/}
-                                                                           {/*left: 0,*/}
-                                                                           {/*bottom: 0,*/}
-                                                                           {/*right: 0,*/}
-                                                                           {/*width: "100%",*/}
-                                                                           {/*height: "100%"*/}
-                                                                       {/*}}*/}
-                                                                {/*/>*/}
-                                                            {/*</button>*/}
-                                                        {/*)*/}
-                                                    {/*}*/}
-                                                    {/*<img*/}
-                                                        {/*src={helper.isEmptyInput(this.props.data.cover_url) ? NO_IMAGE : this.props.data.cover_url}/>*/}
-                                                    {/*{this.props.isUpdatingCover ?*/}
-                                                        {/*(*/}
-                                                            {/*<button className="btn btn-rose  disabled" type="button"*/}
-                                                                    {/*style={btn}>*/}
-                                                                {/*<i className="fa fa-spinner fa-spin"/> Đang tải lên*/}
-                                                            {/*</button>*/}
-                                                        {/*)*/}
-                                                        {/*:*/}
-                                                        {/*(*/}
-                                                            {/*<button className="btn btn-fill btn-rose" type="button"*/}
-                                                                    {/*style={btn}>*/}
-                                                                {/*Chọn cover*/}
-                                                                {/*<input type="file"*/}
-                                                                       {/*accept=".jpg,.png,.gif"*/}
-                                                                       {/*onChange={this.uploadCover}*/}
-                                                                       {/*style={{*/}
-                                                                           {/*cursor: 'pointer',*/}
-                                                                           {/*opacity: "0.0",*/}
-                                                                           {/*position: "absolute",*/}
-                                                                           {/*top: 0,*/}
-                                                                           {/*left: 0,*/}
-                                                                           {/*bottom: 0,*/}
-                                                                           {/*right: 0,*/}
-                                                                           {/*width: "100%",*/}
-                                                                           {/*height: "100%"*/}
-                                                                       {/*}}*/}
-                                                                {/*/>*/}
-                                                            {/*</button>*/}
-                                                        {/*)*/}
-                                                    {/*}*/}
+                                        {/*<div className="card">*/}
+                                        {/*<div className="card-content">*/}
+                                        {/*<div className="tab-content">*/}
+                                        {/*/!*<h4 className="card-title">*!/*/}
+                                        {/*/!*<strong>Thông tin về form</strong>*!/*/}
+                                        {/*/!*</h4>*!/*/}
+                                        {/*</div>  */}
+                                        {/*<br/>  */}
+                                        {/*<img*/}
+                                        {/*src={helper.isEmptyInput(this.props.data.icon_url) ? NO_IMAGE : this.props.data.icon_url}/>*/}
+                                        {/*{this.props.isUpdatingLogo ?*/}
+                                        {/*(*/}
+                                        {/*<button className="btn btn-rose  disabled" type="button"*/}
+                                        {/*style={btn}>*/}
+                                        {/*<i className="fa fa-spinner fa-spin"/> Đang tải lên*/}
+                                        {/*</button>*/}
+                                        {/*)*/}
+                                        {/*:*/}
+                                        {/*(*/}
+                                        {/*<button className="btn btn-fill btn-rose" type="button"*/}
+                                        {/*style={btn}>*/}
+                                        {/*Chọn ảnh icon*/}
+                                        {/*<input type="file"*/}
+                                        {/*accept=".jpg,.png,.gif"*/}
+                                        {/*onChange={this.uploadLogo}*/}
+                                        {/*style={{*/}
+                                        {/*cursor: 'pointer',*/}
+                                        {/*opacity: "0.0",*/}
+                                        {/*position: "absolute",*/}
+                                        {/*top: 0,*/}
+                                        {/*left: 0,*/}
+                                        {/*bottom: 0,*/}
+                                        {/*right: 0,*/}
+                                        {/*width: "100%",*/}
+                                        {/*height: "100%"*/}
+                                        {/*}}*/}
+                                        {/*/>*/}
+                                        {/*</button>*/}
+                                        {/*)*/}
+                                        {/*}*/}
+                                        {/*<img*/}
+                                        {/*src={helper.isEmptyInput(this.props.data.image_url) ? NO_IMAGE : this.props.data.image_url}/>*/}
+                                        {/*{this.props.isUpdatingAvatar ?*/}
+                                        {/*(*/}
+                                        {/*<button className="btn btn-rose  disabled" type="button"*/}
+                                        {/*style={btn}>*/}
+                                        {/*<i className="fa fa-spinner fa-spin"/> Đang tải lên*/}
+                                        {/*</button>*/}
+                                        {/*)*/}
+                                        {/*:*/}
+                                        {/*(*/}
+                                        {/*<button className="btn btn-fill btn-rose" type="button"*/}
+                                        {/*style={btn}>*/}
+                                        {/*Chọn ảnh đại diện*/}
+                                        {/*<input type="file"*/}
+                                        {/*accept=".jpg,.png,.gif"*/}
+                                        {/*onChange={this.uploadAvatar}*/}
+                                        {/*style={{*/}
+                                        {/*cursor: 'pointer',*/}
+                                        {/*opacity: "0.0",*/}
+                                        {/*position: "absolute",*/}
+                                        {/*top: 0,*/}
+                                        {/*left: 0,*/}
+                                        {/*bottom: 0,*/}
+                                        {/*right: 0,*/}
+                                        {/*width: "100%",*/}
+                                        {/*height: "100%"*/}
+                                        {/*}}*/}
+                                        {/*/>*/}
+                                        {/*</button>*/}
+                                        {/*)*/}
+                                        {/*}*/}
+                                        {/*<img*/}
+                                        {/*src={helper.isEmptyInput(this.props.data.cover_url) ? NO_IMAGE : this.props.data.cover_url}/>*/}
+                                        {/*{this.props.isUpdatingCover ?*/}
+                                        {/*(*/}
+                                        {/*<button className="btn btn-rose  disabled" type="button"*/}
+                                        {/*style={btn}>*/}
+                                        {/*<i className="fa fa-spinner fa-spin"/> Đang tải lên*/}
+                                        {/*</button>*/}
+                                        {/*)*/}
+                                        {/*:*/}
+                                        {/*(*/}
+                                        {/*<button className="btn btn-fill btn-rose" type="button"*/}
+                                        {/*style={btn}>*/}
+                                        {/*Chọn cover*/}
+                                        {/*<input type="file"*/}
+                                        {/*accept=".jpg,.png,.gif"*/}
+                                        {/*onChange={this.uploadCover}*/}
+                                        {/*style={{*/}
+                                        {/*cursor: 'pointer',*/}
+                                        {/*opacity: "0.0",*/}
+                                        {/*position: "absolute",*/}
+                                        {/*top: 0,*/}
+                                        {/*left: 0,*/}
+                                        {/*bottom: 0,*/}
+                                        {/*right: 0,*/}
+                                        {/*width: "100%",*/}
+                                        {/*height: "100%"*/}
+                                        {/*}}*/}
+                                        {/*/>*/}
+                                        {/*</button>*/}
+                                        {/*)*/}
+                                        {/*}*/}
 
-                                                    {/*<div className="card-content">*/}
-                                                        {/*<div className="tab-content"><h4 className="card-title"><strong>Chọn*/}
-                                                            {/*màu</strong></h4></div>*/}
-                                                        {/*<br/>*/}
-                                                        {/*<CirclePicker width="100%"*/}
-                                                                      {/*color={this.props.data.color}*/}
-                                                                      {/*onChangeComplete={this.changeColor}*/}
-                                                        {/*/>*/}
-                                                    {/*</div>*/}
+                                        {/*<div className="card-content">*/}
+                                        {/*<div className="tab-content"><h4 className="card-title"><strong>Chọn*/}
+                                        {/*màu</strong></h4></div>*/}
+                                        {/*<br/>*/}
+                                        {/*<CirclePicker width="100%"*/}
+                                        {/*color={this.props.data.color}*/}
+                                        {/*onChangeComplete={this.changeColor}*/}
+                                        {/*/>*/}
+                                        {/*</div>*/}
 
-                                                    {/*{this.props.isCommitting ?*/}
-                                                        {/*<button className="btn btn-rose  disabled" type="button">*/}
-                                                            {/*<i className="fa fa-spinner fa-spin"/> Đang tải lên*/}
-                                                        {/*</button>*/}
-                                                        {/*:*/}
-
-
-                                                        {/*<button*/}
-                                                            {/*className="btn btn-fill btn-rose"*/}
-                                                            {/*type="button"*/}
-                                                            {/*onClick={this.commitCourseData}*/}
-                                                        {/*> Lưu </button>*/}
-
-                                                    {/*}*/}
+                                        {/*{this.props.isCommitting ?*/}
+                                        {/*<button className="btn btn-rose  disabled" type="button">*/}
+                                        {/*<i className="fa fa-spinner fa-spin"/> Đang tải lên*/}
+                                        {/*</button>*/}
+                                        {/*:*/}
 
 
-                                                {/*</div>*/}
-                                            {/*</div>*/}
+                                        {/*<button*/}
+                                        {/*className="btn btn-fill btn-rose"*/}
+                                        {/*type="button"*/}
+                                        {/*onClick={this.commitCourseData}*/}
+                                        {/*> Lưu </button>*/}
+
+                                        {/*}*/}
+
+
+                                        {/*</div>*/}
+                                        {/*</div>*/}
                                         {/*</div>*/}
                                     </div>
                                 }
@@ -313,7 +310,7 @@ class CreateEditCoursesContainer extends React.Component {
 }
 
 CreateEditCoursesContainer.propTypes = {
-    isLoading: PropTypes.bool.isRequired,
+    isLoadingCourse: PropTypes.bool.isRequired,
     data: PropTypes.object,
     link: PropTypes.object,
     isUpdatingAvatar: PropTypes.bool,
@@ -333,7 +330,7 @@ CreateEditCoursesContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
-        isLoading: state.courses.isLoading,
+        isLoadingCourse: state.courses.isLoadingCourse,
         data: state.courses.data,
         isUpdatingAvatar: state.courses.isUpdatingAvatar,
         updateAvatarError: state.courses.updateAvatarError,
