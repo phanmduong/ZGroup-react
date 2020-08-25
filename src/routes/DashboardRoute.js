@@ -18,12 +18,24 @@ import DashboardClassLessonEventComponent
     from "../modules/dashboard/dashboardAcademy/classLessonEvents/DashboardClassLessonEventComponent";
 import DashboardRealRevenueComponent from "../modules/dashboard/dashboardSale/DashboardRealRevenueComponent";
 import DashboardContainer from "../modules/dashboard/DashboardContainer";
+import DashboardCheckInOutContainer from "../modules/dashboard/dashboardCheckinCheckout/DashboardCheckInOutContainer";
+import DashboardHistoryClassComponent
+    from "../modules/dashboard/dashboardCheckinCheckout/DashboardHistoryClassComponent";
+import DashboardHistoryWorkShiftComponent
+    from "../modules/dashboard/dashboardCheckinCheckout/DashboardHistoryWorkShiftComponent";
+import DashboardHistoryShiftComponent
+    from "../modules/dashboard/dashboardCheckinCheckout/DashboardHistoryShiftComponent";
+import ShortcutContainer from "../modules/shortcut/ShortcutContainer";
 
 
 /**
  * Tab trang chủ
  */
 export default [
+    {
+        path: "/",
+        component: ShortcutContainer
+    },
     {
         path: "/dashboard/sale",
         component: DashboardSaleContainer,
@@ -47,6 +59,24 @@ export default [
             {
                 path: "real-revenue",
                 component: DashboardRealRevenueComponent,
+            }
+        ]
+    },
+    {
+        path: "/dashboard/checkin-checkout",
+        component: DashboardCheckInOutContainer,
+        children: [
+            {
+                path: "/",
+                component: DashboardHistoryClassComponent,
+            },
+            {
+                path: "work-shift",
+                component: DashboardHistoryWorkShiftComponent,
+            },
+            {
+                path: "shift",
+                component: DashboardHistoryShiftComponent,
             },
         ]
     },

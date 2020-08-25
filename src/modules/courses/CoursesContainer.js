@@ -36,6 +36,10 @@ class CoursesContainer extends React.Component {
 
     componentWillMount() {
         this.props.coursesActions.loadCourses();
+        setTimeout(() => {
+            this.props.coursesActions.loadAllTypes();
+            this.props.coursesActions.loadAllCategories();
+        }, 2000);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -50,7 +54,7 @@ class CoursesContainer extends React.Component {
     }
 
     deleteCourse(course) {
-        if (this.props.user.role == 2) {
+        if (this.props.user.role != 2) {
             helper.showTypeNotification("Bạn không có quyền xóa khóa học này!", "info");
             return;
         }

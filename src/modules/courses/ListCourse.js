@@ -6,12 +6,11 @@ import * as coursesActions from './coursesActions';
 import {bindActionCreators} from 'redux';
 import ChangeOrderCourseModal from "./ChangeCourseOrderModal";
 
-import {browserHistory} from "react-router";
-
 import Switch from 'react-bootstrap-switch';
-import {LINK_REGISTER_COURSE} from "../../constants/env";
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import Link from "react-router/es/Link";
+import {Modal} from "react-bootstrap";
+import CoursesCreateEditGeneral from "./coursesForm/CoursesCreateEditGeneral";
 import ParentCourseOverlay from "./overlays/ParentCourseOverlay";
 import {getParentCourses} from "./courseApi";
 
@@ -28,6 +27,7 @@ class ListCourse extends React.Component {
         this.state = {
             showChangeOrderModal: false,
             course: {},
+            openModalEdit: false,
             parentCourses: []
         };
 
@@ -64,6 +64,10 @@ class ListCourse extends React.Component {
         this.setState({parentCourses});
     }
 
+
+    closeModalEdit = () => {
+        this.setState({openModalEdit: false});
+    }
 
     deleteCourse(courseId) {
         this.props.deleteCourse(courseId);
@@ -169,9 +173,11 @@ class ListCourse extends React.Component {
                                                     delete={() => this.deleteCourse(course.id)}
                                                     object={course}
                                                     disabledDelete={this.props.user.role != 2}
-                                                    edit={(e) => {
-                                                        browserHistory.push("/teaching/courses/edit/" + course.id + "");
-                                                        e.stopPropagation();
+                                                    edit={() => {
+                                                        this.props.coursesActions.loadOneCourse(course.id);
+                                                        this.setState({openModalEdit: true});
+                                                        // browserHistory.push("/teaching/courses/edit/" + course.id + "");
+                                                        // e.stopPropagation();
                                                     }}
                                                 >
 
@@ -183,16 +189,16 @@ class ListCourse extends React.Component {
 
                                                     </a>
 
-                                                    <a onClick={(event) => {
-                                                        event.stopPropagation(event);
-                                                        return this.openChangeOrderModal(course);
-                                                    }} data-toggle="tooltip" title="Đổi thứ tự">
-                                                        <i className="material-icons">autorenew</i>
-                                                    </a>
-                                                    <a href={LINK_REGISTER_COURSE + "/" + course.id}
-                                                       target="_blank" title="Lấy link" data-toggle="tooltip">
-                                                        <i className="material-icons">link</i>
-                                                    </a>
+                                                    {/*<a onClick={(event) => {*/}
+                                                    {/*    event.stopPropagation(event);*/}
+                                                    {/*    return this.openChangeOrderModal(course);*/}
+                                                    {/*}} data-toggle="tooltip" title="Đổi thứ tự">*/}
+                                                    {/*    <i className="material-icons">autorenew</i>*/}
+                                                    {/*</a>*/}
+                                                    {/*<a href={LINK_REGISTER_COURSE + "/" + course.id}*/}
+                                                    {/*   target="_blank" title="Lấy link" data-toggle="tooltip">*/}
+                                                    {/*    <i className="material-icons">link</i>*/}
+                                                    {/*</a>*/}
                                                 </ButtonGroupAction>
                                             </div>
                                         </td>
@@ -203,6 +209,17 @@ class ListCourse extends React.Component {
                         </tbody>
                     </table>
                 </div>
+                <Modal show={this.state.openModalEdit} bsSize="large">
+                    <Modal.Header closeButton
+                                  onHide={this.closeModalEdit}
+                                  closeLabel="Đóng">
+                        <Modal.Title>Sửa môn học</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body style={{padding: 0}}>
+                        {this.state.openModalEdit &&
+                        <CoursesCreateEditGeneral closeModalEdit={this.closeModalEdit}/>}
+                    </Modal.Body>
+                </Modal>
             </div>
             // {this.props.courses.map((course, index) => {
             //     return (

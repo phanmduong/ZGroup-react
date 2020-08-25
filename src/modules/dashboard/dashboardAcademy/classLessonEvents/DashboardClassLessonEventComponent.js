@@ -273,7 +273,7 @@ class DashboardClassLessonEventComponent extends React.Component {
                                                         );
                                                     })}
 
-                                                    <td></td>
+                                                    <td />
 
                                                     </tbody>
                                                 </table>

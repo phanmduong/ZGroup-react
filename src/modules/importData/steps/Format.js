@@ -67,7 +67,8 @@ class FormatData extends React.Component {
                 </div>
                 }
 
-                <div className="table-responsive">
+                <div className="table-responsive"
+                     style={{overflow: navigator.appVersion.indexOf("Win") != -1 ? "visible" : "scroll"}}>
                     <table className="table">
                         <thead>
                         <tr>

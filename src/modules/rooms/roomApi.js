@@ -103,7 +103,7 @@ export function storeRoom(room) {
 
 export function editRoom(room) {
     let url =
-        env.MANAGE_API_URL + "/v2/base/" + room.base_id + "/room/" + room.id;
+        env.MANAGE_API_URL + "/v2/base/edit-room";
     let token = localStorage.getItem("token");
     if (token) {
         url += "?token=" + token;
@@ -119,6 +119,8 @@ export function editRoom(room) {
         cover_type: room.cover_type ? room.cover_type : "",
         description: room.description ? room.description : "",
         detail: room.detail ? room.detail : "",
+        base_id: room.base_id ? room.base_id : "",
+        room_id: room.id ? room.id : "",
         // basic_info: room.basic_info ? room.basic_info : "",
     });
 }

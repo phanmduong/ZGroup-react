@@ -5,10 +5,10 @@ import ProfileEmployee from "../modules/profile2/ProfileEmployee";
  * Tab Profile
  */
 export default [
-    {
-        path: "/",
-        component: ProfileEmployee
-    },
+    // {
+    //     path: "/",
+    //     component: ProfileEmployee
+    // },
     {
         path: "/profile/my-profile",
         component: ProfileEmployee

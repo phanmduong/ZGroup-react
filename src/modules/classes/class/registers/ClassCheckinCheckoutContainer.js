@@ -171,6 +171,8 @@ class ClassCheckinCheckoutContainer extends React.Component {
                                 name="time"
                                 id="start_time1"
                             />
+                            {/*<input type="time" step="60"/>*/}
+
                             <FormInputText
                                 label="Lý do"
                                 name="comment"

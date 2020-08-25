@@ -179,7 +179,7 @@ class ClassContainer extends React.Component {
                 'Mã học viên': item.code,
                 'Ngày sinh': dob,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
-                'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
+                // 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
                 'Email': item.student.email,
                 'Phone': item.student.phone,
                 'Facebook': item.student.facebook,
@@ -212,7 +212,7 @@ class ClassContainer extends React.Component {
                 'Mã học viên': item.code,
                 'Ngày sinh': dob,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
-                'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
+                // 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
                 'Email': item.student.email,
                 'Phone': item.student.phone,
                 'Facebook': item.student.facebook,
@@ -317,7 +317,7 @@ class ClassContainer extends React.Component {
                 showModalChangeTeacher: true,
                 teacherSelected: data,
                 changeTeacher: {
-                    id: data.staff.id
+                    id: data.staff ? data.staff.id : null
                 }
             }
         );
@@ -333,7 +333,7 @@ class ClassContainer extends React.Component {
                 showModalChangeTeachAssis: true,
                 teachAssisSelected: data,
                 changeTeachAssis: {
-                    id: data.staff.id
+                    id: data.staff ? data.staff.id : null
                 }
             }
         );

@@ -19,7 +19,8 @@ import * as studentActions from "../infoStudent/studentActions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as leadActions from "./leadActions";
-
+import {DATE_FORMAT_SQL, DATE_VN_FORMAT} from "../../constants/constants";
+import moment from "moment";
 
 //import TooltipButton from "../../components/common/TooltipButton";
 const TAGS = [
@@ -35,7 +36,7 @@ const TAGS = [
         label: "New",
         value: "new_lead"
     },
-]
+];
 
 class ListLead extends React.Component {
     constructor(props, context) {
@@ -98,29 +99,7 @@ class ListLead extends React.Component {
                                 {
                                     !this.props.showSelectedLead && <th>Thời gian</th>
                                 }
-                                {
-                                    this.props.showSelectedLead ?
-                                        <th>
-                                            <ButtonGroupAction
-                                                disabledEdit
-                                                disabledDelete
-                                            >
-                                                {this.props.deleteAllSelected && <a
-                                                    data-toggle="tooltip"
-                                                    title="Bỏ chọn tất cả lead"
-                                                    onClick={() => this.props.deleteAllSelected()}
-                                                    type="button"
-                                                    rel="tooltip"
-                                                >
-                                                    <i className="material-icons">highlight_off</i>
-                                                </a>}
-                                            </ButtonGroupAction>
-
-                                        </th>
-                                        :
-                                        <th/>
-
-                                }
+                                <th/>
                             </tr>
                             </thead>
                             <tbody>
@@ -212,11 +191,13 @@ class ListLead extends React.Component {
                                                     <SourceOverlay
                                                         styleButton={{padding: '4px 15px'}}
                                                         className="btn-xs width-100 source-value none-padding margin-bottom-10"
+                                                        disabled={this.props.showSelectedLead}
                                                         student={lead}
                                                     />
                                                     <PicOverlay
                                                         styleButton={{padding: '4px 15px'}}
                                                         student={lead}
+                                                        disabled={this.props.showSelectedLead}
                                                         className="btn-xs width-100 source-value none-padding margin-bottom-10"
 
                                                     />
@@ -227,6 +208,7 @@ class ListLead extends React.Component {
                                                         styleButton={{padding: '4px 15px'}}
                                                         data={lead.lead_status}
                                                         refId={lead.id}
+                                                        disabled={this.props.showSelectedLead}
                                                         statusRef="leads"
                                                         className="btn-xs status-overlay none-padding margin-bottom-10"
                                                     />
@@ -301,7 +283,13 @@ class ListLead extends React.Component {
                                                             <i className="material-icons">delete</i>
                                                         </a>}
                                                         {!this.props.showSelectedLead && <CreateRegisterOverlay
-                                                            onShow={() => this.props.studentActions.setInfoStudent(lead)}
+                                                            onShow={() => {
+                                                                let student = {
+                                                                    ...lead,
+                                                                    dob: lead.dob ? moment(lead.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : ''
+                                                                };
+                                                                this.props.studentActions.setInfoStudent(student);
+                                                            }}
                                                             className="register-lead-overlay cursor-pointer"
                                                             direction="right"
                                                         ><i className="material-icons">add</i>
@@ -316,7 +304,7 @@ class ListLead extends React.Component {
                                                         edit={() => this.openEditModal(lead)}
                                                         disabledEdit={this.props.showSelectedLead}
                                                     >
-                                                        {this.props.deleteLeadSelected && <a
+                                                        {this.props.deleteLeadSelected && !this.props.isAll && <a
                                                             data-toggle="tooltip"
                                                             title="Bỏ chọn lead"
                                                             onClick={() => this.props.deleteLeadSelected(lead)}
@@ -333,6 +321,17 @@ class ListLead extends React.Component {
                                         );
                                     })
                             }
+                            {this.props.showSelectedLead && this.props.isAll &&  <tr className="success">
+                                <td/>
+                                <td>+{this.props.selectedLeadsCount - this.props.leads.length} Lead khác</td>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                                <td/>
+                            </tr>}
                             </tbody>
                         </table>
                     </div>
@@ -378,7 +377,7 @@ ListLead.propTypes = {
     deleteLeadSelected: PropTypes.func,
     changeStatusLead: PropTypes.func,
     removeLead: PropTypes.func,
-    deleteAllSelected: PropTypes.func,
+    // deleteAllSelected: PropTypes.func,
     showSelectedLead: PropTypes.bool,
     isLoading: PropTypes.bool,
     isDistribution: PropTypes.bool,

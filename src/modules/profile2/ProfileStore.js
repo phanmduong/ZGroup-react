@@ -16,6 +16,7 @@ class ProfileStore {
     @observable isLoading = false;
     @observable isStoring = false;
     @observable showModalEditProfile = false;
+    @observable showModalChangePassword = false;
     @observable profile = {};
     @observable bases = [];
     @observable roles = [];
@@ -38,6 +39,7 @@ class ProfileStore {
     @action
     changeAvatar(file, callback) {
         changeAvatarApi(file, function (event) {
+            console.log(event);
             let data = JSON.parse(event.currentTarget.response);
             showNotification(data.message);
             this.profile.avatar_url = data.avatar_url;
@@ -75,6 +77,11 @@ class ProfileStore {
         }).finally(() => {
             this.isLoading = false;
         });
+    }
+
+    @action
+    changePassword() {
+        this.showModalChangePassword = true;
     }
 
     @action

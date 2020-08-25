@@ -9,7 +9,11 @@ import * as registerStudentsApi from "../registerStudents/registerStudentsApi";
 export function changeCallStatusStudent(callStatus,
                                         studentId,
                                         note,
-                                        appointmentPayment, dateTest, call_back_time, callback) {
+                                        appointmentPayment,
+                                        dateTest,
+                                        call_back_time,
+                                        status_id,
+                                        callback) {
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_CHANGE_CALL_STATUS_INFO_STUDENT,
@@ -24,7 +28,8 @@ export function changeCallStatusStudent(callStatus,
                 '',
                 appointmentPayment,
                 dateTest,
-                call_back_time
+                call_back_time,
+                status_id,
             )
             .then(res => {
                 dispatch({
@@ -165,6 +170,21 @@ export function loadStudentCareHistory(studentId) {
             })
             .catch(() => {
                 dispatch({type: types.LOAD_STUDENT_CARE_HISTORY_ERROR});
+            });
+    };
+}
+export function loadStudentMockExams(studentId) {
+    return function (dispatch) {
+        dispatch({type: types.BEGIN_LOAD_STUDENT_MOCK_EXAMS});
+        studentApi.loadStudentMockExams(studentId)
+            .then(res => {
+                dispatch({
+                    type: types.LOAD_STUDENT_MOCK_EXAMS_SUCCESS,
+                    mockExams: res.data.mock_exams,
+                });
+            })
+            .catch(() => {
+                dispatch({type: types.LOAD_STUDENT_MOCK_EXAMS_ERROR});
             });
     };
 }

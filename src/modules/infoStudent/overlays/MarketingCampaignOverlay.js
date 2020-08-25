@@ -323,7 +323,7 @@ class MarketingCampaignOverlay extends React.Component {
                                                                             display: "flex",
                                                                             justifyContent: "space-between",
                                                                             height: 35,
-                                                                            padding: '0 15px',
+                                                                            padding: '9px 15px',
                                                                         }}>
                                                                         {campaign.name}
                                                                         <div>

@@ -97,11 +97,11 @@ class App extends React.Component {
                                     <b className="caret"/>
                                 </a>
                                 <div className="collapse" id="collapseExample">
-                                    {/*<ul className="nav">*/}
-                                    {/*    <li>*/}
-                                    {/*        <a href="/profile/my-profile">Trang cá nhân</a>*/}
-                                    {/*    </li>*/}
-                                    {/*</ul>*/}
+                                    <ul className="nav">
+                                        <li>
+                                            <a href="/profile/my-profile">Trang cá nhân</a>
+                                        </li>
+                                    </ul>
                                     <ul className="nav">
                                         <li>
                                             <a onClick={this.props.onLogOut}>Đăng xuất</a>
