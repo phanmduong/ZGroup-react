@@ -4815,6 +4815,11 @@ input[type=search], .form-control {
     margin-top: 10px;
   }
 
+  label[type=normal]{
+    font-size: 14px !important;
+    font-weight: normal !important;
+  }
+
   .Select-value, .Select-placeholder {
     display: flex;
     align-items: center;
@@ -5266,5 +5271,11 @@ $ct-series-colors: (
   button.dropdown-toggle{
     padding: 12px 35px 12px 30px!important;
     height:42px;
+  }
+}
+.checkbox {
+  &[color=success] input[type=checkbox]:checked + .checkbox-material .check {
+    background: #00b836;
+    border-radius: 5px;
   }
 }

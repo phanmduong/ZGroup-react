@@ -890,3 +890,58 @@ export const REGISTER_CALL_STATUS_CLASS_NAMES = {
 };
 
 
+
+export const LEAD_EXPORT_FIELDS_OBJECT = {
+    stt:{id:"stt",name: "Số thứ tự",},
+    name:{id:"name",name: "Họ và tên",},
+    dob:{id:"dob",name: "Ngày sinh",},
+    phone:{id:"phone",name: "Số điện thoại",},
+    gender:{id:"gender",name: "Giới tính",},
+    email:{id:"email",name: "Email",},
+    work:{id:"work",name: "Công việc",},
+    university:{id:"university",name: "Trường học",},
+    identity_code:{id:"identity_code",name: "Mã CMND",},
+    father_name:{id:"father_name",name: "Tên phụ huynh 1",},
+    mother_name:{id:"mother_name",name: "Tên phụ huynh 2",},
+    nationality:{id:"nationality",name: "Quốc tịch",},
+    address:{id:"address",name: "Địa chỉ",},
+    image1:{id:"image1",name: "Ảnh CMND 1",},
+    image2:{id:"image2",name: "Ảnh CMND 2",},
+    image_urls:{id:"image_urls",name: "Ảnh học viên",},
+    imported_by:{id:"imported_by",name: "Người nhập (Import Person)",},
+    imported_at:{id:"imported_at",name: "Ngày nhập",},
+    pic:{id:"pic",name: "Người phụ trách (EC in-charge)",},
+    mock_exams:{id:"mock_exams",name: "Thi thử",},
+    tele_calls:{id:"tele_calls",name: "Các cuộc gọi", children:[
+            {id:'caller.name',name: "Người gọi",},
+            {id:'call_status_text',name: "Trạng thái",},
+            {id:'note',name: "Ghi chú",},
+            {id:'created_at',name: "Thời gian gọi",},
+        ]},
+    all_class_names:{id:"all_class_names",name: "Các môn học đã đăng kí",},
+    interest_courses:{id:"interest_courses",name: "Các môn học đang quan tâm",},
+    province:{id:"province",name: "Thành phố",},
+    lead_status:{id:"lead_status",name: "Trạng thái",},
+    campaign:{id:"campaign",name: "Chiến dịch",},
+    source:{id:"source",name: "Nguồn",},
+    how_know:{id:"how_know",name: "Cách tiếp cận",},
+    created_at:{id:"created_at",name: "Ngày tạo",},
+    rate:{id:"rate",name: "Đánh giá",},
+    note:{id:"note",name: "Ghi chú",},
+    mock_exams_text:{id:"mock_exams_text",name: "Thông tin thi thử(PT)",},
+    last_call_time:{id:"last_call_time",name: "Last call",},
+    last_call_result:{id:"last_call_result",name: "Last call status",},
+    last_deal_status_text:{id:"last_deal_status_text",name: "Last  Deal status",},
+};
+
+
+export const LEAD_EXPORT_FIELDS_ARRAY = Object.entries(LEAD_EXPORT_FIELDS_OBJECT)
+    .map(entry => {
+        return {...LEAD_EXPORT_FIELDS_OBJECT[entry[0]]};
+    });
+
+export const CALL_STATUSES_TO_TEXT = {
+    success: 'Gọi thành công',
+    calling: 'Đang gọi',
+    failed: 'Gọi thất bại'
+};

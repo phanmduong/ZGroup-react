@@ -120,7 +120,7 @@ class BasesOverlay extends React.Component {
                                                             display: "flex",
                                                             justifyContent: "space-between",
                                                             height: 35,
-                                                            padding: '0 15px',
+                                                            padding: '8px 15px',
                                                         }}>
                                                         {item.name}
                                                         <div>

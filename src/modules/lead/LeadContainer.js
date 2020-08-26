@@ -17,6 +17,7 @@ import {
     confirm,
     isEmptyInput,
     newWorkBook,
+    objectEntries,
     readExcel,
     saveWorkBookToExcel,
     setClipboard,
@@ -27,13 +28,22 @@ import {
 import CreateRegisterModalContainer from "../registerStudents/CreateRegisterModalContainer";
 import * as createRegisterActions from '../registerStudents/createRegisterActions';
 import moment from "moment";
-import {DATE_FORMAT_SQL, GENDER, REGISTER_STATUS, STATUS_REFS} from "../../constants/constants";
+import {
+    CALL_STATUSES_TO_TEXT,
+    DATE_FORMAT_SQL,
+    GENDER,
+    LEAD_EXPORT_FIELDS_ARRAY,
+    LEAD_EXPORT_FIELDS_OBJECT,
+    REGISTER_STATUS,
+    STATUS_REFS
+} from "../../constants/constants";
 import CreateLeadOverlay from "./overlay/CreateLeadOverlay";
 import * as studentActions from "../infoStudent/studentActions";
 import Checkbox from "../../components/common/Checkbox";
 import Loading from "../../components/common/Loading";
 import FormInputText from "../../components/common/FormInputText";
 import * as baseActions from "../../actions/baseActions";
+import {getValueFromKey} from "../../helpers/entity/object";
 
 const TAGS = [
     {
@@ -119,6 +129,8 @@ class LeadContainer extends React.Component {
             selectedLeads: [],
             isOpenModalSelectedLeads: false,
             showLoadingAllLeadsModal: false,
+            showExportFieldsModal: false,
+            selectedExportFields: LEAD_EXPORT_FIELDS_OBJECT,
 
         };
         this.starFilter = [
@@ -174,16 +186,14 @@ class LeadContainer extends React.Component {
         this.props.leadActions.getLeads({
             ...willMountState,
         });
+
     }
 
     componentWillReceiveProps(nextProps) {
 
-        // if (!nextProps.isLoading && this.props.isLoading) {
-        //     if (this.state.isAll) {
-        //         this.changeStatusAll(true, nextProps);
-        //     }
-        //     this.setState({page: nextProps.currentPage});
-        // }
+        if (!nextProps.isLoading && this.props.isLoading) {
+            this.setState({page: nextProps.currentPage});
+        }
         if (this.props.isUploading && !nextProps.isUploading && !nextProps.errorUpload) {
             this.setState({
                 page: 1,
@@ -490,8 +500,8 @@ class LeadContainer extends React.Component {
             return {
                 value: item.id,
                 label: item.name,
-            }
-        })
+            };
+        });
 
     };
 
@@ -699,9 +709,9 @@ class LeadContainer extends React.Component {
     };
 
     deleteAllSelected = () => {
-        if(this.state.isAll){
+        if (this.state.isAll) {
             this.setState({selectedLeads: [], isOpenModalSelectedLeads: false, isAll: false});
-        }else {
+        } else {
             this.setState({isAll: true});
             this.changeStatusAll(true, this.props);
         }
@@ -781,23 +791,38 @@ class LeadContainer extends React.Component {
         this.setState({openFilterPanel: newstatus});
     };
 
+    showExportFieldsModal = () => {
+        this.setState({
+            showExportFieldsModal: true,
+            selectedExportFields: LEAD_EXPORT_FIELDS_OBJECT,
+        });
+        setTimeout(() => {
+            $.material.init();
+        }, 800);
+
+    };
+
     showLoadingAllLeadsModal = () => {
-        this.setState({showLoadingAllLeadsModal: true});
-        let {page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate} = this.state;
+        this.setState({showLoadingAllLeadsModal: true,showExportFieldsModal:false});
+        let {page, search, filter, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate} = this.state;
+        let {startTime, endTime,} = filter;
+        console.log(this.state.selectedExportFields);
+        loadLeads(-1, page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate)
+            .then((res) => {
+                console.log(res.data.data.leads);
+                if (res.data.status == 1) {
+                    let leads = res.data.data.leads;
+                    this.exportAllLeadsToExcel(leads);
+                } else {
+                    showErrorMessage("Dữ liệu quá lớn, vui lòng giới hạn bằng bộ lọc!");
+                }
 
-        loadLeads(-1, page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate).then((res) => {
-            console.log(res.data.data.leads);
-            if (res.data.status == 1) {
-                let leads = res.data.data.leads;
-                this.exportAllLeadsToExcel(leads);
-            } else {
+            })
+            .catch((e) => {
                 showErrorMessage("Dữ liệu quá lớn, vui lòng giới hạn bằng bộ lọc!");
-            }
-
-        }).catch((e) => {
-            showErrorMessage("Dữ liệu quá lớn, vui lòng giới hạn bằng bộ lọc!");
-            console.log(e);
-        }).finally(() => this.setState({showLoadingAllLeadsModal: false}));
+                console.log(e);
+            })
+            .finally(() => this.setState({showLoadingAllLeadsModal: false}));
     };
 
     exportAllLeadsToExcel = (leads) => {
@@ -805,15 +830,19 @@ class LeadContainer extends React.Component {
             showErrorNotification("Không có dữ liệu");
             return;
         }
-        // let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 30}, {"wch": 30}, {"wch": 12}, {"wch": 12}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22},];//độ rộng cột
+        let {selectedExportFields} = this.state;
+        const tele_call_keys = [];
 
+        selectedExportFields.tele_calls.children.forEach(child=>{
+            if(child.checked) tele_call_keys.push(child.id);
+        });
         let json = leads.map((item, index) => {
             if (item) {
                 /* eslint-disable */
-                let courses = '';
-                if (!isEmptyInput(item.courses) && item.courses.length > 0) {
-                    item.courses.forEach(c => courses += `, ${c.name}`);
-                }
+                // let courses = '';
+                // if (!isEmptyInput(item.courses) && item.courses.length > 0) {
+                //     item.courses.forEach(c => courses += `, ${c.name}`);
+                // }
                 let mock_exams_text = '';
                 if (item.mock_exams) {
                     item.mock_exams.forEach((ex, ex_index) => {
@@ -827,25 +856,22 @@ class LeadContainer extends React.Component {
 
                     });
                 }
-                let last_call_result;
-                switch (item.last_call_result) {
-                    case 'success':
-                        last_call_result = 'Gọi thành công';
-                        break;
-                    case 'calling':
-                        last_call_result = 'Đang gọi';
-                        break;
-                    case 'failed':
-                        last_call_result = 'Gọi thất bại';
-                        break;
-                    default:
-                        last_call_result = 'Chưa gọi';
-                }
-                let last_deal_status_text = 'Không có',
-                    last_deal_status = REGISTER_STATUS.filter(s => s.register == item.last_deal_status)[0];
-                if (last_deal_status) {
-                    last_deal_status_text = last_deal_status.label;
-                }
+                // let last_call_result;
+                // switch (item.last_call_result) {
+                //     case 'success':
+                //         last_call_result = 'Gọi thành công';
+                //         break;
+                //     case 'calling':
+                //         last_call_result = 'Đang gọi';
+                //         break;
+                //     case 'failed':
+                //         last_call_result = 'Gọi thất bại';
+                //         break;
+                //     default:
+                //         last_call_result = 'Chưa gọi';
+                // }
+                let last_deal_status = REGISTER_STATUS.filter(s => s.register == item.last_deal_status)[0];
+
                 let all_tele_call_notes = 'Không có';
                 if (item.notes && item.notes.length > 0) {
                     all_tele_call_notes = '';
@@ -853,45 +879,101 @@ class LeadContainer extends React.Component {
                         all_tele_call_notes += `${note_index > 0 ? '\n' : ''}${note}`;
                     });
                 }
-                let gender =  GENDER.filter((g) => g.id == item.gender)[0];
+                // let gender = GENDER.filter((g) => g.id == item.gender)[0];
+                let tele_calls = '';
+                if (item.tele_calls instanceof Array) {
+
+                    if (tele_call_keys.length > 0)
+                        item.tele_calls.forEach((call, call_index) => {
+                            // tele_calls += `${note_index > 0 ? '\n' : ''}${note}`;
+                            let current_call = call_index > 0 ? '\n' : '';
+                            call.call_status_text = CALL_STATUSES_TO_TEXT[call.call_status_text] || 'Chưa gọi';
+                            tele_call_keys.forEach((field, field_index) => {
+                                current_call += `${field_index > 0 ? ' - ' : ''}${getValueFromKey(call, field)}`;
+                            });
+                            tele_calls +=  current_call;
+
+                        });
+
+                }
+                item = {
+                    ...item,
+                    stt: index + 1,
+                    courses: isEmptyInput(item.courses) ? '' : item.courses.reduce((tmp, c) => tmp += `, ${c.name}`, ''),
+                    mock_exams_text,
+                    last_call_result: CALL_STATUSES_TO_TEXT[item.last_call_result] || 'Chưa gọi',
+                    last_deal_status_text: last_deal_status ? last_deal_status.label : 'Không có',
+                    all_tele_call_notes,
+                    gender: GENDER.filter((g) => g.id == item.gender)[0],
+                    lead_status: item.lead_status.name ? item.lead_status.name : "Không có",
+                    city: isEmptyInput(item.city) ? item.city : 'Không có',
+                    campaign: item.campaign ? item.campaign.name : "Không có",
+                    source: !isEmptyInput(item.source) ? item.source : "Không có",
+                    how_know: item.how_know ? item.how_know : "Không có",
+                    interest: item.interest ? item.interest : "Không có",
+                    rate: item.rate || 0,
+                    note: item.note || '',
+                    imported_by: item.imported_by ? item.importer.name : 'Không có',
+                    pic: item.staff_id ? item.carer.name : 'Không có',
+                    last_call_time: item.last_call_time ? item.last_call_time : 'Không có',
+                    all_class_names: item.all_class_names ? item.all_class_names : 'Không có',
+                    identity_code: item.identity_code || '',
+                    work: item.work || '',
+                    university: item.university || '',
+                    father_name: item.father_name || '',
+                    mother_name: item.mother_name || '',
+                    image_urls: item.image_urls ? JSON.parse(item.image_urls).join('\n') : '',
+                    nationality: item.nationality || '',
+                    address: item.address || '',
+                    image1: item.image1 || '',
+                    image2: item.image2 || '',
+                    tele_calls,
+                };
+
 
                 let res = {
-                    'STT': index + 1,
-                    'Họ tên': item.name,
-                    'Email': item.email,
-                    'Phone': item.phone,
-                    'Các môn đã học': courses,
-                    'Thành phố': isEmptyInput(item.city) ? item.city : 'Không có',
-                    'Trạng thái': item.lead_status.name ? item.lead_status.name : "Không có",
-                    'Chiến dịch': item.campaign ? item.campaign.name : "Không có",
-                    'Nguồn': !isEmptyInput(item.source) ? item.source : "Không có",
-                    'P.I.C': item.carer ? item.carer.name : "Không có",
-                    'Cách tiếp cận': item.how_know ? item.how_know : "Không có",
-                    'Quan tâm': item.interest ? item.interest : "Không có",
-                    'Ngày tạo': item.created_at,
-                    'Ngày nhập': item.imported_at,
-                    'Đánh giá': item.rate || 0,
-                    'Ghi chú': item.note || '',
-                    'Nội dung tất cả cuộc gọi': all_tele_call_notes,
-                    'Thi thử': mock_exams_text,
-                    'Import person': item.imported_by ? item.importer.name : 'Không có',
-                    'Person in charge': item.staff_id ? item.carer.name : 'Không có',
-                    'Latest Call': item.last_call_time ? item.last_call_time : 'Không có',
-                    'Latest Status': last_call_result,
-                    'Classes Enrolled': item.all_class_names ? item.all_class_names : 'Không có',
-                    'Latest  Deal status': last_deal_status_text,
-                    'Giới tính': gender || '',
-                    'CMND': item.identity_code || '',
-                    'Công việc': item.work || '',
-                    'Trường học': item.university || '',
-                    'Tên phụ huynh 1': item.father_name || '',
-                    'Tên phụ huynh 2': item.mother_name || '',
-                    'Link Ảnh': item.image_urls ? JSON.parse(item.image_urls).join('\n') : '',
-                    'Quốc tịch': item.nationality || '',
-                    'Địa chỉ': item.address || '',
-                    'Ảnh CMND 1': item.image1 || '',
-                    'Ảnh CMND 2': item.image2 || '',
+                    // 'STT': index + 1,
+                    // 'Họ tên': item.name,
+                    // 'Email': item.email,
+                    // 'Phone': item.phone,
+                    // 'Các môn đã học': item.courses,
+                    // 'Thành phố': item.city,
+                    // 'Trạng thái': item.lead_status,
+                    // 'Chiến dịch': item.campaign,
+                    // 'Nguồn': item.source,
+                    // 'Cách tiếp cận': item.how_know,
+                    // 'Quan tâm': item.interest,
+                    // 'Ngày tạo': item.created_at,
+                    // 'Ngày nhập': item.imported_at,
+                    // 'Đánh giá': item.rate,
+                    // 'Ghi chú': item.note,
+                    // 'Nội dung tất cả cuộc gọi': item.all_tele_call_notes,
+                    // 'Thi thử': item.mock_exams_text,
+                    // 'Import person': item.imported_by,
+                    // 'Person in charge': item.pic,
+                    // 'Các cuộc gọi': item.tele_calls,
+                    // 'Latest Call': item.last_call_time,
+                    // 'Latest Status': item.last_call_result,
+                    // 'Classes Enrolled': item.all_class_names,
+                    // 'Lastest  Deal status': item.last_deal_status_text,
+                    // 'Giới tính': item.gender,
+                    // 'CMND': item.identity_code,
+                    // 'Công việc': item.work,
+                    // 'Trường học': item.university,
+                    // 'Tên phụ huynh 1': item.father_name,
+                    // 'Tên phụ huynh 2': item.mother_name,
+                    // 'Link Ảnh': item.image_urls,
+                    // 'Quốc tịch': item.nationality,
+                    // 'Địa chỉ': item.address,
+                    // 'Ảnh CMND 1': item.image1,
+                    // 'Ảnh CMND 2': item.image2,
                 };
+                LEAD_EXPORT_FIELDS_ARRAY.forEach(field => {
+                    let target = selectedExportFields[field.id];
+                    if(target.checked){
+                        res[target.name] = item[field.id];
+                    }
+                });
                 /* eslint-enable */
                 return res;
             }
@@ -902,12 +984,74 @@ class LeadContainer extends React.Component {
         saveWorkBookToExcel(wb, 'Danh sách lead');
     };
 
+    onChangeFieldExport = (father_id, field_id) => {
+        let {selectedExportFields} = this.state;
+        if (father_id) {
+            selectedExportFields[father_id].children = selectedExportFields[father_id].children.map(c => {
+                if (c.id == field_id) c.checked = !c.checked;
+                return c;
+            });
+            let anyChildChecked = selectedExportFields[father_id].children.filter(c => c.checked).length > 0;
+            selectedExportFields[father_id].checked = anyChildChecked;
+        } else {
+            let checked = !selectedExportFields[field_id].checked;
+            selectedExportFields[field_id].checked = checked;
+            if (selectedExportFields[field_id].children) {
+                selectedExportFields[field_id].children = selectedExportFields[field_id].children.map(c => {
+                    c.checked = checked;
+                    return c;
+                });
+            }
+        }
+        this.setState({selectedExportFields});
+    };
+
+
+    renderFieldExport = (field, father) => {
+        let hasChildrens = field.children ? true : false;
+
+        return (
+            <div style={{marginLeft: father ? 30 : ''}}>
+                <div className="panel panel-default">
+                    <div className="panel-heading flex flex-space-between" role="tab"
+                         id={'heading-tab' + field.id}>
+                        <div className="checkbox none-margin" color="success">
+                            <label type="normal">
+                                <input type="checkbox" color="primary" checked={field.checked ? true : false}
+                                       onChange={() => this.onChangeFieldExport(father ? father.id : null, field.id)}/>
+                                <span>&nbsp;&nbsp;&nbsp;{field.name}</span>
+                            </label>
+                        </div>
+                        {hasChildrens &&
+                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                           aria-expanded="false"
+                           aria-controls={'tab-role' + field.id}
+                           href={'#tab-role' + field.id}
+                           style={{marginTop: 12}}
+                        >
+                            <div className="panel-title" style={{width: '100%'}}>
+                                <i className="material-icons">keyboard_arrow_down</i>
+                            </div>
+                        </a>}
+                    </div>
+                    {hasChildrens &&
+                    <div id={"tab-role" + field.id} className="panel-collapse collapse"
+                         role="tabpanel"
+                         aria-labelledby={'heading-tab' + field.id}>
+                        <div className="panel-body">
+                            {field.children.map(field2 => this.renderFieldExport(field2, field))}
+                        </div>
+                    </div>}
+                </div>
+            </div>);
+    };
+
     render() {
         // console.log('render', this.props);
-        let selectedLeadsCount =  0;
-        if(this.state.isAll){
+        let selectedLeadsCount = 0;
+        if (this.state.isAll) {
             selectedLeadsCount = this.props.totalCount;
-        }else if(this.state.selectedLeads){
+        } else if (this.state.selectedLeads) {
             selectedLeadsCount = this.state.selectedLeads.length;
         }
         return (
@@ -934,7 +1078,7 @@ class LeadContainer extends React.Component {
                         }
                         <div>
                             <a
-                                onClick={this.showLoadingAllLeadsModal}
+                                onClick={this.showExportFieldsModal}
                                 className="text-white"
                                 disabled={this.props.isLoading}
                             >Tải xuống
@@ -1273,7 +1417,7 @@ class LeadContainer extends React.Component {
                                             disabled={this.props.isLoading}
                                             options={this.getBases()}
                                             onChange={e => {
-                                                this.onFilterChange(e ? e.value : 0, 'selectedBaseId')
+                                                this.onFilterChange(e ? e.value : 0, 'selectedBaseId');
                                                 this.props.baseActions.selectedBase(e ? e.value : 0);
                                             }}
                                             value={this.state.selectedBaseId}
@@ -1321,7 +1465,7 @@ class LeadContainer extends React.Component {
                     isLoading={this.props.isLoading}
                     totalPages={this.props.totalPages}
                     loadData={this.loadData}
-                    currentPage={this.state.page}
+                    currentPage={this.props.currentPage}
                     isDistribution={this.state.isDistribution}
                     selectedLeads={this.state.selectedLeads}
                     isAll={this.state.isAll}
@@ -1467,6 +1611,41 @@ class LeadContainer extends React.Component {
                         <div style={{minHeight: 100}}>
                             <Loading/>
                         </div>
+                    </Modal.Body>
+                </Modal>
+                <Modal
+                    show={this.state.showExportFieldsModal}
+                    onHide={() => this.setState({showExportFieldsModal: false})}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title className="card-title">
+                            Xuất dữ liệu (Export)
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form className="form-grey">
+                            {LEAD_EXPORT_FIELDS_ARRAY.map(field => {
+                                // console.log(field);
+                                return this.renderFieldExport(this.state.selectedExportFields[field.id]);
+                            })}
+                            <div className="flex flex-end">
+                                <button type="button"
+                                        disabled={this.props.isLoading}
+                                        className="btn btn-white text-center"
+                                        data-dismiss="modal"
+                                        onClick={() => this.setState({showExportFieldsModal: false})}>
+                                    Hủy
+                                </button>
+                                <button type="button"
+                                        className="btn btn-success text-center btn-icon"
+                                        style={{backgroundColor: '#2acc4c'}}
+                                        onClick={() => this.showLoadingAllLeadsModal()}>
+                                    <span className="material-icons margin-right-5">vertical_align_bottom</span> Tải
+                                    xuống
+
+                                </button>
+                            </div>
+                        </form>
                     </Modal.Body>
                 </Modal>
             </div>
