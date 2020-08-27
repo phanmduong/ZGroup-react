@@ -336,7 +336,6 @@ export function salerPickUpRegister(register_id) {
         registerStudentsApi.salerPickUpRegister(register_id)
             .then((res) => {
                 showNotification("Lưu thành công!");
-                console.log(res.data);
                 dispatch({
                     type: types.PICK_UP_REGISTER_SUCCESS,
                     register_id,
