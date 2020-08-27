@@ -1696,7 +1696,7 @@ export function findNextInstanceInDaysArray(currentDate, daysArray) {
 }
 
 export function objectEntries(obj ){
-    if(! obj  instanceof Object){
+    if(false == (obj  instanceof Object)){
         return [];
     }
     return Object.entries(obj).map(entry=>{

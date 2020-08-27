@@ -88,14 +88,14 @@ const SHORTCUTS = [
         link: '/profile/my-profile',
         icon: 'account_box'
     },
-]
+];
 
 class ShortcutContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
             search: null
-        }
+        };
     }
 
     render() {
@@ -106,7 +106,7 @@ class ShortcutContainer extends React.Component {
                 }
                 return tab.url == shortcut.link;
             }) || shortcut.link == "#" || isEmpty(shortcut.link) || shortcut.link == '/profile/my-profile';
-        })
+        });
         shortcuts = shortcuts.filter((item) => item.name.includes(this.state.search) || item.description.includes(this.state.search) || isEmpty(this.state.search));
 
         return (
@@ -121,7 +121,7 @@ class ShortcutContainer extends React.Component {
                                 search
                                 </span>
                                     <input type="text" placeholder="Bạn đang muốn làm gì?" onChange={(e) => {
-                                        this.setState({search: e.target.value})
+                                        this.setState({search: e.target.value});
                                     }}/>
                                 </div>
                             </div>
@@ -129,9 +129,9 @@ class ShortcutContainer extends React.Component {
                         {this.props.isLoadingTab ? <Loading/> :
                             <div className="row">
                                 {
-                                    shortcuts.map((shortcut) => {
+                                    shortcuts.map((shortcut, key) => {
                                             return (
-                                                <div className="col-md-3 col-sm-4 col-xs-6">
+                                                <div className="col-md-3 col-sm-4 col-xs-6" key={key}>
                                                     <a
                                                         href={shortcut.link}
                                                         className="flex flex-col flex-justify-content-center flex-align-items-center padding-vertical-20px cursor-pointer shortcut margin-bottom-20">

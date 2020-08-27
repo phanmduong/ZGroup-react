@@ -24,7 +24,12 @@ import ItemReactSelect from "../../components/common/ItemReactSelect";
 import ReactSelect from "react-select";
 import FormInputDate from "../../components/common/FormInputDate";
 import {loadRegisters} from "./registerListApi";
-import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL, TYPE_CLASSES_OBJECT} from "../../constants/constants";
+import {
+    DATETIME_FILE_NAME_FORMAT,
+    DATETIME_FORMAT_SQL, LEAD_EXPORT_FIELDS_ARRAY,
+    LEAD_EXPORT_FIELDS_OBJECT,
+    TYPE_CLASSES_OBJECT
+} from "../../constants/constants";
 
 const register_statuses = [
     {
@@ -61,6 +66,7 @@ class RegisterListContainer extends React.Component {
         this.state = {
             openFilterPanel: false,
             showLoadingModal: false,
+            selectedExportFields: LEAD_EXPORT_FIELDS_OBJECT,
         };
         this.tabViews = [
             {
@@ -120,9 +126,19 @@ class RegisterListContainer extends React.Component {
             store.loadRegisters();
         }
     };
+    showExportFieldsModal = () => {
+        this.setState({
+            showExportFieldsModal: true,
+            selectedExportFields: LEAD_EXPORT_FIELDS_OBJECT,
+        });
+        setTimeout(() => {
+            $.material.init();
+        }, 800);
+
+    };
 
     showLoadingModal = () => {
-        this.setState({showLoadingModal: true});
+        this.setState({showLoadingModal: true,showExportFieldsModal: false});
         let filter = store.solveFilter();
         filter.limit = -1;
         loadRegisters(filter).then(res => {
@@ -131,6 +147,44 @@ class RegisterListContainer extends React.Component {
         });
     };
 
+    renderFieldExport = (field, father) => {
+        let hasChildrens = field.children ? true : false;
+
+        return (
+            <div style={{marginLeft: father ? 30 : ''}}>
+                <div className="panel panel-default">
+                    <div className="panel-heading flex flex-space-between" role="tab"
+                         id={'heading-tab' + field.id}>
+                        <div className="checkbox none-margin" color="success">
+                            <label type="normal">
+                                <input type="checkbox" color="primary" checked={field.checked ? true : false}
+                                       onChange={() => this.onChangeFieldExport(father ? father.id : null, field.id)}/>
+                                <span>&nbsp;&nbsp;&nbsp;{field.name}</span>
+                            </label>
+                        </div>
+                        {hasChildrens &&
+                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                           aria-expanded="false"
+                           aria-controls={'tab-role' + field.id}
+                           href={'#tab-role' + field.id}
+                           style={{marginTop: 12}}
+                        >
+                            <div className="panel-title" style={{width: '100%'}}>
+                                <i className="material-icons">keyboard_arrow_down</i>
+                            </div>
+                        </a>}
+                    </div>
+                    {hasChildrens &&
+                    <div id={"tab-role" + field.id} className="panel-collapse collapse"
+                         role="tabpanel"
+                         aria-labelledby={'heading-tab' + field.id}>
+                        <div className="panel-body">
+                            {field.children.map(field2 => this.renderFieldExport(field2, field))}
+                        </div>
+                    </div>}
+                </div>
+            </div>);
+    };
     exportData = (registers) => {
         console.log(registers);
 
@@ -260,7 +314,7 @@ class RegisterListContainer extends React.Component {
                             className="btn btn-white"
                         />
                         <a
-                            onClick={this.showLoadingModal}
+                            onClick={this.showExportFieldsModal}
                             className="btn btn-white btn-icon"
                             style={{padding: "12px 20px", height: 42, margin: '10px 5px 0 0'}}
                             disabled={isLoading}
@@ -576,6 +630,41 @@ class RegisterListContainer extends React.Component {
                 >
                     <Modal.Header><h3>{"Đang xuất file..."}</h3></Modal.Header>
                     <Modal.Body><Loading/></Modal.Body>
+                </Modal>
+                <Modal
+                    show={this.state.showExportFieldsModal}
+                    onHide={() => this.setState({showExportFieldsModal: false})}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title className="card-title">
+                            Xuất dữ liệu (Export)
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <form className="form-grey">
+                            {LEAD_EXPORT_FIELDS_ARRAY.map(field => {
+                                // console.log(field);
+                                return this.renderFieldExport(this.state.selectedExportFields[field.id]);
+                            })}
+                            <div className="flex flex-end">
+                                <button type="button"
+                                        disabled={this.props.isLoading}
+                                        className="btn btn-white text-center"
+                                        data-dismiss="modal"
+                                        onClick={() => this.setState({showExportFieldsModal: false})}>
+                                    Hủy
+                                </button>
+                                <button type="button"
+                                        className="btn btn-success text-center btn-icon"
+                                        style={{backgroundColor: '#2acc4c'}}
+                                        onClick={() => this.showLoadingAllLeadsModal()}>
+                                    <span className="material-icons margin-right-5">vertical_align_bottom</span> Tải
+                                    xuống
+
+                                </button>
+                            </div>
+                        </form>
+                    </Modal.Body>
                 </Modal>
             </div>
 

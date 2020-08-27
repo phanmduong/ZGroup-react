@@ -945,3 +945,25 @@ export const CALL_STATUSES_TO_TEXT = {
     calling: 'Đang gọi',
     failed: 'Gọi thất bại'
 };
+
+
+export const REGISTER_EXPORT_FIELDS_OBJECT = {
+    stt:{id:"stt",name: "Số thứ tự",},
+    'studyClass.name':{id:"studyClass.name",name: "Lớp",},
+    'studyClass.type':{id:"studyClass.type",name: "Loại lớp",},
+    'tele_call.call_status_text':{id:"tele_call.call_status_text",name: "Gọi",},
+    name:{id:"name",name: "Họ và tên",},
+    phone:{id:"phone",name: "Số điện thoại",},
+    email:{id:"email",name: "Email",},
+    province:{id:"province",name: "Thành phố",},
+    code:{id:"code",name: "Mã học viên",},
+    money:{id:"money",name: "Học phí",},
+    'saler.name':{id:"saler.name",name: "Saler",},
+    'marketing_campaign.name':{id:"marketing_campaign.name",name: "Chiến dịch",},
+    base:{id:"base",name: "Cơ sở",},
+    source:{id:"source",name: "Nguồn",},
+    how_know:{id:"how_know",name: "Cách tiếp cận",},
+    created_at:{id:"created_at",name: "Ngày tạo",},
+    mock_exams_text:{id:"mock_exams_text",name: "Thông tin thi thử(PT)",},
+};
+

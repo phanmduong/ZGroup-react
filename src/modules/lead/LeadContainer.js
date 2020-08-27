@@ -17,7 +17,6 @@ import {
     confirm,
     isEmptyInput,
     newWorkBook,
-    objectEntries,
     readExcel,
     saveWorkBookToExcel,
     setClipboard,
@@ -803,7 +802,7 @@ class LeadContainer extends React.Component {
     };
 
     showLoadingAllLeadsModal = () => {
-        this.setState({showLoadingAllLeadsModal: true,showExportFieldsModal:false});
+        this.setState({showLoadingAllLeadsModal: true, showExportFieldsModal: false});
         let {page, search, filter, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate} = this.state;
         let {startTime, endTime,} = filter;
         console.log(this.state.selectedExportFields);
@@ -833,8 +832,8 @@ class LeadContainer extends React.Component {
         let {selectedExportFields} = this.state;
         const tele_call_keys = [];
 
-        selectedExportFields.tele_calls.children.forEach(child=>{
-            if(child.checked) tele_call_keys.push(child.id);
+        selectedExportFields.tele_calls.children.forEach(child => {
+            if (child.checked) tele_call_keys.push(child.id);
         });
         let json = leads.map((item, index) => {
             if (item) {
@@ -891,7 +890,7 @@ class LeadContainer extends React.Component {
                             tele_call_keys.forEach((field, field_index) => {
                                 current_call += `${field_index > 0 ? ' - ' : ''}${getValueFromKey(call, field)}`;
                             });
-                            tele_calls +=  current_call;
+                            tele_calls += current_call;
 
                         });
 
@@ -970,7 +969,7 @@ class LeadContainer extends React.Component {
                 };
                 LEAD_EXPORT_FIELDS_ARRAY.forEach(field => {
                     let target = selectedExportFields[field.id];
-                    if(target.checked){
+                    if (target.checked) {
                         res[target.name] = item[field.id];
                     }
                 });
