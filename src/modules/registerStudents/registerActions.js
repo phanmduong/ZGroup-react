@@ -3,7 +3,12 @@
  */
 import * as types from "../../constants/actionTypes";
 import * as registerStudentsApi from "./registerStudentsApi";
-import {showErrorNotification, showNotification, showTypeNotification} from "../../helpers/helper";
+import {
+    showErrorNotification,
+    showNotification,
+    showTypeNotification,
+    showWarningNotification
+} from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 
@@ -317,6 +322,32 @@ export function changeMarkRegister(register_id, bookmark) {
                 showErrorNotification("Có lỗi xảy ra");
                 dispatch({
                     type: types.CHANGE_BOOKMARK_REGISTER_ERROR,
+                });
+            });
+    };
+}
+
+export function salerPickUpRegister(register_id) {
+    return function (dispatch) {
+        dispatch({
+            type: types.BEGIN_PICK_UP_REGISTER,
+        });
+        showWarningNotification('Đang lưu...');
+        registerStudentsApi.salerPickUpRegister(register_id)
+            .then((res) => {
+                showNotification("Lưu thành công!");
+                console.log(res.data);
+                dispatch({
+                    type: types.PICK_UP_REGISTER_SUCCESS,
+                    register_id,
+                    saler: res.data.saler,
+                    source: res.data.source,
+                });
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra");
+                dispatch({
+                    type: types.PICK_UP_REGISTER_ERROR,
                 });
             });
     };
