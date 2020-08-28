@@ -36,18 +36,18 @@ class SourceOverlay extends React.Component {
     }
 
     componentWillReceiveProps(nextProps) {
-        if (this.props.isLoadingSources && !nextProps.isLoadingSources) {
-            this.setState({
-                sources: nextProps.sources,
-                isLoading: false
-            });
-        }
         if (this.props.student && nextProps.student && (this.props.student.source_id != nextProps.student.source_id)) {
             this.setState({
                 student:{
                     ...this.state.student,
                     source_id:nextProps.student.source_id,
                 },
+                isLoading: false
+            });
+        }
+        if (this.props.isLoadingSources && !nextProps.isLoadingSources) {
+            this.setState({
+                sources: nextProps.sources,
                 isLoading: false
             });
         }

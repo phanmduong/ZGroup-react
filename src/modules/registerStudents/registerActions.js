@@ -337,10 +337,10 @@ export function salerPickUpRegister(register_id) {
             .then((res) => {
                 showNotification("Lưu thành công!");
                 dispatch({
-                    type: types.PICK_UP_REGISTER_SUCCESS,
-                    register_id,
-                    saler: res.data.saler,
                     source: res.data.source,
+                    type: types.PICK_UP_REGISTER_SUCCESS,
+                    saler: res.data.saler,
+                    register_id,
                 });
             })
             .catch(() => {
