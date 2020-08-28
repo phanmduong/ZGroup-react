@@ -158,6 +158,11 @@ export function changeMarkRegister(register_id, bookmark) {
     let url = `${env.API_URL}/mark-register?register_id=${register_id}&bookmark=${bookmark == true ? 1 : 0}&token=${token}`;
     return axios.post(url,);
 }
+export function salerPickUpRegister(register_id) {
+    let token = localStorage.getItem('token');
+    let url = `${env.API_URL}/pick-up-register?register_id=${register_id}&token=${token}`;
+    return axios.post(url,);
+}
 
 export function changeCallStatusStudent(callStatus, studentId, telecallId, genId = '', note = '', callerId = '', appointmentPayment = '', dateTest, call_back_time, status_id) {
 

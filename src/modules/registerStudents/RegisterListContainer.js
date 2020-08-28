@@ -12,7 +12,6 @@ import Select from './SelectGen';
 import ReactSelect from 'react-select';
 import {Modal, Panel} from 'react-bootstrap';
 import * as helper from '../../helpers/helper';
-import {isEmptyInput, setClipboard} from '../../helpers/helper';
 import FormInputDate from '../../components/common/FormInputDate';
 import moment from "moment";
 import {
@@ -264,7 +263,7 @@ class RegisterListContainer extends React.Component {
                 startTime: currentGen.start_time,
                 endTime: currentGen.end_time,
             };
-            if ((currentGen.id === '' || isEmptyInput(currentGen.id)) && currentGen.name !== 'Tất cả') {
+            if ((currentGen.id === '' || helper.isEmptyInput(currentGen.id)) && currentGen.name !== 'Tất cả') {
                 newState.startTime = this.state.startTime;
                 newState.endTime = this.state.endTime;
             }
@@ -316,7 +315,7 @@ class RegisterListContainer extends React.Component {
 
     copyShareUrl = () => {
         let url = this.getFilterUrlWithParams(this.state);
-        setClipboard(url, true);
+        helper.setClipboard(url, true);
     };
 
     getFilterUrlWithParams = (newFilter = {}) => {
@@ -599,7 +598,7 @@ class RegisterListContainer extends React.Component {
         this.props.registerActions.loadRegisterStudent(
             {...this.state},
         );
-    }
+    };
 
     onBookmarkStatusFilterChange = (obj) => {
         let res = obj ? obj.value : '';
@@ -815,6 +814,14 @@ class RegisterListContainer extends React.Component {
         openModalRegisterDetail(`/sales/info-student/${selectedStudentId}`);
     };
 
+    salerPickUpRegister = (register_id) => {
+        if(this.props.isPickingUpRegister) return ;
+        helper.confirm('warning', 'Xác nhận đơn', 'Bạn có chắc muốn pick đăng kí này?',
+            () => {
+                this.props.registerActions.salerPickUpRegister(register_id);
+            });
+
+    };
 
     render() {
         return (
@@ -1239,6 +1246,7 @@ class RegisterListContainer extends React.Component {
                                             openModalRegisterDetail={this.openModalRegisterDetail}
                                             changeStatusPause={this.changeStatusPause}
                                             changeMarkRegister={this.changeMarkRegister}
+                                            salerPickUpRegister={this.salerPickUpRegister}
                                             addMyLead={this.addMyLead}
                                         />
                                         :
@@ -1745,6 +1753,7 @@ function mapStateToProps(state) {
         isLoadingSalerFilter: state.registerStudents.isLoadingSalerFilter,
         isLoadingCampaignFilter: state.registerStudents.isLoadingCampaignFilter,
         isChangingBookmark: state.registerStudents.isChangingBookmark,
+        isPickingUpRegister: state.registerStudents.isPickingUpRegister,
         genId: state.registerStudents.genId,
         currentGen: state.registerStudents.currentGen,
         excel: state.registerStudents.excel,

@@ -281,6 +281,29 @@ export default function registerReducer(state = initialState.registerStudents, a
                     errorChangeStatus: true
                 }
             };
+        case types.BEGIN_PICK_UP_REGISTER:
+            return {
+                ...state,
+                ...{
+                    isPickingUpRegister: true
+                }
+            };
+        case types.PICK_UP_REGISTER_SUCCESS:
+            registers = pickUpChange(action.register_id, state.registers, action.saler, action.source);
+            return {
+                ...state,
+                ...{
+                    isPickingUpRegister: false,
+                    registers: registers,
+                }
+            };
+        case types.PICK_UP_REGISTER_ERROR:
+            return {
+                ...state,
+                ...{
+                    isPickingUpRegister: false,
+                }
+            };
         case types.DELETE_REGISTER_STUDENT_SUCCESS:
             registers = deleteRegister(action.registerId, state.registers);
             return {
@@ -415,6 +438,22 @@ function changeBookmark(registerId, registers, bookmark) {
                     return {
                         ...register,
                         bookmark
+                    };
+                }
+                return register;
+            }
+        );
+    }
+    return registers;
+}
+function pickUpChange(registerId, registers, saler, source) {
+    if (registers) {
+        registers = registers.map(register => {
+                if (register.id === registerId) {
+                    return {
+                        ...register,
+                        saler,
+                        source_id: source.id
                     };
                 }
                 return register;

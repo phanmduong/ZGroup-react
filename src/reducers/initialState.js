@@ -1112,6 +1112,7 @@ export default {
         baseFilter: [],
         isSavingRegister: false,
         isChangingBookmark: false,
+        isPickingUpRegister: false,
 
     },
 

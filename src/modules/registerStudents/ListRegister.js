@@ -139,7 +139,7 @@ class ListRegister extends React.Component {
                                                 :
                                                 (
                                                     <a className="btn btn-xs btn-main"
-                                                       onClick={() => this.props.openLinkWithFilter({"saler_id": -1})}
+                                                       onClick={() => this.props.salerPickUpRegister(register.id)}
                                                     >
                                                         No saler
                                                         <div className="ripple-container"/>
@@ -313,6 +313,7 @@ ListRegister.propTypes = {
     changeStatusPause: PropTypes.func,
     genId: PropTypes.number,
     isChangingBookmark: PropTypes.bool,
+    isPickingUpRegister: PropTypes.bool,
 };
 
 export default ListRegister;
