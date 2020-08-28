@@ -236,6 +236,7 @@ class RegisterListContainer extends React.Component {
 
                 item = {
                     ...item,
+                    stt: index + 1,
                     tele_call: item.tele_call ? item.tele_call : {call_status_text: 'Chưa gọi'},
                     studyClass: item.studyClass ? {...item.studyClass, type:TYPE_CLASSES_OBJECT[item.studyClass.type]} : {name: 'Không có', type: 'null'},
                     how_know: item.how_know ? item.how_know : 'Không có',
