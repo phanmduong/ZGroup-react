@@ -14,7 +14,7 @@ import moment from "moment";
 import {
     appendJsonToWorkBook,
     isEmptyInput,
-    newWorkBook,
+    newWorkBook, objectEntries,
     saveWorkBookToExcel,
     showErrorNotification,
     showWarningNotification
@@ -26,10 +26,11 @@ import FormInputDate from "../../components/common/FormInputDate";
 import {loadRegisters} from "./registerListApi";
 import {
     DATETIME_FILE_NAME_FORMAT,
-    DATETIME_FORMAT_SQL, LEAD_EXPORT_FIELDS_ARRAY,
-    LEAD_EXPORT_FIELDS_OBJECT,
+    DATETIME_FORMAT_SQL,
+    REGISTER_EXPORT_FIELDS_OBJECT,
     TYPE_CLASSES_OBJECT
 } from "../../constants/constants";
+import {getValueFromKey} from "../../helpers/entity/object";
 
 const register_statuses = [
     {
@@ -66,7 +67,7 @@ class RegisterListContainer extends React.Component {
         this.state = {
             openFilterPanel: false,
             showLoadingModal: false,
-            selectedExportFields: LEAD_EXPORT_FIELDS_OBJECT,
+            selectedExportFields: REGISTER_EXPORT_FIELDS_OBJECT,
         };
         this.tabViews = [
             {
@@ -129,7 +130,7 @@ class RegisterListContainer extends React.Component {
     showExportFieldsModal = () => {
         this.setState({
             showExportFieldsModal: true,
-            selectedExportFields: LEAD_EXPORT_FIELDS_OBJECT,
+            selectedExportFields: REGISTER_EXPORT_FIELDS_OBJECT,
         });
         setTimeout(() => {
             $.material.init();
@@ -185,6 +186,27 @@ class RegisterListContainer extends React.Component {
                 </div>
             </div>);
     };
+    onChangeFieldExport = (father_id, field_id) => {
+        let {selectedExportFields} = this.state;
+        if (father_id) {
+            selectedExportFields[father_id].children = selectedExportFields[father_id].children.map(c => {
+                if (c.id == field_id) c.checked = !c.checked;
+                return c;
+            });
+            let anyChildChecked = selectedExportFields[father_id].children.filter(c => c.checked).length > 0;
+            selectedExportFields[father_id].checked = anyChildChecked;
+        } else {
+            let checked = !selectedExportFields[field_id].checked;
+            selectedExportFields[field_id].checked = checked;
+            if (selectedExportFields[field_id].children) {
+                selectedExportFields[field_id].children = selectedExportFields[field_id].children.map(c => {
+                    c.checked = checked;
+                    return c;
+                });
+            }
+        }
+        this.setState({selectedExportFields});
+    };
     exportData = (registers) => {
         console.log(registers);
 
@@ -192,26 +214,12 @@ class RegisterListContainer extends React.Component {
             showErrorNotification("Không có dữ liệu");
             return;
         }
-        let cols = [{"wch": 5}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 30}, {"wch": 30}, {"wch": 12}, {"wch": 12}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 15}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 22}, {"wch": 150},];//độ rộng cột
+
+        let {selectedExportFields} = this.state;
 
         let json = registers.map((item, index) => {
             if (item) {
                 /* eslint-disable */
-                item = {
-                    ...item,
-                    tele_call: item.tele_call ? item.tele_call : {call_status_text: 'Chưa gọi'},
-                    studyClass: item.studyClass ? item.studyClass : {name: 'Không có', type: 'null'},
-                    how_know: item.how_know ? item.how_know : 'Không có',
-                    course: item.course ? item.course : {name: 'Không có'},
-                    base: item.base ? item.base : {name: 'Không có'},
-                    province: (item.base && item.base.district && item.base.district.province) ? item.base.district.province.name : 'Không có',
-                    source: item.source ? item.source : {name: 'Không có'},
-                    saler: item.saler ? item.saler : {name: 'Không có'},
-                    marketing_campaign: item.marketing_campaign ? item.marketing_campaign : {name: 'Không có'},
-                    student: item.student ? item.student : {name: 'Không có', email: 'Không có', phone: 'Không có'},
-
-                };
-
                 let mock_exams_text = '';
                 if (item.mock_exams) {
                     item.mock_exams.forEach((ex, ex_index) => {
@@ -225,32 +233,55 @@ class RegisterListContainer extends React.Component {
 
                     });
                 }
-                let res = {
-                    'STT': index + 1,
-                    'Lớp': item.studyClass.name,
-                    'Loại lớp': TYPE_CLASSES_OBJECT[item.studyClass.type],
-                    'Môn học': item.course.name,
-                    'Gọi': item.tele_call.call_status_text,
-                    'Họ tên': item.student.name,
-                    'Email': item.student.email,
-                    'Phone': item.student.phone,
-                    'Thành phố': item.province,
-                    'Mã thẻ': item.code,
-                    'Học phí': item.money,
-                    'Saler': item.saler.name,
-                    'Chiến dịch': item.marketing_campaign.name,
-                    'Cơ sở': `${item.base.name} ${item.base.address}`,
-                    'Nguồn': item.source.name,
-                    'Cách tiếp cận': item.how_know,
-                    'Ngày đăng kí': item.created_at,
-                    'Thi thử': mock_exams_text,
+
+                item = {
+                    ...item,
+                    tele_call: item.tele_call ? item.tele_call : {call_status_text: 'Chưa gọi'},
+                    studyClass: item.studyClass ? {...item.studyClass, type:TYPE_CLASSES_OBJECT[item.studyClass.type]} : {name: 'Không có', type: 'null'},
+                    how_know: item.how_know ? item.how_know : 'Không có',
+                    course: item.course ? item.course : {name: 'Không có'},
+                    base: item.base ? {name: `${item.base.name} ${item.base.address}`} : {name: 'Không có'},
+                    province: (item.base && item.base.district && item.base.district.province) ? item.base.district.province.name : 'Không có',
+                    source: item.source ? item.source : {name: 'Không có'},
+                    saler: item.saler ? item.saler : {name: 'Không có'},
+                    marketing_campaign: item.marketing_campaign ? item.marketing_campaign : {name: 'Không có'},
+                    student: item.student ? item.student : {name: 'Không có', email: 'Không có', phone: 'Không có'},
+                    mock_exams_text,
                 };
+
+                let res = {
+                    // 'STT': index + 1,
+                    // 'Lớp': item.studyClass.name,
+                    // 'Loại lớp': TYPE_CLASSES_OBJECT[item.studyClass.type],
+                    // 'Môn học': item.course.name,
+                    // 'Gọi': item.tele_call.call_status_text,
+                    // 'Họ tên': item.student.name,
+                    // 'Email': item.student.email,
+                    // 'Phone': item.student.phone,
+                    // 'Thành phố': item.province,
+                    // 'Mã thẻ': item.code,
+                    // 'Học phí': item.money,
+                    // 'Saler': item.saler.name,
+                    // 'Chiến dịch': item.marketing_campaign.name,
+                    // 'Cơ sở': `${item.base.name} ${item.base.address}`,
+                    // 'Nguồn': item.source.name,
+                    // 'Cách tiếp cận': item.how_know,
+                    // 'Ngày đăng kí': item.created_at,
+                    // 'Thi thử': mock_exams_text,
+                };
+                objectEntries(selectedExportFields).map(key=>{
+                    let field = selectedExportFields[key];
+                    if (field.checked){
+                        res[field.name] = getValueFromKey(item, field.id);
+                    }
+
+                });
                 /* eslint-enable */
                 return res;
             }
         });
         let wb = newWorkBook();
-        appendJsonToWorkBook(json, wb, 'Danh sách', cols, []);
+        appendJsonToWorkBook(json, wb, 'Danh sách');
 
         let startTime = moment(store.filter.start_time, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
         let endTime = moment(store.filter.end_time, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
@@ -642,8 +673,9 @@ class RegisterListContainer extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         <form className="form-grey">
-                            {LEAD_EXPORT_FIELDS_ARRAY.map(field => {
+                            {objectEntries(this.state.selectedExportFields).map(key => {
                                 // console.log(field);
+                                let field  = this.state.selectedExportFields[key];
                                 return this.renderFieldExport(this.state.selectedExportFields[field.id]);
                             })}
                             <div className="flex flex-end">
@@ -657,7 +689,7 @@ class RegisterListContainer extends React.Component {
                                 <button type="button"
                                         className="btn btn-success text-center btn-icon"
                                         style={{backgroundColor: '#2acc4c'}}
-                                        onClick={() => this.showLoadingAllLeadsModal()}>
+                                        onClick={() => this.showLoadingModal()}>
                                     <span className="material-icons margin-right-5">vertical_align_bottom</span> Tải
                                     xuống
 
