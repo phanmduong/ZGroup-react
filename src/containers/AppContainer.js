@@ -8,7 +8,7 @@ import * as provinceActions from "../actions/provinceActions";
 import * as baseActions from "../actions/baseActions";
 import * as userActions from "../actions/userActions";
 import * as helper from "../helpers/helper";
-import {isEmptyInput} from "../helpers/helper";
+import {deleteCookie, isEmptyInput} from "../helpers/helper";
 import {Modal} from "react-bootstrap";
 import RuleContainer from "../modules/rule/RuleContainer";
 import GlobalLoadingContainer from "../modules/globalLoading/GlobalLoadingContainer";
@@ -83,6 +83,8 @@ class AppContainer extends React.Component {
                 helper.onesignalSetUserId(0);
                 localStorage.removeItem("token");
                 localStorage.removeItem("user");
+                deleteCookie("token");
+                deleteCookie("user");
                 /* eslint-disable */
                 if (process.env.NODE_ENV === "production") {
                     window.open("/logout", "_self");

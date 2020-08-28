@@ -1,6 +1,7 @@
 import * as types from "../../constants/actionTypes";
 import * as loadLoginApi from "./LoginApi";
 import * as helper from "../../helpers/helper";
+import {setCookie} from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 export function beginUpdateLoginForm() {
@@ -31,6 +32,8 @@ export function updatedLoginForm(res) {
     let token = null;
     if (res.data.user.role !== 0) {
         token = res.data.token;
+        setCookie("token", token, {'max-age': 518400})
+        setCookie("user", JSON.stringify(res.data.user), {'max-age': 518400})
         localStorage.setItem("user", JSON.stringify(res.data.user));
         helper.setStorage("token", token, 518400);
     }
