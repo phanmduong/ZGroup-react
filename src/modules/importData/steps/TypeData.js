@@ -31,6 +31,10 @@ const types = [
                 name: 'Tên phụ huynh 2',
             },
             {
+                key: "user.base",
+                name: 'Tên cơ sở',
+            },
+            {
                 key: "user.email",
                 // required: true,
                 name: "Email",

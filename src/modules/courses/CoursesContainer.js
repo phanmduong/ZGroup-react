@@ -76,7 +76,7 @@ class CoursesContainer extends React.Component {
     onSearchCourses = () => {
         this.props.coursesActions.loadCourses(
             this.state.page,
-            this.state.query
+            this.state.query,
         );
     }
 
@@ -84,6 +84,12 @@ class CoursesContainer extends React.Component {
     changeStatusCourse(index, course, e) {
         this.props.coursesActions.changeStatusCourse(index, course);
         e.stopPropagation();
+    }
+
+    updateCourse = (course) => {
+        this.props.coursesActions.commitCourseData(course, () => {
+            this.onSearchCourses();
+        });
     }
 
     duplicateCourse(data) {
@@ -140,6 +146,7 @@ class CoursesContainer extends React.Component {
                                         deleteCourse={this.deleteCourse}
                                         changeStatusCourse={this.changeStatusCourse}
                                         duplicateCourse={this.duplicateCourse}
+                                        updateCourse={this.updateCourse}
                                         query={this.state.query}
                                     />
                                     :

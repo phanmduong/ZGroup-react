@@ -27,6 +27,8 @@ import StatusesOverlay from "./overlays/StatusesOverlay";
 import UploadManyImages from "../../components/common/UploadManyImages";
 import MockExamsContainer from "./mockExams/MockExamsContainer";
 import moment from "moment";
+import BasesOverlay from "./overlays/BasesOverlay";
+
 
 class InfoStudentContainer extends React.Component {
     constructor(props, context) {
@@ -245,9 +247,16 @@ class InfoStudentContainer extends React.Component {
         this.setState({duplicate_leads, showModalDuplicateLeads: true});
     };
 
-    //cmnd quoc tich gioi tinh
+    changeBase = (base_id) => {
+        let student = {...this.props.student};
+        student.base_id = base_id
+
+        this.props.studentActions.editInfoStudent(student);
+    }
 
     render() {
+
+
         const dfImg = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1574666760MlUiLSRqIIs92wd.png';
         const googleDriveImage = 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1597133406dEa6rLqpNIunHoU.png';
         let {student, studentActions, location} = this.props;
@@ -292,6 +301,7 @@ class InfoStudentContainer extends React.Component {
 
                                         <h6 className="category text-gray text-email">
                                             {student.email}
+
                                         </h6>
                                         <h6 className="category text-gray text-email">
                                             <span>{student.phone}</span>
@@ -400,6 +410,15 @@ class InfoStudentContainer extends React.Component {
                                                 data={student.lead_status}
                                                 refId={student.id}
                                                 statusRef={this.statusRef}
+                                                className="source-value"
+                                            />
+                                        </div>
+                                        <div className="source-wrap">
+                                            <div className="source-name">Cơ sở</div>
+                                            <BasesOverlay
+                                                selected={student.base_id}
+                                                refId={student.id}
+                                                onChange={this.changeBase}
                                                 className="source-value"
                                             />
                                         </div>

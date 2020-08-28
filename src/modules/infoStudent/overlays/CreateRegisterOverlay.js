@@ -421,7 +421,7 @@ class CreateRegisterOverlay extends React.Component {
                             <div>
 
                                 <div className="flex flex-space-between flex-align-items-center cursor-pointer">
-                                    <label>Môn học</label>
+                                    <label>Môn học/chương trình học</label>
                                     <Link to="/teaching/courses" target="_blank" className="btn-white btn-xs cursor-pointer">
                                         <label className="cursor-pointer">Thêm môn học</label>
                                     </Link>
@@ -431,7 +431,7 @@ class CreateRegisterOverlay extends React.Component {
                                     value={register.course_id}
                                     options={getSelectCourse(this.props.courses)}
                                     onChange={this.updateCourse}
-                                    placeholder={isLoadingCourses ? "Đang tải dữ liệu..." : "Chọn môn học"}
+                                    placeholder={isLoadingCourses ? "Đang tải dữ liệu..." : "Chọn môn học/chương trình học"}
                                     valueComponent={MemberReactSelectValue}
                                 /></div>
                             <div>

@@ -11,6 +11,8 @@ import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import Link from "react-router/es/Link";
 import {Modal} from "react-bootstrap";
 import CoursesCreateEditGeneral from "./coursesForm/CoursesCreateEditGeneral";
+import ParentCourseOverlay from "./overlays/ParentCourseOverlay";
+import {getParentCourses} from "./courseApi";
 
 // function prefixDataPost(data) {
 //     if (data.length > 40) {
@@ -25,7 +27,8 @@ class ListCourse extends React.Component {
         this.state = {
             showChangeOrderModal: false,
             course: {},
-            openModalEdit: false
+            openModalEdit: false,
+            parentCourses: []
         };
 
         this.deleteCourse = this.deleteCourse.bind(this);
@@ -37,6 +40,29 @@ class ListCourse extends React.Component {
     // componentWillReceiveProps(nextProps) {
     //     console.log("nextProps",nextProps);
     // }
+
+    componentDidMount() {
+        getParentCourses().then((res) => {
+            this.setState({parentCourses: res.data.courses});
+        });
+    }
+
+    updateParentCourse = (parentCourse, isEdit = false) => {
+        let parentCourses = this.state.parentCourses;
+        if (isEdit) {
+            parentCourses = parentCourses.map((item) => {
+                if (item.id == parentCourse.id) {
+                    return {...parentCourse};
+                } else {
+                    return {...item};
+                }
+            })
+        } else {
+            parentCourses = [...parentCourses, parentCourse];
+        }
+
+        this.setState({parentCourses});
+    }
 
 
     closeModalEdit = () => {
@@ -82,6 +108,7 @@ class ListCourse extends React.Component {
                             <th/>
                             <th>Tên</th>
                             <th>Trạng thái</th>
+                            <th>Chương trình học</th>
                             <th>Số buổi</th>
                             <th>Giá</th>
                             <th/>
@@ -121,6 +148,21 @@ class ListCourse extends React.Component {
                                                     onColor="success"
                                                 />
                                             </div>
+                                        </td>
+                                        <td>
+                                            <ParentCourseOverlay
+                                                className="btn status-overlay btn-xs"
+                                                parentCourses={this.state.parentCourses}
+                                                selectedParentId={course.parent_id}
+                                                updateParentCourse={this.updateParentCourse}
+                                                // onChange={(term) => this.selectedTerm(lesson, term)}
+                                                onChange={(parentCourse) => {
+                                                    const courseData = {...course}
+                                                    courseData.parent_id = parentCourse ? parentCourse.id : '';
+                                                    this.props.updateCourse(courseData);
+                                                }}
+                                                style={{minWidth: 200, zIndex: this.props.courses.length - index}}
+                                            />
                                         </td>
                                         <td>{course.duration + " buổi"}</td>
                                         <td>{helper.dotNumber(course.price)}</td>
