@@ -30,9 +30,9 @@ class ToggleStar extends React.Component {
     }
 
     render() {
-        let {style} = this.props;
+        let {style = {}} = this.props;
         let styleStar = {...style},styleLoading = {...style};
-        if(style.fontSize){
+        if(style && style.fontSize){
             styleLoading.fontSize = style.fontSize - 5;
         }
         return (
