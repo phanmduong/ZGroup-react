@@ -69,7 +69,7 @@ class RegisterList extends React.Component {
                     </thead>
                     <tbody>
                     {store.registers.map((register, index) => {
-                        let color = ['', 'success', 'warning', 'danger', 'info', 'gray'][register.status];
+                        // let color = ['', 'success', 'warning', 'danger', 'info', 'gray'][register.status];
 
                         let btnCallClass = '';
                         if (register.tele_call) {
@@ -77,15 +77,16 @@ class RegisterList extends React.Component {
                         }
 
                         return (
-                            <tr key={register.id} className={`${color} cursor-pointer`}
+                            <tr key={register.id} className={`cursor-pointer`}
                                 onMouseEnter={() => this.onMouseOverRow(register.id, 'show')}
                                 onMouseLeave={() => this.onMouseOverRow(register.id, 'hide')}
                             >
-                                <td>
+                                <td style={{width:30}}>
                                     <ToggleStar
                                         value={register.bookmark}
                                         isLoading={store.isChangingBookmark}
                                         onChange={value => store.changeMarkRegister(index, value)}
+                                        style={{fontSize:20}}
                                     />
                                 </td>
                                 <td>
@@ -93,7 +94,7 @@ class RegisterList extends React.Component {
                                     <TooltipButton text={register.tele_call.call_status_text} placement="top">
                                         <div className="container-call-status">
                                             <button
-                                                className={"btn btn-round " + btnCallClass + " full-width padding-left-right-10"}
+                                                className={"btn btn-round btn-xs " + btnCallClass}
                                                 // onClick={() => this.props.viewCall(register)}
                                             >
                                                 <i className="material-icons">phone</i>
@@ -174,7 +175,7 @@ class RegisterList extends React.Component {
                                         {
                                             register.saler ?
                                                 (
-                                                    <a className="btn btn-xs btn-main none-margin"
+                                                    <a className="btn btn-xs btn-main none-margin width-100"
                                                        style={{backgroundColor: '#' + register.saler.color}}
                                                        onClick={() => this.onClickButtonChangeFilter("saler", register.saler)}
                                                     >
@@ -184,7 +185,7 @@ class RegisterList extends React.Component {
                                                 )
                                                 :
                                                 (
-                                                    <a className="btn btn-xs btn-main none-margin"
+                                                    <a className="btn btn-xs btn-main none-margin width-100"
                                                        onClick={() => this.onClickButtonChangeFilter("saler", store.defaultEmptySelectObject)}
                                                     >
                                                         No saler
@@ -196,13 +197,13 @@ class RegisterList extends React.Component {
                                     </div>
                                 </td>
                                 <td><SourceOverlay
-                                    className="btn-xs width-100 source-value "
+                                    className="btn btn-main btn-xs none-margin source-value width-100"
                                     student={register}
                                 /></td>
                                 <td>{
                                     register.marketing_campaign ?
                                         (
-                                            <button className="btn btn-xs btn-main none-margin"
+                                            <button className="btn btn-xs btn-main none-margin width-100"
                                                     style={{backgroundColor: '#' + register.marketing_campaign.color}}
                                                     onClick={() => this.onClickButtonChangeFilter("campaign", register.marketing_campaign)}
 
@@ -213,10 +214,10 @@ class RegisterList extends React.Component {
                                         )
                                         :
                                         (
-                                            <button className="btn btn-xs btn-main none-margin"
+                                            <button className="btn btn-xs btn-main none-margin width-100"
                                                     onClick={() => this.onClickButtonChangeFilter("campaign", store.defaultEmptySelectObject)}
                                             >
-                                                Không có
+                                                No campaign
                                                 <div className="ripple-container"/>
                                             </button>
                                         )
@@ -233,7 +234,7 @@ class RegisterList extends React.Component {
                                     {
                                         register.paid_status ?
                                             <TooltipButton text={register.note} placement="top">
-                                                <div className="btn btn-xs btn-main none-margin main-background-color">
+                                                <div className="btn btn-xs btn-main none-margin main-background-color width-100">
                                                     {helper.dotNumber(register.money)} vnd
                                                 </div>
                                             </TooltipButton>
@@ -242,7 +243,7 @@ class RegisterList extends React.Component {
                                             <TooltipButton
                                                 text={`Hẹn nộp ${register.tele_call.appointment_payment_date}`}
                                                 placement="top">
-                                                <div className="margin-bottom-10">
+                                                <div className="margin-bottom-10 width-100">
                                                     {
                                                         register.tele_call.appointment_payment ?
                                                             register.tele_call.appointment_payment :

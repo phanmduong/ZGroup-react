@@ -193,7 +193,7 @@ class RegisterActionsOverlay extends React.Component {
 
             <div style={{position: "relative"}} className="" mask="register-actions" ref="RegisterActionsOverlay">
                 <div ref="target" onClick={this.toggle}
-                     className="flex flex-justify-content-center white-light-round"
+                     className="flex flex-justify-content-center"
                      disabled={isChangingStatusCall}>
 
                     <i className="material-icons">more_horiz</i>

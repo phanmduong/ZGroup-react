@@ -887,6 +887,8 @@ export const REGISTER_CALL_STATUS_CLASS_NAMES = {
     success: 'btn-success',
     failed: 'btn-danger',
     calling: 'btn-info',
+    null:'',
+    undefined:'',
 };
 
 

@@ -32,33 +32,33 @@ import {
 } from "../../constants/constants";
 import {getValueFromKey} from "../../helpers/entity/object";
 
-const register_statuses = [
-    {
-        text: 'Chưa đóng tiền',
-        id: 0,
-        color: '#ffffff',
-    },
-    {
-        text: 'Đã nộp tiền',
-        id: 1,
-        color: '#dff0d8',
-    },
-    {
-        text: 'Danh sách chờ',
-        id: 2,
-        color: '#fcf8e3',
-    },
-    {
-        text: 'Đã học xong',
-        id: 5,
-        color: '#8c8c8c',
-    },
-    {
-        text: 'Đã hoàn tiền',
-        id: 6,
-        color: '#c5e2ec',
-    },
-];
+// const register_statuses = [
+//     {
+//         text: 'Chưa đóng tiền',
+//         id: 0,
+//         color: '#ffffff',
+//     },
+//     {
+//         text: 'Đã nộp tiền',
+//         id: 1,
+//         color: '#dff0d8',
+//     },
+//     {
+//         text: 'Danh sách chờ',
+//         id: 2,
+//         color: '#fcf8e3',
+//     },
+//     {
+//         text: 'Đã học xong',
+//         id: 5,
+//         color: '#8c8c8c',
+//     },
+//     {
+//         text: 'Đã hoàn tiền',
+//         id: 6,
+//         color: '#c5e2ec',
+//     },
+// ];
 
 @observer
 class RegisterListContainer extends React.Component {
@@ -71,9 +71,9 @@ class RegisterListContainer extends React.Component {
         };
         this.tabViews = [
             {
-                text: 'Tất cả',
+                text: 'Tất cả đăng kí',
                 value: '',
-                label: "Tất cả"
+                label: "Tất cả đăng kí"
             },
             {
                 value: this.props.user.id,
@@ -186,6 +186,7 @@ class RegisterListContainer extends React.Component {
                 </div>
             </div>);
     };
+
     onChangeFieldExport = (father_id, field_id) => {
         let {selectedExportFields} = this.state;
         if (father_id) {
@@ -305,24 +306,30 @@ class RegisterListContainer extends React.Component {
                         return (<li className={className} key={key}
                                     onClick={() => this.changeTabView(tab)}
                         >
-                            <a style={{borderRadius: 5, textTransform: 'none'}}>{tab.text}</a>
+                            <a style={{borderRadius: 5, textTransform: 'none', margin: 0}}>{tab.text}</a>
                         </li>);
                     })}
                 </ul>
                 <div className="flex flex-space-between">
                     <div className="flex tool-bar-register">
                         <CreateRegisterOverlay
-                            className="btn btn-white btn-icon "
                             onSuccess={() => {
                                 store.loadRegisters();
                             }}
                             btnStyle={{padding: "12px 30px", height: 42, margin: '10px 5px 0 0', borderRadius: 5}}
+                            children={
+                                <button
+                                    className="btn btn-white btn-icon"
+                                    style={{padding: "12px 20px", height: 42, margin: '10px 5px 0 0'}}
+                                ><span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Tạo đăng kí mới
+                                </button>
+                            }
                         />
                         <Search
                             onChange={this.registersSearchChange}
                             value={filter.search}
-                            placeholder="Tìm kiếm học viên"
-                            className="white-seacrh margin-right-5"
+                            placeholder="Tìm kiếm học viên theo tên, email, số điện thoại..."
+                            className="white-seacrh margin-right-5 min-width-400-px none-padding-horizontal"
                             onSearch={this.onSearchRegisters}
                             disabled={isLoading}
                         />
@@ -330,7 +337,7 @@ class RegisterListContainer extends React.Component {
                             onClick={this.openFilterPanel}
                             className="btn btn-white btn-icon"
                             style={{padding: "12px 20px", height: 42, margin: '10px 5px 0 0'}}
-                        >Lọc&nbsp;&nbsp;&nbsp;&nbsp;<span className="material-icons">filter_alt</span>
+                        ><span className="material-icons">filter_alt</span>&nbsp;&nbsp;&nbsp;&nbsp;Lọc
                         </button>
                         <Select
                             options={filter_data.gens}
@@ -350,13 +357,13 @@ class RegisterListContainer extends React.Component {
                             className="btn btn-white btn-icon"
                             style={{padding: "12px 20px", height: 42, margin: '10px 5px 0 0'}}
                             disabled={isLoading}
-                        >Tải xuống&nbsp;&nbsp;&nbsp;&nbsp;<span className="material-icons">get_app</span>
+                        ><span className="material-icons">get_app</span>&nbsp;&nbsp;&nbsp;&nbsp;Tải xuống
                         </a>
                     </div>
                     <div></div>
                 </div>
 
-                <Panel collapsible expanded={
+                <Panel collapsible className="none-margin" expanded={
                     this.state.openFilterPanel
                     &&
                     !(isLoading)
@@ -620,25 +627,25 @@ class RegisterListContainer extends React.Component {
                             </div>
                         </div>
 
-                        <div className="row">
-                            {register_statuses.map((register_status, key) => {
-                                return (
-                                    <div className="col-sm-4" key={key}>
-                                        <div className="flex">
-                                            <div
-                                                style={{
-                                                    background: register_status.color,
-                                                    border: 'solid 1px',
-                                                    height: '15px',
-                                                    width: '30px',
-                                                    margin: '3px 10px'
-                                                }}/>
-                                            <p>{register_status.text}</p>
-                                        </div>
-                                    </div>
-                                );
-                            })}
-                        </div>
+                        {/*<div className="row">*/}
+                        {/*    {register_statuses.map((register_status, key) => {*/}
+                        {/*        return (*/}
+                        {/*            <div className="col-sm-4" key={key}>*/}
+                        {/*                <div className="flex">*/}
+                        {/*                    <div*/}
+                        {/*                        style={{*/}
+                        {/*                            background: register_status.color,*/}
+                        {/*                            border: 'solid 1px',*/}
+                        {/*                            height: '15px',*/}
+                        {/*                            width: '30px',*/}
+                        {/*                            margin: '3px 10px'*/}
+                        {/*                        }}/>*/}
+                        {/*                    <p>{register_status.text}</p>*/}
+                        {/*                </div>*/}
+                        {/*            </div>*/}
+                        {/*        );*/}
+                        {/*    })}*/}
+                        {/*</div>*/}
                     </div>
                 </Panel>
 

@@ -30,6 +30,11 @@ class ToggleStar extends React.Component {
     }
 
     render() {
+        let {style} = this.props;
+        let styleStar = {...style},styleLoading = {...style};
+        if(style.fontSize){
+            styleLoading.fontSize = style.fontSize - 5;
+        }
         return (
             <div>
                 <div className={this.props.disable ? "rating rating-disable" : "rating rating-enable"}
@@ -39,9 +44,10 @@ class ToggleStar extends React.Component {
                 >
 
                     {this.props.isLoading ?
-                        <i className="fa fa-refresh fa-spin"/>
+                        <i className="fa fa-refresh fa-spin" style={{...styleLoading}}/>
                         :
                         <a
+                            style={{...styleStar}}
                             className={"toggle-rating " + (this.props.value == true ? "rating-checked" : "rating-unchecked")}
                             onClick={() => {
                                 if (this.props.disable) return;
