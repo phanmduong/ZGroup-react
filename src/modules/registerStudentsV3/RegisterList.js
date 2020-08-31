@@ -81,7 +81,7 @@ class RegisterList extends React.Component {
                                 onMouseEnter={() => this.onMouseOverRow(register.id, 'show')}
                                 onMouseLeave={() => this.onMouseOverRow(register.id, 'hide')}
                             >
-                                <td style={{width:30}}>
+                                <td style={{minWidth:40}}>
                                     <ToggleStar
                                         value={register.bookmark}
                                         isLoading={store.isChangingBookmark}
