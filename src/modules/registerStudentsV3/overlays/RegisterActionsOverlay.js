@@ -18,7 +18,9 @@ import {deleteRegisterStudent} from "../../registerStudents/registerStudentsApi"
 import {DATE_VN_FORMAT} from "../../../constants/constants";
 import Loading from "../../../components/common/Loading";
 import FormInputText from "../../../components/common/FormInputText";
-import moment from "moment";
+import moment from 'moment';
+
+// import {showNotification} from "../../../../helpers/helper";
 
 class RegisterActionsOverlay extends React.Component {
     constructor(props, context) {
@@ -180,6 +182,7 @@ class RegisterActionsOverlay extends React.Component {
         if (this.props.reload) {
             this.props.reload();
         }
+
     };
 
     render() {

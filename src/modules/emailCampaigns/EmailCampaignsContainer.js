@@ -263,7 +263,7 @@ class EmailCampaignsContainer extends React.Component {
                                 id="input-datetime-timer"
                                 updateFormData={this.updateFormData}
                                 value={this.state.campaign.timer}
-                                defaultDate={moment().add(1, "hours")}
+                                // defaultDate={moment().add(1, "hours")}
                                 label="Hẹn giờ gửi mail"
                             />
                             <ReactSelect

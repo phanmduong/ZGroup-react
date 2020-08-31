@@ -46,8 +46,8 @@ export function avatarEmpty(input) {
     return false;
 }
 
-export function checkThirdPartyImageUrl(url){
-    if(isEmptyInput(url) || (url && url instanceof String)) return  false;
+export function checkThirdPartyImageUrl(url) {
+    if (isEmptyInput(url) || (url && url instanceof String)) return false;
     return url.indexOf('google') > 0;
 }
 
@@ -889,6 +889,10 @@ export function changeToSlugSpace(title) {
 
 function get_header_row(sheet) {
     let headers = [];
+    if (!sheet['!ref']) {
+        showErrorNotification("File lỗi. Hệ thống không lấy được tên cột");
+        return null;
+    }
     let range = XLSX.utils.decode_range(sheet['!ref']);
     let C, R = range.s.r; /* start in the first row */
     /* walk every column in the range */
@@ -914,6 +918,7 @@ export function readExcel(file, isSkipReadFile, ignoreHeader = true) {
             const wsname = wb.SheetNames.filter((sheetname) => wb.Sheets[sheetname]['!ref'])[0];
             const ws = wb.Sheets[wsname];
 
+
             if (isSkipReadFile) {
                 let range = XLSX.utils.decode_range(ws['!ref']);
                 range.s.r = 1; // <-- zero-indexed, so setting to 1 will skip row 0
@@ -923,6 +928,7 @@ export function readExcel(file, isSkipReadFile, ignoreHeader = true) {
             const data = XLSX.utils.sheet_to_json(ws, {header: ignoreHeader});
 
             const header = get_header_row(ws);
+            if (!header) resolve(data);
             if (ignoreHeader) {
                 resolve(data);
             } else {
@@ -1611,7 +1617,7 @@ export function medianOfArray(values) {
 
 export function modeOfArray(values) {
     if (!values || values.length === 0) return {
-        modes:['Không có'],
+        modes: ['Không có'],
         frequency: 0
     };
     let frequency = {}; // values of frequency.
@@ -1641,23 +1647,23 @@ export function modeOfArray(values) {
 export function meanOfArray(values) {
     if (!values || values.length === 0) return 0;
     let sum = 0;
-    values.forEach(val=>sum+=val);
-    return Math.round(sum/values.length*100)/100;
+    values.forEach(val => sum += val);
+    return Math.round(sum / values.length * 100) / 100;
 }
 
-export function generateMonthsArray(dates = [], date_format=DATE_FORMAT_SQL, target_format = 'MM/YYYY') {
-    if(!dates.length) return [];
+export function generateMonthsArray(dates = [], date_format = DATE_FORMAT_SQL, target_format = 'MM/YYYY') {
+    if (!dates.length) return [];
     let minDate = moment().add(10, 'years'), maxDate = moment().subtract(10, 'years');
-    dates.forEach(d=>{
+    dates.forEach(d => {
         let _date = moment(d, date_format);
-        if(_date.isAfter(maxDate)) maxDate = _date;
-        if(_date.isBefore(minDate)) minDate = _date;
+        if (_date.isAfter(maxDate)) maxDate = _date;
+        if (_date.isBefore(minDate)) minDate = _date;
     });
     let res = [];
-    console.log(minDate, maxDate,maxDate.diff(minDate,'months'));
-    for( ; maxDate.diff(minDate,'months'); ){
+    console.log(minDate, maxDate, maxDate.diff(minDate, 'months'));
+    for (; maxDate.diff(minDate, 'months');) {
         res.push(minDate.format(target_format));
-        minDate = minDate.add(1,'months');
+        minDate = minDate.add(1, 'months');
     }
 
 
@@ -1665,7 +1671,7 @@ export function generateMonthsArray(dates = [], date_format=DATE_FORMAT_SQL, tar
 }
 
 export function upperCaseFirstLetter(string) {
-    if(isEmpty(string)) return '';
+    if (isEmpty(string)) return '';
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
@@ -1695,6 +1701,45 @@ export function findNextInstanceInDaysArray(currentDate, daysArray) {
     // return currentDate;
 }
 
+
+export function setCookie(name, value, options = {}) {
+
+    options = {
+        path: '/',
+        // add other defaults here if necessary
+        ...options
+    };
+
+    if (options.expires instanceof Date) {
+        options.expires = options.expires.toUTCString();
+    }
+
+    let updatedCookie = encodeURIComponent(name) + "=" + encodeURIComponent(value);
+
+    for (let optionKey in options) {
+        updatedCookie += "; " + optionKey;
+        let optionValue = options[optionKey];
+        if (optionValue !== true) {
+            updatedCookie += "=" + optionValue;
+        }
+    }
+
+    document.cookie = updatedCookie;
+}
+
+export function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        //eslint-disable-next-line
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+export function deleteCookie(name) {
+    setCookie(name, "", {
+        'max-age': -1
+    })
+}
 export function objectEntries(obj ){
     if(false == (obj  instanceof Object)){
         return [];

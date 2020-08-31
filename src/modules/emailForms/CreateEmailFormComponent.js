@@ -133,7 +133,7 @@ class CreateEmailFormComponent extends React.Component {
         if ($("#form-campaign").valid()) {
             this.props.emailFormsActions.storeCampaign(this.props.emailForm, {
                 ...this.state.campaign,
-                subscribers_list: _.map(this.state.campaign.subscribers_list, 'id')
+                subscribers_list: _.map(this.state.campaign.subscribers_list, 'id'),
             }, this.closeModalStoreCampaign);
         }
     }
@@ -458,7 +458,7 @@ class CreateEmailFormComponent extends React.Component {
                                         <button
                                             className="btn btn-fill btn-rose disabled"
                                         >
-                                            <i className="fa fa-spinner fa-spin"/> Đang tạo
+                                            <i className="fa fa-spinner fa-spin"/> Đang gửi
                                         </button>
                                     )
                                     :
@@ -466,7 +466,7 @@ class CreateEmailFormComponent extends React.Component {
                                         className="btn btn-fill btn-rose"
                                         onClick={this.storeCampaign}
                                     >
-                                        Tạo
+                                        Gửi ngay
                                     </button>
                             }
                         </form>
