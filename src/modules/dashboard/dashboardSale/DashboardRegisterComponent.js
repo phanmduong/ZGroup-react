@@ -10,6 +10,7 @@ import Loading from "../../../components/common/Loading";
 import BarChartFilterDate from "../BarChartFilterDate";
 import moment from "moment";
 import {dotNumber} from "../../../helpers/helper";
+import BarChart2 from "../BarChart2";
 
 const optionsBarMoney = {
     tooltips: {
@@ -211,6 +212,119 @@ class DashboardRegisterComponent extends React.Component {
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
                                                     }]}
+                                            />
+
+                                        }
+                                        <br/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="card margin-bottom-20 margin-top-0">
+                                <div className="card-content text-align-left">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Tỉ lệ học viên new - retention</strong>
+                                        </h4>
+                                        {
+                                            data.dates && data.dates.length > 0 &&
+                                            <BarChartFilterDate
+                                                isLoading={isLoading}
+                                                dates={this.formatDates(data.dates)}
+                                                dateFormat={DATE_FORMAT}
+                                                data={[data.new_retention_register_by_date, data.retention_register_by_date]}
+                                                optionsBar={optionsBarStackRegister}
+                                                fileNameDownload={'tỉ lệ học viên new - retention'}
+                                                labels={[
+                                                    {
+                                                        label: "Đơn new",
+                                                        backgroundColor: '#ffaa00',
+                                                        borderColor: '#ffaa00',
+                                                    },
+                                                    {
+                                                        label: "Đơn retention",
+                                                        backgroundColor: '#4caa00',
+                                                        borderColor: '#4caa00',
+                                                    }]}
+                                            />
+
+                                        }
+                                        <br/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="card margin-bottom-20 margin-top-0">
+                                <div className="card-content text-align-left">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Tỉ lệ học viên new - retention</strong>
+                                        </h4>
+                                        {
+                                            data.programs && data.programs.length > 0 &&
+                                            <BarChart2
+                                                isLoading={isLoading}
+                                                labels={data.programs.map((program) => program.name)}
+                                                datasets={[
+                                                    {
+                                                        label: "Đơn new",
+                                                        backgroundColor: '#ffaa00',
+                                                        borderColor: '#ffaa00',
+                                                        data: data.programs.map((program) => program.total_new_register)
+                                                    },
+                                                    {
+                                                        label: "Đơn retention",
+                                                        backgroundColor: '#4caa00',
+                                                        borderColor: '#4caa00',
+                                                        data: data.programs.map((program) => program.total_retention_register)
+                                                    }
+                                                ]
+                                                }
+                                                optionsBar={optionsBarStackRegister}
+                                            />
+
+                                        }
+                                        <br/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="card margin-bottom-20 margin-top-0">
+                                <div className="card-content text-align-left">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Tỉ lệ học viên nộp tiền new - retention</strong>
+                                        </h4>
+                                        {
+                                            data.programs && data.programs.length > 0 &&
+                                            <BarChart2
+                                                isLoading={isLoading}
+                                                labels={data.programs.map((program) => program.name)}
+                                                datasets={[
+                                                    {
+                                                        label: "Đơn new",
+                                                        backgroundColor: '#ffaa00',
+                                                        borderColor: '#ffaa00',
+                                                        data: data.programs.map((program) => program.total_paid_new_register)
+                                                    },
+                                                    {
+                                                        label: "Đơn retention",
+                                                        backgroundColor: '#4caa00',
+                                                        borderColor: '#4caa00',
+                                                        data: data.programs.map((program) => program.total_paid_retention_register)
+                                                    }
+                                                ]
+                                                }
+                                                optionsBar={optionsBarStackRegister}
                                             />
 
                                         }
