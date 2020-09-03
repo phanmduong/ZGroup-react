@@ -107,7 +107,7 @@ class ListCourse extends React.Component {
                     onHide={this.closeChangeOrderModal}
                     changeOrderCourse={this.changeOrderCourse}
                 />
-                <div className="table-responsive table-split">
+                <div className="table-sticky-head table-split" radius="five">
                     <table className="table" cellSpacing="0">
                         <thead className="text-rose">
                         <tr>
@@ -174,7 +174,8 @@ class ListCourse extends React.Component {
                                                     courseData.parent_id = parentCourse ? parentCourse.id : '';
                                                     this.props.updateCourse(courseData);
                                                 }}
-                                                style={{minWidth: 200, zIndex: this.props.courses.length - index}}
+                                                styleOverlay={{marginLeft:-155}}
+                                                style={{width: '100%'}}
                                             />
                                         </td>
                                         <td>

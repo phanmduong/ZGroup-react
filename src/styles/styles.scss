@@ -1579,7 +1579,7 @@ table tr td .avatar-honor {
   }
 
   .btn .material-icons {
-    font-size: 16px !important;
+    font-size: 12px !important;
 
   }
 
@@ -1589,6 +1589,10 @@ table tr td .avatar-honor {
     width: unset;
     font-weight: 600;
 
+  }
+
+  th{
+    white-space: nowrap;
   }
 
   tr > th, td > a:not(.btn-main, .text-name-student-register) {
@@ -1656,6 +1660,19 @@ table tr td .avatar-honor {
 .table-narrow {
   tr > td, tr > th {
     padding: 0px 10px !important;
+  }
+
+}
+
+.table-sticky-head{
+  overflow: visible!important;
+  table{
+    position: relative;
+    th{
+      position: sticky;
+      z-index: 10;
+      top: 0;
+    }
   }
 
 }
@@ -1819,20 +1836,20 @@ table tr td .avatar-honor {
   .form-group {
     position: relative;
 
-    //&:after {
-    //  font-family: 'Material Icons';
-    //  content: "search";
-    //  position: absolute;
-    //  right: 10px;
-    //  top: 12px;
-    //  font-size: 25px;
-    //  color: #bcbcbc;
-    //}
+    &:before {
+      font-family: 'Material Icons';
+      content: "search";
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      font-size: 20px;
+      color: black;
+    }
     .after-text {
       position: absolute;
       right: 15px;
-      top: 10px;
-      font-size: 12px;
+      top: 11px;
+      font-size: 14px;
       color: black;
       cursor: pointer;
       font-weight: bold;
@@ -1842,7 +1859,7 @@ table tr td .avatar-honor {
   input {
     background-color: white !important;
     border-radius: 5px !important;
-    padding: 21px 25px 21px 30px !important;
+    padding: 21px 40px 21px 35px !important;
     background-image: none !important;
   }
 }
@@ -5296,4 +5313,8 @@ $ct-series-colors: (
     background: #00b836;
     border-radius: 5px;
   }
+}
+
+.white-space-no-wrap{
+  white-space: nowrap;
 }

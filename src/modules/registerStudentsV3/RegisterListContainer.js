@@ -311,7 +311,7 @@ class RegisterListContainer extends React.Component {
                     })}
                 </ul>
                 <div className="flex flex-space-between">
-                    <div className="flex tool-bar-register">
+                    <div className="flex flex-wrap tool-bar-register">
                         <CreateRegisterOverlay
                             onSuccess={() => {
                                 store.loadRegisters();
@@ -319,7 +319,7 @@ class RegisterListContainer extends React.Component {
                             children={
                                 <button
                                     className="btn btn-icon button-green"
-                                    style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0', borderRadius: 5}}
+                                    style={{padding: "12px 15px", height: 42, margin: '10px 10px 0 0', borderRadius: 5}}
                                 ><span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Tạo đăng kí mới
                                 </button>
                             }
@@ -327,8 +327,8 @@ class RegisterListContainer extends React.Component {
                         <Search
                             onChange={this.registersSearchChange}
                             value={filter.search}
-                            placeholder="Tìm kiếm học viên theo tên, email, số điện thoại..."
-                            className="white-seacrh margin-right-10 min-width-400-px form-group-none-padding"
+                            placeholder="Tìm kiếm học viên"
+                            className="white-seacrh margin-right-10 min-width-200-px form-group-none-padding"
                             onSearch={this.onSearchRegisters}
                             disabled={isLoading}
                         />

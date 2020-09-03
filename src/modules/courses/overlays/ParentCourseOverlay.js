@@ -115,7 +115,7 @@ class ParentCourseOverlay extends React.Component {
 
     render() {
         let {isLoading, isProcessing, course} = this.state;
-        let {isLoadingStatuses, className, style, parentCourses} = this.props;
+        let {isLoadingStatuses, className, style, parentCourses,styleOverlay} = this.props;
         // let statuses = this.props.statuses[this.props.statusRef] || [];
         let showLoading = isLoading || isLoadingStatuses || isProcessing;
         // const current = (data && statuses.filter(s => s.id == data.id)[0]) || {};
@@ -127,7 +127,7 @@ class ParentCourseOverlay extends React.Component {
                 borderRadius: 3,
                 cursor: 'pointer', ...style
             }} className={className} ref="StatusesOverlay">
-                <div
+                <div style={{zIndex:1}}
                     onClick={() => this.setState({show: true})}>
                     {this.courseName()}
                 </div>
@@ -138,7 +138,7 @@ class ParentCourseOverlay extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay" style={{width: "300px", marginTop: 35}}>
+                    <div className="kt-overlay" style={{width: "300px", marginTop: 35, zIndex:2, ...styleOverlay}}>
 
 
                         {!showLoading && <div style={{position: "relative"}}>

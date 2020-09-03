@@ -106,17 +106,17 @@ class CoursesContainer extends React.Component {
             <div className="content">
                 <div className="container-fluid">
                     <div className="flex flex-space-between">
-                        <div className="flex tool-bar-register">
+                        <div className="flex  flex-wrap tool-bar-register">
                             <CreateCourseOverlay
                                 btnText="Thêm môn học mới"
                                 className="btn button-green btn-icon"
-                                btnStyle={{padding: "12px 30px", height: 42, margin: '10px 10px 0 0', borderRadius: 5}}
+                                btnStyle={{padding: "12px 15px", height: 42, margin: '10px 10px 0 0', borderRadius: 5}}
                             />
                             <Search
                                 onChange={this.courseSearchChange}
                                 value={this.state.query}
                                 placeholder="Tìm môn học theo tên"
-                                className="white-seacrh margin-right-5 min-width-400-px form-group-none-padding"
+                                className="white-seacrh margin-right-5 min-width-200-px form-group-none-padding"
                                 onSearch={this.onSearchCourses}
                             />
                         </div>
