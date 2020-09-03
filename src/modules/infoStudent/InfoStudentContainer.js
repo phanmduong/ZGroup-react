@@ -454,9 +454,12 @@ class InfoStudentContainer extends React.Component {
                                                 ><i className="material-icons">info</i>
                                                 </a>
                                                 :
-                                                <img className="img-user"
-                                                     onClick={() => this.handleFileUpload('image1')}
-                                                     src={helper.validateLinkImage(student.image1, dfImg)}/>
+                                                <div className="son position-absolute cursor-pointer color-grey flex flex-justify-content-center flex-align-items-center"
+                                                     style={{top: 5, right: 5, background: 'white', width:24, height:24, borderRadius:'50%'}}
+                                                     onClick={() => this.openModalImageView(student.image1)}
+                                                >
+                                                    <i className="material-icons">info</i>
+                                                </div>
                                             }
                                         </TooltipButton>}
 
@@ -484,9 +487,12 @@ class InfoStudentContainer extends React.Component {
                                                 ><i className="material-icons">info</i>
                                                 </a>
                                                 :
-                                                <img className="img-user"
-                                                     onClick={() => this.handleFileUpload('image2')}
-                                                     src={helper.validateLinkImage(student.image2, dfImg)}/>
+                                                <div className="son position-absolute cursor-pointer color-grey flex flex-justify-content-center flex-align-items-center"
+                                                     style={{top: 5, right: 5, background: 'white', width:24, height:24, borderRadius:'50%'}}
+                                                     onClick={() => this.openModalImageView(student.image2)}
+                                                >
+                                                    <i className="material-icons">info</i>
+                                                </div>
                                             }
                                         </TooltipButton>}
                                     </div>

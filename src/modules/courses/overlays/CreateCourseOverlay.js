@@ -77,16 +77,17 @@ class CreateBaseOverlay extends React.Component {
     render() {
         let {
              className,course,
-            isLoading, isCommitting
+            isLoading, isCommitting,
+            btnStyle, btnText
         } = this.props;
 
         return (
 
             <div style={{position: "relative"}}>
-                <div className={className}
+                <div className={className} style={{...btnStyle}}
                      ref="target" onClick={this.toggle}>
-                    Tạo&nbsp;
-                    <i className="material-icons">add</i>
+                    <i className="material-icons">add_circle</i>
+                    &nbsp;&nbsp;{btnText || 'Tạo'}
                 </div>
                 <Overlay
                     rootClose={true}

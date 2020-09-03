@@ -325,6 +325,7 @@ class CreateRegisterOverlay extends React.Component {
         coupons = this.getCouponSelectOptions([...coupons], register);
         let finalPrice = this.getFinalPrice();
         let showLoading = (isLoadingCourses || isLoadingCampaigns || isLoadingCoupons);
+        console.log(btnStyle);
         return (
 
             <div style={{position: "relative"}}>

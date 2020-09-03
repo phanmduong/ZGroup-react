@@ -306,7 +306,7 @@ class RegisterListContainer extends React.Component {
                         return (<li className={className} key={key}
                                     onClick={() => this.changeTabView(tab)}
                         >
-                            <a style={{borderRadius: 5, textTransform: 'none', margin: 0}}>{tab.text}</a>
+                            <a style={{borderRadius: 5, textTransform: 'none', margin: 0, padding:'10px 20px'}}>{tab.text}</a>
                         </li>);
                     })}
                 </ul>
@@ -316,11 +316,10 @@ class RegisterListContainer extends React.Component {
                             onSuccess={() => {
                                 store.loadRegisters();
                             }}
-                            btnStyle={{padding: "12px 30px", height: 42, margin: '10px 5px 0 0', borderRadius: 5}}
                             children={
                                 <button
-                                    className="btn btn-white btn-icon"
-                                    style={{padding: "12px 20px", height: 42, margin: '10px 5px 0 0'}}
+                                    className="btn btn-icon button-green"
+                                    style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0', borderRadius: 5}}
                                 ><span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Tạo đăng kí mới
                                 </button>
                             }
@@ -329,14 +328,14 @@ class RegisterListContainer extends React.Component {
                             onChange={this.registersSearchChange}
                             value={filter.search}
                             placeholder="Tìm kiếm học viên theo tên, email, số điện thoại..."
-                            className="white-seacrh margin-right-5 min-width-400-px none-padding-horizontal"
+                            className="white-seacrh margin-right-10 min-width-400-px form-group-none-padding"
                             onSearch={this.onSearchRegisters}
                             disabled={isLoading}
                         />
                         <button
                             onClick={this.openFilterPanel}
                             className="btn btn-white btn-icon"
-                            style={{padding: "12px 20px", height: 42, margin: '10px 5px 0 0'}}
+                            style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}
                         ><span className="material-icons">filter_alt</span>&nbsp;&nbsp;&nbsp;&nbsp;Lọc
                         </button>
                         <Select
@@ -349,13 +348,13 @@ class RegisterListContainer extends React.Component {
                             defaultMessage="Chọn giai đoạn"
                             name="gen_id"
                             disabled={isLoading}
-                            wrapClassName="margin-right-5 react-select-white-light-round"
+                            wrapClassName="margin-right-10 react-select-white-light-round"
                             className="btn btn-white"
                         />
                         <a
                             onClick={this.showExportFieldsModal}
                             className="btn btn-white btn-icon"
-                            style={{padding: "12px 20px", height: 42, margin: '10px 5px 0 0'}}
+                            style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}
                             disabled={isLoading}
                         ><span className="material-icons">get_app</span>&nbsp;&nbsp;&nbsp;&nbsp;Tải xuống
                         </a>

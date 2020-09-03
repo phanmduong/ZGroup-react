@@ -718,6 +718,9 @@ $starInactive: #c4c5c6;
 .none-margin {
   margin: 0 !important;
 }
+.none-margin-bottom {
+  margin-bottom: 0 !important;
+}
 
 .none-padding {
   padding: 0 !important;
@@ -727,6 +730,13 @@ $starInactive: #c4c5c6;
   padding-top: 0 !important;
   padding-bottom: 0 !important;
 }
+.form-group-none-padding{
+  .form-group {
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+}
+
 
 .none-padding-horizontal {
   padding-left: 0 !important;
@@ -1594,18 +1604,18 @@ table tr td .avatar-honor {
 
   }
 
-  //tr > td:first-child, tr > th:first-child {
-  //  border-top-left-radius: 10px;
-  //  border-bottom-left-radius: 10px;
-  //  padding-left: 20px !important;
-  //}
-  //
-  //tr > td:last-child, tr > th:last-child {
-  //  border-top-right-radius: 10px;
-  //  border-bottom-right-radius: 10px;
-  //  padding-right: 20px !important;
-  //
-  //}
+  tr > td:first-child, tr > th:first-child {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    padding-left: 20px !important;
+  }
+
+  tr > td:last-child, tr > th:last-child {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    padding-right: 20px !important;
+
+  }
   &[radius=five]{
     tr > td:first-child, tr > th:first-child {
       border-top-left-radius: 5px;
@@ -2390,7 +2400,7 @@ ul.nav.nav-pills.nav-pills-dark {
       text-align: left;
     }
   }
-  &[mask=register-actions] {
+  &[mask=table-btn-action] {
     left: unset!important;
     right: 0;
     padding: 15px 5px;
@@ -2772,7 +2782,12 @@ $mute: #6f6f6f;
   &.disabled {
     background-color: #009a07;
   }
-
+  .material-icons{
+    vertical-align: middle;
+    font-size: 17px;
+    top: -1px;
+    position: relative;
+  }
 }
 
 $min-height-step-content: 500px;

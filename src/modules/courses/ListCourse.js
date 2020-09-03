@@ -5,11 +5,10 @@ import {connect} from 'react-redux';
 import * as coursesActions from './coursesActions';
 import {bindActionCreators} from 'redux';
 import ChangeOrderCourseModal from "./ChangeCourseOrderModal";
-
+import * as ReactDOM from "react-dom";
 import Switch from 'react-bootstrap-switch';
-import ButtonGroupAction from "../../components/common/ButtonGroupAction";
 import Link from "react-router/es/Link";
-import {Modal} from "react-bootstrap";
+import {Modal, Overlay} from "react-bootstrap";
 import CoursesCreateEditGeneral from "./coursesForm/CoursesCreateEditGeneral";
 import ParentCourseOverlay from "./overlays/ParentCourseOverlay";
 import {getParentCourses} from "./courseApi";
@@ -28,13 +27,9 @@ class ListCourse extends React.Component {
             showChangeOrderModal: false,
             course: {},
             openModalEdit: false,
-            parentCourses: []
+            parentCourses: [],
+            showOverlay: []
         };
-
-        this.deleteCourse = this.deleteCourse.bind(this);
-        this.openChangeOrderModal = this.openChangeOrderModal.bind(this);
-        this.closeChangeOrderModal = this.closeChangeOrderModal.bind(this);
-        this.changeOrderCourse = this.changeOrderCourse.bind(this);
     }
 
     // componentWillReceiveProps(nextProps) {
@@ -56,32 +51,32 @@ class ListCourse extends React.Component {
                 } else {
                     return {...item};
                 }
-            })
+            });
         } else {
             parentCourses = [...parentCourses, parentCourse];
         }
 
         this.setState({parentCourses});
-    }
+    };
 
 
     closeModalEdit = () => {
         this.setState({openModalEdit: false});
-    }
+    };
 
-    deleteCourse(courseId) {
+    deleteCourse = (courseId) => {
         this.props.deleteCourse(courseId);
-    }
+    };
 
-    openChangeOrderModal(course) {
+    openChangeOrderModal = (course) => {
         this.setState({showChangeOrderModal: true, course});
-    }
+    };
 
-    closeChangeOrderModal() {
+    closeChangeOrderModal = () => {
         this.setState({showChangeOrderModal: false});
-    }
+    };
 
-    changeOrderCourse(order) {
+    changeOrderCourse = (order) => {
         return this.props.coursesActions.changeOrderCourse(
             this.state.course, order,
             () => {
@@ -89,7 +84,18 @@ class ListCourse extends React.Component {
                 this.props.coursesActions.loadCourses(this.props.paginator.current_page, this.props.query);
             }
         );
-    }
+    };
+
+    toggleOverlay = (key) => {
+        let showOverlay = [...this.props.courses].map(() => false);
+        showOverlay[key] = true;
+        this.setState({showOverlay});
+    };
+    closeOverlay = (key) => {
+        let showOverlay = this.state.showOverlay;
+        showOverlay[key] = false;
+        this.setState({showOverlay});
+    };
 
     render() {
         return (
@@ -106,11 +112,12 @@ class ListCourse extends React.Component {
                         <thead className="text-rose">
                         <tr>
                             <th/>
-                            <th>Tên</th>
+                            <th>Tên môn học</th>
+                            <th>Mô tả</th>
                             <th>Trạng thái</th>
+                            <th>Thời lượng</th>
+                            <th>Học phí</th>
                             <th>Chương trình học</th>
-                            <th>Số buổi</th>
-                            <th>Giá</th>
                             <th/>
                         </tr>
                         </thead>
@@ -135,6 +142,9 @@ class ListCourse extends React.Component {
                                             </Link>
                                         </td>
                                         <td>
+                                            {course.description}
+                                        </td>
+                                        <td>
                                             <div style={{
                                                 height: '20px'
                                             }}>
@@ -149,6 +159,9 @@ class ListCourse extends React.Component {
                                                 />
                                             </div>
                                         </td>
+
+                                        <td>{course.duration + " buổi"}</td>
+                                        <td>{helper.dotNumber(course.price)}</td>
                                         <td>
                                             <ParentCourseOverlay
                                                 className="btn status-overlay btn-xs"
@@ -157,50 +170,91 @@ class ListCourse extends React.Component {
                                                 updateParentCourse={this.updateParentCourse}
                                                 // onChange={(term) => this.selectedTerm(lesson, term)}
                                                 onChange={(parentCourse) => {
-                                                    const courseData = {...course}
+                                                    const courseData = {...course};
                                                     courseData.parent_id = parentCourse ? parentCourse.id : '';
                                                     this.props.updateCourse(courseData);
                                                 }}
                                                 style={{minWidth: 200, zIndex: this.props.courses.length - index}}
                                             />
                                         </td>
-                                        <td>{course.duration + " buổi"}</td>
-                                        <td>{helper.dotNumber(course.price)}</td>
                                         <td>
-                                            <div
-                                                className="flex flex-space-between flex-align-items-center flex-end">
-                                                <ButtonGroupAction
-                                                    delete={() => this.deleteCourse(course.id)}
-                                                    object={course}
-                                                    disabledDelete={this.props.user.role != 2}
-                                                    edit={() => {
-                                                        this.props.coursesActions.loadOneCourse(course.id);
-                                                        this.setState({openModalEdit: true});
-                                                        // browserHistory.push("/teaching/courses/edit/" + course.id + "");
-                                                        // e.stopPropagation();
-                                                    }}
-                                                >
-
-                                                    <a onClick={(e) => {
-                                                        e.stopPropagation(event);
-                                                        return this.props.duplicateCourse(course);
-                                                    }} data-toggle="tooltip" title="Nhân đôi">
-                                                        <i className="material-icons">control_point_duplicate</i>
-
-                                                    </a>
-
-                                                    {/*<a onClick={(event) => {*/}
-                                                    {/*    event.stopPropagation(event);*/}
-                                                    {/*    return this.openChangeOrderModal(course);*/}
-                                                    {/*}} data-toggle="tooltip" title="Đổi thứ tự">*/}
-                                                    {/*    <i className="material-icons">autorenew</i>*/}
-                                                    {/*</a>*/}
-                                                    {/*<a href={LINK_REGISTER_COURSE + "/" + course.id}*/}
-                                                    {/*   target="_blank" title="Lấy link" data-toggle="tooltip">*/}
-                                                    {/*    <i className="material-icons">link</i>*/}
-                                                    {/*</a>*/}
-                                                </ButtonGroupAction>
+                                            <div style={{position: "relative"}}
+                                                 className="cursor-pointer" mask="table-btn-action">
+                                                <div ref={'target' + index} onClick={() => this.toggleOverlay(index)}
+                                                     className="flex flex-justify-content-center cursor-pointer">
+                                                    <i className="material-icons">more_horiz</i>
+                                                </div>
+                                                <Overlay
+                                                    rootClose={true}
+                                                    show={this.state.showOverlay[index]}
+                                                    onHide={() => this.closeOverlay(index)}
+                                                    placement="bottom"
+                                                    container={() => ReactDOM.findDOMNode(this.refs['target' + index]).parentElement}
+                                                    target={() => ReactDOM.findDOMNode(this.refs['target' + index])}>
+                                                    <div className="kt-overlay overlay-container"
+                                                         mask="table-btn-action" style={{
+                                                        width: 150,
+                                                        marginTop: 10,
+                                                        left: -115,
+                                                    }} onClick={() => this.closeOverlay(index)}>
+                                                        <button type="button"
+                                                                className="btn btn-white width-100"
+                                                                onClick={() => {
+                                                                    this.props.coursesActions.loadOneCourse(course.id);
+                                                                    this.setState({openModalEdit: true});
+                                                                    // browserHistory.push("/teaching/courses/edit/" + course.id + "");
+                                                                    // e.stopPropagation();
+                                                                }}>
+                                                            Sửa thông tin
+                                                        </button>
+                                                        <button type="button"
+                                                                className="btn btn-white width-100"
+                                                                onClick={() => this.props.duplicateCourse(course)}>
+                                                            Nhân đôi
+                                                        </button>
+                                                        {this.props.user.role == 2 && <button type="button"
+                                                                                              className="btn btn-white width-100"
+                                                                                              onClick={() => this.deleteCourse(course.id)}>
+                                                            Xóa
+                                                        </button>}
+                                                    </div>
+                                                </Overlay>
                                             </div>
+                                            {/*<div*/}
+                                            {/*    className="flex flex-space-between flex-align-items-center flex-end">*/}
+
+                                            {/*    <ButtonGroupAction*/}
+                                            {/*        delete={() => this.deleteCourse(course.id)}*/}
+                                            {/*        object={course}*/}
+                                            {/*        disabledDelete={this.props.user.role != 2}*/}
+                                            {/*        edit={() => {*/}
+                                            {/*            this.props.coursesActions.loadOneCourse(course.id);*/}
+                                            {/*            this.setState({openModalEdit: true});*/}
+                                            {/*            // browserHistory.push("/teaching/courses/edit/" + course.id + "");*/}
+                                            {/*            // e.stopPropagation();*/}
+                                            {/*        }}*/}
+                                            {/*    >*/}
+
+                                            {/*        <a onClick={(e) => {*/}
+                                            {/*            e.stopPropagation(event);*/}
+                                            {/*            return this.props.duplicateCourse(course);*/}
+                                            {/*        }} data-toggle="tooltip" title="Nhân đôi">*/}
+                                            {/*            <i className="material-icons">control_point_duplicate</i>*/}
+
+                                            {/*        </a>*/}
+
+                                            {/*        /!*<a onClick={(event) => {*!/*/}
+                                            {/*        /!*    event.stopPropagation(event);*!/*/}
+                                            {/*        /!*    return this.openChangeOrderModal(course);*!/*/}
+                                            {/*        /!*}} data-toggle="tooltip" title="Đổi thứ tự">*!/*/}
+                                            {/*        /!*    <i className="material-icons">autorenew</i>*!/*/}
+                                            {/*        /!*</a>*!/*/}
+                                            {/*        /!*<a href={LINK_REGISTER_COURSE + "/" + course.id}*!/*/}
+                                            {/*        /!*   target="_blank" title="Lấy link" data-toggle="tooltip">*!/*/}
+                                            {/*        /!*    <i className="material-icons">link</i>*!/*/}
+                                            {/*        /!*</a>*!/*/}
+                                            {/*    </ButtonGroupAction>*/}
+                                            {/*</div>*/}
                                         </td>
                                     </tr>
                                 );
@@ -209,9 +263,9 @@ class ListCourse extends React.Component {
                         </tbody>
                     </table>
                 </div>
-                <Modal show={this.state.openModalEdit} bsSize="large">
+                <Modal show={this.state.openModalEdit} bsSize="large" onHide={this.closeModalEdit}>
                     <Modal.Header closeButton
-                                  onHide={this.closeModalEdit}
+
                                   closeLabel="Đóng">
                         <Modal.Title>Sửa môn học</Modal.Title>
                     </Modal.Header>

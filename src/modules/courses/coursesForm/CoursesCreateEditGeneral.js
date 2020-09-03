@@ -201,7 +201,7 @@ class coursesCreateEditGeneral extends React.Component {
                                             <div className="col-md-12">
                                                 <label>Back Image</label>
                                                 <FormInputText
-                                                    label="Back Image"
+                                                    label=""
                                                     name="back_image"
                                                     updateFormData={this.updateFormData}
                                                     value={this.state.data.back_image}
@@ -314,6 +314,7 @@ class coursesCreateEditGeneral extends React.Component {
                                                         type="text"
                                                         rows={20}
                                                         className="form-control"
+                                                        placeholder="Nhập chi tiết khóa học"
                                                         value={
                                                             this.state.data.detail ? this.state.data.detail : ""
                                                         }
@@ -338,6 +339,7 @@ class coursesCreateEditGeneral extends React.Component {
                                                         type="text"
                                                         rows={20}
                                                         className="form-control"
+                                                        placeholder="Nhập chi tiết khác"
                                                         value={
                                                             this.state.data.short_detail ? this.state.data.short_detail : ""
                                                         }

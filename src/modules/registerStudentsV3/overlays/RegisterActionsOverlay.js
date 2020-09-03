@@ -191,7 +191,7 @@ class RegisterActionsOverlay extends React.Component {
         let refundable = register && register.money > 0;
         return (
 
-            <div style={{position: "relative"}} className="" mask="register-actions" ref="RegisterActionsOverlay">
+            <div style={{position: "relative"}} className="" mask="table-btn-action" ref="RegisterActionsOverlay">
                 <div ref="target" onClick={this.toggle}
                      className="flex flex-justify-content-center"
                      disabled={isChangingStatusCall}>
@@ -206,7 +206,7 @@ class RegisterActionsOverlay extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay overlay-container" mask="register-actions" style={{
+                    <div className="kt-overlay overlay-container" mask="table-btn-action" style={{
                         width: 150,
                         marginTop: 10,
                         left: -115,
