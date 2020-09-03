@@ -302,7 +302,7 @@ class DashboardRegisterComponent extends React.Component {
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
                                         <h4 className="card-title">
-                                            <strong>Tỉ lệ học viên nộp tiền new - retention</strong>
+                                            <strong>Tỉ lệ Enrollment</strong>
                                         </h4>
                                         {
                                             data.programs && data.programs.length > 0 &&
