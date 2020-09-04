@@ -1876,7 +1876,6 @@ table tr td .avatar-honor {
 
 .card[mask]:not([mask=""]) {
   position: relative;
-
   .btn {
     box-shadow: none !important;
     will-change: unset;
@@ -2153,7 +2152,7 @@ table tr td .avatar-honor {
 }
 
 .detail-wrap {
-  background-color: #f7f7f7 !important;
+  //background-color: #f7f7f7 !important;
   font-weight: 400;
 
   .btn {
@@ -2180,6 +2179,13 @@ table tr td .avatar-honor {
       font-weight: bold !important;
     }
 
+  }
+  a {
+    color: black;
+
+    &:hover {
+      color: #c50000;
+    }
   }
 }
 
@@ -3713,16 +3719,10 @@ $min-height-step-content: 500px;
 .radius-8 {
   border-radius: 8px;
 }
-
-.detail-wrap {
-  a {
-    color: black;
-
-    &:hover {
-      color: #c50000;
-    }
-  }
+.radius-5 {
+  border-radius: 5px;
 }
+
 
 .btn-silver {
   padding: 10px 20px !important;

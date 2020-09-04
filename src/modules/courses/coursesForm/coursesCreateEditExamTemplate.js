@@ -205,11 +205,11 @@ class coursesCreateEditExamTemplate extends React.Component {
         return (
             <div>
                 <div className="flex flex-wrap" style={{marginTop: 15}}>
-                    <div className="btn btn-silver"
+                    <div className="btn button-green"
                          ref="target"
                          onClick={this.openModalCreateExam}
                     >
-                        Thêm bài kiểm tra
+                        <span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm bài kiểm tra
                     </div>
                 </div>
                 {

@@ -3,10 +3,9 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as coursesActions from '../coursesActions';
-import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import * as helper from '../../../helpers/helper';
 import {NO_IMAGE} from "../../../constants/env";
-import {Modal} from 'react-bootstrap';
+import {Modal,Overlay} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
 import CreateCurriculumOverlay from "../overlays/CreateLessonOverlay";
 import CreateMultiLessonOverlay from "../overlays/CreateMultiLessonOverlay";
@@ -14,7 +13,7 @@ import TermOverlay from "../overlays/TermOverlay";
 import EmptyData from "../../../components/common/EmptyData";
 import {LESSON_EVENT_TYPES_OBJECT} from "../../../constants/constants";
 import TooltipButton from "../../../components/common/TooltipButton";
-
+import * as ReactDOM from "react-dom";
 
 
 let id;
@@ -26,6 +25,7 @@ class coursesCreateEditCurriculum extends React.Component {
         this.state = {
             openModal: false,
             currentTerm: 0,
+            showOverlay: [],
             term: {
                 id: null,
                 name: "",
@@ -183,18 +183,33 @@ class coursesCreateEditCurriculum extends React.Component {
 
     };
 
-    createLessonEvent = (lesson_id, type)=>{
-        if(!this.props.isChangingLessonEvent)
+    createLessonEvent = (lesson_id, type) => {
+        if (!this.props.isChangingLessonEvent)
             this.props.coursesActions.createLessonEvent(lesson_id, type);
 
-    }
+    };
 
+    toggleOverlay = (key) => {
+        let showOverlay = [...this.props.data.lessons].map(() => false);
+        showOverlay[key] = true;
+        this.setState({showOverlay});
+    };
+    closeOverlay = (key) => {
+        let showOverlay = this.state.showOverlay;
+        showOverlay[key] = false;
+        this.setState({showOverlay});
+    };
     render() {
         return (
             <div>
                 <div className="flex flex-wrap" style={{marginTop: 15}}>
-                    <CreateMultiLessonOverlay className="btn btn-silver"/>
-                    <CreateCurriculumOverlay className="btn btn-silver"/>
+
+                    <CreateCurriculumOverlay children={<div className="margin-right-5 button-green">
+                        <span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm buổi học
+                    </div>}/>
+                    <CreateMultiLessonOverlay children={<div className="btn none-margin btn-silver">
+                        <span className="material-icons">layers</span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm nhiều buổi học
+                    </div>} className="btn btn-silver"/>
                     {/*<CreateTermOverlay className="btn btn-silver"/>*/}
                 </div>
                 <Modal show={this.state.openModal} onHide={this.closeModal}>
@@ -353,16 +368,28 @@ class coursesCreateEditCurriculum extends React.Component {
                 {/*        </ul>*/}
                 {/*    </div>*/}
                 {/*</div>*/}
-                <div className="table-responsive">
+                <div className="table-sticky-head table-split" radius="five">
 
                     <table id="datatables"
-                           className="table white-table table-striped table-no-bordered table-hover"
+                           className="table white-table table-no-bordered table-hover"
                            cellSpacing="0" width="100%" style={{width: "100%"}}>
+                        <thead>
+                        <tr>
+                            <th/>
+                            <th>Sự kiện</th>
+                            <th>Thứ tự</th>
+                            <th>Tên buổi học</th>
+                            <th>Học phần</th>
+                            <th/>
+                        </tr>
+                        </thead>
                         <tbody>
-                        {this.props.data.lessons && this.props.data.lessons.length > 0 ? this.props.data.lessons.map((lesson, index) => {
+                        {this.props.data.lessons && this.props.data.lessons.length > 0 ?
+                            this.props.data.lessons.map((lesson, index) => {
 
                             return (
                                 <tr key={lesson.id}>
+                                    <td/>
                                     <td>
                                         <div className="flex flex-align-items-center">
                                             {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
@@ -372,7 +399,7 @@ class coursesCreateEditCurriculum extends React.Component {
                                                     <div className="icon8 icon8-wrap cursor-pointer margin-right-5"
                                                          mask={lesson_event ? 'on' : 'off'}
                                                          icon={de.type}
-                                                         onClick={()=>this.createLessonEvent(lesson.id,de.type)}
+                                                         onClick={() => this.createLessonEvent(lesson.id, de.type)}
                                                     >
                                                         <div className="icon"/>
                                                     </div>
@@ -398,7 +425,7 @@ class coursesCreateEditCurriculum extends React.Component {
                                             updateTerm={this.updateTerms}
                                             courseId={this.props.data.id}
                                             onChange={(term) => this.selectedTerm(lesson, term)}
-                                            style={{minWidth: 200, zIndex: this.props.data.lessons.length - index}}
+                                            style={{minWidth: 200}}
                                         />
                                         {/*<ReactSelect*/}
                                         {/*    options={this.getSelectTerm(this.props.data)}*/}
@@ -429,27 +456,68 @@ class coursesCreateEditCurriculum extends React.Component {
                                         {/*    </select>))*/}
                                         {/*}*/}
                                     </td>
-                                    <td style={{width: 85}}><ButtonGroupAction
-                                        editUrl={"/teaching/courses/lessons/edit/" + this.props.data.id + "/" + lesson.id}
-                                        delete={() => {
-                                            return this.deleteLesson(lesson.id);
-                                        }}
-                                        object={lesson}
-                                    >
-                                        {
-                                            !this.props.isDuplicating &&
-                                            <a data-toggle="tooltip" title="Duplicate"
-                                               type="button"
-                                               onClick={() => {
-                                                   return this.duplicateLesson(lesson);
-                                               }}
-                                               rel="tooltip"
-                                            >
-                                                <i className="material-icons">control_point_duplicate</i>
-                                            </a>
-                                        }
+                                    <td>
+                                        <div style={{position: "relative"}}
+                                             className="cursor-pointer" mask="table-btn-action">
+                                            <div ref={'target' + index} onClick={() => this.toggleOverlay(index)}
+                                                 className="flex flex-justify-content-center cursor-pointer">
+                                                <i className="material-icons">more_horiz</i>
+                                            </div>
+                                            <Overlay
+                                                rootClose={true}
+                                                show={this.state.showOverlay[index]}
+                                                onHide={() => this.closeOverlay(index)}
+                                                placement="bottom"
+                                                container={() => ReactDOM.findDOMNode(this.refs['target' + index]).parentElement}
+                                                target={() => ReactDOM.findDOMNode(this.refs['target' + index])}>
+                                                <div className="kt-overlay overlay-container"
+                                                     mask="table-btn-action" style={{
+                                                    width: 150,
+                                                    marginTop: 10,
+                                                    left: -115,
+                                                }} onClick={() => this.closeOverlay(index)}>
+                                                    <button type="button"
+                                                            className="btn btn-white width-100"
+                                                            onClick={() => {
+                                                                window.open("/teaching/courses/lessons/edit/" + this.props.data.id + "/" + lesson.id);
+                                                            }}>
+                                                        Sửa thông tin
+                                                    </button>
+                                                    {!this.props.isDuplicating && <button type="button"
+                                                                                          className="btn btn-white width-100"
+                                                                                          onClick={() => this.duplicateLesson(lesson)}>
+                                                        Nhân đôi
+                                                    </button>}
 
-                                    </ButtonGroupAction>
+                                                    <button type="button"
+                                                            className="btn btn-white width-100"
+                                                            onClick={() => this.deleteLesson(lesson.id)}>
+                                                        Xóa
+                                                    </button>
+                                                </div>
+                                            </Overlay>
+                                        </div>
+                                        {/*<ButtonGroupAction*/}
+                                        {/*    editUrl={"/teaching/courses/lessons/edit/" + this.props.data.id + "/" + lesson.id}*/}
+                                        {/*    delete={() => {*/}
+                                        {/*        return this.deleteLesson(lesson.id);*/}
+                                        {/*    }}*/}
+                                        {/*    object={lesson}*/}
+                                        {/*>*/}
+                                        {/*    {*/}
+                                        {/*        !this.props.isDuplicating &&*/}
+                                        {/*        <a data-toggle="tooltip" title="Duplicate"*/}
+                                        {/*           type="button"*/}
+                                        {/*           onClick={() => {*/}
+                                        {/*               return this.duplicateLesson(lesson);*/}
+                                        {/*           }}*/}
+                                        {/*           rel="tooltip"*/}
+                                        {/*        >*/}
+                                        {/*            <i className="material-icons">control_point_duplicate</i>*/}
+                                        {/*        </a>*/}
+                                        {/*    }*/}
+
+                                        {/*</ButtonGroupAction>*/}
                                     </td>
                                 </tr>
                             );

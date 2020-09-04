@@ -76,10 +76,14 @@ class CreateLessonOverlay extends React.Component {
         return (
 
             <div style={{position: "relative"}}>
+                {!this.props.children &&
                 <div className={className}
-                     ref="target" onClick={this.toggle}>
+                                             ref="target" onClick={this.toggle}>
                     Thêm nhiều buổi học
-                </div>
+                </div>}
+                {this.props.children && <div ref="target" onClick={this.toggle}>
+                    {this.props.children}
+                </div>}
                 <Overlay
                     rootClose={true}
                     show={this.state.show}
