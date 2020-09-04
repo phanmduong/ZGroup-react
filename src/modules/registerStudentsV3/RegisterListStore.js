@@ -28,6 +28,7 @@ const  const_filter = {
     end_time: moment(),
     saler_id: '',
     saler: defaultSelectObject,
+    class: defaultSelectObject,
     campaign_id: '',
     class_id: '',
     gen_id: 0,
@@ -118,6 +119,11 @@ export const store = new class TargetPersonStore {
             case 'saler_id':{
                 res = value ? value.id : value;
                 this.filter.saler = value ? value : defaultSelectObject;
+                break;
+            }
+            case 'class_id':{
+                res = value ? value.id : value;
+                this.filter.class = value ? value : defaultSelectObject;
                 break;
             }
             // case 'campaign_id':{

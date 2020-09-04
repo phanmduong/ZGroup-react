@@ -905,7 +905,7 @@ class LeadContainer extends React.Component {
                     all_tele_call_notes,
                     gender: GENDER.filter((g) => g.id == item.gender)[0],
                     lead_status: item.lead_status.name ? item.lead_status.name : "Không có",
-                    city: isEmptyInput(item.city) ? item.city : 'Không có',
+                    city: !isEmptyInput(item.city) ? item.city : 'Không có',
                     campaign: item.campaign ? item.campaign.name : "Không có",
                     source: !isEmptyInput(item.source) ? item.source : "Không có",
                     how_know: item.how_know ? item.how_know : "Không có",

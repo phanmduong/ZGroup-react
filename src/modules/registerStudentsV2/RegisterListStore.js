@@ -18,10 +18,10 @@ import {loadGens} from "../dashboard/dashboardApi";
 import {parallel} from "async";
 import {loadDiscountsApi} from "../discount/dicountApis";
 
-const defaultSelectObject = {id :'', avatar_url: NO_AVATAR,name:'Tất cả', label:'Tất cả', value:''};
-const defaultEmptySelectObject = {id :'-1', avatar_url: NO_AVATAR, name:'Không có', label:'Không có', value:''};
+const defaultSelectObject = {id: '', avatar_url: NO_AVATAR, name: 'Tất cả', label: 'Tất cả', value: ''};
+const defaultEmptySelectObject = {id: '-1', avatar_url: NO_AVATAR, name: 'Không có', label: 'Không có', value: ''};
 
-const  const_filter = {
+const const_filter = {
     page: 1,
     search: '',
     start_time: moment().subtract(30, 'days'),
@@ -30,6 +30,7 @@ const  const_filter = {
     saler: defaultSelectObject,
     campaign_id: '',
     class_id: '',
+    class: defaultSelectObject,
     gen_id: 0,
     course_id: '',
     pay_status: '',
@@ -95,9 +96,9 @@ export const store = new class TargetPersonStore {
 
 
     @action
-    resetFilters = ()=>{
+    resetFilters = () => {
         this.filter = const_filter;
-    }
+    };
 
     @action
     changeDateRangePicker = (start_time, end_time) => {
@@ -111,8 +112,14 @@ export const store = new class TargetPersonStore {
         let res = '';
         switch (name) {
             case 'appointment_payment':
-            case 'call_back_time': case 'date_test': {
+            case 'call_back_time':
+            case 'date_test': {
                 res = value.target.value;
+                break;
+            }
+            case 'class_id':{
+                res = value ? value.id : value;
+                this.filter.class = value ? value : defaultSelectObject;
                 break;
             }
             case 'saler_id':{
@@ -143,9 +150,10 @@ export const store = new class TargetPersonStore {
             }
         }
         this.filter[name] = res;
+        console.log('this.filter',this.filter);
     };
 
-    @action solveFilter(filter){
+    @action solveFilter(filter) {
         if (isEmpty(filter)) filter = this.filter;
         // console.log(filter.campaign_id,this.filter.campaign_id);
         filter = {
@@ -154,7 +162,7 @@ export const store = new class TargetPersonStore {
             end_time: filter.end_time.format(DATE_FORMAT_SQL),
         };
 
-        return filter
+        return filter;
     }
 
     @action loadRegisters(filter) {
@@ -198,16 +206,16 @@ export const store = new class TargetPersonStore {
         parallel({
             gens: (callback) => {
                 loadGens().then((res) => {
-                    this.filter_data.gens =[
-                        {id: '', name: 'Tất cả', start_time: moment().subtract(10,'years'), end_time: moment(),},
+                    this.filter_data.gens = [
+                        {id: '', name: 'Tất cả', start_time: moment().subtract(10, 'years'), end_time: moment(),},
                         {
                             id: 0, name: '30 ngày qua',
                             start_time: moment().subtract(30, 'days'),
                             end_time: moment(),
                         },
                         ...res.data.data.gens.map(gen => {
-                        return {...gen, value: gen.id, label: 'Khóa ' + gen.name,};
-                    })];
+                            return {...gen, value: gen.id, label: 'Khóa ' + gen.name,};
+                        })];
                     // const currentGen = this.filter_data.gens.filter((gen) => gen.id == res.data.data.current_gen.id)[0];
 
                     // this.filter.start_time = moment(currentGen.start_time);
@@ -276,13 +284,13 @@ export const store = new class TargetPersonStore {
                     callback(e, null);
                 });
             },
-            coupons: ()=>{
-                loadDiscountsApi({limit:-1}).then((res)=>{
-                    this.filter_data.coupons = res.data.coupons.map(c=>{
+            coupons: () => {
+                loadDiscountsApi({limit: -1}).then((res) => {
+                    this.filter_data.coupons = res.data.coupons.map(c => {
                         let type = DISCOUNTYPE.filter(t => t.id == c.discount_type)[0] || {};
                         let label = `${c.name} (-${c.discount_value}${type.suffix})`;
                         return {
-                          ...c,
+                            ...c,
                             value: c.id, label,
                         };
                     });

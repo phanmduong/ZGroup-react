@@ -16,7 +16,6 @@ import ProgressContainer from "../modules/infoStudent/progress/ProgressContainer
 import TargetListContainer from '../modules/sales/TargetListContainer';
 import EvaluateSalerContainer from "../modules/evaluateSalers/EvaluateSalerContainer";
 import LogsContainer from "../modules/infoStudent/logsStudent/HistoryCareContainer";
-import RegisterListContainerV2 from "../modules/registerStudentsV2/RegisterListContainer";
 import RegisterListContainerV3 from "../modules/registerStudentsV3/RegisterListContainer";
 import MockExamsContainer from "../modules/infoStudent/mockExams/MockExamsContainer";
 
@@ -46,10 +45,6 @@ export default [
     },
     {
         path: "/sales/register-list",
-        component: RegisterListContainerV2
-    },
-    {
-        path: "/sales/register-list-v3",
         component: RegisterListContainerV3
     },
     {

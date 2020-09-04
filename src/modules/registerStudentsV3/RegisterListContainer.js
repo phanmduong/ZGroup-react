@@ -430,7 +430,7 @@ class RegisterListContainer extends React.Component {
                                         placeholder="Chọn lớp học"
                                         searchPromptText="Không có dữ liệu"
                                         onChange={(e) => store.onChangeFilter('class_id', e)}
-                                        value={filter.class_id}
+                                        value={filter.class}
                                         id="select-async-class"
                                         disabled={isLoading}
                                         optionRenderer={(option) => {

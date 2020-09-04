@@ -48,7 +48,7 @@ class FilterExam extends React.Component {
 
     onChangeClass = (value) => {
         const class_id = value ? value.value : 0;
-        filterExamStore.filter = {...filterExamStore.filter, class_id, course_id: ''};
+        filterExamStore.filter = {...filterExamStore.filter, class_id,class: value, course_id: ''};
         this.load();
     };
 
@@ -110,7 +110,7 @@ class FilterExam extends React.Component {
                         placeholder="Chọn lớp học"
                         searchPromptText="Không có dữ liệu"
                         onChange={this.onChangeClass}
-                        value={filter.class_id}
+                        value={filter.class}
                         id="select-async-class"
                         optionRenderer={(option) => {
                             return (

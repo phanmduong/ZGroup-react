@@ -29,6 +29,7 @@ export function loadRegisters(filter) {
         source_id = '',
         date_test = '',
         call_back_time = '',
+        course_id = '',
     } = filter;
     console.log('api',filter);
 
@@ -49,6 +50,7 @@ export function loadRegisters(filter) {
         "&class_id=" + class_id +
         "&pay_status=" + pay_status +
         "&base_id=" + base_id +
+        "&course_id=" + course_id +
         "&appointment_payment=" + appointment_payment +
         "&date_test=" + date_test +
         "&call_back_time=" + call_back_time +

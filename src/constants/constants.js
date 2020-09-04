@@ -922,7 +922,7 @@ export const LEAD_EXPORT_FIELDS_OBJECT = {
         ]},
     all_class_names:{id:"all_class_names",name: "Các môn học đã đăng kí",},
     interest_courses:{id:"interest_courses",name: "Các môn học đang quan tâm",},
-    province:{id:"province",name: "Thành phố",},
+    city:{id:"city",name: "Thành phố",},
     lead_status:{id:"lead_status",name: "Trạng thái",},
     campaign:{id:"campaign",name: "Chiến dịch",},
     source:{id:"source",name: "Nguồn",},
