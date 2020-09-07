@@ -67,6 +67,7 @@ class CreateBaseOverlay extends React.Component {
 
     toggle = () => {
         this.setState({show: !this.state.show});
+        this.props.coursesActions.deleteData();
     };
 
 
