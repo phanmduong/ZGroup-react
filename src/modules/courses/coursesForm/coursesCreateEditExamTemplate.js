@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as coursesActions from '../coursesActions';
-import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import {Modal, Overlay} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
 import * as helper from '../../../helpers/helper';
@@ -177,7 +176,7 @@ class coursesCreateEditExamTemplate extends React.Component {
                         />
                     </TooltipButton>
                 </div>
-                <div className="td"  style={{width: '50px'}}>
+                <div className="td" style={{width: '50px'}}>
                     <div style={{position: "relative"}}
                          className="cursor-pointer" mask="table-btn-action">
                         <div ref={'target' + template.id} onClick={() => this.toggleOverlay(template.id)}

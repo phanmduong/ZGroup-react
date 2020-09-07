@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as coursesActions from '../coursesActions';
-import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
 import {Modal, Overlay} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
 import {NO_IMAGE} from '../../../constants/env';
