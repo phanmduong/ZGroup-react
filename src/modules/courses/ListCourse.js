@@ -28,7 +28,7 @@ class ListCourse extends React.Component {
             course: {},
             openModalEdit: false,
             parentCourses: [],
-            showOverlay: []
+            showOverlay: [],
         };
     }
 

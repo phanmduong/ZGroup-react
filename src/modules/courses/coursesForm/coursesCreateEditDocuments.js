@@ -5,12 +5,13 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as coursesActions from '../coursesActions';
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
-import {Modal} from 'react-bootstrap';
+import {Modal, Overlay} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
 import {NO_IMAGE} from '../../../constants/env';
 import * as helper from '../../../helpers/helper';
 import CreateDocumentOverlay from "../overlays/CreateDocumentOverlay";
 import EmptyData from "../../../components/common/EmptyData";
+import * as ReactDOM from "react-dom";
 
 function validateLink(link) {
     if (helper.isEmptyInput(link)) return NO_IMAGE;
@@ -36,6 +37,7 @@ class coursesCreateEditDocuments extends React.Component {
                 link_description: "",
                 link_url: "1",
             },
+            showOverlay: [],
         };
         this.isCreate = true;
         this.openModal = this.openModal.bind(this);
@@ -167,23 +169,54 @@ class coursesCreateEditDocuments extends React.Component {
         return false;
     }
 
+    toggleOverlay = (key) => {
+        let showOverlay = [...this.props.data.links].map(() => false);
+        showOverlay[key] = true;
+        this.setState({showOverlay});
+    };
+
+    closeOverlay = (key) => {
+        let showOverlay = this.state.showOverlay;
+        showOverlay[key] = false;
+        this.setState({showOverlay});
+    };
+
     render() {
 
         return (
             <div>
                 <div className="flex flex-wrap" style={{marginTop: 15}}>
-                    <CreateDocumentOverlay className="btn btn-silver"/>
+                    <CreateDocumentOverlay
+                        children={<div className="margin-right-5 btn button-green">
+                            <span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm tài liệu
+                        </div>}
+                    />
                 </div>
 
-                <div className="table-responsive">
+                <div className="table-sticky-head table-split" radius="five">
 
-                    <table id="datatables"
-                           className="table white-table table-striped table-no-bordered table-hover"
-                           cellSpacing="0" width="100%" style={{width: "100%"}}>
+                    <table className="table" cellSpacing="0">
+                        <thead>
+                        <tr>
+                            <th/>
+                            <th>Tên tài liệu</th>
+                            <th>Mô tả</th>
+                            <th>URL</th>
+                            <th/>
+                        </tr>
+                        </thead>
                         <tbody>
                         {this.props.data.links && this.props.data.links.length > 0 ? this.props.data.links.map((link) => {
                             return (
                                 <tr key={link.id}>
+                                    <td style={{width:40}}>
+                                        <button className="btn btn-round btn-fab btn-fab-mini text-white"
+                                                data-toggle="tooltip" title="" type="button" rel="tooltip"
+                                                data-placement="right"
+                                                data-original-title={link.link_icon_url}>
+                                            <img src={link.link_icon_url} alt=""/>
+                                        </button>
+                                    </td>
                                     <td><strong>{link.link_name}</strong></td>
                                     <td>
                                         <a href={validateLink(link.link_url)} target="_blank">
@@ -199,15 +232,39 @@ class coursesCreateEditDocuments extends React.Component {
                                     </td>
                                     <td>{link.link_description}</td>
                                     <td style={{width: 50}}>
-                                        <ButtonGroupAction
-                                            edit={() => {
-                                                return this.openModalEditLink(link);
-                                            }}
-                                            delete={() => {
-                                                return this.deleteLink(link.id);
-                                            }}
-                                            object={link}
-                                        />
+
+                                        <div style={{position: "relative"}}
+                                             className="cursor-pointer" mask="table-btn-action">
+                                            <div ref={'target' + link.id} onClick={() => this.toggleOverlay(link.id)}
+                                                 className="flex flex-justify-content-center cursor-pointer">
+                                                <i className="material-icons">more_horiz</i>
+                                            </div>
+                                            <Overlay
+                                                rootClose={true}
+                                                show={this.state.showOverlay[link.id]}
+                                                onHide={() => this.closeOverlay(link.id)}
+                                                placement="bottom"
+                                                container={() => ReactDOM.findDOMNode(this.refs['target' + link.id]).parentElement}
+                                                target={() => ReactDOM.findDOMNode(this.refs['target' + link.id])}>
+                                                <div className="kt-overlay overlay-container"
+                                                     mask="table-btn-action" style={{
+                                                    width: 150,
+                                                    marginTop: 10,
+                                                    left: -115,
+                                                }} onClick={() => this.closeOverlay(link.id)}>
+                                                    <button type="button"
+                                                            className="btn btn-white width-100"
+                                                            onClick={() => this.openModalEditLink(link)}>
+                                                        Sửa thông tin
+                                                    </button>
+                                                    <button type="button"
+                                                            className="btn btn-white width-100"
+                                                            onClick={() => this.deleteLink(link.id)}>
+                                                        Xóa
+                                                    </button>
+                                                </div>
+                                            </Overlay>
+                                        </div>
                                     </td>
                                 </tr>
                             );

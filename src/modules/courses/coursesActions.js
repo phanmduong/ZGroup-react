@@ -267,11 +267,11 @@ export function updatePixelData(pixel) {
     };
 }
 
-export function editLink(pixel) {
+export function editLink(link) {
     return function (dispatch) {
         dispatch({
-            type: types.OPEN_MODAL_EDIT_PIXEL,
-            pixel: pixel,
+            type: types.OPEN_MODAL_EDIT_LINK,
+            link,
         });
     };
 }

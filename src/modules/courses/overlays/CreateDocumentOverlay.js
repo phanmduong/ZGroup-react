@@ -12,7 +12,7 @@ import ImageUploader from "../../../components/common/ImageUploader";
 // import TooltipButton from "../../../components/common/TooltipButton";
 
 
-class CreateLessonOverlay extends React.Component {
+class CreateDocumentOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.initState = {
@@ -70,10 +70,14 @@ class CreateLessonOverlay extends React.Component {
         return (
 
             <div style={{position: "relative"}}>
-                <div className={className}
-                     ref="target" onClick={this.toggle}>
+                {!this.props.children && <div className={className}
+                                              ref="target" onClick={this.toggle}>
                     Thêm tài liệu
-                </div>
+                </div>}
+                {this.props.children && <div
+                    ref="target" onClick={this.toggle}>
+                    {this.props.children}
+                </div>}
                 <Overlay
                     rootClose={true}
                     show={this.state.show}
@@ -204,4 +208,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateLessonOverlay);
+export default connect(mapStateToProps, mapDispatchToProps)(CreateDocumentOverlay);

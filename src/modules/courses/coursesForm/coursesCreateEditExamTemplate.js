@@ -5,7 +5,7 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import * as coursesActions from '../coursesActions';
 import ButtonGroupAction from "../../../components/common/ButtonGroupAction";
-import {Modal} from 'react-bootstrap';
+import {Modal, Overlay} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
 import * as helper from '../../../helpers/helper';
 import {isEmptyInput} from '../../../helpers/helper';
@@ -16,6 +16,7 @@ import {confirm} from "../../../helpers/helper";
 import TooltipButton from "../../../components/common/TooltipButton";
 import AnalyticExamModal from "./AnalyticExamModal";
 import EmptyData from "../../../components/common/EmptyData";
+import * as ReactDOM from "react-dom";
 
 const DEADLINE = Array.from(Array(45).keys()).map((item) => {
     return {
@@ -32,7 +33,9 @@ class coursesCreateEditExamTemplate extends React.Component {
             openModal: false,
             currentLink: 0,
             data: {},
-            selectedGroupExam: null
+            selectedGroupExam: null,
+            showOverlay: [],
+
         }
         ;
         this.openModal = this.openModal.bind(this);
@@ -137,10 +140,21 @@ class coursesCreateEditExamTemplate extends React.Component {
         });
     }
 
+    toggleOverlay = (key) => {
+        let showOverlay = [...this.props.course.exam_templates].map(() => false);
+        showOverlay[key] = true;
+        this.setState({showOverlay});
+    };
+    closeOverlay = (key) => {
+        let showOverlay = this.state.showOverlay;
+        showOverlay[key] = false;
+        this.setState({showOverlay});
+    };
+
     renderItem = (template) => {
         return (
-            <div className="flex flex-row tr" key={template.id}>
-                <div className="td" style={{width: '20%'}}><strong>{template.title}</strong></div>
+            <div className="flex flex-row tr background-white" key={template.id}>
+                <div className="td" style={{width: '15%'}}><strong>{template.title}</strong></div>
                 <div className="td" style={{width: '10%'}}>{template.description}</div>
                 <div className="td" style={{width: '10%'}}>Hệ số {template.weight}</div>
                 <div className="td" style={{width: '30%'}}>
@@ -153,7 +167,7 @@ class coursesCreateEditExamTemplate extends React.Component {
                         />
                     </TooltipButton>
                 </div>
-                <div className="td" style={{width: '20%'}}>
+                <div className="td" style={{width: '30%'}}>
                     <TooltipButton text={"Chọn hạn chót"} placement="top">
                         <ReactSelect
                             options={DEADLINE}
@@ -163,26 +177,46 @@ class coursesCreateEditExamTemplate extends React.Component {
                         />
                     </TooltipButton>
                 </div>
-                <div className="td" style={{width: '10%'}}>
-                    <ButtonGroupAction
-                        edit={() => {
-                            return this.openModal(template);
-                        }}
-                        delete={() => {
-                            return this.onDelete(template);
-                        }}
-                        object={template}
-                    >
-                        <a data-toggle="tooltip" title="Duplicate"
-                           type="button"
-                           onClick={() => {
-                               return this.duplicate(template);
-                           }}
-                           rel="tooltip"
-                        >
-                            <i className="material-icons">control_point_duplicate</i>
-                        </a>
-                    </ButtonGroupAction>
+                <div className="td"  style={{width: '50px'}}>
+                    <div style={{position: "relative"}}
+                         className="cursor-pointer" mask="table-btn-action">
+                        <div ref={'target' + template.id} onClick={() => this.toggleOverlay(template.id)}
+                             className="flex flex-justify-content-center cursor-pointer">
+                            <i className="material-icons">more_horiz</i>
+                        </div>
+                        <Overlay
+                            rootClose={true}
+                            show={this.state.showOverlay[template.id]}
+                            onHide={() => this.closeOverlay(template.id)}
+                            placement="bottom"
+                            container={() => ReactDOM.findDOMNode(this.refs['target' + template.id]).parentElement}
+                            target={() => ReactDOM.findDOMNode(this.refs['target' + template.id])}>
+                            <div className="kt-overlay overlay-container"
+                                 mask="table-btn-action" style={{
+                                width: 150,
+                                marginTop: 10,
+                                left: -115,
+                            }} onClick={() => this.closeOverlay(template.id)}>
+                                <button type="button"
+                                        className="btn btn-white width-100"
+                                        onClick={() => this.openModal(template)}>
+                                    Sửa bài kiểm tra
+                                </button>
+                                <button type="button"
+                                        className="btn btn-white width-100"
+                                        onClick={() => this.duplicate(template)}>
+                                    Nhân đôi
+                                </button>
+
+                                <button type="button"
+                                        className="btn btn-white width-100"
+                                        onClick={() => this.onDelete(template)}>
+                                    Xóa
+                                </button>
+                            </div>
+                        </Overlay>
+                    </div>
+
                 </div>
             </div>
 
