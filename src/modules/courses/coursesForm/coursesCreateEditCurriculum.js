@@ -419,7 +419,7 @@ class coursesCreateEditCurriculum extends React.Component {
                                     </td>
                                     <td>
                                         <TermOverlay
-                                            className="btn status-overlay btn-xs"
+                                            className="btn status-overlay btn-xs "
                                             terms={this.props.data.terms}
                                             selectedTermId={lesson.term_id}
                                             updateTerm={this.updateTerms}
