@@ -111,6 +111,8 @@ class ListLead extends React.Component {
                                             lead.avatar_url : NO_AVATAR;
                                         let rowClassName = '';
                                         if (lead.staff_id) rowClassName = 'success';
+                                        let leadTagDetail =
+                                            `Đăng kí cuối: ${lead.last_time_register || 'Chưa có'} - Lần gọi cuối: ${lead.last_time_cal || 'Chưa có'}`;
                                         return (
                                             <tr key={lead.id} className={rowClassName}
                                                 // style={{backgroundColor: lead.status}}
@@ -140,11 +142,13 @@ class ListLead extends React.Component {
                                                             <a className="text-name-student-register"
                                                                onClick={() => openModalRegisterDetail(`/sales/info-student/${lead.id}`)}>
                                                                 {lead.name}
-                                                                <span className="btn-danger btn-xs margin-left-5"
-                                                                      style={{
-                                                                          fontSize: 10,
-                                                                          padding: '3px'
-                                                                      }}>{TAGS.filter(item => item.value == lead.lead_tag)[0].label.toUpperCase()}</span>
+                                                                <TooltipButton text={leadTagDetail} placement="top">
+                                                                    <span className="btn-danger btn-xs margin-left-5"
+                                                                          style={{
+                                                                              fontSize: 10,
+                                                                              padding: '3px'
+                                                                          }}>{TAGS.filter(item => item.value == lead.lead_tag)[0].label.toUpperCase()}</span>
+                                                                </TooltipButton>
                                                             </a>
 
 

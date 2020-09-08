@@ -203,15 +203,7 @@ class CreateBaseOverlay extends React.Component {
                                                 value={course.cover_url}
                                             />
                                         </div>
-                                        <div>
-                                            <label>Landing Page URL</label>
-                                            <FormInputText
-                                                placeholder="Landing Page URL"
-                                                name="landingpage_url"
-                                                updateFormData={this.updateFormData}
-                                                value={course.landingpage_url}
-                                            />
-                                        </div>
+
                                         <div>
                                             <label>Front Image</label>
                                             <FormInputText

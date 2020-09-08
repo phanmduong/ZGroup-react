@@ -184,9 +184,9 @@ class coursesCreateEditDocuments extends React.Component {
 
         return (
             <div>
-                <div className="flex flex-wrap" style={{marginTop: 15}}>
+                <div className="flex flex-wrap" style={{marginTop: 10}}>
                     <CreateDocumentOverlay
-                        children={<div className="margin-right-5 btn button-green">
+                        children={<div className="none-margin btn button-green" style={{padding:'12px 15px'}}>
                             <span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm tài liệu
                         </div>}
                     />

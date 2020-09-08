@@ -237,10 +237,11 @@ class coursesCreateEditExamTemplate extends React.Component {
         const {isStoringExam} = this.props;
         return (
             <div>
-                <div className="flex flex-wrap" style={{marginTop: 15}}>
-                    <div className="btn button-green"
+                <div className="flex flex-wrap" style={{marginTop: 10}}>
+                    <div className="btn button-green none-margin"
                          ref="target"
                          onClick={this.openModalCreateExam}
+                         style={{padding:'12px 15px'}}
                     >
                         <span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm bài kiểm tra
                     </div>
@@ -287,7 +288,7 @@ class coursesCreateEditExamTemplate extends React.Component {
                             <div className="flex flex-row flex-align-items-center" style={{
                                 fontWeight: 'bold',
                                 fontSize: 18,
-                                marginTop: 30,
+                                marginTop: 10,
                                 marginBottom: 10,
                             }}>{group.name}
                                 <TooltipButton text={"Thống kê"} placement={"top"}>

@@ -80,34 +80,35 @@ class EditCoursesContainer extends React.Component {
                             <div className="card radius-5 none-margin">
                                 <div className="card-content">
                                     <div className="detail-wrap">
-                                        <p>Loại khóa
-                                            học<strong>{course.type ? course.type.name : "Chưa có"}</strong></p>
-                                        <p>URL p/mềm (MAC) <strong><a href={course.linkmac}
+                                        {course.type && <p>Loại khóa
+                                            học<strong>{course.type ? course.type.name : "Chưa có"}</strong></p>}
+                                        {course.linkmac && <p>URL p/mềm (MAC) <strong><a href={course.linkmac}
                                                                       target="_blank">{course.linkmac || "Chưa có"}</a></strong>
-                                        </p>
-                                        <p>URL p/mềm (WINDOWS) <strong><a href={course.linkwindow}
+                                        </p>}
+                                        {course.linkwindow && <p>URL p/mềm (WINDOWS) <strong><a href={course.linkwindow}
 
                                                                           target="_blank">{course.linkwindow || "Chưa có"}</a></strong>
-                                        </p>
-                                        <p>H/dẫn cài p/mềm
+                                        </p>}
+                                        {course.mac_how_install && <p>H/dẫn cài p/mềm
                                             MAC <strong><a href={course.mac_how_install}
                                                            target="_blank">{course.mac_how_install || "Chưa có"}</a></strong>
-                                        </p>
-                                        <p>H/dẫn cài p/mềm
+                                        </p>}
+                                        {course.window_how_install && <p>H/dẫn cài p/mềm
                                             WINDOWS <strong><a href={course.window_how_install}
                                                                target="_blank">{course.window_how_install || "Chưa có"}</a></strong>
-                                        </p>
-                                        <p>URL Back image <strong><a href={course.back_image}
+                                        </p>}
+                                        {course.back_image && <p>URL Back image <strong><a href={course.back_image}
                                                                      target="_blank">{course.back_image || "Chưa có"}</a></strong>
-                                        </p>
-                                        <p>URL Front image <strong><a href={course.front_image}
+                                        </p>}
+                                        {course.front_image &&<p>URL Front image <strong><a href={course.front_image}
                                                                       target="_blank">{course.front_image || "Chưa có"}</a></strong>
-                                        </p>
-                                        <p>Category<strong>{course.categories && course.categories.length > 0 ? course.categories[0].name : "Chưa có"}</strong>
-                                        </p>
-                                        <p>Landing Page URL<strong>{course.work || "Chưa có"}</strong></p>
+                                        </p>}
+                                        {course.categories && course.categories.length > 0 && <p>Category<strong>{course.categories && course.categories.length > 0 ? course.categories[0].name : "Chưa có"}</strong>
+                                        </p>}
+
                                     </div>
-                                    <button className="btn button-green radius-5 width-100"
+                                    <div className="margin-bottom-10"/>
+                                    <button className="btn button-green radius-5 width-100 none-margin"
                                             onClick={() => {
                                                 this.setState({openModalEdit: true});
                                             }}
@@ -126,35 +127,35 @@ class EditCoursesContainer extends React.Component {
                             {/*</div>*/}
                         </div>
                         <div className="col-md-8">
-                            <div className="margin-top-10">
-                                <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
-                                    <li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>
-                                        <IndexLink to={`${this.urlType}`} style={styleNavPills}>
-                                            Chương trình học &#160;
-                                            <div className="ripple-container"/>
-                                        </IndexLink>
-                                    </li>
-                                    <li className={this.props.location.pathname === `${this.urlType}/exam-template` ? 'active' : ''}>
-                                        <Link to={`${this.urlType}/exam-template`} style={styleNavPills}>
-                                            Bài kiểm tra &#160;
-                                            <div className="ripple-container"/>
-                                        </Link>
-                                    </li>
-                                    <li className={this.props.location.pathname === `${this.urlType}/documents` ? 'active' : ''}>
-                                        <Link to={`${this.urlType}/documents`} style={styleNavPills}>
-                                            Tài liệu &#160;
-                                            <div className="ripple-container"/>
-                                        </Link>
-                                    </li>
-                                    {/*<li className={this.props.location.pathname === `${this.urlType}/pixel` ? 'active' : ''}>*/}
-                                    {/*    <Link to={`${this.urlType}/pixel`}>*/}
-                                    {/*        Nhận xét &#160;*/}
-                                    {/*        <div className="ripple-container"/>*/}
-                                    {/*    </Link>*/}
-                                    {/*</li>*/}
-                                </ul>
-                                <div>{this.props.children}</div>
-                            </div>
+
+                            <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
+                                <li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>
+                                    <IndexLink to={`${this.urlType}`} style={styleNavPills}>
+                                        Chương trình học &#160;
+                                        <div className="ripple-container"/>
+                                    </IndexLink>
+                                </li>
+                                <li className={this.props.location.pathname === `${this.urlType}/exam-template` ? 'active' : ''}>
+                                    <Link to={`${this.urlType}/exam-template`} style={styleNavPills}>
+                                        Bài kiểm tra &#160;
+                                        <div className="ripple-container"/>
+                                    </Link>
+                                </li>
+                                <li className={this.props.location.pathname === `${this.urlType}/documents` ? 'active' : ''}>
+                                    <Link to={`${this.urlType}/documents`} style={styleNavPills}>
+                                        Tài liệu &#160;
+                                        <div className="ripple-container"/>
+                                    </Link>
+                                </li>
+                                {/*<li className={this.props.location.pathname === `${this.urlType}/pixel` ? 'active' : ''}>*/}
+                                {/*    <Link to={`${this.urlType}/pixel`}>*/}
+                                {/*        Nhận xét &#160;*/}
+                                {/*        <div className="ripple-container"/>*/}
+                                {/*    </Link>*/}
+                                {/*</li>*/}
+                            </ul>
+                            {this.props.children}
+
                         </div>
                         <Modal show={this.state.openModalEdit} bsSize="large">
                             <Modal.Header closeButton

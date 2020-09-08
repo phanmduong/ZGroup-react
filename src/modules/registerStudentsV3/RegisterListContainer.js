@@ -609,9 +609,10 @@ class RegisterListContainer extends React.Component {
                                 />
                             </div>
 
-                            <div className="col-md-12">
+                            <div className="col-xs-12">
                                 <div className="flex flex-end">
-                                    <div className="btn button-green btn-warning" onClick={store.resetFilters}
+                                    <div className="btn btn-white"
+                                         onClick={store.resetFilters}
                                          style={{"margin-rigth": "5px",}} disabled={isLoading}
                                     >
                                         Xóa bộ lọc

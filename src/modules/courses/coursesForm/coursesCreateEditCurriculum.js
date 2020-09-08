@@ -202,12 +202,12 @@ class coursesCreateEditCurriculum extends React.Component {
     render() {
         return (
             <div>
-                <div className="flex flex-wrap" style={{marginTop: 15}}>
+                <div className="flex flex-wrap" style={{marginTop: 10}}>
 
-                    <CreateCurriculumOverlay children={<div className="margin-right-5 button-green">
+                    <CreateCurriculumOverlay children={<div className="margin-right-10 button-green" style={{padding:'12px 15px'}}>
                         <span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm buổi học
                     </div>}/>
-                    <CreateMultiLessonOverlay children={<div className="btn none-margin btn-silver">
+                    <CreateMultiLessonOverlay children={<div className="none-margin button-green btn btn-white radius-5" style={{padding:'12px 15px'}}>
                         <span className="material-icons">layers</span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm nhiều buổi học
                     </div>} className="btn btn-silver"/>
                     {/*<CreateTermOverlay className="btn btn-silver"/>*/}
@@ -425,7 +425,7 @@ class coursesCreateEditCurriculum extends React.Component {
                                             updateTerm={this.updateTerms}
                                             courseId={this.props.data.id}
                                             onChange={(term) => this.selectedTerm(lesson, term)}
-                                            style={{minWidth: 200}}
+                                            style={{minWidth: '100%'}}
                                         />
                                         {/*<ReactSelect*/}
                                         {/*    options={this.getSelectTerm(this.props.data)}*/}

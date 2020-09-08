@@ -4,6 +4,7 @@ import axios from "axios";
 import {renderToString} from "react-dom/lib/ReactDOMServer";
 import Loading from "../../components/common/Loading";
 import Attendances from "../infoStudent/progress/Attendances";
+import TooltipButton from "../../components/common/TooltipButton";
 
 
 class StudyProgressTooltip extends React.Component {
@@ -90,6 +91,15 @@ class StudyProgressTooltip extends React.Component {
                 <a onClick={()=>this.props.openModalRegisterDetail(`/sales/info-student/${this.props.register.student.id}`)}
                       className="text-name-student-register">
                     {this.props.register.student.name}
+                    {this.props.register.is_retention_course == 0 &&
+                    <TooltipButton text="Đây là đăng kí đầu tiên của học viên này"
+                                   placement="top">
+                                                                    <span className="btn-danger btn-xs margin-left-5"
+                                                                          style={{
+                                                                              fontSize: 10,
+                                                                              padding: '3px'
+                                                                          }}>NEW</span>
+                    </TooltipButton>}
                 </a>
             </div>
         );

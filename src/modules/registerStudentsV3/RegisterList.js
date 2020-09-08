@@ -81,12 +81,12 @@ class RegisterList extends React.Component {
                                 onMouseEnter={() => this.onMouseOverRow(register.id, 'show')}
                                 onMouseLeave={() => this.onMouseOverRow(register.id, 'hide')}
                             >
-                                <td style={{minWidth:40}}>
+                                <td style={{minWidth: 40}}>
                                     <ToggleStar
                                         value={register.bookmark}
                                         isLoading={store.isChangingBookmark}
                                         onChange={value => store.changeMarkRegister(index, value)}
-                                        style={{fontSize:20}}
+                                        style={{fontSize: 20}}
                                     />
                                 </td>
                                 <td>
@@ -106,10 +106,13 @@ class RegisterList extends React.Component {
                                 </td>
                                 <td>
                                     {register.student && <div>
-                                        <StudyProgressTooltip
-                                            openModalRegisterDetail={openModalRegisterDetail}
-                                            register={register}
-                                        />
+                                        <div className="flex flex-align-items-center">
+                                            <StudyProgressTooltip
+                                                openModalRegisterDetail={openModalRegisterDetail}
+                                                register={register}
+                                            />
+
+                                        </div>
                                         {/*<div id="register-email" data-toggle="tooltip" title=""*/}
                                         {/*     type="button" rel="tooltip"*/}
                                         {/*     data-original-title={register.email}>*/}
@@ -234,7 +237,8 @@ class RegisterList extends React.Component {
                                     {
                                         register.paid_status ?
                                             <TooltipButton text={register.note} placement="top">
-                                                <div className="btn btn-xs btn-main none-margin main-background-color width-100">
+                                                <div
+                                                    className="btn btn-xs btn-main none-margin main-background-color width-100">
                                                     {helper.dotNumber(register.money)} vnd
                                                 </div>
                                             </TooltipButton>
@@ -243,7 +247,7 @@ class RegisterList extends React.Component {
                                             <TooltipButton
                                                 text={`Hẹn nộp ${register.tele_call.appointment_payment_date}`}
                                                 placement="top">
-                                                <div className="margin-bottom-10 width-100">
+                                                <div className="width-100">
                                                     {
                                                         register.tele_call.appointment_payment ?
                                                             register.tele_call.appointment_payment :
@@ -265,7 +269,7 @@ class RegisterList extends React.Component {
                                     <RegisterActionsOverlay
                                         openModalRefund={() => this.showModalRefund({...register})}
                                         register={{...register}}
-                                        reload={()=>store.loadRegisters()}
+                                        reload={() => store.loadRegisters()}
                                     />
                                 </td>
 

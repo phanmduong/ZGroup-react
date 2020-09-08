@@ -182,14 +182,7 @@ class coursesCreateEditGeneral extends React.Component {
                                                     updateFormData={this.updateFormData}
                                                     value={this.state.data.description}
                                                 /></div>
-                                            <div className="col-md-12">
-                                                <label>Landing Page URL</label>
-                                                <FormInputText
-                                                    label=""
-                                                    name="landingpage_url"
-                                                    updateFormData={this.updateFormData}
-                                                    value={this.state.data.landingpage_url}
-                                                /></div>
+
                                             <div className="col-md-12">
                                                 <label>Front Image</label>
                                                 <FormInputText
