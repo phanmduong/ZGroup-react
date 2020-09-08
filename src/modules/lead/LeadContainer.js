@@ -148,7 +148,6 @@ class LeadContainer extends React.Component {
         ];
         this.isAdmin = (this.props.user.role === 2 || window.location.hostname.includes('colorme'));
         this.statusRef = STATUS_REFS.leads;
-        console.log(window.location.hostname)
     }
 
     componentWillMount() {
