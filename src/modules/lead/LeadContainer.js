@@ -71,22 +71,22 @@ class LeadContainer extends React.Component {
             // {text:'Đã phân P.I.C', operator: (lead)=>!isEmptyInput(lead.staff_id)},
             // {text:'Chưa phân P.I.C', operator: (lead)=>isEmptyInput(lead.staff_id)},
             {
-                text: 'Tất cả',
+                text: 'Tất cả Lead',
                 avatar_url: NO_AVATAR,
                 value: "",
-                label: "Tất cả"
+                label: "Tất cả Lead"
             },
             {
                 avatar_url: NO_AVATAR,
                 value: "-1",
-                label: "Có nhân viên",
-                text: 'Đã phân P.I.C',
+                label: "Lead đã phân P.I.C",
+                text: "Lead đã phân P.I.C",
             },
             {
                 avatar_url: NO_AVATAR,
                 value: "-2",
-                label: "Không có nhân viên",
-                text: 'Chưa phân P.I.C',
+                label: "Lead chưa phân P.I.C",
+                text: "Lead chưa phân P.I.C",
             },
         ];
         this.state = {
@@ -107,7 +107,7 @@ class LeadContainer extends React.Component {
             orderByOptions: [
                 {value: 'staff_id', label: 'Lead chưa có P.I.C', type: 'asc'},
                 {value: 'created_at', label: 'Lead từ mới đến cũ', type: 'desc'},
-                // {value:'oldest',label:'Lead từ cũ đến mới'},
+                {value:'imported_at',label:'Ngày nhập mới đến cũ', type: 'desc'},
                 {value: 'rate', label: 'Số sao', type: 'asc'},
                 {value: 'last_time_interact', label: 'Tương tác gần đây', type: 'desc'},
                 // {value: 'donwstar', label: 'Sao giảm dần'},
@@ -146,9 +146,9 @@ class LeadContainer extends React.Component {
             {value: 'email', label: 'Trùng email'},
             {value: 'phone', label: 'Trùng số điện thoại'},
         ];
-        this.isAdmin = (this.props.user.role === 2 || this.props.user.role_id == 9 || this.props.user.department_id == 9);
+        this.isAdmin = (this.props.user.role === 2 || window.location.hostname.includes('colorme'));
         this.statusRef = STATUS_REFS.leads;
-
+        console.log(window.location.hostname)
     }
 
     componentWillMount() {
@@ -1054,140 +1054,83 @@ class LeadContainer extends React.Component {
             selectedLeadsCount = this.state.selectedLeads.length;
         }
         return (
-            <div>
+            <div className="margin-top-10">
                 <CreateRegisterModalContainer/>
-                {!this.props.isLoading &&
-                <div className="card" mask="purple">
-                    <img className="img-absolute"/>
-                    <div className="card-content">
-                        {this.state.isDistribution ?
-                            <div className="">
-                                <h5 className="card-title"><strong>Phân chia leads</strong></h5>
-                                {/*{!this.props.isLoading &&*/}
-                                {/*<div className="lead-count margin-vertical-30">Tổng số*/}
-                                {/*    lead {this.props.totalCount}</div>}*/}
-                            </div>
-                            :
-                            <div className="">
-                                <h5 className="card-title">
-                                    {/*<strong>{this.props.route.type === "my-leads" ? "Danh sách leads của bạn" : "Danh sách leads"} </strong>*/}
-                                    <strong>{this.isAdmin ? "Danh sách leads của bạn" : "Danh sách leads"} </strong>
-                                </h5>
-                            </div>
-                        }
-                        <div>
-                            <a
-                                onClick={this.showExportFieldsModal}
-                                className="text-white"
-                                disabled={this.props.isLoading}
-                            >Tải xuống
-                            </a>
-                        </div>
-                        <div style={{marginTop: '10%'}}/>
 
-                        <div className="flex-align-items-center flex flex-wrap">
-                            {/*{this.props.route.type !== "my-leads" && !this.state.isDistribution &&*/}
+                {!this.props.isLoading && <div>
 
-                            <Search
-                                onChange={this.searchChange}
-                                placeholder="Tim kiếm leads"
-                                value={this.state.search}
-                                className="round-white-seacrh"
-                                onSearch={this.onSearchLead}
-                            />
+                    <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
+                        {this.picFilters.map((tab, key) => {
+                            let className = tab.value == this.state.staffId ? 'active' : '';
+                            return (<li className={className} key={key} onClick={() => this.changePicFilter(tab)}
+                            ><a style={{
+                                borderRadius: 5, textTransform: 'none', margin: 0, padding: '10px 20px'
+                            }}>{tab.text}</a>
+                            </li>);
+                        })}
+                        <li style={{float: 'right'}}>
 
-                            <button
-                                onClick={this.openFilterPanel}
-                                className="btn btn-white btn-round margin-right-10"
-                                disabled={this.props.isLoading}
-                            >
-                                Lọc
-                            </button>
-                            {/*{this.props.route.type !== "my-leads" && !this.state.isDistribution &&*/}
-                            {this.isAdmin && !this.state.isDistribution &&
-                            <a href="/import/data" className="btn btn-white btn-round margin-right-10 ">
-                                Upload
-                            </a>}
-                            {/*<button*/}
-                            {/*    className="btn btn-white btn-round btn-icon"*/}
-                            {/*    type="button"*/}
-                            {/*    onClick={this.openCreateRegisterModal}*/}
-                            {/*>*/}
-                            {/*    Thêm lead&nbsp;&nbsp;<i className="material-icons">*/}
-                            {/*    add*/}
-                            {/*</i>*/}
-                            {/*</button>*/}
-                            <CreateLeadOverlay
-                                className="btn btn-white btn-round btn-icon"
+                        </li>
+                    </ul>
+
+                    <div className="flex flex-space-between">
+                        <div className="flex  flex-wrap tool-bar-actions width-100">
+                            {!this.state.isDistribution && <CreateLeadOverlay
+                                className="btn button-green btn-icon"
+                                styleBtn={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}
                                 onSuccess={() => {
                                     this.setState({staff: "", page: 1});
                                     this.resetLoad();
                                 }}
-                            />
+                            />}
                             {this.isAdmin && !this.state.isDistribution &&
-                            <div className="btn btn-white btn-round btn-icon"
-                                 onClick={() => this.setState({isDistribution: true})}>
-                                Phân lead
-                            </div>}
-                            {/*{this.props.route.type !== "my-leads" && !this.state.isDistribution &&*/}
-                            {/*<div className="btn btn-white btn-round margin-right-10 "*/}
-                            {/*     onClick={() => $('#btn-add-leads').removeClass('open')}>*/}
-                            {/*    Upload*/}
-                            {/*    <input type="file"*/}
-                            {/*           accept=".csv,.xls,.xlsx"*/}
-                            {/*           onChange={this.handleFile}*/}
-                            {/*           style={{*/}
-                            {/*               cursor: 'pointer',*/}
-                            {/*               opacity: "0.0",*/}
-                            {/*               position: "absolute",*/}
-                            {/*               top: 0,*/}
-                            {/*               left: 0,*/}
-                            {/*               bottom: 0,*/}
-                            {/*               right: 0,*/}
-                            {/*               width: "100%",*/}
-                            {/*               height: "100%"*/}
-                            {/*           }}*/}
-                            {/*    />*/}
-                            {/*</div>}*/}
-
-                            {/*<a target="_blank" className="btn btn-white btn-round margin-right-10 "*/}
-                            {/*   href="http://d1j8r0kxyu9tj8.cloudfront.net/csv/lead-data-sample.xlsx">*/}
-                            {/*    Tải file mẫu*/}
-                            {/*</a>*/}
-
-
+                            <button className="btn button-green btn-icon"
+                                    style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}
+                                    onClick={() => this.setState({isDistribution: true})}>
+                                <i className="material-icons">supervisor_account</i>&nbsp;&nbsp;&nbsp;&nbsp;Phân P.I.C
+                            </button>}
+                            <Search
+                                onChange={this.searchChange}
+                                placeholder="Tim kiếm leads"
+                                value={this.state.search}
+                                className="white-seacrh margin-right-10 min-width-200-px form-group-none-padding"
+                                onSearch={this.onSearchLead}
+                            />
+                            <button
+                                onClick={this.openFilterPanel}
+                                disabled={this.props.isLoading}
+                                className="btn btn-white btn-icon"
+                                style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}
+                            ><span className="material-icons">filter_alt</span>&nbsp;&nbsp;&nbsp;&nbsp;Lọc
+                            </button>
+                            {this.isAdmin && !this.state.isDistribution &&
+                            <a href="/import/data" className="btn btn-white btn-icon"
+                               style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}>
+                                <span className="material-icons">publish</span>&nbsp;&nbsp;&nbsp;&nbsp;Tải lên
+                            </a>}
+                            {!this.state.isDistribution && <a
+                                onClick={this.showExportFieldsModal}
+                                className="btn btn-white btn-icon"
+                                style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}
+                                disabled={this.props.isLoading}
+                            ><span className="material-icons">get_app</span>&nbsp;&nbsp;&nbsp;&nbsp;Tải xuống
+                            </a>}
+                            <div style={{height: 42, margin: '10px 0 0 auto',}}>
+                                <ReactSelect
+                                    disabled={this.props.isLoading}
+                                    options={this.state.orderByOptions}
+                                    onChange={e => this.onDirectFilterChange(e, 'orderBy')}
+                                    value={this.state.orderBy}
+                                    placeholder="Sắp xếp theo"
+                                    searchable={false}
+                                    name="orderBy"
+                                    className="react-select-white-round margin-left-auto min-width-150-px"
+                                />
+                            </div>
                         </div>
-
-
                     </div>
 
-
-                </div>
-                }
-                <div>
-                    {!this.props.isLoading &&
-                    <ul className="nav nav-pills nav-pills-dark margin-bottom-10" data-tabs="tabs">
-                        {this.picFilters.map((tab, key) => {
-                            let className = tab.value == this.state.staffId ? 'active' : '';
-                            return (<li className={className} key={key} onClick={() => this.changePicFilter(tab)}>
-                                <a>{tab.text}</a>
-                            </li>);
-                        })}
-                        <li style={{float: 'right'}}>
-                            <ReactSelect
-                                disabled={this.props.isLoading}
-                                options={this.state.orderByOptions}
-                                onChange={e => this.onDirectFilterChange(e, 'orderBy')}
-                                value={this.state.orderBy}
-                                placeholder="Sắp xếp theo"
-                                searchable={false}
-                                name="orderBy"
-                                className="react-select-white-round margin-left-auto min-width-200-px"
-                            />
-                        </li>
-                    </ul>}
-                </div>
-
+                </div>}
                 <Panel collapsible className="none-margin"
                        expanded={this.state.openFilterPanel && !(this.props.isLoading)}>
                     <div className="card card-filter margin-top-0">
@@ -1458,7 +1401,6 @@ class LeadContainer extends React.Component {
 
                     </div>
                 </Panel>
-
                 <ListLead
                     leads={this.props.leads}
                     isLoading={this.props.isLoading}
@@ -1473,6 +1415,118 @@ class LeadContainer extends React.Component {
                     // removeLead={this.props.route.type === "my-leads" ? this.removeLead : null}
                     removeLead={!this.isAdmin ? null : this.removeLead}
                 />
+                {!this.props.isLoading && this.nani &&
+                <div className="card" mask="purple">
+                    <img className="img-absolute"/>
+                    <div className="card-content">
+                        {this.state.isDistribution ?
+                            <div className="">
+                                <h5 className="card-title"><strong>Phân chia leads</strong></h5>
+                                {/*{!this.props.isLoading &&*/}
+                                {/*<div className="lead-count margin-vertical-30">Tổng số*/}
+                                {/*    lead {this.props.totalCount}</div>}*/}
+                            </div>
+                            :
+                            <div className="">
+                                <h5 className="card-title">
+                                    {/*<strong>{this.props.route.type === "my-leads" ? "Danh sách leads của bạn" : "Danh sách leads"} </strong>*/}
+                                    <strong>{this.isAdmin ? "Danh sách leads của bạn" : "Danh sách leads"} </strong>
+                                </h5>
+                            </div>
+                        }
+                        <div>
+                            <a
+                                onClick={this.showExportFieldsModal}
+                                className="text-white"
+                                disabled={this.props.isLoading}
+                            >Tải xuống
+                            </a>
+                        </div>
+                        <div style={{marginTop: '10%'}}/>
+
+                        <div className="flex-align-items-center flex flex-wrap">
+                            {/*{this.props.route.type !== "my-leads" && !this.state.isDistribution &&*/}
+
+                            <Search
+                                onChange={this.searchChange}
+                                placeholder="Tim kiếm leads"
+                                value={this.state.search}
+                                className="round-white-seacrh"
+                                onSearch={this.onSearchLead}
+                            />
+
+                            <button
+                                onClick={this.openFilterPanel}
+                                className="btn btn-white btn-round margin-right-10"
+                                disabled={this.props.isLoading}
+                            >
+                                Lọc
+                            </button>
+                            {/*{this.props.route.type !== "my-leads" && !this.state.isDistribution &&*/}
+                            {this.isAdmin && !this.state.isDistribution &&
+                            <a href="/import/data" className="btn btn-white btn-round margin-right-10 ">
+                                Upload
+                            </a>}
+                            {/*<button*/}
+                            {/*    className="btn btn-white btn-round btn-icon"*/}
+                            {/*    type="button"*/}
+                            {/*    onClick={this.openCreateRegisterModal}*/}
+                            {/*>*/}
+                            {/*    Thêm lead&nbsp;&nbsp;<i className="material-icons">*/}
+                            {/*    add*/}
+                            {/*</i>*/}
+                            {/*</button>*/}
+                            <CreateLeadOverlay
+                                className="btn btn-white btn-round btn-icon"
+                                onSuccess={() => {
+                                    this.setState({staff: "", page: 1});
+                                    this.resetLoad();
+                                }}
+                            />
+                            {this.isAdmin && !this.state.isDistribution &&
+                            <div className="btn btn-white btn-round btn-icon"
+                                 onClick={() => this.setState({isDistribution: true})}>
+                                Phân lead
+                            </div>}
+                            {/*{this.props.route.type !== "my-leads" && !this.state.isDistribution &&*/}
+                            {/*<div className="btn btn-white btn-round margin-right-10 "*/}
+                            {/*     onClick={() => $('#btn-add-leads').removeClass('open')}>*/}
+                            {/*    Upload*/}
+                            {/*    <input type="file"*/}
+                            {/*           accept=".csv,.xls,.xlsx"*/}
+                            {/*           onChange={this.handleFile}*/}
+                            {/*           style={{*/}
+                            {/*               cursor: 'pointer',*/}
+                            {/*               opacity: "0.0",*/}
+                            {/*               position: "absolute",*/}
+                            {/*               top: 0,*/}
+                            {/*               left: 0,*/}
+                            {/*               bottom: 0,*/}
+                            {/*               right: 0,*/}
+                            {/*               width: "100%",*/}
+                            {/*               height: "100%"*/}
+                            {/*           }}*/}
+                            {/*    />*/}
+                            {/*</div>}*/}
+
+                            {/*<a target="_blank" className="btn btn-white btn-round margin-right-10 "*/}
+                            {/*   href="http://d1j8r0kxyu9tj8.cloudfront.net/csv/lead-data-sample.xlsx">*/}
+                            {/*    Tải file mẫu*/}
+                            {/*</a>*/}
+
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+                }
+
+
+
+
                 {this.state.isDistribution && !this.props.isLoading &&
                 <div className="import-data-container" mask="leadContainer">
                     <div className="import-footer">
@@ -1528,7 +1582,7 @@ class LeadContainer extends React.Component {
 
                                         <div onClick={this.openModalSelectedLeadsModal}
                                              className="btn button-green">
-                                            Phân lead
+                                            Phân P.I.C
                                         </div>
 
                                     </td>
@@ -1560,6 +1614,7 @@ class LeadContainer extends React.Component {
 
                     </div>
                 </div>}
+
 
                 <Modal
                     bsSize="lg"

@@ -143,7 +143,7 @@ class TermOverlay extends React.Component {
 
     render() {
         let {isLoading, term, isProcessing} = this.state;
-        let {isLoadingStatuses, className, style, terms} = this.props;
+        let {isLoadingStatuses, className, style,styleOverlay, terms} = this.props;
         // let statuses = this.props.statuses[this.props.statusRef] || [];
         let showLoading = isLoading || isLoadingStatuses || isProcessing;
         // const current = (data && statuses.filter(s => s.id == data.id)[0]) || {};
@@ -166,7 +166,7 @@ class TermOverlay extends React.Component {
                     placement="bottom"
                     container={this}
                     target={() => ReactDOM.findDOMNode(this.refs.target)}>
-                    <div className="kt-overlay" style={{width: "300px", marginTop: 35,zIndex:2}}>
+                    <div className="kt-overlay" style={{width: "300px", marginTop: 35,zIndex:2,...styleOverlay}}>
 
 
                         {!showLoading && <div style={{position: "relative"}}>

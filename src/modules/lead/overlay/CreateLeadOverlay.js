@@ -223,7 +223,7 @@ class CreateLeadOverlay extends React.Component {
 
     render() {
         let {lead, duplicate_leads,selectedInterests,parentCourses} = this.state;
-        let {isEditing, className,} = this.props;
+        let {isEditing, className,styleBtn,} = this.props;
         // statuses = statuses[this.statusRef];
         let provinces = this.props.provinces ? this.props.provinces.map((province) => {
             return {value: province.id, label: province.name};
@@ -233,9 +233,10 @@ class CreateLeadOverlay extends React.Component {
 
             <div style={{position: "relative"}} ref="target">
                 <div className={className} mask="create"
+                     style={{...styleBtn}}
                      onClick={this.showModal}
                 >
-                    Tạo lead <i className="material-icons">add</i>
+                    <i className="material-icons">add_circle</i>&nbsp;&nbsp;&nbsp;&nbsp;Tạo lead
                 </div>
                 <Modal show={this.state.showModal} onHide={this.closeModal}>
                     <Modal.Header closeButton={!isEditing}

@@ -106,7 +106,7 @@ class CoursesContainer extends React.Component {
             <div className="content">
                 <div className="container-fluid">
                     <div className="flex flex-space-between">
-                        <div className="flex  flex-wrap tool-bar-register">
+                        <div className="flex  flex-wrap tool-bar-actions">
                             <CreateCourseOverlay
                                 btnText="Thêm môn học mới"
                                 className="btn button-green btn-icon"

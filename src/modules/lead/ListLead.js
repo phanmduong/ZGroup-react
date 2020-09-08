@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {avatarEmpty, isEmptyInput,} from "../../helpers/helper";
-import {NO_AVATAR} from "../../constants/env";
+import {isEmptyInput,} from "../../helpers/helper";
 import Loading from "../../components/common/Loading";
 import Pagination from "../../components/common/Pagination";
-import Star from "../../components/common/Star";
 import ButtonGroupAction from "../../components/common/ButtonGroupAction";
-import {Modal} from "react-bootstrap";
+import {Modal, Overlay} from "react-bootstrap";
 import EditLead from "./EditLead";
 import Checkbox from "../../components/common/Checkbox";
 import TooltipButton from "../../components/common/TooltipButton";
@@ -21,6 +19,7 @@ import {bindActionCreators} from "redux";
 import * as leadActions from "./leadActions";
 import {DATE_FORMAT_SQL, DATE_VN_FORMAT} from "../../constants/constants";
 import moment from "moment";
+import * as ReactDOM from "react-dom";
 
 //import TooltipButton from "../../components/common/TooltipButton";
 const TAGS = [
@@ -44,7 +43,8 @@ class ListLead extends React.Component {
 
         this.state = {
             isOpenModalEdit: false,
-            lead: {},
+            lead: {}, showOverlay: [],
+
         };
 
     }
@@ -73,7 +73,16 @@ class ListLead extends React.Component {
         }
         return false;
     };
-
+    toggleOverlay = (key) => {
+        let showOverlay = [...this.props.leads].map(() => false);
+        showOverlay[key] = true;
+        this.setState({showOverlay});
+    };
+    closeOverlay = (key) => {
+        let showOverlay = this.state.showOverlay;
+        showOverlay[key] = false;
+        this.setState({showOverlay});
+    };
 
     render() {
         return (
@@ -83,21 +92,24 @@ class ListLead extends React.Component {
                 {this.props.isLoading ?
                     <Loading/>
                     :
-                    <div className="table-responsive table-split">
-                        <table className="table">
+                    <div className="table-sticky-head table-split" radius="five">
+                        <table className="table" style={{zIndex:0}}>
                             <thead className="text-rose">
                             <tr>
                                 {this.props.isDistribution && <th/>}
-                                <th/>
+                                {/*<th/>*/}
                                 <th>Họ tên</th>
+                                <th>Sao</th>
+                                <th>P.I.C</th>
                                 <th>Nguồn</th>
+                                <th>Chiến dịch</th>
                                 <th>Trạng thái</th>
-                                <th>Đã đóng tiền</th>
-                                <th>Đánh giá</th>
+                                {/*<th>Đã đóng tiền</th>*/}
+
                                 <th>Ghi chú</th>
                                 <th>Quan tâm</th>
                                 {
-                                    !this.props.showSelectedLead && <th>Thời gian</th>
+                                    !this.props.showSelectedLead && <th>Ngày tạo</th>
                                 }
                                 <th/>
                             </tr>
@@ -107,8 +119,7 @@ class ListLead extends React.Component {
                                 this.props.leads
                                     // .filter(l=>this.state.currentPicFilter.operator(l))
                                     .map((lead) => {
-                                        const avatar = !avatarEmpty(lead.avatar_url) ?
-                                            lead.avatar_url : NO_AVATAR;
+                                        // const avatar = !avatarEmpty(lead.avatar_url) ? lead.avatar_url : NO_AVATAR;
                                         let rowClassName = '';
                                         if (lead.staff_id) rowClassName = 'success';
                                         let leadTagDetail =
@@ -128,14 +139,14 @@ class ListLead extends React.Component {
                                                         />
                                                     </td>
                                                 }
-                                                <td>
-                                                    <div className="avatar-list-staff"
-                                                         style={{
-                                                             background: 'url(' + avatar + ') center center / cover',
-                                                             display: 'inline-block'
-                                                         }}
-                                                    />
-                                                </td>
+                                                {/*<td>*/}
+                                                {/*    <div className="avatar-list-staff"*/}
+                                                {/*         style={{*/}
+                                                {/*             background: 'url(' + avatar + ') center center / cover',*/}
+                                                {/*             display: 'inline-block'*/}
+                                                {/*         }}*/}
+                                                {/*    />*/}
+                                                {/*</td>*/}
                                                 <td>
                                                     <div>
                                                         <div className="flex flex-align-items-center">
@@ -153,24 +164,43 @@ class ListLead extends React.Component {
 
 
                                                         </div>
-                                                        <div>{lead.email}</div>
+                                                        {/*<div>{lead.email}</div>*/}
                                                         <div>{lead.phone}</div>
                                                         {!isEmptyInput(lead.city) && <div>TP. {lead.city}</div>}
                                                     </div>
                                                 </td>
                                                 <td>
+                                                    <div className="btn btn-xs btn-icon btn-warning">
+                                                        {lead.rate}&nbsp;<span className="material-icons">star</span>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <PicOverlay
+                                                        styleButton={{padding: '4px 15px', whiteSpace:'nowrap'}}
+                                                        student={lead}
+                                                        disabled={this.props.showSelectedLead}
+                                                        className="btn-xs width-100 source-value none-padding"
+                                                    />
+                                                </td>
+                                                <td>
+                                                    <SourceOverlay
+                                                        styleButton={{padding: '4px 15px', whiteSpace: 'nowrap'}}
+                                                        className="btn-xs width-100 source-value none-padding"
+                                                        disabled={this.props.showSelectedLead}
+                                                        student={lead}
+                                                    />
+                                                </td>
+                                                <td>
                                                     {lead.campaign ? (
-                                                        <button className="btn btn-xs btn-main width-100"
+                                                        <button className="btn btn-xs bold none-margin width-100"
                                                                 style={{
                                                                     backgroundColor: "#" + lead.campaign.color
                                                                 }}>
                                                             {lead.campaign.name}
-                                                            <div className="ripple-container"/>
                                                         </button>
                                                     ) : (
-                                                        <button className="btn btn-xs btn-main no-data width-100">
+                                                        <button className="btn btn-xs bold none-margin width-100">
                                                             No Campaign
-                                                            <div className="ripple-container"/>
                                                         </button>
                                                     )}
                                                     {/*<MarketingCampaignOverlay*/}
@@ -192,19 +222,6 @@ class ListLead extends React.Component {
 
 
                                                     {/*}*/}
-                                                    <SourceOverlay
-                                                        styleButton={{padding: '4px 15px'}}
-                                                        className="btn-xs width-100 source-value none-padding margin-bottom-10"
-                                                        disabled={this.props.showSelectedLead}
-                                                        student={lead}
-                                                    />
-                                                    <PicOverlay
-                                                        styleButton={{padding: '4px 15px'}}
-                                                        student={lead}
-                                                        disabled={this.props.showSelectedLead}
-                                                        className="btn-xs width-100 source-value none-padding margin-bottom-10"
-
-                                                    />
                                                 </td>
 
                                                 <td>
@@ -214,42 +231,36 @@ class ListLead extends React.Component {
                                                         refId={lead.id}
                                                         disabled={this.props.showSelectedLead}
                                                         statusRef="leads"
-                                                        className="btn-xs status-overlay none-padding margin-bottom-10"
+                                                        className="btn-xs status-overlay none-padding"
                                                     />
                                                 </td>
-                                                <td>
-                                                    <div className="flex flex-row margin-bottom-10">
-                                                        {
-                                                            lead.courses && lead.courses.map((course, index) => {
-                                                                return (
-                                                                    <div key={index}>
-                                                                        <TooltipButton
-                                                                            placement="top"
-                                                                            text={course.name}
-                                                                        >
-                                                                            <div className="avatar-list-staff"
-                                                                                 style={{
-                                                                                     background: 'url(' + course.icon_url + ') center center / cover',
-                                                                                     display: 'inline-block',
-                                                                                     borderColor: 'white',
-                                                                                     borderStyle: 'solid',
-                                                                                     marginLeft: '-10px'
-                                                                                 }}
-                                                                            />
-                                                                        </TooltipButton>
-                                                                    </div>
-                                                                );
-                                                            })
-                                                        }
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <Star
-                                                        maxStar={5}
-                                                        value={lead.rate}
-                                                        disable
-                                                    />
-                                                </td>
+                                                {/*<td>*/}
+                                                {/*    <div className="flex flex-row margin-bottom-10">*/}
+                                                {/*        {*/}
+                                                {/*            lead.courses && lead.courses.map((course, lead.id) => {*/}
+                                                {/*                return (*/}
+                                                {/*                    <div key={lead.id}>*/}
+                                                {/*                        <TooltipButton*/}
+                                                {/*                            placement="top"*/}
+                                                {/*                            text={course.name}*/}
+                                                {/*                        >*/}
+                                                {/*                            <div className="avatar-list-staff"*/}
+                                                {/*                                 style={{*/}
+                                                {/*                                     background: 'url(' + course.icon_url + ') center center / cover',*/}
+                                                {/*                                     display: 'inline-block',*/}
+                                                {/*                                     borderColor: 'white',*/}
+                                                {/*                                     borderStyle: 'solid',*/}
+                                                {/*                                     marginLeft: '-10px'*/}
+                                                {/*                                 }}*/}
+                                                {/*                            />*/}
+                                                {/*                        </TooltipButton>*/}
+                                                {/*                    </div>*/}
+                                                {/*                );*/}
+                                                {/*            })*/}
+                                                {/*        }*/}
+                                                {/*    </div>*/}
+                                                {/*</td>*/}
+
                                                 <td>
                                                     {!isEmptyInput(lead.note) &&
                                                     <div className="">
@@ -270,36 +281,56 @@ class ListLead extends React.Component {
                                                     !this.props.showSelectedLead && <td>{lead.created_at}</td>
                                                 }
                                                 <td>
+                                                    {!this.props.showSelectedLead && <div style={{position: "relative"}}
+                                                         className="cursor-pointer" mask="table-btn-action">
+                                                        <div ref={'target' + lead.id}
+                                                             onClick={() => this.toggleOverlay(lead.id)}
+                                                             className="flex flex-justify-content-center cursor-pointer">
+                                                            <i className="material-icons">more_horiz</i>
+                                                        </div>
+                                                        <Overlay
+                                                            rootClose={true}
+                                                            show={this.state.showOverlay[lead.id]}
+                                                            onHide={() => this.closeOverlay(lead.id)}
+                                                            placement="bottom"
+                                                            container={() => ReactDOM.findDOMNode(this.refs['target' + lead.id]).parentElement}
+                                                            target={() => ReactDOM.findDOMNode(this.refs['target' + lead.id])}>
+                                                            <div className="kt-overlay overlay-container"
+                                                                 mask="table-btn-action" style={{
+                                                                width: 150,
+                                                                marginTop: 10,
+                                                                left: -115,
+                                                            }} onClick={() => this.closeOverlay(lead.id)}>
+                                                                <button type="button"
+                                                                        className="btn btn-white width-100"
+                                                                        onClick={() => this.openEditModal(lead)}>
+                                                                    Sửa thông tin
+                                                                </button>
+                                                                {!this.props.showSelectedLead && <CreateRegisterOverlay
+                                                                    onShow={() => {
+                                                                        let student = {
+                                                                            ...lead,
+                                                                            dob: lead.dob ? moment(lead.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : ''
+                                                                        };
+                                                                        this.props.studentActions.setInfoStudent(student);
+                                                                    }}
+                                                                    className="register-lead-overlay cursor-pointer"
+                                                                    direction="right"
+                                                                >
+                                                                    <button type="button"
+                                                                            className="btn btn-white width-100">
+                                                                        Tạo đăng kí (Deal)
+                                                                    </button>
+                                                                </CreateRegisterOverlay>}
+                                                                {this.props.removeLead && <button type="button"
+                                                                                                      className="btn btn-white width-100"
+                                                                                                      onClick={() => this.props.removeLead(lead)}>
+                                                                    Xóa
+                                                                </button>}
 
-                                                    <ButtonGroupAction
-                                                        disabledDelete
-                                                        edit={() => this.openEditModal(lead)}
-                                                        // delete={() => this.deleteLead(lead)}
-                                                        disabledEdit={this.props.showSelectedLead}
-                                                    >
-                                                        {this.props.removeLead && <a
-                                                            data-toggle="tooltip"
-                                                            title="Xóa lead"
-                                                            onClick={() => this.props.removeLead(lead)}
-                                                            type="button"
-                                                            rel="tooltip"
-                                                        >
-                                                            <i className="material-icons">delete</i>
-                                                        </a>}
-                                                        {!this.props.showSelectedLead && <CreateRegisterOverlay
-                                                            onShow={() => {
-                                                                let student = {
-                                                                    ...lead,
-                                                                    dob: lead.dob ? moment(lead.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : ''
-                                                                };
-                                                                this.props.studentActions.setInfoStudent(student);
-                                                            }}
-                                                            className="register-lead-overlay cursor-pointer"
-                                                            direction="right"
-                                                        ><i className="material-icons">add</i>
-                                                        </CreateRegisterOverlay>}
-
-                                                    </ButtonGroupAction>
+                                                            </div>
+                                                        </Overlay>
+                                                    </div>}
 
                                                     {this.props.showSelectedLead &&
                                                     <ButtonGroupAction
@@ -318,14 +349,43 @@ class ListLead extends React.Component {
                                                             <i className="material-icons">highlight_off</i>
                                                         </a>}
 
-                                                    </ButtonGroupAction>
-                                                    }
+                                                    </ButtonGroupAction>}
+                                                    {/*<ButtonGroupAction*/}
+                                                    {/*    disabledDelete*/}
+                                                    {/*    edit={() => this.openEditModal(lead)}*/}
+                                                    {/*    // delete={() => this.deleteLead(lead)}*/}
+                                                    {/*    disabledEdit={this.props.showSelectedLead}*/}
+                                                    {/*>*/}
+                                                    {/*    {this.props.removeLead && <a*/}
+                                                    {/*        data-toggle="tooltip"*/}
+                                                    {/*        title="Xóa lead"*/}
+                                                    {/*        onClick={() => this.props.removeLead(lead)}*/}
+                                                    {/*        type="button"*/}
+                                                    {/*        rel="tooltip"*/}
+                                                    {/*    >*/}
+                                                    {/*        <i className="material-icons">delete</i>*/}
+                                                    {/*    </a>}*/}
+                                                    {/*    {!this.props.showSelectedLead && <CreateRegisterOverlay*/}
+                                                    {/*        onShow={() => {*/}
+                                                    {/*            let student = {*/}
+                                                    {/*                ...lead,*/}
+                                                    {/*                dob: lead.dob ? moment(lead.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : ''*/}
+                                                    {/*            };*/}
+                                                    {/*            this.props.studentActions.setInfoStudent(student);*/}
+                                                    {/*        }}*/}
+                                                    {/*        className="register-lead-overlay cursor-pointer"*/}
+                                                    {/*        direction="right"*/}
+                                                    {/*    ><i className="material-icons">add</i>*/}
+                                                    {/*    </CreateRegisterOverlay>}*/}
+
+                                                    {/*</ButtonGroupAction>*/}
+
                                                 </td>
                                             </tr>
                                         );
                                     })
                             }
-                            {this.props.showSelectedLead && this.props.isAll &&  <tr className="success">
+                            {this.props.showSelectedLead && this.props.isAll && <tr className="success">
                                 <td/>
                                 <td>+{this.props.selectedLeadsCount - this.props.leads.length} Lead khác</td>
                                 <td/>

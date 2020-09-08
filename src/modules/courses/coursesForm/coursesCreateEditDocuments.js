@@ -156,15 +156,15 @@ class coursesCreateEditDocuments extends React.Component {
 
     checkValidate() {
 
-        if ($('#form-edit-link').valid()) {
-
-            if (helper.isEmptyInput(this.props.link.link_icon_url)) {
-                helper.showTypeNotification('Vui lòng chọn ảnh icon', 'warning');
-                return false;
-            }
-
-            return true;
-        }
+        // if ($('#form-edit-link').valid()) {
+        //
+        //     if (helper.isEmptyInput(this.props.link.link_icon_url)) {
+        //         helper.showTypeNotification('Vui lòng chọn ảnh icon', 'warning');
+        //         return false;
+        //     }
+        //
+        //     return true;
+        // }
         return false;
     }
 
@@ -192,12 +192,11 @@ class coursesCreateEditDocuments extends React.Component {
                     />
                 </div>
 
-                <div className="table-sticky-head table-split" radius="five">
+                {this.props.data.links && this.props.data.links.length > 0 && <div className="table-sticky-head table-split" radius="five">
 
                     <table className="table" cellSpacing="0">
                         <thead>
                         <tr>
-                            <th/>
                             <th>Tên tài liệu</th>
                             <th>Mô tả</th>
                             <th>URL</th>
@@ -205,22 +204,14 @@ class coursesCreateEditDocuments extends React.Component {
                         </tr>
                         </thead>
                         <tbody>
-                        {this.props.data.links && this.props.data.links.length > 0 ? this.props.data.links.map((link) => {
+                        { this.props.data.links.map((link) => {
                             return (
                                 <tr key={link.id}>
-                                    <td style={{width:40}}>
-                                        <button className="btn btn-round btn-fab btn-fab-mini text-white"
-                                                data-toggle="tooltip" title="" type="button" rel="tooltip"
-                                                data-placement="right"
-                                                data-original-title={link.link_icon_url}>
-                                            <img src={link.link_icon_url} alt=""/>
-                                        </button>
-                                    </td>
                                     <td><strong>{link.link_name}</strong></td>
+                                    <td>{link.link_description}</td>
                                     <td>
                                         <a href={validateLink(link.link_url)} target="_blank">
                                             <p style={{
-                                                maxWidth: "100px",
                                                 wordWrap: 'break-word',
                                                 whiteSpace: 'initial',
                                                 color: '#47B0E1'
@@ -229,7 +220,6 @@ class coursesCreateEditDocuments extends React.Component {
                                             </p>
                                         </a>
                                     </td>
-                                    <td>{link.link_description}</td>
                                     <td style={{width: 50}}>
 
                                         <div style={{position: "relative"}}
@@ -268,10 +258,12 @@ class coursesCreateEditDocuments extends React.Component {
                                 </tr>
                             );
 
-                        }) : <EmptyData/>}
+                        })}
                         </tbody>
                     </table>
-                </div>
+
+                </div>}
+                {!(this.props.data.links && this.props.data.links.length > 0) && <EmptyData/>}
                 <Modal show={this.state.openModal} onHide={this.closeModal}>
                     <Modal.Header closeButton>
                         <Modal.Title>Chỉnh sửa link</Modal.Title>
@@ -281,47 +273,47 @@ class coursesCreateEditDocuments extends React.Component {
                             e.preventDefault();
                         }}>
                             <div className="row">
-                                <div className="col-md-12">
-                                    <img
-                                        width={"100%"}
-                                        src={
-                                            helper.isEmptyInput(this.props.link.link_icon_url)
-                                                ?
-                                                NO_IMAGE
-                                                :
-                                                this.props.link.link_icon_url}
-                                    />
-                                </div>
-                                <div className="col-md-12">
-                                    {this.props.isUploadingLinkIcon ?
-                                        (
-                                            <button className="btn btn-rose btn-round disabled" type="button">
-                                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
-                                            </button>
-                                        )
-                                        :
-                                        (
-                                            <button className="btn btn-fill btn-rose" type="button">
-                                                Chọn ảnh icon
-                                                <input type="file"
-                                                       accept=".jpg,.png,.gif"
-                                                       onChange={this.uploadLinkIcon}
-                                                       style={{
-                                                           cursor: 'pointer',
-                                                           opacity: "0.0",
-                                                           position: "absolute",
-                                                           top: 0,
-                                                           left: 0,
-                                                           bottom: 0,
-                                                           right: 0,
-                                                           width: "100%",
-                                                           height: "100%"
-                                                       }}
-                                                />
-                                            </button>
-                                        )
-                                    }
-                                </div>
+                                {/*<div className="col-md-12">*/}
+                                {/*    <img*/}
+                                {/*        width={"100%"}*/}
+                                {/*        src={*/}
+                                {/*            helper.isEmptyInput(this.props.link.link_icon_url)*/}
+                                {/*                ?*/}
+                                {/*                NO_IMAGE*/}
+                                {/*                :*/}
+                                {/*                this.props.link.link_icon_url}*/}
+                                {/*    />*/}
+                                {/*</div>*/}
+                                {/*<div className="col-md-12">*/}
+                                {/*    {this.props.isUploadingLinkIcon ?*/}
+                                {/*        (*/}
+                                {/*            <button className="btn btn-rose btn-round disabled" type="button">*/}
+                                {/*                <i className="fa fa-spinner fa-spin"/> Đang tải lên*/}
+                                {/*            </button>*/}
+                                {/*        )*/}
+                                {/*        :*/}
+                                {/*        (*/}
+                                {/*            <button className="btn btn-fill btn-rose" type="button">*/}
+                                {/*                Chọn ảnh icon*/}
+                                {/*                <input type="file"*/}
+                                {/*                       accept=".jpg,.png,.gif"*/}
+                                {/*                       onChange={this.uploadLinkIcon}*/}
+                                {/*                       style={{*/}
+                                {/*                           cursor: 'pointer',*/}
+                                {/*                           opacity: "0.0",*/}
+                                {/*                           position: "absolute",*/}
+                                {/*                           top: 0,*/}
+                                {/*                           left: 0,*/}
+                                {/*                           bottom: 0,*/}
+                                {/*                           right: 0,*/}
+                                {/*                           width: "100%",*/}
+                                {/*                           height: "100%"*/}
+                                {/*                       }}*/}
+                                {/*                />*/}
+                                {/*            </button>*/}
+                                {/*        )*/}
+                                {/*    }*/}
+                                {/*</div>*/}
                                 <div className="col-md-12">
                                     <FormInputText
                                         label="Tên link"

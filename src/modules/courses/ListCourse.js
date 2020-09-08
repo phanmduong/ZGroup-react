@@ -91,6 +91,7 @@ class ListCourse extends React.Component {
         showOverlay[key] = true;
         this.setState({showOverlay});
     };
+
     closeOverlay = (key) => {
         let showOverlay = this.state.showOverlay;
         showOverlay[key] = false;

@@ -7,7 +7,6 @@ import {bindActionCreators} from "redux";
 import FormInputText from "../../../components/common/FormInputText";
 import * as helper from "../../../helpers/helper";
 import * as coursesActions from '../coursesActions';
-import ImageUploader from "../../../components/common/ImageUploader";
 
 // import TooltipButton from "../../../components/common/TooltipButton";
 
@@ -130,40 +129,40 @@ class CreateDocumentOverlay extends React.Component {
                                     value={document.link_description}
                                 />
                             </div>
-                            <div className="panel panel-default">
-                                <div className="panel-heading" role="tab"
-                                     id="headingTwo">
-                                    <a className="collapsed" role="button"
-                                       data-toggle="collapse"
-                                       data-parent="#accordion"
-                                       href="#collapseTwo" aria-expanded="false"
-                                       aria-controls="collapseTwo">
-                                        <h4 className="panel-title">
-                                            Mở rộng
-                                            <i className="material-icons">arrow_drop_down</i>
-                                        </h4>
-                                    </a>
-                                </div>
-                                <div id="collapseTwo"
-                                     className="panel-collapse collapse"
-                                     role="tabpanel"
-                                     aria-labelledby="headingTwo"
-                                     aria-expanded="false"
-                                     style={{height: '0px'}}>
-                                    <div className="panel-body">
+                            {/*<div className="panel panel-default">*/}
+                            {/*    <div className="panel-heading" role="tab"*/}
+                            {/*         id="headingTwo">*/}
+                            {/*        <a className="collapsed" role="button"*/}
+                            {/*           data-toggle="collapse"*/}
+                            {/*           data-parent="#accordion"*/}
+                            {/*           href="#collapseTwo" aria-expanded="false"*/}
+                            {/*           aria-controls="collapseTwo">*/}
+                            {/*            <h4 className="panel-title">*/}
+                            {/*                Mở rộng*/}
+                            {/*                <i className="material-icons">arrow_drop_down</i>*/}
+                            {/*            </h4>*/}
+                            {/*        </a>*/}
+                            {/*    </div>*/}
+                            {/*    <div id="collapseTwo"*/}
+                            {/*         className="panel-collapse collapse"*/}
+                            {/*         role="tabpanel"*/}
+                            {/*         aria-labelledby="headingTwo"*/}
+                            {/*         aria-expanded="false"*/}
+                            {/*         style={{height: '0px'}}>*/}
+                            {/*        <div className="panel-body">*/}
 
-                                        <div>
-                                            <label>Ảnh icon</label>
-                                            <ImageUploader
-                                                handleFileUpload={this.uploadIcon}
-                                                tooltipText="Chọn ảnh icon"
-                                                image_url={document.link_icon_url}
-                                                image_size={2}
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {/*            <div>*/}
+                            {/*                <label>Ảnh icon</label>*/}
+                            {/*                <ImageUploader*/}
+                            {/*                    handleFileUpload={this.uploadIcon}*/}
+                            {/*                    tooltipText="Chọn ảnh icon"*/}
+                            {/*                    image_url={document.link_icon_url}*/}
+                            {/*                    image_size={2}*/}
+                            {/*                />*/}
+                            {/*            </div>*/}
+                            {/*        </div>*/}
+                            {/*    </div>*/}
+                            {/*</div>*/}
                         </form>
 
                         }

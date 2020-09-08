@@ -311,7 +311,7 @@ class RegisterListContainer extends React.Component {
                     })}
                 </ul>
                 <div className="flex flex-space-between">
-                    <div className="flex flex-wrap tool-bar-register">
+                    <div className="flex flex-wrap tool-bar-actions">
                         <CreateRegisterOverlay
                             onSuccess={() => {
                                 store.loadRegisters();

@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import * as coursesActions from '../coursesActions';
 import * as helper from '../../../helpers/helper';
 import {NO_IMAGE} from "../../../constants/env";
-import {Modal,Overlay} from 'react-bootstrap';
+import {Modal, Overlay} from 'react-bootstrap';
 import FormInputText from '../../../components/common/FormInputText';
 import CreateCurriculumOverlay from "../overlays/CreateLessonOverlay";
 import CreateMultiLessonOverlay from "../overlays/CreateMultiLessonOverlay";
@@ -199,15 +199,18 @@ class coursesCreateEditCurriculum extends React.Component {
         showOverlay[key] = false;
         this.setState({showOverlay});
     };
+
     render() {
         return (
             <div>
                 <div className="flex flex-wrap" style={{marginTop: 10}}>
 
-                    <CreateCurriculumOverlay children={<div className="margin-right-10 button-green" style={{padding:'12px 15px'}}>
-                        <span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm buổi học
-                    </div>}/>
-                    <CreateMultiLessonOverlay children={<div className="none-margin button-green btn btn-white radius-5" style={{padding:'12px 15px'}}>
+                    <CreateCurriculumOverlay
+                        children={<div className="margin-right-10 button-green" style={{padding: '12px 15px'}}>
+                            <span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm buổi học
+                        </div>}/>
+                    <CreateMultiLessonOverlay children={<div className="none-margin button-green btn btn-white radius-5"
+                                                             style={{padding: '12px 15px'}}>
                         <span className="material-icons">layers</span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm nhiều buổi học
                     </div>} className="btn btn-silver"/>
                     {/*<CreateTermOverlay className="btn btn-silver"/>*/}
@@ -370,15 +373,12 @@ class coursesCreateEditCurriculum extends React.Component {
                 {/*</div>*/}
                 <div className="table-sticky-head table-split" radius="five">
 
-                    <table id="datatables"
-                           className="table white-table table-no-bordered table-hover"
-                           cellSpacing="0" width="100%" style={{width: "100%"}}>
+                    <table className="table" cellSpacing="0">
                         <thead>
                         <tr>
-                            <th/>
+                            <th>STT</th>
                             <th>Sự kiện</th>
-                            <th>Thứ tự</th>
-                            <th>Tên buổi học</th>
+                            <th>Tên buổi học và mô tả</th>
                             <th>Học phần</th>
                             <th/>
                         </tr>
@@ -386,143 +386,146 @@ class coursesCreateEditCurriculum extends React.Component {
                         <tbody>
                         {this.props.data.lessons && this.props.data.lessons.length > 0 ?
                             this.props.data.lessons.map((lesson, index) => {
+                                let urlEditLesson = "/teaching/courses/lessons/edit/" + this.props.data.id + "/" + lesson.id;
+                                return (
+                                    <tr key={lesson.id}>
+                                        <td><strong className="cursor-pointer" onClick={()=> window.open(urlEditLesson)}>{lesson.order}</strong></td>
+                                        <td>
+                                            <div className="flex flex-align-items-center">
+                                                {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
+                                                    let de = LESSON_EVENT_TYPES_OBJECT[entry[0]];
+                                                    let lesson_event = lesson.events.filter(e => e.event_type == de.type)[0];
+                                                    return (<TooltipButton text={de.name} placement="top">
+                                                        <div className="icon8 icon8-wrap cursor-pointer margin-right-5"
+                                                             mask={lesson_event ? 'on' : 'off'}
+                                                             icon={de.type}
+                                                             onClick={() => this.createLessonEvent(lesson.id, de.type)}
+                                                        >
+                                                            <div className="icon"/>
+                                                        </div>
+                                                    </TooltipButton>);
+                                                })}
 
-                            return (
-                                <tr key={lesson.id}>
-                                    <td/>
-                                    <td>
-                                        <div className="flex flex-align-items-center">
-                                            {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
-                                                let de = LESSON_EVENT_TYPES_OBJECT[entry[0]];
-                                                let lesson_event = lesson.events.filter(e => e.event_type == de.type)[0];
-                                                return (<TooltipButton text={de.name} placement="top">
-                                                    <div className="icon8 icon8-wrap cursor-pointer margin-right-5"
-                                                         mask={lesson_event ? 'on' : 'off'}
-                                                         icon={de.type}
-                                                         onClick={() => this.createLessonEvent(lesson.id, de.type)}
-                                                    >
-                                                        <div className="icon"/>
-                                                    </div>
-                                                </TooltipButton>);
-                                            })}
-
-                                        </div>
-                                    </td>
-                                    <td><strong>Buổi {lesson.order}</strong></td>
-                                    {/*<td data-toggle="tooltip"*/}
-                                    {/*data-original-title={lesson.description}*/}
-                                    {/*>{helper.shortenStr(lesson.description,25)}</td>*/}
-                                    <td style={{
-                                        wordWrap: "break-word",
-                                        whiteSpace: "initial",
-                                    }}>{lesson.description}
-                                    </td>
-                                    <td>
-                                        <TermOverlay
-                                            className="btn status-overlay btn-xs "
-                                            terms={this.props.data.terms}
-                                            selectedTermId={lesson.term_id}
-                                            updateTerm={this.updateTerms}
-                                            courseId={this.props.data.id}
-                                            onChange={(term) => this.selectedTerm(lesson, term)}
-                                            style={{minWidth: '100%'}}
-                                        />
-                                        {/*<ReactSelect*/}
-                                        {/*    options={this.getSelectTerm(this.props.data)}*/}
-                                        {/*    onChange={(e) => this.selectedTerm(lesson, e)}*/}
-                                        {/*    value={lesson.term_id}*/}
-                                        {/*    placeholder="Chọn học phần"*/}
-                                        {/*/>*/}
-                                        {/*{(*/}
-                                        {/*    (<select className="form-control" value={lesson.term_id}*/}
-                                        {/*             onChange={(event) => {*/}
-                                        {/*                 this.props.coursesActions.changeTermLesson(lesson.id, event.target.value);*/}
-                                        {/*             }}*/}
-                                        {/*    >*/}
-                                        {/*        <option*/}
-                                        {/*            value={null}*/}
-                                        {/*        />*/}
-
-
-                                        {/*        {this.props.data.terms.map((term, key) => {*/}
-                                        {/*            return (*/}
-                                        {/*                <option*/}
-                                        {/*                    key={key}*/}
-                                        {/*                    value={term.id}*/}
-                                        {/*                >*/}
-                                        {/*                    {term.name}*/}
-                                        {/*                </option>);*/}
-                                        {/*        })}*/}
-                                        {/*    </select>))*/}
-                                        {/*}*/}
-                                    </td>
-                                    <td>
-                                        <div style={{position: "relative"}}
-                                             className="cursor-pointer" mask="table-btn-action">
-                                            <div ref={'target' + index} onClick={() => this.toggleOverlay(index)}
-                                                 className="flex flex-justify-content-center cursor-pointer">
-                                                <i className="material-icons">more_horiz</i>
                                             </div>
-                                            <Overlay
-                                                rootClose={true}
-                                                show={this.state.showOverlay[index]}
-                                                onHide={() => this.closeOverlay(index)}
-                                                placement="bottom"
-                                                container={() => ReactDOM.findDOMNode(this.refs['target' + index]).parentElement}
-                                                target={() => ReactDOM.findDOMNode(this.refs['target' + index])}>
-                                                <div className="kt-overlay overlay-container"
-                                                     mask="table-btn-action" style={{
-                                                    width: 150,
-                                                    marginTop: 10,
-                                                    left: -115,
-                                                }} onClick={() => this.closeOverlay(index)}>
-                                                    <button type="button"
-                                                            className="btn btn-white width-100"
-                                                            onClick={() => {
-                                                                window.open("/teaching/courses/lessons/edit/" + this.props.data.id + "/" + lesson.id);
-                                                            }}>
-                                                        Sửa thông tin
-                                                    </button>
-                                                    {!this.props.isDuplicating && <button type="button"
-                                                                                          className="btn btn-white width-100"
-                                                                                          onClick={() => this.duplicateLesson(lesson)}>
-                                                        Nhân đôi
-                                                    </button>}
+                                        </td>
 
-                                                    <button type="button"
-                                                            className="btn btn-white width-100"
-                                                            onClick={() => this.deleteLesson(lesson.id)}>
-                                                        Xóa
-                                                    </button>
+                                        {/*<td data-toggle="tooltip"*/}
+                                        {/*data-original-title={lesson.description}*/}
+                                        {/*>{helper.shortenStr(lesson.description,25)}</td>*/}
+                                        <td style={{
+                                            wordWrap: "break-word",
+                                            whiteSpace: "initial",
+                                        }}>
+                                            <b  className="cursor-pointer" onClick={()=> window.open(urlEditLesson)}>{lesson.name}</b>
+                                            <div>{lesson.description}</div>
+                                        </td>
+                                        <td>
+                                            <TermOverlay
+                                                className="btn status-overlay btn-xs"
+                                                terms={this.props.data.terms}
+                                                selectedTermId={lesson.term_id}
+                                                updateTerm={this.updateTerms}
+                                                courseId={this.props.data.id}
+                                                onChange={(term) => this.selectedTerm(lesson, term)}
+                                                style={{minWidth: '100%'}}
+                                                styleOverlay={{marginLeft: -130}}
+                                            />
+                                            {/*<ReactSelect*/}
+                                            {/*    options={this.getSelectTerm(this.props.data)}*/}
+                                            {/*    onChange={(e) => this.selectedTerm(lesson, e)}*/}
+                                            {/*    value={lesson.term_id}*/}
+                                            {/*    placeholder="Chọn học phần"*/}
+                                            {/*/>*/}
+                                            {/*{(*/}
+                                            {/*    (<select className="form-control" value={lesson.term_id}*/}
+                                            {/*             onChange={(event) => {*/}
+                                            {/*                 this.props.coursesActions.changeTermLesson(lesson.id, event.target.value);*/}
+                                            {/*             }}*/}
+                                            {/*    >*/}
+                                            {/*        <option*/}
+                                            {/*            value={null}*/}
+                                            {/*        />*/}
+
+
+                                            {/*        {this.props.data.terms.map((term, key) => {*/}
+                                            {/*            return (*/}
+                                            {/*                <option*/}
+                                            {/*                    key={key}*/}
+                                            {/*                    value={term.id}*/}
+                                            {/*                >*/}
+                                            {/*                    {term.name}*/}
+                                            {/*                </option>);*/}
+                                            {/*        })}*/}
+                                            {/*    </select>))*/}
+                                            {/*}*/}
+                                        </td>
+                                        <td>
+                                            <div style={{position: "relative"}}
+                                                 className="cursor-pointer" mask="table-btn-action">
+                                                <div ref={'target' + index} onClick={() => this.toggleOverlay(index)}
+                                                     className="flex flex-justify-content-center cursor-pointer">
+                                                    <i className="material-icons">more_horiz</i>
                                                 </div>
-                                            </Overlay>
-                                        </div>
-                                        {/*<ButtonGroupAction*/}
-                                        {/*    editUrl={"/teaching/courses/lessons/edit/" + this.props.data.id + "/" + lesson.id}*/}
-                                        {/*    delete={() => {*/}
-                                        {/*        return this.deleteLesson(lesson.id);*/}
-                                        {/*    }}*/}
-                                        {/*    object={lesson}*/}
-                                        {/*>*/}
-                                        {/*    {*/}
-                                        {/*        !this.props.isDuplicating &&*/}
-                                        {/*        <a data-toggle="tooltip" title="Duplicate"*/}
-                                        {/*           type="button"*/}
-                                        {/*           onClick={() => {*/}
-                                        {/*               return this.duplicateLesson(lesson);*/}
-                                        {/*           }}*/}
-                                        {/*           rel="tooltip"*/}
-                                        {/*        >*/}
-                                        {/*            <i className="material-icons">control_point_duplicate</i>*/}
-                                        {/*        </a>*/}
-                                        {/*    }*/}
+                                                <Overlay
+                                                    rootClose={true}
+                                                    show={this.state.showOverlay[index]}
+                                                    onHide={() => this.closeOverlay(index)}
+                                                    placement="bottom"
+                                                    container={() => ReactDOM.findDOMNode(this.refs['target' + index]).parentElement}
+                                                    target={() => ReactDOM.findDOMNode(this.refs['target' + index])}>
+                                                    <div className="kt-overlay overlay-container"
+                                                         mask="table-btn-action" style={{
+                                                        width: 150,
+                                                        marginTop: 10,
+                                                        left: -115,
+                                                    }} onClick={() => this.closeOverlay(index)}>
+                                                        <button type="button"
+                                                                className="btn btn-white width-100"
+                                                                onClick={() => {
+                                                                    window.open(urlEditLesson);
+                                                                }}>
+                                                            Sửa thông tin
+                                                        </button>
+                                                        {!this.props.isDuplicating && <button type="button"
+                                                                                              className="btn btn-white width-100"
+                                                                                              onClick={() => this.duplicateLesson(lesson)}>
+                                                            Nhân đôi
+                                                        </button>}
 
-                                        {/*</ButtonGroupAction>*/}
-                                    </td>
-                                </tr>
-                            );
+                                                        <button type="button"
+                                                                className="btn btn-white width-100"
+                                                                onClick={() => this.deleteLesson(lesson.id)}>
+                                                            Xóa
+                                                        </button>
+                                                    </div>
+                                                </Overlay>
+                                            </div>
+                                            {/*<ButtonGroupAction*/}
+                                            {/*    editUrl={urlEditLesson}*/}
+                                            {/*    delete={() => {*/}
+                                            {/*        return this.deleteLesson(lesson.id);*/}
+                                            {/*    }}*/}
+                                            {/*    object={lesson}*/}
+                                            {/*>*/}
+                                            {/*    {*/}
+                                            {/*        !this.props.isDuplicating &&*/}
+                                            {/*        <a data-toggle="tooltip" title="Duplicate"*/}
+                                            {/*           type="button"*/}
+                                            {/*           onClick={() => {*/}
+                                            {/*               return this.duplicateLesson(lesson);*/}
+                                            {/*           }}*/}
+                                            {/*           rel="tooltip"*/}
+                                            {/*        >*/}
+                                            {/*            <i className="material-icons">control_point_duplicate</i>*/}
+                                            {/*        </a>*/}
+                                            {/*    }*/}
 
-                        }) : <EmptyData/>
+                                            {/*</ButtonGroupAction>*/}
+                                        </td>
+                                    </tr>
+                                );
+
+                            }) : <EmptyData/>
 
                         }
                         </tbody>

@@ -45,6 +45,7 @@ class Star extends React.Component {
     }
 
     clickStar(value) {
+        if (this.props.disable) return;
         this.setState({
             stars: this.renderStars(value)
         });
@@ -55,19 +56,13 @@ class Star extends React.Component {
         return (
             <div className="star-wrapper">
                 <div className={this.props.disable ? "rating rating-disable" : "rating rating-enable"}>
-
-                    {
-                        this.state.stars.map((star, index) => {
+                    {this.state.stars.map((star, index) => {
                             return (
                                 <a
                                     key={index}
-                                    className={star.className} onClick={() => {
-                                    if (this.props.disable) return;
-                                    this.clickStar(star.value);
-                                }}>★</a>
+                                    className={star.className} onClick={() => this.clickStar(star.value)}>★</a>
                             );
-                        }).reverse()
-                    }
+                        }).reverse()}
                 </div>
             </div>
         );
