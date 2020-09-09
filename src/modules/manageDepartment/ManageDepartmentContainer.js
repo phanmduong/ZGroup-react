@@ -85,33 +85,38 @@ class ManageDepartmentContainer extends React.Component {
             <div>
 
                 <HRTab path="manage-department"/>
+                <div className="flex flex-space-between">
+                    <div className="flex  flex-wrap tool-bar-actions width-100">
 
-                <div className="card" mask="purple">
-                    <img className="img-absolute"/>
-                    <div className="card-content">
-                        <div className="flex-row flex">
-                            <h5 className="card-title">
-                                <strong>Danh sách bộ phận</strong>
-                            </h5>
-                        </div>
-                        {/*<Search*/}
-                        {/*    onChange={() => {*/}
-                        {/*    }}*/}
-                        {/*    value={''}*/}
-                        {/*    */}
-                        {/*    placeholder="Tìm kiếm bộ phận"*/}
-                        {/*/>*/}
-                        <br/><br/>
-                        <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
 
-                            {this.props.user.role == 2 && <button
-                                className="btn btn-white btn-round margin-right-10"
-                                onClick={this.openModalAddDepartment}
-                            >Thêm bộ phận
-                            </button>}
-                        </div>
+                        <button
+                            className="btn button-green btn-icon margin-right-10"
+                            onClick={this.openModalAddDepartment}
+                            style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}
+                        ><i className="material-icons">add_circle</i>&nbsp;&nbsp;&nbsp;&nbsp;Thêm bộ phận
+                        </button>
+
                     </div>
                 </div>
+                {/*<div className="card" mask="purple">*/}
+                {/*    <img className="img-absolute"/>*/}
+                {/*    <div className="card-content">*/}
+                {/*        <div className="flex-row flex">*/}
+                {/*            <h5 className="card-title">*/}
+                {/*                <strong>Danh sách bộ phận</strong>*/}
+                {/*            </h5>*/}
+                {/*        </div>*/}
+                {/*        <br/><br/>*/}
+                {/*        <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>*/}
+
+                {/*            {this.props.user.role == 2 && <button*/}
+                {/*                className="btn btn-white btn-round margin-right-10"*/}
+                {/*                onClick={this.openModalAddDepartment}*/}
+                {/*            >Thêm bộ phận*/}
+                {/*            </button>}*/}
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
 
                 <ListDepartments
                     isLoading={this.props.isLoading}

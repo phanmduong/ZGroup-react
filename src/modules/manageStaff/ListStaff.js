@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import ButtonGroupAction from '../../components/common/ButtonGroupAction';
 import * as helper from '../../helpers/helper';
 import {NO_AVATAR} from '../../constants/env';
 import TooltipButton from "../../components/common/TooltipButton";
 import * as globalModalActions from "../globalModal/globalModalActions";
+import {Overlay} from "react-bootstrap";
+import * as ReactDOM from "react-dom";
 
 class ListStaff extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.state = {
+            showOverlay: [],
+        };
     }
 
     openModalStaffDetail = (staffId) => {
@@ -16,24 +20,36 @@ class ListStaff extends React.Component {
     }
 
 
+    toggleOverlay = (key) => {
+        let showOverlay = [...this.props.staffs].map(() => false);
+        showOverlay[key] = true;
+        this.setState({showOverlay});
+    };
+    closeOverlay = (key) => {
+        let showOverlay = this.state.showOverlay;
+        showOverlay[key] = false;
+        this.setState({showOverlay});
+    };
+
     render() {
         let {staffs, roles, bases, departments} = this.props;
         return (
             <div className="col-md-12">
-                <div className="table-responsive table-split">
+                <div className="table-sticky-head table-split" radius="five">
                     <table className="table">
-                        {/*<thead className="text-rose">*/}
-                        {/*	<tr>*/}
-                        {/*		<th />*/}
-                        {/*		<th>Họ tên</th>*/}
-                        {/*		<th>Email</th>*/}
-                        {/*		<th>Phone</th>*/}
-                        {/*		<th>Cơ sở</th>*/}
-                        {/*		<th>Chức vụ</th>*/}
-                        {/*		<th>Bộ phận</th>*/}
-                        {/*		{!this.props.disableActions && <th />}*/}
-                        {/*	</tr>*/}
-                        {/*</thead>*/}
+                        <thead>
+                        <tr>
+                            <th/>
+                            <th/>
+                            <th>Họ tên</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Cơ sở</th>
+                            <th>Chức vụ</th>
+                            <th>Phòng ban</th>
+                            {!this.props.disableActions && <th/>}
+                        </tr>
+                        </thead>
                         <tbody>
                         {staffs.map((staff, index) => {
                             let avatar = helper.avatarEmpty(staff.avatar_url)
@@ -78,7 +94,8 @@ class ListStaff extends React.Component {
                                         bases.length > 0 && (
                                             <select
                                                 disabled={this.props.disableActions}
-                                                className="form-control padding-right-30 min-width-150-px"
+                                                className="form-control padding-right-30 min-width-150-px height-26px"
+                                                color="white"
                                                 value={staff.base_id}
                                                 onChange={(event) => {
                                                     this.props.changeBaseStaff(
@@ -105,7 +122,8 @@ class ListStaff extends React.Component {
                                         roles !== undefined && (
                                             <select
                                                 disabled={this.props.disableActions}
-                                                className="form-control"
+                                                className="form-control height-26px"
+                                                color="white"
                                                 value={staff.role_id}
                                                 placeholder="Chọn chức vụ"
                                                 onChange={(event) => {
@@ -135,7 +153,8 @@ class ListStaff extends React.Component {
                                         departments !== undefined && (
                                             <select
                                                 disabled={this.props.disableActions}
-                                                className="form-control"
+                                                className="form-control height-26px"
+                                                color="white"
                                                 placeholder="Chọn bộ phận"
                                                 value={staff.department_id}
                                                 onChange={(event) => {
@@ -160,11 +179,42 @@ class ListStaff extends React.Component {
 
                                     {!this.props.disableActions && (
                                         <td>
-                                            <ButtonGroupAction
-                                                delete={this.props.deleteStaff}
-                                                editUrl={`/hr/staff/${staff.id}?edit=true`}
-                                                object={staff}
-                                            />
+                                            <div style={{position: "relative"}}
+                                                 className="cursor-pointer" mask="table-btn-action">
+                                                <div ref={'target' + staff.id}
+                                                     onClick={() => this.toggleOverlay(staff.id)}
+                                                     className="flex flex-justify-content-center cursor-pointer">
+                                                    <i className="material-icons">more_horiz</i>
+                                                </div>
+                                                <Overlay
+                                                    rootClose={true}
+                                                    show={this.state.showOverlay[staff.id]}
+                                                    onHide={() => this.closeOverlay(staff.id)}
+                                                    placement="bottom"
+                                                    container={() => ReactDOM.findDOMNode(this.refs['target' + staff.id]).parentElement}
+                                                    target={() => ReactDOM.findDOMNode(this.refs['target' + staff.id])}>
+                                                    <div className="kt-overlay overlay-container"
+                                                         mask="table-btn-action" style={{
+                                                        width: 150,
+                                                        marginTop: 10,
+                                                        left: -115,
+                                                    }} onClick={() => this.closeOverlay(staff.id)}>
+                                                        <button type="button"
+                                                                className="btn btn-white width-100"
+                                                                onClick={() => {
+                                                                    window.open(`/hr/staff/${staff.id}?edit=true`);
+                                                                }}>
+                                                            Sửa thông tin
+                                                        </button>
+                                                        <button type="button"
+                                                                className="btn btn-white width-100"
+                                                                onClick={() => this.props.deleteStaff(staff)}>
+                                                            Xóa nhân viên
+                                                        </button>
+
+                                                    </div>
+                                                </Overlay>
+                                            </div>
                                         </td>
                                     )}
                                 </tr>

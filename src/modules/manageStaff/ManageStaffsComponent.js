@@ -104,7 +104,7 @@ class ManageStaffsComponent extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="row">
                 <Modal
                     show={this.state.showLoadingModal}
                     onHide={() => {
@@ -114,64 +114,106 @@ class ManageStaffsComponent extends React.Component {
                 </Modal>
                 <div className="col-lg-12">
                     <HRTab path="manage/quan-li-nhan-su"/>
-                </div>
-                <div className="col-lg-12">
-                    <div className="card" mask="purple">
-                        <img className="img-absolute"/>
-                        <div className="card-content">
-                            <div className="tab-content">
-                                <div style={{display: "flex", flexDirection: 'row', justifyContent: 'space-between'}}>
-                                    <div className="flex-row flex">
-                                        <h5 className="card-title">
-                                            <strong>Danh sách nhân viên</strong>
-                                        </h5>
-                                    </div>
+                    <div className="flex flex-space-between">
+                        <div className="flex  flex-wrap tool-bar-actions width-100">
+                            {this.props.user.role == 2 && <div className="dropdown">
+                                <TooltipButton text="Thêm nhân viên" placement="top">
+                                    <button className="btn button-green btn-icon margin-right-10"
+                                            style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}
+                                            type="button" data-toggle="dropdown">
+                                        <i className="material-icons">add_circle</i>&nbsp;&nbsp;&nbsp;&nbsp;Thêm nhân viên
+                                    </button>
+                                </TooltipButton>
+                                <ul className="dropdown-menu dropdown-primary">
+                                    <li>
+                                        {/*<Link to="/hr/add-staff">Tạo nhân viên</Link>*/}
+                                        <a onClick={this.showModalAddStaff}>
+                                            Tạo nhân viên
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a onClick={() => this.openModalAddUserToStaff()}>Thêm từ người
+                                            dùng</a>
+                                    </li>
+                                </ul>
+                            </div>}
+                            <Search
+                                onChange={this.props.staffsSearchChange}
+                                value={this.props.search}
+                                placeholder="Tìm kiếm nhân viên"
+                                className="white-seacrh margin-right-10 min-width-200-px form-group-none-padding"
+                                onSearch={this.props.onSearchStaffs}
 
-                                </div>
-                                <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
-
-                                    <Search
-                                        onChange={this.props.staffsSearchChange}
-                                        value={this.props.search}
-                                        placeholder="Tìm kiếm nhân viên"
-                                        className="round-white-seacrh"
-                                        onSearch={this.props.onSearchStaffs}
-
-                                    />
-                                    {this.props.user.role == 2 && <div className="dropdown">
-                                        <TooltipButton text="Thêm nhân viên" placement="top">
-                                            <button className="btn btn-white btn-round margin-right-10"
-                                                    type="button" data-toggle="dropdown">
-                                                Thêm nhân viên
-                                            </button>
-                                        </TooltipButton>
-                                        <ul className="dropdown-menu dropdown-primary">
-                                            <li>
-                                                {/*<Link to="/hr/add-staff">Tạo nhân viên</Link>*/}
-                                                <a onClick={this.showModalAddStaff}>
-                                                    Tạo nhân viên
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a onClick={() => this.openModalAddUserToStaff()}>Thêm từ người
-                                                    dùng</a>
-                                            </li>
-                                        </ul>
-                                    </div>}
-                                    <TooltipButton text="Xuất thành file excel" placement="top">
-                                        <button
-                                            className="btn btn-white btn-round margin-right-10"
-                                            onClick={this.openLoadingModal}
-                                        ><i className="material-icons"
-                                            style={{height: 5, width: 5, marginLeft: -11, marginTop: -10}}
-                                        >file_download</i>
-                                        </button>
-                                    </TooltipButton>
-                                </div>
-
-                            </div>
+                            />
+                            <TooltipButton text="Xuất thành file excel" placement="top">
+                                <button
+                                    className="btn btn-white btn-icon"
+                                    style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}
+                                    onClick={this.openLoadingModal}
+                                ><span className="material-icons">get_app</span>&nbsp;&nbsp;&nbsp;&nbsp;Tải xuống
+                                </button>
+                            </TooltipButton>
                         </div>
                     </div>
+                </div>
+
+                <div className="col-lg-12">
+                    {/*<div className="card" mask="purple">*/}
+                    {/*    <img className="img-absolute"/>*/}
+                    {/*    <div className="card-content">*/}
+                    {/*        <div className="tab-content">*/}
+                    {/*            <div style={{display: "flex", flexDirection: 'row', justifyContent: 'space-between'}}>*/}
+                    {/*                <div className="flex-row flex">*/}
+                    {/*                    <h5 className="card-title">*/}
+                    {/*                        <strong>Danh sách nhân viên</strong>*/}
+                    {/*                    </h5>*/}
+                    {/*                </div>*/}
+
+                    {/*            </div>*/}
+                    {/*            <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>*/}
+
+                    {/*                <Search*/}
+                    {/*                    onChange={this.props.staffsSearchChange}*/}
+                    {/*                    value={this.props.search}*/}
+                    {/*                    placeholder="Tìm kiếm nhân viên"*/}
+                    {/*                    className="round-white-seacrh"*/}
+                    {/*                    onSearch={this.props.onSearchStaffs}*/}
+
+                    {/*                />*/}
+                    {/*                {this.props.user.role == 2 && <div className="dropdown">*/}
+                    {/*                    <TooltipButton text="Thêm nhân viên" placement="top">*/}
+                    {/*                        <button className="btn btn-white btn-round margin-right-10"*/}
+                    {/*                                type="button" data-toggle="dropdown">*/}
+                    {/*                            Thêm nhân viên*/}
+                    {/*                        </button>*/}
+                    {/*                    </TooltipButton>*/}
+                    {/*                    <ul className="dropdown-menu dropdown-primary">*/}
+                    {/*                        <li>*/}
+                    {/*                            /!*<Link to="/hr/add-staff">Tạo nhân viên</Link>*!/*/}
+                    {/*                            <a onClick={this.showModalAddStaff}>*/}
+                    {/*                                Tạo nhân viên*/}
+                    {/*                            </a>*/}
+                    {/*                        </li>*/}
+                    {/*                        <li>*/}
+                    {/*                            <a onClick={() => this.openModalAddUserToStaff()}>Thêm từ người*/}
+                    {/*                                dùng</a>*/}
+                    {/*                        </li>*/}
+                    {/*                    </ul>*/}
+                    {/*                </div>}*/}
+                    {/*                <TooltipButton text="Xuất thành file excel" placement="top">*/}
+                    {/*                    <button*/}
+                    {/*                        className="btn btn-white btn-round margin-right-10"*/}
+                    {/*                        onClick={this.openLoadingModal}*/}
+                    {/*                    ><i className="material-icons"*/}
+                    {/*                        style={{height: 5, width: 5, marginLeft: -11, marginTop: -10}}*/}
+                    {/*                    >file_download</i>*/}
+                    {/*                    </button>*/}
+                    {/*                </TooltipButton>*/}
+                    {/*            </div>*/}
+
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*</div>*/}
                     <div className="row">
                         {this.props.isLoadingStaffs ?
                             <Loading/> : (

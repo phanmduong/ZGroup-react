@@ -98,8 +98,8 @@ class ListLead extends React.Component {
                             <tr>
                                 {this.props.isDistribution && <th/>}
                                 {/*<th/>*/}
-                                <th>Họ tên</th>
                                 <th>Sao</th>
+                                <th>Họ tên</th>
                                 <th>P.I.C</th>
                                 <th>Nguồn</th>
                                 <th>Chiến dịch</th>
@@ -148,6 +148,11 @@ class ListLead extends React.Component {
                                                 {/*    />*/}
                                                 {/*</td>*/}
                                                 <td>
+                                                    <div className="btn btn-xs btn-icon btn-warning">
+                                                        {lead.rate}&nbsp;<span className="material-icons">star</span>
+                                                    </div>
+                                                </td>
+                                                <td>
                                                     <div>
                                                         <div className="flex flex-align-items-center">
                                                             <a className="text-name-student-register"
@@ -167,11 +172,6 @@ class ListLead extends React.Component {
                                                         {/*<div>{lead.email}</div>*/}
                                                         <div>{lead.phone}</div>
                                                         {!isEmptyInput(lead.city) && <div>TP. {lead.city}</div>}
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div className="btn btn-xs btn-icon btn-warning">
-                                                        {lead.rate}&nbsp;<span className="material-icons">star</span>
                                                     </div>
                                                 </td>
                                                 <td>
