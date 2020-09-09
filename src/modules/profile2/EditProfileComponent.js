@@ -231,7 +231,7 @@ class EditProfileComponent extends React.Component {
                                 {/*    </select>*/}
                                 {/*</div>*/}
                                 {/*<div className="form-group">*/}
-                                {/*    <label>Bộ phận</label>*/}
+                                {/*    <label>Phòng ban</label>*/}
                                 {/*    <select*/}
                                 {/*        className="form-control"*/}
                                 {/*        value={department_id}*/}

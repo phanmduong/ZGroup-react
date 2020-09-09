@@ -299,7 +299,7 @@ class RegisterListContainer extends React.Component {
         let {filter, filter_data, isLoading, paginator} = store;
         console.log(filter);
         return (
-            <div className="container-fluid">
+            <div className="margin-top-10">
                 <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
                     {this.tabViews.map((tab, key) => {
                         let className = tab.value == store.filter.saler_id ? 'active' : '';

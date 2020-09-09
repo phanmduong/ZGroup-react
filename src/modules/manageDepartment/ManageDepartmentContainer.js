@@ -75,7 +75,7 @@ class ManageDepartmentContainer extends React.Component {
 
     //delete
     deleteDepartment(obj) {
-        helper.confirm('error', 'Xóa', "Bạn có muốn xóa bộ phận này không?", () => {
+        helper.confirm('error', 'Xóa', "Bạn có muốn xóa phòng ban này không?", () => {
             this.props.departmentActions.deleteDepartment(obj, this.props.departmentActions.loadDepartment);
         });
     }
@@ -93,7 +93,7 @@ class ManageDepartmentContainer extends React.Component {
                             className="btn button-green btn-icon margin-right-10"
                             onClick={this.openModalAddDepartment}
                             style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}
-                        ><i className="material-icons">add_circle</i>&nbsp;&nbsp;&nbsp;&nbsp;Thêm bộ phận
+                        ><i className="material-icons">add_circle</i>&nbsp;&nbsp;&nbsp;&nbsp;Thêm phòng ban
                         </button>
 
                     </div>
@@ -103,7 +103,7 @@ class ManageDepartmentContainer extends React.Component {
                 {/*    <div className="card-content">*/}
                 {/*        <div className="flex-row flex">*/}
                 {/*            <h5 className="card-title">*/}
-                {/*                <strong>Danh sách bộ phận</strong>*/}
+                {/*                <strong>Danh sách phòng ban</strong>*/}
                 {/*            </h5>*/}
                 {/*        </div>*/}
                 {/*        <br/><br/>*/}
@@ -112,7 +112,7 @@ class ManageDepartmentContainer extends React.Component {
                 {/*            {this.props.user.role == 2 && <button*/}
                 {/*                className="btn btn-white btn-round margin-right-10"*/}
                 {/*                onClick={this.openModalAddDepartment}*/}
-                {/*            >Thêm bộ phận*/}
+                {/*            >Thêm phòng ban*/}
                 {/*            </button>}*/}
                 {/*        </div>*/}
                 {/*    </div>*/}

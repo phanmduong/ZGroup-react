@@ -120,7 +120,13 @@ class MarketingCampaignOverlay extends React.Component {
             assignMarketingCampaign(this.props.student.id,  campaign.id)
                 .then(() => {
                     this.loadMarketingEmail();
-                    if(updateInfoStudent)updateInfoStudent({...student, campaign_id: campaign.id});
+                    if(updateInfoStudent){
+                        updateInfoStudent({...student, campaign_id: campaign.id});
+                        this.setState({
+                            show: false
+                        });
+                    }
+
                     this.setState({
                         isProcessing: false
                     });

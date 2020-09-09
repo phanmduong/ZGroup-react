@@ -20,6 +20,7 @@ import * as leadActions from "./leadActions";
 import {DATE_FORMAT_SQL, DATE_VN_FORMAT} from "../../constants/constants";
 import moment from "moment";
 import * as ReactDOM from "react-dom";
+import MarketingCampaignOverlay from "../infoStudent/overlays/MarketingCampaignOverlay";
 
 //import TooltipButton from "../../components/common/TooltipButton";
 const TAGS = [
@@ -148,7 +149,7 @@ class ListLead extends React.Component {
                                                 {/*    />*/}
                                                 {/*</td>*/}
                                                 <td>
-                                                    <div className="btn btn-xs btn-icon btn-warning">
+                                                    <div onClick={() => this.openEditModal(lead)} className="btn btn-xs btn-icon btn-warning">
                                                         {lead.rate}&nbsp;<span className="material-icons">star</span>
                                                     </div>
                                                 </td>
@@ -191,22 +192,23 @@ class ListLead extends React.Component {
                                                     />
                                                 </td>
                                                 <td>
-                                                    {lead.campaign ? (
-                                                        <button className="btn btn-xs bold none-margin width-100"
-                                                                style={{
-                                                                    backgroundColor: "#" + lead.campaign.color
-                                                                }}>
-                                                            {lead.campaign.name}
-                                                        </button>
-                                                    ) : (
-                                                        <button className="btn btn-xs bold none-margin width-100">
-                                                            No Campaign
-                                                        </button>
-                                                    )}
-                                                    {/*<MarketingCampaignOverlay*/}
-                                                    {/*    student={lead}*/}
-                                                    {/*    className="btn btn-xs source-value  btn-main width-100"*/}
-                                                    {/*/>*/}
+                                                    {/*{lead.campaign ? (*/}
+                                                    {/*    <button className="btn btn-xs bold none-margin width-100"*/}
+                                                    {/*            style={{*/}
+                                                    {/*                backgroundColor: "#" + lead.campaign.color*/}
+                                                    {/*            }}>*/}
+                                                    {/*        {lead.campaign.name}*/}
+                                                    {/*    </button>*/}
+                                                    {/*) : (*/}
+                                                    {/*    <button className="btn btn-xs bold none-margin width-100">*/}
+                                                    {/*        No Campaign*/}
+                                                    {/*    </button>*/}
+                                                    {/*)}*/}
+                                                    <MarketingCampaignOverlay
+                                                        student={lead}
+                                                        updateInfoStudent={this.props.leadActions.updateLeadInList}
+                                                        className="btn btn-xs source-value width-100"
+                                                    />
                                                     {/*{lead.campaign && <div className="btn btn-xs btn-main width-100">*/}
                                                     {/*    {lead.campaign}</div>}*/}
                                                     {/*{*/}
@@ -261,9 +263,9 @@ class ListLead extends React.Component {
                                                 {/*    </div>*/}
                                                 {/*</td>*/}
 
-                                                <td>
+                                                <td onClick={() => this.openEditModal(lead)}>
                                                     {!isEmptyInput(lead.note) &&
-                                                    <div className="">
+                                                    <div className="" >
                                                         {lead.note}
                                                     </div>
                                                     }
@@ -275,7 +277,7 @@ class ListLead extends React.Component {
                                                                 </div>);
                                                     })}
                                                 </td>
-                                                <td>{lead.interest}</td>
+                                                <td onClick={() => this.openEditModal(lead)}>{lead.interest}</td>
 
                                                 {
                                                     !this.props.showSelectedLead && <td>{lead.created_at}</td>

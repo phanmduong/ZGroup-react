@@ -12,7 +12,7 @@ class HRTab extends React.Component {
 
     render(){
         return(
-            <ul className="nav nav-pills nav-pills-dark margin-top-5" data-tabs="tabs">
+            <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
                 <li className={this.props.path == "manage/quan-li-nhan-su" ? "active nav-item" : "nav-item"}>
                     <Link to="hr/manage/quan-li-nhan-su"  style={{
                         ...navStyle

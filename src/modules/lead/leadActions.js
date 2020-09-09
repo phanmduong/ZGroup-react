@@ -104,6 +104,15 @@ export function changeLeadRate(lead) {
     };
 }
 
+export function updateLeadInList(lead){
+    return function (dispatch){
+      dispatch({
+          type: types.EDIT_INFO_LEAD_SUCCESS,
+          lead,
+      })  ;
+    };
+}
+
 export function removeLead(leadId, removeLeadSuccess) {
     showTypeNotification("Đang xóa lead", "info");
     leadApi.removeLead(leadId)

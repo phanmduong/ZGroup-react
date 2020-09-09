@@ -94,7 +94,7 @@ class ListStaff extends React.Component {
                                         bases.length > 0 && (
                                             <select
                                                 disabled={this.props.disableActions}
-                                                className="form-control padding-right-30 min-width-150-px height-26px"
+                                                className="form-control height-26px"
                                                 color="white"
                                                 value={staff.base_id}
                                                 onChange={(event) => {
@@ -155,7 +155,7 @@ class ListStaff extends React.Component {
                                                 disabled={this.props.disableActions}
                                                 className="form-control height-26px"
                                                 color="white"
-                                                placeholder="Chọn bộ phận"
+                                                placeholder="Chọn phòng ban"
                                                 value={staff.department_id}
                                                 onChange={(event) => {
                                                     this.props.changeDepartmentStaff(
@@ -163,7 +163,7 @@ class ListStaff extends React.Component {
                                                         event.target.value
                                                     );
                                                 }}>
-                                                <option disabled value="0" selected hidden>Chọn bộ phận</option>
+                                                <option disabled value="0" selected hidden>Chọn phòng ban</option>
 
                                                 {departments.map((department, key) => {
                                                     return (

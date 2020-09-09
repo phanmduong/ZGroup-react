@@ -33,7 +33,7 @@ class SummaryStaffbyDepartment extends React.Component{
                             <i className="material-icons">insert_chart</i>
                         </div>
                         <div className="card-content">
-                            <h4 className="card-title">Số lượng nhân viên trong bộ phận
+                            <h4 className="card-title">Số lượng nhân viên trong phòng ban
                                 <small/>
                             </h4>
                             <BarChartDepartment

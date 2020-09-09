@@ -64,15 +64,15 @@ class LessonDetailModal extends React.Component {
 
             >
                 <Modal.Header closeButton>
-                    <Modal.Title className="text-center">Thêm bộ phận</Modal.Title>
+                    <Modal.Title className="text-center">Thêm phòng ban</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form role="form" id="form-department-add" className="form-grey" onSubmit={(e) => {
                         e.preventDefault();
                     }}>
-                        <label>Tên bộ phận</label>
+                        <label>Tên phòng ban</label>
                         <FormInputText
-                            placeholder="Tên bộ phận"
+                            placeholder="Tên phòng ban"
                             required
                             name="name"
                             updateFormData={this.updateFormData}

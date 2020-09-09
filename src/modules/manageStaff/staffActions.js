@@ -593,14 +593,14 @@ export function changeDepartmentStaff(staffId, departId) {
                     dispatch({
                         type: types.CHANGE_DEPARTMENT_STAFF_SUCCESS,
                     });
-                    toastr.success("Đổi bộ phận thành công");
+                    toastr.success("Đổi phòng ban thành công");
                 } else {
                     dispatch({
                         type: types.CHANGE_DEPARTMENT_STAFF_ERROR,
                         staffId: staffId,
                         departId: departId,
                     });
-                    helper.showErrorNotification("Thay đổi bộ phận thất bại");
+                    helper.showErrorNotification("Thay đổi phòng ban thất bại");
                 }
             }).catch(() => {
             helper.showErrorNotification("Có lỗi xảy ra");

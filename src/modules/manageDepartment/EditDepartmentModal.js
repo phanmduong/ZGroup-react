@@ -64,13 +64,13 @@ class EditDepartmentModal extends React.Component {
                  bsSize="small"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Thêm bộ phận</Modal.Title>
+                    <Modal.Title>Sửa phòng ban</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <form role="form" id="form-department-edit"  className="form-grey" onSubmit={null}>
-                        <label>Tên bộ phận</label>
+                        <label>Tên phòng ban</label>
                         <FormInputText
-                            placeholder="Tên bộ phận"
+                            placeholder="Tên phòng ban"
                             required
                             name="name"
                             updateFormData={this.updateFormData}
@@ -84,7 +84,7 @@ class EditDepartmentModal extends React.Component {
                         <div className="flex-end margin-top-10">
                         {this.props.isEditingDepartment ?
                             <button className="btn button-green disabled" type="button">
-                                <i className="fa fa-spinner fa-spin"/> Đang tải lên
+                                <i className="fa fa-spinner fa-spin"/> Đang lưu
                             </button>
                             :
                             <button

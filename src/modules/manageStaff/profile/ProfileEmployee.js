@@ -130,7 +130,7 @@ class ProfileEmployee extends React.Component {
                                                 <div className="detail-wrap">
                                                     <p>Họ và tên<strong>{name}</strong></p>
                                                     {role && <p>Chức vụ<strong>{role.role_title}</strong></p>}
-                                                    {department && <p>Bộ phận<strong>{department.name}</strong></p>}
+                                                    {department && <p>Phòng ban<strong>{department.name}</strong></p>}
                                                     {phone && <p>Phone<strong>{phone}</strong></p>}
                                                     {email && <p>Email<strong>{email}</strong></p>}
                                                     {homeland && <p>Tỉnh thành <strong>{homeland}</strong></p>}

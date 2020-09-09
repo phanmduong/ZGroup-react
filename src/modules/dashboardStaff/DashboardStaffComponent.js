@@ -97,7 +97,7 @@ class DashboardStaffComponent extends React.Component {
                                                             className="flex flex-col flex-justify-content-center"
                                                             style={{height: "100px"}}>
                                                             <div className="font-size-1_5em">
-                                                                <strong>Bộ phận</strong>
+                                                                <strong>Phòng ban</strong>
                                                             </div>
                                                             <div className="font-weight-400 margin-top-10">
                                                                 {store.user.department

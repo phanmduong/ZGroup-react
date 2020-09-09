@@ -2,7 +2,6 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
-import FormInputText from "../../components/common/FormInputText";
 import Star from "../../components/common/Star";
 import {setFormValidation} from "../../helpers/helper";
 import * as leadActions from './leadActions';
@@ -102,23 +101,26 @@ class EditLead extends React.Component {
                         name="city"
                     />
                     <label>Ghi chú</label>
-                    <FormInputText
-                        placeholder="Ghi chú"
-                        name="note"
-                        updateFormData={
-                            this.updateFormData
-                        }
-                        value={this.state.lead.note}
-                    />
+                    <div className="form-group text-area-grey">
+                    <textarea className="form-control"
+                              rows={5}
+                              name="note"
+                              placeholder="Ghi chú"
+                              value={this.state.lead.note}
+                              onChange={(e) => this.updateFormData(e)}/>
+
+                    </div>
                     <label>Quan tâm</label>
-                    <FormInputText
-                        placeholder="Quan tâm"
-                        name="interest"
-                        updateFormData={
-                            this.updateFormData
-                        }
-                        value={this.state.lead.interest}
-                    />
+
+                    <div className="form-group text-area-grey">
+                    <textarea className="form-control"
+                              rows={5}
+                              name="interest"
+                              placeholder="Quan tâm"
+                              value={this.state.lead.interest}
+                              onChange={(e) => this.updateFormData(e)}/>
+
+                    </div>
                     {/*<div className="form-group">*/}
                     {/*    <label className="label-control">Chọn màu</label>*/}
                     {/*    <CirclePicker*/}
@@ -143,24 +145,24 @@ class EditLead extends React.Component {
                         </div>
                     </div>
                     <div className="flex-end">
-                    {this.props.isEditing ? (
-                        <button
-                            className="btn button-green disabled"
-                            type="button"
-                            disabled={true}
-                        >
-                            <i className="fa fa-spinner fa-spin"/>{" "}
-                            Đang lưu
-                        </button>
-                    ) : (
-                        <button
-                            className="btn button-green"
-                            type="button"
-                            onClick={this.editInfoLead}
-                        >
-                            Lưu
-                        </button>
-                    )}
+                        {this.props.isEditing ? (
+                            <button
+                                className="btn button-green disabled"
+                                type="button"
+                                disabled={true}
+                            >
+                                <i className="fa fa-spinner fa-spin"/>{" "}
+                                Đang lưu
+                            </button>
+                        ) : (
+                            <button
+                                className="btn button-green"
+                                type="button"
+                                onClick={this.editInfoLead}
+                            >
+                                Lưu
+                            </button>
+                        )}
                     </div>
                 </form>
             </div>

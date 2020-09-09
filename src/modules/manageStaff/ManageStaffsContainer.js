@@ -85,7 +85,7 @@ class ManageStaffsContainer extends React.Component {
                 deleteStaff={this.deleteStaff}
                 roleListData={[{id: 0, role_title: 'Chọn chức vụ'}, ...roleListData]}
                 baseListData={[{id: 0, name: 'Chọn cơ sở', address: ''}, ...baseListData]}
-                departments={[{id: 0, name: 'Chọn bộ phận'}, ...departments]}
+                departments={[{id: 0, name: 'Chọn phòng ban'}, ...departments]}
                 search={this.state.query}
                 getAllStaffs={this.props.staffActions.getAllStaffs}
                 user={this.props.user}
