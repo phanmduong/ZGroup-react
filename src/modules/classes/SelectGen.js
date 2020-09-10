@@ -17,13 +17,13 @@ class Select extends React.Component {
 
     render() {
         return (
-            <div className="select-wrap" style={{marginBottom: -10, ...this.props.style}}>
+            <div className={`select-wrap ${this.props.wrapClassName}`} style={{marginBottom: -10}}>
                 <select
                     name={this.props.name}
                     value={this.props.value}
                     onChange={(event) => this.props.onChange(event.target.value)}
                     className="selectpicker"
-                    data-style="btn btn-rose btn-round">
+                    data-style={this.props.className ?this.props.className : 'btn btn-rose btn-round'}>
                     <option selected disabled>{this.props.defaultMessage || "Please select"}</option>
                     {this.props.options.map((option, index) => {
                         return <option key={index} value={option.id}>{(option.id === 0 || this.props.noPrefix) ? option.name : 'Khóa ' + option.name}</option>;

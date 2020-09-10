@@ -244,58 +244,104 @@ class ClassesContainer extends React.Component {
                     <Modal.Body><Loading/></Modal.Body>
                 </Modal>
 
-                {!this.props.isLoadingGens && <div className="card" mask="purple">
-                    <img className="img-absolute"/>
+                {!this.props.isLoadingGens &&
+                <div>
+                    <div className="flex flex-space-between">
+                        <div className="flex  flex-wrap tool-bar-actions">
 
-                    <div className="card-content">
-                        <div className="row">
-                            <div className="col-sm-12">
-                                <div className="flex-row flex">
-                                    <h4 className="card-title">
-                                        <strong>Danh sách lớp học</strong>
-                                    </h4>
-                                </div>
-                                <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>
-                                    <Search
-                                        onChange={this.classesSearchChange}
-                                        value={this.state.query}
-                                        placeholder="Tìm kiếm lớp học"
-                                        className="round-white-seacrh"
-                                        onSearch={this.onSearchClasses}
-                                    />
-                                    <Select
-                                        options={this.state.gens}
-                                        onChange={this.changeGens}
-                                        value={this.state.selectGenId}
-                                        defaultMessage="Chọn khóa học"
-                                        name="gens"
-                                    />
-                                    <Select
-                                        options={this.state.courses}
-                                        onChange={this.changeCourses}
-                                        value={this.state.courseId}
-                                        defaultMessage="Chọn môn học"
-                                        noPrefix={true}
-                                        name="courses"
-                                        style={{width: 150}}
-                                    />
-                                    <button
-                                        className="btn btn-white btn-round btn-icon"
-                                        type="button" onClick={() => {
-                                        this.openModalClass();
-                                    }}>
-                                        Thêm lớp học&nbsp;&nbsp;<i className="material-icons">
-                                        add
-                                    </i>
-                                    </button>
-                                </div>
+                            <button
+                                className="btn button-green btn-icon"
+                                style={{padding: "12px 15px", height: 42, margin: '10px 10px 0 0', borderRadius: 5}}
+                                type="button" onClick={this.openModalClass}>
+                                <span className="material-icons">
+                                    add_circle
+                                </span>&nbsp;&nbsp;&nbsp;&nbsp;Thêm lớp học
+                            </button>
+                            <Search
+                                onChange={this.classesSearchChange}
+                                value={this.state.query}
+                                placeholder="Tìm kiếm lớp học theo tên"
+                                className="white-seacrh margin-right-10 min-width-200-px form-group-none-padding"
+                                onSearch={this.onSearchClasses}
+                            />
 
+                            <Select
+                                options={this.state.gens}
+                                onChange={this.changeGens}
+                                value={this.state.selectGenId}
+                                defaultMessage="Chọn giai đoạn"
+                                className="btn btn-white"
+                                wrapClassName="margin-right-10 react-select-white-light-round radius-5"
+                                name="gens"
+                            />
 
-                            </div>
-
+                            <Select
+                                options={this.state.courses}
+                                onChange={this.changeCourses}
+                                value={this.state.courseId}
+                                defaultMessage="Chọn môn học"
+                                noPrefix={true}
+                                className="btn btn-white"
+                                wrapClassName="margin-right-10 react-select-white-light-round radius-5"
+                                name="courses"
+                                style={{width: 150}}
+                            />
                         </div>
                     </div>
-                </div>}
+                </div>
+                }
+                {/*{!this.props.isLoadingGens && <div className="card" mask="purple">*/}
+                {/*    <img className="img-absolute"/>*/}
+
+                {/*    <div className="card-content">*/}
+                {/*        <div className="row">*/}
+                {/*            <div className="col-sm-12">*/}
+                {/*                <div className="flex-row flex">*/}
+                {/*                    <h4 className="card-title">*/}
+                {/*                        <strong>Danh sách lớp học</strong>*/}
+                {/*                    </h4>*/}
+                {/*                </div>*/}
+                {/*                <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>*/}
+                {/*                    <Search*/}
+                {/*                        onChange={this.classesSearchChange}*/}
+                {/*                        value={this.state.query}*/}
+                {/*                        placeholder="Tìm kiếm lớp học"*/}
+                {/*                        className="round-white-seacrh"*/}
+                {/*                        onSearch={this.onSearchClasses}*/}
+                {/*                    />*/}
+                {/*                    <Select*/}
+                {/*                        options={this.state.gens}*/}
+                {/*                        onChange={this.changeGens}*/}
+                {/*                        value={this.state.selectGenId}*/}
+                {/*                        defaultMessage="Chọn khóa học"*/}
+                {/*                        name="gens"*/}
+                {/*                    />*/}
+                {/*                    <Select*/}
+                {/*                        options={this.state.courses}*/}
+                {/*                        onChange={this.changeCourses}*/}
+                {/*                        value={this.state.courseId}*/}
+                {/*                        defaultMessage="Chọn môn học"*/}
+                {/*                        noPrefix={true}*/}
+                {/*                        name="courses"*/}
+                {/*                        style={{width: 150}}*/}
+                {/*                    />*/}
+                {/*                    <button*/}
+                {/*                        className="btn btn-white btn-round btn-icon"*/}
+                {/*                        type="button" onClick={() => {*/}
+                {/*                        this.openModalClass();*/}
+                {/*                    }}>*/}
+                {/*                        Thêm lớp học&nbsp;&nbsp;<i className="material-icons">*/}
+                {/*                        add*/}
+                {/*                    </i>*/}
+                {/*                    </button>*/}
+                {/*                </div>*/}
+
+
+                {/*            </div>*/}
+
+                {/*        </div>*/}
+                {/*    </div>*/}
+                {/*</div>}*/}
 
                 {(this.props.isLoadingGens || this.props.isLoading) && <Loading/>}
 

@@ -30,7 +30,7 @@ class ExportClassOverlay extends React.Component {
                 <button className="btn btn-actions"
                         ref="target" onClick={this.toggle}
                         disabled={isLoading}>
-                    Tải xuống
+                    <span className="material-icons">get_app</span>&nbsp;&nbsp;&nbsp;Tải xuống
                 </button>
                 <Overlay
                     rootClose={true}

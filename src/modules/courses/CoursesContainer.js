@@ -116,7 +116,7 @@ class CoursesContainer extends React.Component {
                                 onChange={this.courseSearchChange}
                                 value={this.state.query}
                                 placeholder="Tìm môn học theo tên"
-                                className="white-seacrh margin-right-5 min-width-200-px form-group-none-padding"
+                                className="white-seacrh margin-right-10 min-width-200-px form-group-none-padding"
                                 onSearch={this.onSearchCourses}
                             />
                         </div>

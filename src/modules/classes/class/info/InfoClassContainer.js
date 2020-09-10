@@ -17,6 +17,7 @@ import ListChangeClass from "./ListChangeClass";
 import * as globalModalActions from "../../../globalModal/globalModalActions";
 import {isEmptyInput} from "../../../../helpers/helper";
 import EmptyData from "../../../../components/common/EmptyData";
+import StatusesOverlay from "../../../infoStudent/overlays/StatusesOverlay";
 
 class InfoClassContainer extends React.Component {
     constructor(props, context) {
@@ -218,61 +219,44 @@ class InfoClassContainer extends React.Component {
                         {/*</div>*/}
 
                         {classData.registers && classData.registers.length > 0 ?
-                            <div className="table-responsive table-split table-hover">
+                            <div className="table-sticky-head table-split table-hover" radius="five">
                                 <table className="table" cellSpacing="0" id="list_register">
                                     <thead>
                                     <tr>
-                                        <th/>
+                                        {/*<th/>*/}
                                         <th>Họ tên</th>
-                                        <th>Tình trạng học</th>
-                                        <th>Bài tập</th>
                                         <th>Mã học viên</th>
-                                        <th className="display-none"/>
+                                        <th>Điểm danh</th>
+                                        <th>Chứng chỉ</th>
                                         <th>Học phí</th>
-                                        <th>Bằng</th>
-                                        <th>Thiết bị</th>
+                                        <th>Trạng thái</th>
+                                        {/*<th>Bài tập</th>*/}
+                                        <th/>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     {_.reverse(_.sortBy(classData.registers, 'total_attendances')).map((register) => {
-                                        let avatar = helper.avatarEmpty(register.student.avatar_url) ?
-                                            NO_AVATAR : register.student.avatar_url;
-                                        let color = "";
-                                        switch (register.status) {
-                                            case 1:
-                                                color = "success";
-                                                break;
-                                            case 2:
-                                                color = "warning";
-                                                break;
-                                            case 3:
-                                                color = "danger";
-                                                break;
-                                            case 4:
-                                                color = "info";
-                                                break;
-                                            case 5:
-                                                color = "gray";
-                                                break;
-                                        }
+                                        // let avatar = helper.avatarEmpty(register.student.avatar_url) ?
+                                        //     NO_AVATAR : register.student.avatar_url;
+
                                         return (
-                                            <tr key={register.id} className={color}
-                                                onMouseEnter={() => this.onMouseEnterRow(register.id,'show')}
-                                                onMouseLeave={() => this.onMouseEnterRow(register.id,'hide')}
+                                            <tr key={register.id}
+                                                onMouseEnter={() => this.onMouseEnterRow(register.id, 'show')}
+                                                onMouseLeave={() => this.onMouseEnterRow(register.id, 'hide')}
                                             >
-                                                <td>
-                                                    <div style={{
-                                                        background: "url('" + avatar + "') center center / cover",
-                                                        display: 'inline-block',
-                                                        width: '30px',
-                                                        height: '30px',
-                                                        borderRadius: '50%',
-                                                        verticalAlign: 'middle'
-                                                    }}
-                                                    />
-                                                </td>
+                                                {/*<td>*/}
+                                                {/*    <div style={{*/}
+                                                {/*        background: "url('" + avatar + "') center center / cover",*/}
+                                                {/*        display: 'inline-block',*/}
+                                                {/*        width: '30px',*/}
+                                                {/*        height: '30px',*/}
+                                                {/*        borderRadius: '50%',*/}
+                                                {/*        verticalAlign: 'middle'*/}
+                                                {/*    }}*/}
+                                                {/*    />*/}
+                                                {/*</td>*/}
                                                 <td><a onClick={() => this.onClickStudent(register.student)}
-                                                       className="text-name-student-register">
+                                                       className="text-name-student-register white-space-no-wrap">
                                                     {register.student.name}
                                                     {!isEmptyInput(register.student) &&
                                                     (!isEmptyInput(register.student.image1) || !isEmptyInput(register.student.image2)) &&
@@ -284,6 +268,17 @@ class InfoClassContainer extends React.Component {
                                                     check_circle
                                                 </i></span>}
                                                 </a></td>
+                                                <td> {
+                                                    register.code &&
+
+
+                                                    <button
+                                                        className={(register.received_id_card ? "btn btn-xs btn-rose" : "btn btn-xs") + " min-width-100-px"}>
+                                                        {register.code}
+                                                        <div className="ripple-container"/>
+                                                    </button>
+
+                                                }</td>
                                                 <td><h6>{register.total_attendances}/{register.attendances.length}</h6>
                                                     <div
                                                         className="progress progress-line-success progress-bar-table width-100">
@@ -298,53 +293,30 @@ class InfoClassContainer extends React.Component {
                                                         </div>
                                                     </div>
                                                 </td>
-                                                <td>
-                                                    <h6>{register.total_weigh_topic_register}/{register.total_weigh_topic}</h6>
-                                                    <div
-                                                        className="progress progress-line-success progress-bar-table width-100">
-                                                        <div className="progress-bar progress-bar-success"
-                                                             role="progressbar"
-                                                             aria-valuemin="0"
-                                                             aria-valuemax="100"
-                                                             style={{width: (100 * register.total_weigh_topic_register / register.total_weigh_topic) + '%'}}
-                                                        >
-                                                        <span
-                                                            className="sr-only">{(100 * register.total_weigh_topic_register / register.total_weigh_topic)}%</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
 
                                                 <td className="text-center">
                                                     <div
                                                         data-toggle="tooltip"
                                                         title={
                                                             {
-                                                                0:'Chưa đóng tiền',
-                                                                1:'Đã nộp tiền',
-                                                                2:'Danh sách chờ',
-                                                                3:'Bảo lưu',
-                                                                4:'Học lại',
-                                                                5:'Đã học xong',
-                                                                6:'Đã hoàn tiền',
+                                                                0: 'Chưa đóng tiền',
+                                                                1: 'Đã nộp tiền',
+                                                                2: 'Danh sách chờ',
+                                                                3: 'Bảo lưu',
+                                                                4: 'Học lại',
+                                                                5: 'Đã học xong',
+                                                                6: 'Đã hoàn tiền',
                                                             }[register.status]
                                                         }
                                                         type="button"
                                                         rel="tooltip"
                                                         id={`row-tooltip-${register.id}`}
                                                     >
+
                                                         {
-                                                            register.code &&
-
-
-                                                            <button
-                                                                className={(register.received_id_card ? "btn btn-xs btn-rose" : "btn btn-xs") + " min-width-100-px"}>
-                                                                {register.code}
-                                                                <div className="ripple-container"/>
-                                                            </button>
-
+                                                            register.certificate || "Chưa xét"
                                                         }
                                                     </div>
-
 
 
                                                 </td>
@@ -370,75 +342,116 @@ class InfoClassContainer extends React.Component {
 
                                                     }
                                                 </td>
+                                                {/*<td>*/}
+                                                {/*    <h6>{register.total_weigh_topic_register}/{register.total_weigh_topic}</h6>*/}
+                                                {/*    <div*/}
+                                                {/*        className="progress progress-line-success progress-bar-table width-100">*/}
+                                                {/*        <div className="progress-bar progress-bar-success"*/}
+                                                {/*             role="progressbar"*/}
+                                                {/*             aria-valuemin="0"*/}
+                                                {/*             aria-valuemax="100"*/}
+                                                {/*             style={{width: (100 * register.total_weigh_topic_register / register.total_weigh_topic) + '%'}}*/}
+                                                {/*        >*/}
+                                                {/*        <span*/}
+                                                {/*            className="sr-only">{(100 * register.total_weigh_topic_register / register.total_weigh_topic)}%</span>*/}
+                                                {/*        </div>*/}
+                                                {/*    </div>*/}
+                                                {/*</td>*/}
+
                                                 <td>
-                                                    {
-                                                        register.certificate || "Chưa xét"
-                                                    }
+                                                    <StatusesOverlay
+                                                        data={register.register_status}
+                                                        refId={register.id}
+                                                        statusRef="registers"
+                                                        className="btn btn-xs source-value width-100 bold"
+                                                    />
                                                 </td>
+
+
+                                                {/*<td>*/}
+                                                {/*    <div style={{display: "flex"}}>*/}
+                                                {/*        {*/}
+                                                {/*            register.student.devices && register.student.devices.map((dv, index) => {*/}
+                                                {/*                return (*/}
+                                                {/*                    <div key={index}>*/}
+                                                {/*                        <TooltipButton*/}
+                                                {/*                            text={"Name: " + dv.name + " Os: " + dv.os + " Device_id: " + dv.device_id}*/}
+                                                {/*                            placement="top"*/}
+                                                {/*                        >*/}
+                                                {/*                            {*/}
+                                                {/*                                (dv.os.toLowerCase().search("pple") !== -1) || (dv.os.toLowerCase().search("ios") !== -1) ?*/}
+
+                                                {/*                                    <img*/}
+                                                {/*                                        style={{*/}
+                                                {/*                                            height: 24,*/}
+                                                {/*                                            width: 24,*/}
+                                                {/*                                            cursor: "pointer"*/}
+                                                {/*                                        }}*/}
+                                                {/*                                        src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1528267590z7F1mpbo0YspRmU.png"*/}
+                                                {/*                                        alt=""/>*/}
+
+                                                {/*                                    :*/}
+                                                {/*                                    <i className="material-icons"*/}
+                                                {/*                                       style={{cursor: "pointer"}}>*/}
+                                                {/*                                        android*/}
+                                                {/*                                    </i>*/}
+
+                                                {/*                            }*/}
+                                                {/*                        </TooltipButton>*/}
+                                                {/*                    </div>*/}
+                                                {/*                );*/}
+                                                {/*            })*/}
+                                                {/*        }*/}
+                                                {/*    </div>*/}
+
+                                                {/*</td>*/}
                                                 <td>
-                                                    <div style={{display: "flex"}}>
-                                                        {
-                                                            register.student.devices && register.student.devices.map((dv, index) => {
-                                                                return (
-                                                                    <div key={index}>
-                                                                        <TooltipButton
-                                                                            text={"Name: " + dv.name + " Os: " + dv.os + " Device_id: " + dv.device_id}
-                                                                            placement="top"
-                                                                        >
-                                                                            {
-                                                                                (dv.os.toLowerCase().search("pple") !== -1) || (dv.os.toLowerCase().search("ios") !== -1) ?
-
-                                                                                    <img
-                                                                                        style={{
-                                                                                            height: 24,
-                                                                                            width: 24,
-                                                                                            cursor: "pointer"
-                                                                                        }}
-                                                                                        src="http://d1j8r0kxyu9tj8.cloudfront.net/files/1528267590z7F1mpbo0YspRmU.png"
-                                                                                        alt=""/>
-
-                                                                                    :
-                                                                                    <i className="material-icons"
-                                                                                       style={{cursor: "pointer"}}>
-                                                                                        android
-                                                                                    </i>
-
-                                                                            }
-                                                                        </TooltipButton>
-                                                                    </div>
-                                                                );
-                                                            })
-                                                        }
-                                                    </div>
-
-                                                </td>
-                                                <td>
-                                                    <ButtonGroupAction
-                                                        disabledEdit={true}
-                                                        edit={() => {
-                                                            // return this.props.openModalChangeInfoStudent(obj);
-                                                        }}
-                                                        delete={this.deleteRegister}
-                                                        object={register}
-                                                        disabledDelete={!register.is_delete}>
-                                                        <div className={"flex"}>
-                                                            {
-                                                                register.status <= 4 &&
-                                                                <TooltipButton
-                                                                    text={register.status == 3 ? "Học lại" : "Đổi lớp"}
-                                                                    placement={"top"}>
-                                                                    <a onClick={() => this.openModalChangeClass(register.id
-                                                                        // , (register.status == 3 || register.status == 2)
-                                                                    )}
-                                                                       type="button"
-                                                                    >
-                                                                        <i className="material-icons">{register.status == 3 ? "restore" : "swap_vertical_circle"}</i>
-                                                                    </a>
-                                                                </TooltipButton>
-
-                                                            }
+                                                    <div className="dropdown dropleft">
+                                                        <div className="cursor-pointer"
+                                                                type="button" data-toggle="dropdown">
+                                                            <i className="material-icons"  style={{fontSize:22}}>more_horiz</i>
                                                         </div>
-                                                    </ButtonGroupAction>
+                                                        <ul className="dropdown-menu" style={{marginLeft:-125}}>
+                                                            {register.is_delete && <li>
+                                                                <a onClick={this.deleteRegister}>Xoá học viên</a>
+                                                            </li>}
+                                                            {register.status <= 3 && <li>
+
+                                                                <a onClick={() => this.openModalChangeClass(register.id)}
+                                                                   type="button"
+                                                                >
+                                                                    Đổi lớp
+                                                                </a>
+                                                            </li>}
+                                                            <li>
+                                                                <a onClick={this.updateClassLesson}>Xem chi tiết</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    {/*<ButtonGroupAction*/}
+                                                    {/*    disabledEdit={true}*/}
+                                                    {/*    edit={() => {*/}
+                                                    {/*        // return this.props.openModalChangeInfoStudent(obj);*/}
+                                                    {/*    }}*/}
+                                                    {/*    delete={this.deleteRegister}*/}
+                                                    {/*    object={register}*/}
+                                                    {/*    disabledDelete={!register.is_delete}>*/}
+                                                    {/*    <div className={"flex"}>*/}
+                                                    {/*        {*/}
+                                                    {/*            register.status <= 4 &&*/}
+                                                    {/*            <TooltipButton*/}
+                                                    {/*                text={register.status == 3 ? "Học lại" : "Đổi lớp"}*/}
+                                                    {/*                placement={"top"}>*/}
+                                                    {/*                <a onClick={() => this.openModalChangeClass(register.id)}*/}
+                                                    {/*                   type="button"*/}
+                                                    {/*                >*/}
+                                                    {/*                    Đổi lớp*/}
+                                                    {/*                </a>*/}
+                                                    {/*            </TooltipButton>*/}
+
+                                                    {/*        }*/}
+                                                    {/*    </div>*/}
+                                                    {/*</ButtonGroupAction>*/}
                                                 </td>
 
                                             </tr>

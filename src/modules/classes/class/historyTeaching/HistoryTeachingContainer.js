@@ -378,22 +378,26 @@ class HistoryTeachingContainer extends React.Component {
         // moveLesson =
 
         return (
-            <div className="table-responsive table-split table-hover">
-                <table className="table" cellSpacing="0" id="list_register">
-                    {/*<thead className="text-rose">*/}
-                    {/*<tr>*/}
-                    {/*    <th/>*/}
-                    {/*    <th>Tên</th>*/}
-                    {/*    <th>Đổi</th>*/}
-                    {/*</tr>*/}
-                    {/*</thead>*/}
+            <div className="table-sticky-head table-split table-hover" radius="five">
+                <table className="table" >
+                    <thead className="text-rose">
+                    <tr>
+                        <th/>
+                        <th>Tên buổi học</th>
+                        <th>Điểm danh</th>
+                        <th>Thời gian</th>
+                        <th>Giảng viên</th>
+                        <th>Trợ giảng</th>
+                        <th/>
+                    </tr>
+                    </thead>
                     <tbody>
                     {
                         !isLoading && classData.lessons && classData.lessons.length > 0 ? classData.lessons.map((lesson, key) => {
-                                let color = lesson.studied ? 'success' : '';
+                                // let color = lesson.studied ? 'success' : '';
                                 let minWidth = 120, margin = '5px 3px';
                                 return (
-                                    <tr key={key} className={color}>
+                                    <tr key={key}>
                                         <td>
                                             <div className="flex flex-align-items-center">
                                                 {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
@@ -413,19 +417,140 @@ class HistoryTeachingContainer extends React.Component {
                                             </div>
                                         </td>
 
-                                        <td>
-                                            <button className="btn btn-white float-right"
-                                                    onClick={() => this.openModalDetailLessonAttendance(lesson.id)}>
+                                        {/*<td>*/}
+                                        {/*    <button className="btn btn-white float-right"*/}
+                                        {/*            onClick={() => this.openModalDetailLessonAttendance(lesson.id)}>*/}
+                                        {/*        Điểm danh*/}
+                                        {/*    </button>*/}
+                                        {/*</td>*/}
 
-                                                Điểm danh
-                                            </button>
+                                        <td style={{minWidth: '100px'}}>
+                                            <a target="_blank"
+                                               href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
+                                            <div>
+                                                <a
+                                                    style={{fontWeight: 400, color: 'black'}}
+                                                    target="_blank"
+                                                    href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
+                                            </div>
                                         </td>
+                                        <td>
+                                            <div>
+                                                <div className="flex flex-align-items-center flex-space-between flex-row"
+                                                     style={{width: "calc(100%)", minWidth}}>
+                                                    <div className="progress progress-bar-table width-100" style={{
+                                                        "marginBottom": "0",
+                                                        "height": "7px",
+                                                        "borderRadius": "5px",
+                                                        "marginRight": "10px",
+                                                        "backgroundColor": "#f7f5f7"
+                                                    }}>
+                                                        <div
+                                                            className="progress-bar progress-bar-success"
+                                                            role="progressbar"
+                                                            aria-valuemin="0"
+                                                            aria-valuemax="100"
+                                                            style={{width: (100 * lesson.total_attendance / classData.total_paid) + '%',}}
+                                                        >
+                                                        <span className="sr-only">
+                                                            {100 * lesson.total_attendance / classData.total_paid}%
+                                                        </span>
+                                                        </div>
+                                                    </div>
+                                                    <div
+                                                        style={{fontSize: 12}}>{lesson.total_attendance}/{classData.total_paid}</div>
+                                                </div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+                                            <div>
+                                                <div>{lesson.start_time}-{lesson.end_time}</div>
+                                                <div>{lesson.time}</div>
+                                            </div>
+                                        </td>
+
+                                        <td>
+
+                                            {
+                                                lesson.teacher ?
+                                                    <TooltipButton text="Giảng viên"
+                                                                   placement="top"
+                                                    >
+                                                        <button className="btn btn-xs"
+                                                                style={{
+                                                                    background: '#' + lesson.teacher.color,
+                                                                    minWidth,
+                                                                    margin
+                                                                }}>
+                                                            {getShortName(lesson.teacher.name)}
+                                                            <div className="ripple-container"/>
+                                                        </button>
+                                                    </TooltipButton>
+                                                    :
+                                                    <TooltipButton text="Giảng viên"
+                                                                   placement="top"
+                                                    >
+                                                        <button className="btn btn-xs"
+                                                                style={{minWidth, margin}}>
+                                                            NONE
+                                                            <div className="ripple-container"/>
+                                                        </button>
+                                                    </TooltipButton>
+
+                                            }
+                                        </td>
+                                        <td>
+                                            {
+                                                lesson.teacher_assistant ?
+                                                    <TooltipButton text="Trơ giảng"
+                                                                   placement="top"
+                                                    >
+                                                        <button className="btn btn-xs"
+                                                                style={{
+                                                                    background: '#' + lesson.teacher_assistant.color,
+                                                                    minWidth, margin
+                                                                }}>
+                                                            {getShortName(lesson.teacher_assistant.name)}
+                                                            <div className="ripple-container"/>
+                                                        </button>
+                                                    </TooltipButton>
+                                                    :
+                                                    <TooltipButton text="Trợ giảng"
+                                                                   placement="top"
+                                                    >
+                                                        <button className="btn btn-xs"
+                                                                style={{minWidth, margin}}>
+                                                            NONE
+                                                            <div className="ripple-container"/>
+                                                        </button>
+                                                    </TooltipButton>
+                                            }
+
+                                        </td>
+                                        {/*<td>*/}
+
+
+                                        {/*    <div>*/}
+                                        {/*        <a*/}
+                                        {/*            style={{fontWeight: 400, color: 'black'}}*/}
+                                        {/*            target="_blank"*/}
+                                        {/*            href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{shortenStr(lesson.description, 40)}</a>*/}
+                                        {/*    </div>*/}
+
+                                        {/*</td>*/}
+                                        {/*<td/>*/}
+                                        {/*<td>{lesson.term && <a*/}
+                                        {/*    style={{fontWeight: 400, color: 'black'}}*/}
+                                        {/*    target="_blank"*/}
+                                        {/*    href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.term.name}</a>}*/}
+                                        {/*</td>*/}
                                         <td>
                                             <div style={{position: "relative"}} className="">
                                                 <button className="btn btn-actions" mask="extra-table"
                                                         ref={"target" + key} onClick={() => this.toggle(key)}>
 
-                                                    <i className="material-icons">arrow_drop_down</i>
+                                                    <i className="material-icons">more_horiz</i>
                                                 </button>
                                                 <Overlay
                                                     rootClose={true}
@@ -458,6 +583,10 @@ class HistoryTeachingContainer extends React.Component {
                                                                 onClick={() => this.openModalTeachAssis(lesson)}>
                                                             Đổi trợ giảng
                                                         </button>}
+                                                        <button className="btn btn-white width-100"
+                                                                onClick={() => this.openModalDetailLessonAttendance(lesson.id)}>
+                                                            Điểm danh
+                                                        </button>
                                                         {/*{(lesson.is_change || user.role == 2) &&*/}
                                                         {/*<button className="btn btn-white width-100"*/}
                                                         {/*        onClick={() => this.openModalTeachingLesson(lesson, 1)}>*/}
@@ -473,97 +602,6 @@ class HistoryTeachingContainer extends React.Component {
                                                 </Overlay>
                                             </div>
                                         </td>
-                                        <td style={{minWidth: '100px'}}>
-                                            <a target="_blank"
-                                               href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
-                                            <div>
-                                                <a
-                                                    style={{fontWeight: 400, color: 'black'}}
-                                                    target="_blank"
-                                                    href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
-                                            </div>
-                                        </td>
-                                        <td>
-
-
-                                            <div>
-                                                <a
-                                                    style={{fontWeight: 400, color: 'black'}}
-                                                    target="_blank"
-                                                    href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{shortenStr(lesson.description, 40)}</a>
-                                            </div>
-
-                                        </td>
-                                        <td/>
-                                        <td>{lesson.term && <a
-                                            style={{fontWeight: 400, color: 'black'}}
-                                            target="_blank"
-                                            href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.term.name}</a>}
-                                        </td>
-                                        <td>
-                                            <div>
-                                                <div>{lesson.start_time}-{lesson.end_time}</div>
-                                                <div>{lesson.time}</div>
-                                            </div>
-                                        </td>
-                                        <td style={{maxWidth: '130px'}}>
-                                            <div className="flex flex-wrap">
-
-                                                {
-                                                    lesson.teacher ?
-                                                        <TooltipButton text="Giảng viên"
-                                                                       placement="top"
-                                                        >
-                                                            <button className="btn btn-xs"
-                                                                    style={{
-                                                                        background: '#' + lesson.teacher.color,
-                                                                        minWidth,
-                                                                        margin
-                                                                    }}>
-                                                                {getShortName(lesson.teacher.name)}
-                                                                <div className="ripple-container"/>
-                                                            </button>
-                                                        </TooltipButton>
-                                                        :
-                                                        <TooltipButton text="Giảng viên"
-                                                                       placement="top"
-                                                        >
-                                                            <button className="btn btn-xs"
-                                                                    style={{minWidth, margin}}>
-                                                                NONE
-                                                                <div className="ripple-container"/>
-                                                            </button>
-                                                        </TooltipButton>
-
-                                                }
-                                                {
-                                                    lesson.teacher_assistant ?
-                                                        <TooltipButton text="Trơ giảng"
-                                                                       placement="top"
-                                                        >
-                                                            <button className="btn btn-xs"
-                                                                    style={{
-                                                                        background: '#' + lesson.teacher_assistant.color,
-                                                                        minWidth, margin
-                                                                    }}>
-                                                                {getShortName(lesson.teacher_assistant.name)}
-                                                                <div className="ripple-container"/>
-                                                            </button>
-                                                        </TooltipButton>
-                                                        :
-                                                        <TooltipButton text="Trợ giảng"
-                                                                       placement="top"
-                                                        >
-                                                            <button className="btn btn-xs"
-                                                                    style={{minWidth, margin}}>
-                                                                NONE
-                                                                <div className="ripple-container"/>
-                                                            </button>
-                                                        </TooltipButton>
-                                                }
-                                            </div>
-                                        </td>
-
                                     </tr>
                                 );
                             })

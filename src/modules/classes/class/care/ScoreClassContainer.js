@@ -283,7 +283,7 @@ class ScoreClassContainer extends React.Component {
                                         return (
 
                                             <td key={index} colSpan={exams.length}>
-                                                <a className="btn btn-grey width-100 radius-8"
+                                                <a className="btn btn-grey radius-8"
                                                    onClick={() => this.setState({
                                                        isTotalScore: false,
                                                        currentGroup: group
@@ -292,14 +292,14 @@ class ScoreClassContainer extends React.Component {
                                         );
                                     })}
                                     <td colSpan={noGroup.length}>
-                                        <a className="btn btn-grey width-100 radius-8"
+                                        <a className="btn btn-grey radius-8"
                                            onClick={() => this.setState({
                                                isTotalScore: false,
                                                currentGroup: this.noGroup
                                            })}>{this.noGroup.name} ({noGroup.length})</a>
                                     </td>
                                     <td>
-                                        <a className="btn btn-grey width-100 radius-8">TỔNG KẾT</a>
+                                        <a className="btn btn-grey radius-8">TỔNG KẾT</a>
                                     </td>
 
                                 </tr>

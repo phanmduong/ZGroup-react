@@ -428,351 +428,382 @@ class ClassContainer extends React.Component {
 
         return (
             <div>
-                <div className="card">
-                    <div className="card-content">
-                        {isLoadingClass && <Loading/>}
-                        {!isLoadingClass && classData && <div className="row">
-                            <div className="col-md-4">
-                                <div className="card" mask="blue">
-                                    <div className="card-content flex flex-col">
-                                        <div className="flex flex-justify-content-center">
+                {/*<div className="card">*/}
+                {/*    <div className="card-content">*/}
+                {isLoadingClass && <Loading/>}
+                {!isLoadingClass && classData && <div className="row">
+                    <div className="col-md-4">
+                        <div className="card" mask="blue">
+                            <div className="card-content flex flex-col">
+                                <div className="flex flex-justify-content-center">
 
-                                            {classData.course &&
-                                            <div className="img"
-                                                 style={{
-                                                     backgroundImage: `url(${helper.validateLinkImage(classData.course.icon_url)})`
-                                                 }}/>}
-
-                                        </div>
-                                        <div
-                                            className="text-white flex flex-col flex-justify-content-center text-center margin-top-10">
-                                            {classData.course &&
-                                            <Link
-                                                className="text-white"
-                                                style={{fontSize: 18}}
-                                                to={"/teaching/courses/edit/" + classData.course.id}>{classData.course.name}</Link>}
-                                        </div>
-                                        <div
-                                            className=" flex flex-row-center flex-justify-content-center margin-top-10"/>
-
-                                        <h4 className="card-title">{classData.name}</h4>
-
-                                        <div
-                                            className="text-white flex flex-col flex-justify-content-center text-center">
-                                            <div>{classData.room && classData.room.address}</div>
-                                            <div>{classData.room && classData.room.name}</div>
-                                        </div>
-                                        <h6 className="category text-gray text-email">
-                                            <span/>
-
-                                        </h6>
-                                    </div>
+                                    {classData.course &&
+                                    <div className="img"
+                                         style={{
+                                             backgroundImage: `url(${helper.validateLinkImage(classData.course.icon_url)})`
+                                         }}/>}
 
                                 </div>
-                                <div className="card detail-wrap">
-                                    <div className="card-content">
-                                        <div className="detail-wrap">
-                                            <p>Giảng
-                                                viên<strong>{classData.teacher ? classData.teacher.name : "Chưa có"}
-                                                    {classData.teachers_detail && classData.teachers_detail.map((teacher) => {
-                                                        return (<div>
-                                                            {teacher.name}
-                                                        </div>);
-                                                    })}
-                                                </strong></p>
-                                            <p>Trợ
-                                                giảng<strong>{classData.teacher_assistant ? classData.teacher_assistant.name : "Chưa có"}
-                                                    {classData.teaching_assistants_detail && classData.teaching_assistants_detail.map((teacher) => {
-                                                        return (<div>
-                                                            {teacher.name}
-                                                        </div>);
-                                                    })}
-                                                </strong>
-                                            </p>
-                                            <p>Lịch học<strong>{(classData.schedule && classData.schedule.name) ?  classData.schedule.name : "Chưa có"}</strong></p>
-                                            <p>Mô tả<strong>{classData.description || "Chưa có"}</strong></p>
-                                            <p>Chỉ tiêu đăng kí<strong>{classData.regis_target || "Chưa có"}</strong>
-                                            </p>
-                                            <p>Chỉ tiêu nộp tiền<strong>{classData.total_paid || "Chưa có"}</strong></p>
-                                            <p>Ngày khai giảng<strong>{classData.datestart_vi || "Chưa có"}</strong></p>
-                                            <p>Ngày bế giảng<strong>{classData.date_end_vi || "Chưa có"}</strong></p>
-                                            <p>Ngày bắt đầu tuyển sinh<strong>{classData.enroll_start_date_vi || "Chưa có"}</strong></p>
-                                            <p>Ngày kết thúc tuyển sinh<strong>{classData.enroll_end_date_vi || "Chưa có"}</strong></p>
-                                            <p>Trạng thái<strong>{{
-                                                '': 'Chưa có',
-                                                null: 'Chưa có',
-                                                'waiting': 'Lớp chờ',
-                                                'active': 'Đang hoạt động'
-                                            }[classData.type]}</strong></p>
-                                            {classData.course &&
-                                            <p>Môn học<strong>{classData.course.name || "Chưa có"}</strong></p>}
-                                            {classData.gen &&
-                                            <p>Khóa<strong>{classData.gen.name || "Chưa có"}</strong></p>}
-                                            <p>Link Driver
-                                                <strong
-
-                                                ><a data-toggle="tooltip" title="Nhấp để mở link"
-                                                    href={classData.link_drive} target="_blank">
-                                                    {classData.link_drive || "Chưa có"}
-                                                </a></strong>
-
-                                            </p>
-
-                                        </div>
-                                        {this.props.isStoringClass ?
-                                            (
-                                                <button
-                                                    className="btn width-100 disabled"
-                                                >
-                                                    <i className="fa fa-spinner fa-spin"/> Đang sửa
-                                                </button>
-                                            )
-                                            :
-                                            <button className="btn width-100"
-                                                    onClick={this.openModalEditClass}
-                                            >Sửa thông tin
-                                            </button>
-                                        }
-                                    </div>
+                                <div
+                                    className="text-white flex flex-col flex-justify-content-center text-center margin-top-10">
+                                    {classData.course &&
+                                    <Link
+                                        className="text-white"
+                                        style={{fontSize: 18}}
+                                        to={"/teaching/courses/edit/" + classData.course.id}>{classData.course.name}</Link>}
                                 </div>
+                                <div
+                                    className=" flex flex-row-center flex-justify-content-center margin-top-10"/>
 
-                                <div className="padding-horizontal-30px">
+                                <h4 className="card-title">{classData.name}</h4>
 
-                                    {classData.attendances &&
-                                    <div><h4><strong>Tình trạng điểm danh</strong></h4>
-                                        <div className="smooth-scroll-y max-height-400">  {classData.attendances.map((attendance, key) => {
-                                            return (
-                                                <div key={'attendance-' + key}>
-                                                    <div
-                                                        className="flex flex-row-center flex-space-between">
-                                                        <h6>
-                                                            <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}
-                                                        </h6>
-                                                        {
-                                                            (attendance.is_change || this.props.user.role == 2) &&
-                                                            <TooltipButton placement="top"
-                                                                           text="Đổi buổi"
-                                                            >
-                                                                <button
-                                                                    className="btn btn-xs btn-round"
-                                                                    onClick={() => this.openModalClassLesson(attendance)}
-                                                                >
-                                                                    <i className="material-icons">compare_arrows</i>
-                                                                    <div
-                                                                        className="ripple-container"/>
-                                                                </button>
-                                                            </TooltipButton>
-                                                        }
-                                                    </div>
-
-                                                    <div
-                                                        className="progress progress-line-success progress-bar-table width-100">
-                                                        <div
-                                                            className="progress-bar progress-bar-success"
-                                                            role="progressbar"
-                                                            aria-valuemin="0"
-                                                            aria-valuemax="100"
-                                                            style={{width: (100 * attendance.total_attendance / classData.total_paid) + '%'}}
-                                                        >
-                                                        <span
-                                                            className="sr-only">{100 * attendance.total_attendance / classData.total_paid}%</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            );
-                                        })}
-
-                                    </div>
-                                    </div>
-                                    }
-                                    {classData.teacher &&
-                                    <div><h4><strong>Điểm danh giảng viên</strong></h4>
-                                        <div className="smooth-scroll-y max-height-400">
-                                            {classData.teacher.attendances.map((attendance, index) => {
-                                                    return (
-                                                        <div key={'teacher-attendances' + index}>
-                                                            <div
-                                                                className="flex flex-row-center flex-space-between">
-                                                                <div>
-                                                                    <strong>Buổi {attendance.order} </strong>
-                                                                    {
-                                                                        attendance.staff &&
-                                                                        attendance.staff.name
-
-                                                                    }
-                                                                </div>
-                                                                {
-                                                                    (attendance.is_change || this.props.user.role == 2) &&
-                                                                    <div>
-                                                                        <TooltipButton placement="top"
-                                                                                       text="Đổi giảng viên"
-                                                                        >
-                                                                            <button
-                                                                                className="btn btn-xs btn-round"
-                                                                                onClick={() => this.openModalChangeTeacher(attendance)}
-                                                                            >
-                                                                                <i className="material-icons">compare_arrows</i>
-                                                                                <div
-                                                                                    className="ripple-container"/>
-                                                                            </button>
-                                                                        </TooltipButton>
-                                                                        {/*<TooltipButton placement="top"*/}
-                                                                        {/*               text="Xem thêm"*/}
-                                                                        {/*>*/}
-                                                                        {/*    <button*/}
-                                                                        {/*        className="btn btn-xs btn-round btn-rose"*/}
-                                                                        {/*        onClick={() => this.openModalTeachingLesson(attendance, 1)}*/}
-                                                                        {/*    >*/}
-                                                                        {/*        <i className="material-icons">more_horiz</i>*/}
-                                                                        {/*        <div*/}
-                                                                        {/*            className="ripple-container"/>*/}
-                                                                        {/*    </button>*/}
-                                                                        {/*</TooltipButton>*/}
-                                                                    </div>
-
-                                                                }
-                                                            </div>
-                                                            <AttendanceTeacher
-                                                                attendance={attendance}
-                                                                addCheckinCheckout={this.addCheckinCheckout}
-                                                                type={"teacher"}
-                                                            />
-                                                        </div>
-                                                    )
-                                                        ;
-                                                }
-                                            )}
-
-                                        </div>
-                                    </div>
-                                    }
-                                    {classData.teacher_assistant &&
-                                    <div><h4><strong>Điểm danh trợ giảng</strong></h4>
-                                        <div className="smooth-scroll-y max-height-400">
-                                            {classData.teacher_assistant.attendances.map((attendance, index) => {
-                                                    return (
-                                                        <div key={'teacher_assistant' + index}>
-                                                            <div
-                                                                className="flex flex-row-center flex-space-between">
-                                                                <div>
-                                                                    <strong>Buổi {attendance.order} </strong>
-                                                                    {
-                                                                        attendance.staff &&
-                                                                        attendance.staff.name
-
-                                                                    }
-                                                                </div>
-                                                                {
-                                                                    (attendance.is_change || this.props.user.role == 2) &&
-                                                                    <div>
-                                                                        <TooltipButton placement="top"
-                                                                                       text="Đổi trợ giảng"
-                                                                        >
-                                                                            <button
-                                                                                className="btn btn-xs btn-round"
-                                                                                onClick={() => this.openModalTeachAssis(attendance)}
-                                                                            >
-                                                                                <i className="material-icons">compare_arrows</i>
-                                                                                <div
-                                                                                    className="ripple-container"/>
-                                                                            </button>
-                                                                        </TooltipButton>
-                                                                        {/*<TooltipButton placement="top"*/}
-                                                                        {/*               text="Xem thêm"*/}
-                                                                        {/*>*/}
-                                                                        {/*    <button*/}
-                                                                        {/*        className="btn btn-xs btn-round btn-rose"*/}
-                                                                        {/*        onClick={() => this.openModalTeachingLesson(attendance, 2)}*/}
-                                                                        {/*    >*/}
-                                                                        {/*        <i className="material-icons">more_horiz</i>*/}
-                                                                        {/*        <div*/}
-                                                                        {/*            className="ripple-container"/>*/}
-                                                                        {/*    </button>*/}
-                                                                        {/*</TooltipButton>*/}
-                                                                    </div>
-
-                                                                }
-
-                                                            </div>
-                                                            <AttendanceTeacher
-                                                                attendance={attendance}
-                                                                addCheckinCheckout={this.addCheckinCheckout}
-                                                                type={"teaching_assistant"}
-                                                            />
-                                                        </div>
-                                                    );
-                                                }
-                                            )}
-
-                                        </div>
-                                    </div>
-                                    }
-
-
+                                <div
+                                    className="text-white flex flex-col flex-justify-content-center text-center">
+                                    <div>{classData.room && classData.room.address}</div>
+                                    <div>{classData.room && classData.room.name}</div>
                                 </div>
+                                <h6 className="category text-gray text-email">
+                                    <span/>
 
+                                </h6>
                             </div>
-                            <div className="col-md-8">
-                                <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
-                                    {this.routes.map((route, index) => {
-                                        return (
-                                            index ?
-                                                <li className={this.path === route.path ? 'active' : ''}>
-                                                    <Link to={route.path}>
-                                                        {route.text}
-                                                    </Link>
-                                                </li>
-                                                :
-                                                <li className={this.path === route.path ? 'active' : ''}>
-                                                    <IndexLink to={route.path}>
-                                                        {route.text}
-                                                    </IndexLink>
-                                                </li>
-                                        );
-                                    })}
-                                </ul>
-                                <div className="flex flex-wrap margin-top-10">
-                                    {
-                                        this.path == this.routePrefix + "/history-teaching" &&
-                                        <div onClick={this.updateClassLesson} className="btn btn-actions">
-                                            Cập nhật chương trình
-                                        </div>
-                                    }
-                                    {classData && classData.course &&
-                                    <CreateRegisterOverlay
-                                        onSuccess={() => this.props.classActions.loadClass(this.classId)}
-                                        studentData={{class_id: classData.id, course_id: classData.course.id}}
-                                    >
-                                        <div className="btn btn-actions">
-                                            Thêm học viên
-                                        </div>
 
-                                    </CreateRegisterOverlay>}
-                                    <ChangeTeachMultiLessonOverlay
-                                        refresh={()=>this.props.classActions.loadClass(this.classId)}/>
-                                    <div onClick={this.genCerti} className="btn btn-actions">
-                                        Xếp bằng
-                                    </div>
-                                    <ExportClassOverlay
-                                        isLoading={isLoadingClass}
-                                        exportExcel={this.exportExcel}
-                                        exportAttendanceExcel={this.exportAttendanceExcel}
-                                    />
+                        </div>
+                        <div className="card detail-wrap">
+                            <div className="card-content">
+                                <div className="detail-wrap">
+                                    <p>Giảng
+                                        viên<strong>{classData.teacher ? classData.teacher.name : "Chưa có"}
+                                            {classData.teachers_detail && classData.teachers_detail.map((teacher) => {
+                                                return (<div>
+                                                    {teacher.name}
+                                                </div>);
+                                            })}
+                                        </strong></p>
+                                    <p>Trợ
+                                        giảng<strong>{classData.teacher_assistant ? classData.teacher_assistant.name : "Chưa có"}
+                                            {classData.teaching_assistants_detail && classData.teaching_assistants_detail.map((teacher) => {
+                                                return (<div>
+                                                    {teacher.name}
+                                                </div>);
+                                            })}
+                                        </strong>
+                                    </p>
+                                    <p>Lịch
+                                        học<strong>{(classData.schedule && classData.schedule.name) ? classData.schedule.name : "Chưa có"}</strong>
+                                    </p>
+                                    <p>Mô tả<strong>{classData.description || "Chưa có"}</strong></p>
+                                    <p>Chỉ tiêu đăng kí<strong>{classData.regis_target || "Chưa có"}</strong>
+                                    </p>
+                                    <p>Chỉ tiêu nộp tiền<strong>{classData.total_paid || "Chưa có"}</strong></p>
+                                    <p>Ngày khai giảng<strong>{classData.datestart_vi || "Chưa có"}</strong></p>
+                                    <p>Ngày bế giảng<strong>{classData.date_end_vi || "Chưa có"}</strong></p>
+                                    <p>Ngày bắt đầu tuyển
+                                        sinh<strong>{classData.enroll_start_date_vi || "Chưa có"}</strong></p>
+                                    <p>Ngày kết thúc tuyển
+                                        sinh<strong>{classData.enroll_end_date_vi || "Chưa có"}</strong></p>
+                                    <p>Trạng thái<strong>{{
+                                        '': 'Chưa có',
+                                        null: 'Chưa có',
+                                        'waiting': 'Lớp chờ',
+                                        'active': 'Đang hoạt động'
+                                    }[classData.type]}</strong></p>
+                                    {classData.course &&
+                                    <p>Môn học<strong>{classData.course.name || "Chưa có"}</strong></p>}
+                                    {classData.gen &&
+                                    <p>Khóa<strong>{classData.gen.name || "Chưa có"}</strong></p>}
+                                    <p>Link Driver
+                                        <strong
 
+                                        ><a data-toggle="tooltip" title="Nhấp để mở link"
+                                            href={classData.link_drive} target="_blank">
+                                            {classData.link_drive || "Chưa có"}
+                                        </a></strong>
+
+                                    </p>
 
                                 </div>
-                                {!isLoadingClass && classData &&
-
-
-                                this.props.children
-
-
+                                {this.props.isStoringClass ?
+                                    (
+                                        <button
+                                            className="btn width-100 disabled"
+                                        >
+                                            <i className="fa fa-spinner fa-spin"/> Đang sửa
+                                        </button>
+                                    )
+                                    :
+                                    <button className="btn width-100"
+                                            onClick={this.openModalEditClass}
+                                    >Sửa thông tin
+                                    </button>
                                 }
                             </div>
-                        </div>}
+                        </div>
+
+                        <div className="padding-horizontal-30px">
+
+                            {classData.attendances &&
+                            <div><h4><strong>Tình trạng điểm danh</strong></h4>
+                                <div
+                                    className="smooth-scroll-y max-height-400">  {classData.attendances.map((attendance, key) => {
+                                    return (
+                                        <div key={'attendance-' + key}>
+                                            <div
+                                                className="flex flex-row-center flex-space-between">
+                                                <h6>
+                                                    <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}
+                                                </h6>
+                                                {
+                                                    (attendance.is_change || this.props.user.role == 2) &&
+                                                    <TooltipButton placement="top"
+                                                                   text="Đổi buổi"
+                                                    >
+                                                        <button
+                                                            className="btn btn-xs btn-round"
+                                                            onClick={() => this.openModalClassLesson(attendance)}
+                                                        >
+                                                            <i className="material-icons">compare_arrows</i>
+                                                            <div
+                                                                className="ripple-container"/>
+                                                        </button>
+                                                    </TooltipButton>
+                                                }
+                                            </div>
+
+                                            <div
+                                                className="progress progress-line-success progress-bar-table width-100">
+                                                <div
+                                                    className="progress-bar progress-bar-success"
+                                                    role="progressbar"
+                                                    aria-valuemin="0"
+                                                    aria-valuemax="100"
+                                                    style={{width: (100 * attendance.total_attendance / classData.total_paid) + '%'}}
+                                                >
+                                                        <span
+                                                            className="sr-only">{100 * attendance.total_attendance / classData.total_paid}%</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    );
+                                })}
+
+                                </div>
+                            </div>
+                            }
+                            {classData.teacher &&
+                            <div><h4><strong>Điểm danh giảng viên</strong></h4>
+                                <div className="smooth-scroll-y max-height-400">
+                                    {classData.teacher.attendances.map((attendance, index) => {
+                                            return (
+                                                <div key={'teacher-attendances' + index}>
+                                                    <div
+                                                        className="flex flex-row-center flex-space-between">
+                                                        <div>
+                                                            <strong>Buổi {attendance.order} </strong>
+                                                            {
+                                                                attendance.staff &&
+                                                                attendance.staff.name
+
+                                                            }
+                                                        </div>
+                                                        {
+                                                            (attendance.is_change || this.props.user.role == 2) &&
+                                                            <div>
+                                                                <TooltipButton placement="top"
+                                                                               text="Đổi giảng viên"
+                                                                >
+                                                                    <button
+                                                                        className="btn btn-xs btn-round"
+                                                                        onClick={() => this.openModalChangeTeacher(attendance)}
+                                                                    >
+                                                                        <i className="material-icons">compare_arrows</i>
+                                                                        <div
+                                                                            className="ripple-container"/>
+                                                                    </button>
+                                                                </TooltipButton>
+                                                                {/*<TooltipButton placement="top"*/}
+                                                                {/*               text="Xem thêm"*/}
+                                                                {/*>*/}
+                                                                {/*    <button*/}
+                                                                {/*        className="btn btn-xs btn-round btn-rose"*/}
+                                                                {/*        onClick={() => this.openModalTeachingLesson(attendance, 1)}*/}
+                                                                {/*    >*/}
+                                                                {/*        <i className="material-icons">more_horiz</i>*/}
+                                                                {/*        <div*/}
+                                                                {/*            className="ripple-container"/>*/}
+                                                                {/*    </button>*/}
+                                                                {/*</TooltipButton>*/}
+                                                            </div>
+
+                                                        }
+                                                    </div>
+                                                    <AttendanceTeacher
+                                                        attendance={attendance}
+                                                        addCheckinCheckout={this.addCheckinCheckout}
+                                                        type={"teacher"}
+                                                    />
+                                                </div>
+                                            )
+                                                ;
+                                        }
+                                    )}
+
+                                </div>
+                            </div>
+                            }
+                            {classData.teacher_assistant &&
+                            <div><h4><strong>Điểm danh trợ giảng</strong></h4>
+                                <div className="smooth-scroll-y max-height-400">
+                                    {classData.teacher_assistant.attendances.map((attendance, index) => {
+                                            return (
+                                                <div key={'teacher_assistant' + index}>
+                                                    <div
+                                                        className="flex flex-row-center flex-space-between">
+                                                        <div>
+                                                            <strong>Buổi {attendance.order} </strong>
+                                                            {
+                                                                attendance.staff &&
+                                                                attendance.staff.name
+
+                                                            }
+                                                        </div>
+                                                        {
+                                                            (attendance.is_change || this.props.user.role == 2) &&
+                                                            <div>
+                                                                <TooltipButton placement="top"
+                                                                               text="Đổi trợ giảng"
+                                                                >
+                                                                    <button
+                                                                        className="btn btn-xs btn-round"
+                                                                        onClick={() => this.openModalTeachAssis(attendance)}
+                                                                    >
+                                                                        <i className="material-icons">compare_arrows</i>
+                                                                        <div
+                                                                            className="ripple-container"/>
+                                                                    </button>
+                                                                </TooltipButton>
+                                                                {/*<TooltipButton placement="top"*/}
+                                                                {/*               text="Xem thêm"*/}
+                                                                {/*>*/}
+                                                                {/*    <button*/}
+                                                                {/*        className="btn btn-xs btn-round btn-rose"*/}
+                                                                {/*        onClick={() => this.openModalTeachingLesson(attendance, 2)}*/}
+                                                                {/*    >*/}
+                                                                {/*        <i className="material-icons">more_horiz</i>*/}
+                                                                {/*        <div*/}
+                                                                {/*            className="ripple-container"/>*/}
+                                                                {/*    </button>*/}
+                                                                {/*</TooltipButton>*/}
+                                                            </div>
+
+                                                        }
+
+                                                    </div>
+                                                    <AttendanceTeacher
+                                                        attendance={attendance}
+                                                        addCheckinCheckout={this.addCheckinCheckout}
+                                                        type={"teaching_assistant"}
+                                                    />
+                                                </div>
+                                            );
+                                        }
+                                    )}
+
+                                </div>
+                            </div>
+                            }
+
+
+                        </div>
 
                     </div>
-                </div>
+                    <div className="col-md-8">
+                        <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
+                            {this.routes.map((route, index) => {
+                                return (
+                                    index ?
+                                        <li className={this.path === route.path ? 'active' : ''}>
+                                            <Link to={route.path} style={{
+                                                borderRadius: 5,
+                                                textTransform: 'none',
+                                                margin: 0,
+                                                padding: '10px 20px'
+                                            }}>
+                                                {route.text}
+                                            </Link>
+                                        </li>
+                                        :
+                                        <li className={this.path === route.path ? 'active' : ''}>
+                                            <IndexLink to={route.path} style={{
+                                                borderRadius: 5,
+                                                textTransform: 'none',
+                                                margin: 0,
+                                                padding: '10px 20px'
+                                            }}>
+                                                {route.text}
+                                            </IndexLink>
+                                        </li>
+                                );
+                            })}
+                        </ul>
+                        <div className="flex flex-wrap margin-top-10">
+
+                            {classData && classData.course && this.path == `${this.routePrefix}` &&
+                            <CreateRegisterOverlay
+                                onSuccess={() => this.props.classActions.loadClass(this.classId)}
+                                studentData={{class_id: classData.id, course_id: classData.course.id}}
+                            >
+                                <div className="btn btn-actions button-green radius-5">
+                                    <i className="material-icons">add_circle</i>&nbsp;&nbsp;&nbsp;&nbsp;Thêm học
+                                    viên mới
+                                </div>
+
+                            </CreateRegisterOverlay>}
+                            {(this.path == `${this.routePrefix}/history-teaching` || this.path == `${this.routePrefix}/score`)&&
+                            <div onClick={this.updateClassLesson} className="btn btn-actions button-green radius-5">
+                                <i className="material-icons">cached</i>&nbsp;&nbsp;&nbsp;&nbsp;Cập nhật chương trình
+                            </div>}
+                            {(this.path == `${this.routePrefix}/history-teaching` || this.path == `${this.routePrefix}/score`)
+                            && classData.course &&
+                            <a className="btn btn-actions" href={`/courses/edit/${classData.course.id}`} target='_blank'>
+                                <span className="material-icons">create</span>
+                                &nbsp;&nbsp;&nbsp;&nbsp;Sửa môn học
+                            </a>}
+                            {this.path == `${this.routePrefix}/history-teaching` &&
+                            <ChangeTeachMultiLessonOverlay
+                                refresh={() => this.props.classActions.loadClass(this.classId)}/>}
+                            {/*<div onClick={this.genCerti} className="btn btn-actions">*/}
+                            {/*    Xếp bằng*/}
+                            {/*</div>*/}
+                            {this.path == `${this.routePrefix}` && <ExportClassOverlay
+                                isLoading={isLoadingClass}
+                                exportExcel={this.exportExcel}
+                                exportAttendanceExcel={this.exportAttendanceExcel}
+                            />}
+                            <div className="dropdown">
+                                <button className="btn btn-icon btn-actions margin-right-10" mask="extra"
+                                        type="button" data-toggle="dropdown">
+                                    <i className="material-icons">arrow_drop_down</i>
+                                </button>
+                                <ul className="dropdown-menu">
+                                    <li>
+                                        <a onClick={this.genCerti}>Xếp bằng</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        {!isLoadingClass && classData &&
+
+
+                        this.props.children
+
+
+                        }
+                    </div>
+                </div>}
+
+                {/*    </div>*/}
+                {/*</div>*/}
                 {/*{false && <div className="row">*/}
                 {/*    <div className="col-md-8">*/}
                 {/*        <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">*/}

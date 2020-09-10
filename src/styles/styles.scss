@@ -1242,7 +1242,9 @@ a.btn-seat.active {
 .dropdown-menu li a:hover,
 .dropdown-menu li a:focus,
 .dropdown-menu li a:active {
-  background-color: rgba(197, 0, 0, 1) !important;
+  background-color: #f7f7f7 !important;
+  color: black;
+  box-shadow: none;
 }
 
 .nav-pills-rose > .active > a {
@@ -1310,6 +1312,7 @@ a.btn-seat.active {
 .height-100 {
   height: 100% !important;
 }
+
 .height-26px {
   height: 26px !important;
 }
@@ -1591,12 +1594,12 @@ table tr td .avatar-honor {
     text-overflow: ellipsis;
 
 
-
   }
 
   select.form-control[color=white] {
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABmJLR0QA/wD/AP+gvaeTAAAAOElEQVRIie3NsQ0AIAgFUba2lM2P1saQKDTkvwHuzERkOGCR252Tv3gyqYlfJrXxY+KAt8RF5F0A5TRya8Dp5ngAAAAASUVORK5CYII=);
-    option[disabled]{
+
+    option[disabled] {
       color: #d8d6d6;
     }
   }
@@ -2192,9 +2195,9 @@ table tr td .avatar-honor {
   font-weight: 400;
 
   .btn {
-    background-color: #e8e8e8 !important;
+    background-color: #00BC07 !important;
     box-shadow: none !important;
-    color: black;
+    color: white;
   }
 
   p {
@@ -2258,7 +2261,7 @@ table tr td .avatar-honor {
 }
 
 .btn-actions {
-  padding: 10px 20px !important;
+  padding: 12px 15px !important;
   font-size: 14px;
   cursor: pointer;
   margin-right: 10px;
@@ -2271,7 +2274,12 @@ table tr td .avatar-honor {
   flex-wrap: wrap;
   will-change: unset !important;
 
-  &:hover, & {
+  &{
+    background-color: white;
+    color: black;
+
+  }
+  &:hover{
     background-color: #F7F5F7;
     color: black;
 
@@ -2291,7 +2299,7 @@ table tr td .avatar-honor {
   }
 
   &[mask=extra] {
-    padding: 7px 5px !important;
+    padding: 9.5px !important;
     width: unset;
 
     i {
@@ -2838,6 +2846,7 @@ $mute: #6f6f6f;
 
   &:hover {
     background-color: #009a07;
+    color: white;
   }
 
   &.disabled {
@@ -5380,7 +5389,12 @@ $ct-series-colors: (
 }
 
 .sidebar {
-  .user:after, .logo:after{
+  .user:after, .logo:after {
     display: none;
   }
 }
+
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-success{
+  background-color: #04bc06;
+}
+

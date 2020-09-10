@@ -386,7 +386,9 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
                 <button className="btn btn-actions"
                         ref="target" onClick={this.toggle}
                         disabled={isLoading}>
-                    Đổi giáo viên
+                   <span className="material-icons">
+calendar_today
+</span>&nbsp;&nbsp;&nbsp;&nbsp;Xếp lịch giảng viên
                 </button>
                 <Overlay
                     rootClose={true}
