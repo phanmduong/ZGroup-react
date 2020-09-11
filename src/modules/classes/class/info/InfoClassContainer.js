@@ -9,13 +9,12 @@ import Loading from '../../../../components/common/Loading';
 import TooltipButton from '../../../../components/common/TooltipButton';
 import {NO_AVATAR} from '../../../../constants/env';
 import * as helper from '../../../../helpers/helper';
+import {isEmptyInput} from '../../../../helpers/helper';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {Modal} from "react-bootstrap";
-import ButtonGroupAction from "../../../../components/common/ButtonGroupAction";
 import ListChangeClass from "./ListChangeClass";
 import * as globalModalActions from "../../../globalModal/globalModalActions";
-import {isEmptyInput} from "../../../../helpers/helper";
 import EmptyData from "../../../../components/common/EmptyData";
 import StatusesOverlay from "../../../infoStudent/overlays/StatusesOverlay";
 
@@ -87,7 +86,7 @@ class InfoClassContainer extends React.Component {
         } else {
             let classData = this.props.class;
             return (
-                <div>
+                <div style={{marginTop:-5}}>
                     <Modal show={this.state.showModalChangeClass}
                            onHide={() => {
                                if (!this.props.isChangingClass)
@@ -268,17 +267,20 @@ class InfoClassContainer extends React.Component {
                                                     check_circle
                                                 </i></span>}
                                                 </a></td>
-                                                <td> {
-                                                    register.code &&
+                                                <td>
+                                                    {/*    {*/}
+                                                    {/*    register.code &&*/}
 
 
-                                                    <button
-                                                        className={(register.received_id_card ? "btn btn-xs btn-rose" : "btn btn-xs") + " min-width-100-px"}>
-                                                        {register.code}
-                                                        <div className="ripple-container"/>
-                                                    </button>
+                                                    {/*    <button*/}
+                                                    {/*        className={(register.received_id_card ? "btn btn-xs btn-rose" : "btn btn-xs") + " min-width-100-px"}>*/}
+                                                    {/*        {register.code}*/}
+                                                    {/*        <div className="ripple-container"/>*/}
+                                                    {/*    </button>*/}
 
-                                                }</td>
+                                                    {/*}*/}
+                                                    {register.code}
+                                                </td>
                                                 <td><h6>{register.total_attendances}/{register.attendances.length}</h6>
                                                     <div
                                                         className="progress progress-line-success progress-bar-table width-100">
@@ -294,7 +296,7 @@ class InfoClassContainer extends React.Component {
                                                     </div>
                                                 </td>
 
-                                                <td className="text-center">
+                                                <td>
                                                     <div
                                                         data-toggle="tooltip"
                                                         title={
@@ -320,7 +322,7 @@ class InfoClassContainer extends React.Component {
 
 
                                                 </td>
-                                                <td className="text-center">
+                                                <td>
                                                     {
                                                         register.paid_status ?
                                                             <TooltipButton
@@ -328,7 +330,7 @@ class InfoClassContainer extends React.Component {
                                                                 placement="top"
                                                             >
                                                                 <button
-                                                                    className="btn btn-xs btn-rose min-width-100-px"
+                                                                    className="btn btn-xs button-green min-width-100-px"
                                                                 >
                                                                     {helper.dotNumber(register.money)} vnd
                                                                     <div className="ripple-container"/>
@@ -364,6 +366,7 @@ class InfoClassContainer extends React.Component {
                                                         refId={register.id}
                                                         statusRef="registers"
                                                         className="btn btn-xs source-value width-100 bold"
+                                                        styleOverlay={{marginLeft:-180}}
                                                     />
                                                 </td>
 
@@ -408,10 +411,11 @@ class InfoClassContainer extends React.Component {
                                                 <td>
                                                     <div className="dropdown dropleft">
                                                         <div className="cursor-pointer"
-                                                                type="button" data-toggle="dropdown">
-                                                            <i className="material-icons"  style={{fontSize:22}}>more_horiz</i>
+                                                             type="button" data-toggle="dropdown">
+                                                            <i className="material-icons"
+                                                               style={{fontSize: 22}}>more_horiz</i>
                                                         </div>
-                                                        <ul className="dropdown-menu" style={{marginLeft:-125}}>
+                                                        <ul className="dropdown-menu" style={{marginLeft: -125}}>
                                                             {register.is_delete && <li>
                                                                 <a onClick={this.deleteRegister}>Xoá học viên</a>
                                                             </li>}

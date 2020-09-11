@@ -86,7 +86,7 @@ class ScoreClassContainer extends React.Component {
             );
 
         return (
-            <div>
+            <div  style={{marginTop:-5}}>
 
                 {(!isLoading) && classData.group_exams.map((group, key1) => {
                     return (

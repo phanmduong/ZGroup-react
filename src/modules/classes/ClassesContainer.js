@@ -260,7 +260,7 @@ class ClassesContainer extends React.Component {
                             <Search
                                 onChange={this.classesSearchChange}
                                 value={this.state.query}
-                                placeholder="Tìm kiếm lớp học theo tên"
+                                placeholder="Tìm kiếm lớp học"
                                 className="white-seacrh margin-right-10 min-width-200-px form-group-none-padding"
                                 onSearch={this.onSearchClasses}
                             />

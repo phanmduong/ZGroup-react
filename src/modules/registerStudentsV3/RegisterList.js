@@ -11,6 +11,7 @@ import SourceOverlay from "../infoStudent/overlays/SourceOverlay";
 import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
 import {isEmpty} from "../../helpers/entity/mobx";
 import RegisterActionsOverlay from "./overlays/RegisterActionsOverlay";
+import MarketingCampaignRegisterOverlay from "./overlays/MarketingCampaignRegisterOverlay";
 
 @observer
 class RegisterList extends React.Component {
@@ -203,28 +204,34 @@ class RegisterList extends React.Component {
                                     className="btn btn-main btn-xs none-margin source-value width-100"
                                     student={register}
                                 /></td>
-                                <td>{
-                                    register.marketing_campaign ?
-                                        (
-                                            <button className="btn btn-xs btn-main none-margin width-100"
-                                                    style={{backgroundColor: '#' + register.marketing_campaign.color}}
-                                                    onClick={() => this.onClickButtonChangeFilter("campaign", register.marketing_campaign)}
+                                <td>
+                                {/*{*/}
+                                {/*    register.marketing_campaign ?*/}
+                                {/*        (*/}
+                                {/*            <button className="btn btn-xs btn-main none-margin width-100"*/}
+                                {/*                    style={{backgroundColor: '#' + register.marketing_campaign.color}}*/}
+                                {/*                    onClick={() => this.onClickButtonChangeFilter("campaign", register.marketing_campaign)}*/}
 
-                                            >
-                                                {register.marketing_campaign.name}
-                                                <div className="ripple-container"/>
-                                            </button>
-                                        )
-                                        :
-                                        (
-                                            <button className="btn btn-xs btn-main none-margin width-100"
-                                                    onClick={() => this.onClickButtonChangeFilter("campaign", store.defaultEmptySelectObject)}
-                                            >
-                                                No campaign
-                                                <div className="ripple-container"/>
-                                            </button>
-                                        )
-                                }</td>
+                                {/*            >*/}
+                                {/*                {register.marketing_campaign.name}*/}
+                                {/*                <div className="ripple-container"/>*/}
+                                {/*            </button>*/}
+                                {/*        )*/}
+                                {/*        :*/}
+                                {/*        (*/}
+                                {/*            <button className="btn btn-xs btn-main none-margin width-100"*/}
+                                {/*                    onClick={() => this.onClickButtonChangeFilter("campaign", store.defaultEmptySelectObject)}*/}
+                                {/*            >*/}
+                                {/*                No campaign*/}
+                                {/*                <div className="ripple-container"/>*/}
+                                {/*            </button>*/}
+                                {/*        )*/}
+                                {/*}*/}
+                                <MarketingCampaignRegisterOverlay
+                                    register={register}
+                                    className="btn btn-xs source-value width-100 bold"
+                                />
+                                </td>
                                 <td>
                                     <StatusesOverlay
                                         data={register.register_status}
@@ -236,7 +243,7 @@ class RegisterList extends React.Component {
                                 <td>
                                     {
                                         register.paid_status ?
-                                            <TooltipButton text={register.note} placement="top">
+                                            <TooltipButton text={register.note || 'Chưa có note'} placement="top">
                                                 <div
                                                     className="btn btn-xs btn-main none-margin main-background-color width-100">
                                                     {helper.dotNumber(register.money)} vnd

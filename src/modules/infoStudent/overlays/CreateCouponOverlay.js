@@ -242,6 +242,7 @@ class CreateCouponOverlay extends React.Component {
                                                         required
                                                         style={{"appearance": "textfield"}}
                                                         value={(coupon.discount_value || 0)}
+                                                        minValue="0"
                                                         updateFormData={this.updateFormData}
                                                     />
                                                     <div style={{position: 'absolute', right: 15, top: 10,}}>

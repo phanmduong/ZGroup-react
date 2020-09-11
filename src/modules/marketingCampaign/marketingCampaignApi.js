@@ -37,7 +37,6 @@ export function storeMarketingCampaign(marketingCampaign) {
     });
 }
 export function assignMarketingCampaign(user_id,campaign_id ) {
-
     let url = env.MANAGE_API_URL + "/marketing-campaign/assign";
     let token = localStorage.getItem('token');
     if (token) {
@@ -45,6 +44,18 @@ export function assignMarketingCampaign(user_id,campaign_id ) {
     }
     return axios.post(url, {
         user_id,
+        campaign_id,
+
+    });
+}
+export function assignRegisterMarketingCampaign(register_id,campaign_id ) {
+    let url = env.MANAGE_API_URL + "/marketing-campaign/assign-register";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        register_id,
         campaign_id,
 
     });

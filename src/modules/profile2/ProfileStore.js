@@ -9,7 +9,7 @@ import {
 import {
     showErrorNotification,
     showNotification,
-    showTypeNotification
+    showTypeNotification, showWarningNotification
 } from "../../helpers/helper";
 
 class ProfileStore {
@@ -38,7 +38,8 @@ class ProfileStore {
 
     @action
     changeAvatar(file, callback) {
-        changeAvatarApi(file, function (event) {
+        showWarningNotification('Đang tải ảnh lên');
+        changeAvatarApi(file, (event) =>{
             console.log(event);
             let data = JSON.parse(event.currentTarget.response);
             showNotification(data.message);

@@ -7,7 +7,6 @@ import {
     findNextInstanceInDaysArray,
     getShortName,
     isEmptyInput,
-    shortenStr,
     showNotification
 } from "../../../../helpers/helper";
 import TooltipButton from "../../../../components/common/TooltipButton";
@@ -148,11 +147,11 @@ class HistoryTeachingContainer extends React.Component {
         this.setState({showModalDelayLessons: false});
     };
     openModalLessonEvent = (lessonEvent, lessonEventType, classLessonEvent) => {
-        console.log(lessonEvent);
+        // console.log(lessonEvent);
         let lessonEventStudent = this.props.classData.registers.map((r) => {
             let {student} = r;
             let student_class_lesson_event = r.events.filter(e => e.event_type == lessonEventType && e.lesson_id == lessonEvent.lesson_id)[0] || {};
-            console.log(r.events, student_class_lesson_event);
+            // console.log(r.events, student_class_lesson_event);
 
             return {
                 student_class_lesson_event_id: student_class_lesson_event ? student_class_lesson_event.id : null,
@@ -181,7 +180,7 @@ class HistoryTeachingContainer extends React.Component {
     submitModalLessonEvent = () => {
         let lessonEventStudent = {...this.state.lessonEventStudent};
         let {params, classActions} = this.props;
-        console.log(lessonEventStudent);
+        // console.log(lessonEventStudent);
         classActions.saveStudentLessonEvent(lessonEventStudent, () => {
             classActions.loadClass(params.classId);
         });
@@ -378,7 +377,7 @@ class HistoryTeachingContainer extends React.Component {
         // moveLesson =
 
         return (
-            <div className="table-sticky-head table-split table-hover" radius="five">
+            <div className="table-sticky-head table-split table-hover" radius="five" style={{marginTop:-5}}>
                 <table className="table" >
                     <thead className="text-rose">
                     <tr>

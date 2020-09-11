@@ -8,7 +8,6 @@ import {IndexLink, Link} from 'react-router';
 import * as classActions from '../classActions';
 import Loading from "../../../components/common/Loading";
 import {Modal} from 'react-bootstrap';
-import TooltipButton from '../../../components/common/TooltipButton';
 import FormInputText from '../../../components/common/FormInputText';
 import FormInputDate from '../../../components/common/FormInputDate';
 import Select from 'react-select';
@@ -22,9 +21,9 @@ import TimePicker from "../../../components/common/TimePicker";
 import AddClassContainer from "../AddClassContainer";
 import ExportClassOverlay from "../overlays/ExportClassOverlay";
 import CreateRegisterOverlay from "../../infoStudent/overlays/CreateRegisterOverlay";
-import AttendanceTeacher from "./AttendanceTeacher";
 import Checkbox from "../../../components/common/Checkbox";
 import ChangeTeachMultiLessonOverlay from "../overlays/ChangeTeachMultiLessonOverlay";
+import {isEmpty} from "../../../helpers/entity/mobx";
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
@@ -34,7 +33,7 @@ class ClassContainer extends React.Component {
         this.routePrefix = `/teaching/class/${this.classId}`;
         this.routes = [
             {
-                path: `${this.routePrefix}`, text: 'Tổng quan',
+                path: `${this.routePrefix}`, text: 'Danh sách học viên',
             },
             {
                 path: `${this.routePrefix}/history-teaching`, text: 'Chương trình học',
@@ -43,10 +42,10 @@ class ClassContainer extends React.Component {
             //     path: `${this.routePrefix}/progress`, text: 'Điểm danh',
             // },
             {
-                path: `${this.routePrefix}/checkin-checkout`, text: 'Checkin',
+                path: `${this.routePrefix}/score`, text: 'Điểm học viên',
             },
             {
-                path: `${this.routePrefix}/score`, text: 'Điểm học viên',
+                path: `${this.routePrefix}/checkin-checkout`, text: 'Chấm công',
             },
         ];
         this.state = {
@@ -427,13 +426,14 @@ class ClassContainer extends React.Component {
         let {isLoadingClass} = this.props;
 
         return (
-            <div>
+            <div className="margin-top-10">
                 {/*<div className="card">*/}
                 {/*    <div className="card-content">*/}
                 {isLoadingClass && <Loading/>}
-                {!isLoadingClass && classData && <div className="row">
+                {!isLoadingClass && classData &&
+                <div className="row" data-space="10">
                     <div className="col-md-4">
-                        <div className="card" mask="blue">
+                        <div className="card margin-bottom-10 none-margin-top" mask="blue">
                             <div className="card-content flex flex-col">
                                 <div className="flex flex-justify-content-center">
 
@@ -469,7 +469,7 @@ class ClassContainer extends React.Component {
                             </div>
 
                         </div>
-                        <div className="card detail-wrap">
+                        <div className="card detail-wrap none-margin-top">
                             <div className="card-content">
                                 <div className="detail-wrap">
                                     <p>Giảng
@@ -489,30 +489,35 @@ class ClassContainer extends React.Component {
                                             })}
                                         </strong>
                                     </p>
-                                    <p>Lịch
+                                    {!isEmpty(classData.schedule) &&<p>Lịch
                                         học<strong>{(classData.schedule && classData.schedule.name) ? classData.schedule.name : "Chưa có"}</strong>
-                                    </p>
-                                    <p>Mô tả<strong>{classData.description || "Chưa có"}</strong></p>
+                                    </p>}
+                                    {!isEmpty(classData.description) && <p>Mô tả<strong>
+                                        {classData.description || "Chưa có"}</strong>
+                                    </p>}
+                                    {classData.regis_target &&
                                     <p>Chỉ tiêu đăng kí<strong>{classData.regis_target || "Chưa có"}</strong>
-                                    </p>
-                                    <p>Chỉ tiêu nộp tiền<strong>{classData.total_paid || "Chưa có"}</strong></p>
-                                    <p>Ngày khai giảng<strong>{classData.datestart_vi || "Chưa có"}</strong></p>
-                                    <p>Ngày bế giảng<strong>{classData.date_end_vi || "Chưa có"}</strong></p>
-                                    <p>Ngày bắt đầu tuyển
-                                        sinh<strong>{classData.enroll_start_date_vi || "Chưa có"}</strong></p>
-                                    <p>Ngày kết thúc tuyển
-                                        sinh<strong>{classData.enroll_end_date_vi || "Chưa có"}</strong></p>
-                                    <p>Trạng thái<strong>{{
+                                    </p>}
+                                    {!isEmpty(classData.total_paid) &&
+                                    <p>Chỉ tiêu nộp tiền<strong>{classData.total_paid || "Chưa có"}</strong></p>}
+                                    {!isEmpty(classData.datestart_vi) &&
+                                    <p>Ngày khai giảng<strong>{classData.datestart_vi || "Chưa có"}</strong></p>}
+                                    {classData.date_end_vi && <p>Ngày bế giảng<strong>{classData.date_end_vi || "Chưa có"}</strong></p>}
+                                    {classData.enroll_start_date_vi && <p>Ngày bắt đầu tuyển
+                                        sinh<strong>{classData.enroll_start_date_vi || "Chưa có"}</strong></p>}
+                                    {classData.enroll_end_date_vi && <p>Ngày kết thúc tuyển
+                                        sinh<strong>{classData.enroll_end_date_vi || "Chưa có"}</strong></p> }
+                                    {!isEmpty(classData.type) && <p>Trạng thái<strong>{{
                                         '': 'Chưa có',
                                         null: 'Chưa có',
                                         'waiting': 'Lớp chờ',
                                         'active': 'Đang hoạt động'
-                                    }[classData.type]}</strong></p>
+                                    }[classData.type]}</strong></p>}
                                     {classData.course &&
                                     <p>Môn học<strong>{classData.course.name || "Chưa có"}</strong></p>}
                                     {classData.gen &&
                                     <p>Khóa<strong>{classData.gen.name || "Chưa có"}</strong></p>}
-                                    <p>Link Driver
+                                    {classData.link_drive && <p>Link Driver
                                         <strong
 
                                         ><a data-toggle="tooltip" title="Nhấp để mở link"
@@ -520,7 +525,7 @@ class ClassContainer extends React.Component {
                                             {classData.link_drive || "Chưa có"}
                                         </a></strong>
 
-                                    </p>
+                                    </p>}
 
                                 </div>
                                 {this.props.isStoringClass ?
@@ -540,185 +545,185 @@ class ClassContainer extends React.Component {
                             </div>
                         </div>
 
-                        <div className="padding-horizontal-30px">
+                        {/*<div className="padding-horizontal-30px">*/}
 
-                            {classData.attendances &&
-                            <div><h4><strong>Tình trạng điểm danh</strong></h4>
-                                <div
-                                    className="smooth-scroll-y max-height-400">  {classData.attendances.map((attendance, key) => {
-                                    return (
-                                        <div key={'attendance-' + key}>
-                                            <div
-                                                className="flex flex-row-center flex-space-between">
-                                                <h6>
-                                                    <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}
-                                                </h6>
-                                                {
-                                                    (attendance.is_change || this.props.user.role == 2) &&
-                                                    <TooltipButton placement="top"
-                                                                   text="Đổi buổi"
-                                                    >
-                                                        <button
-                                                            className="btn btn-xs btn-round"
-                                                            onClick={() => this.openModalClassLesson(attendance)}
-                                                        >
-                                                            <i className="material-icons">compare_arrows</i>
-                                                            <div
-                                                                className="ripple-container"/>
-                                                        </button>
-                                                    </TooltipButton>
-                                                }
-                                            </div>
+                        {/*    {classData.attendances &&*/}
+                        {/*    <div><h4><strong>Tình trạng điểm danh</strong></h4>*/}
+                        {/*        <div*/}
+                        {/*            className="smooth-scroll-y max-height-400">  {classData.attendances.map((attendance, key) => {*/}
+                        {/*            return (*/}
+                        {/*                <div key={'attendance-' + key}>*/}
+                        {/*                    <div*/}
+                        {/*                        className="flex flex-row-center flex-space-between">*/}
+                        {/*                        <h6>*/}
+                        {/*                            <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}*/}
+                        {/*                        </h6>*/}
+                        {/*                        {*/}
+                        {/*                            (attendance.is_change || this.props.user.role == 2) &&*/}
+                        {/*                            <TooltipButton placement="top"*/}
+                        {/*                                           text="Đổi buổi"*/}
+                        {/*                            >*/}
+                        {/*                                <button*/}
+                        {/*                                    className="btn btn-xs btn-round"*/}
+                        {/*                                    onClick={() => this.openModalClassLesson(attendance)}*/}
+                        {/*                                >*/}
+                        {/*                                    <i className="material-icons">compare_arrows</i>*/}
+                        {/*                                    <div*/}
+                        {/*                                        className="ripple-container"/>*/}
+                        {/*                                </button>*/}
+                        {/*                            </TooltipButton>*/}
+                        {/*                        }*/}
+                        {/*                    </div>*/}
 
-                                            <div
-                                                className="progress progress-line-success progress-bar-table width-100">
-                                                <div
-                                                    className="progress-bar progress-bar-success"
-                                                    role="progressbar"
-                                                    aria-valuemin="0"
-                                                    aria-valuemax="100"
-                                                    style={{width: (100 * attendance.total_attendance / classData.total_paid) + '%'}}
-                                                >
-                                                        <span
-                                                            className="sr-only">{100 * attendance.total_attendance / classData.total_paid}%</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    );
-                                })}
+                        {/*                    <div*/}
+                        {/*                        className="progress progress-line-success progress-bar-table width-100">*/}
+                        {/*                        <div*/}
+                        {/*                            className="progress-bar progress-bar-success"*/}
+                        {/*                            role="progressbar"*/}
+                        {/*                            aria-valuemin="0"*/}
+                        {/*                            aria-valuemax="100"*/}
+                        {/*                            style={{width: (100 * attendance.total_attendance / classData.total_paid) + '%'}}*/}
+                        {/*                        >*/}
+                        {/*                                <span*/}
+                        {/*                                    className="sr-only">{100 * attendance.total_attendance / classData.total_paid}%</span>*/}
+                        {/*                        </div>*/}
+                        {/*                    </div>*/}
+                        {/*                </div>*/}
+                        {/*            );*/}
+                        {/*        })}*/}
 
-                                </div>
-                            </div>
-                            }
-                            {classData.teacher &&
-                            <div><h4><strong>Điểm danh giảng viên</strong></h4>
-                                <div className="smooth-scroll-y max-height-400">
-                                    {classData.teacher.attendances.map((attendance, index) => {
-                                            return (
-                                                <div key={'teacher-attendances' + index}>
-                                                    <div
-                                                        className="flex flex-row-center flex-space-between">
-                                                        <div>
-                                                            <strong>Buổi {attendance.order} </strong>
-                                                            {
-                                                                attendance.staff &&
-                                                                attendance.staff.name
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    }*/}
+                        {/*    {classData.teacher &&*/}
+                        {/*    <div><h4><strong>Điểm danh giảng viên</strong></h4>*/}
+                        {/*        <div className="smooth-scroll-y max-height-400">*/}
+                        {/*            {classData.teacher.attendances.map((attendance, index) => {*/}
+                        {/*                    return (*/}
+                        {/*                        <div key={'teacher-attendances' + index}>*/}
+                        {/*                            <div*/}
+                        {/*                                className="flex flex-row-center flex-space-between">*/}
+                        {/*                                <div>*/}
+                        {/*                                    <strong>Buổi {attendance.order} </strong>*/}
+                        {/*                                    {*/}
+                        {/*                                        attendance.staff &&*/}
+                        {/*                                        attendance.staff.name*/}
 
-                                                            }
-                                                        </div>
-                                                        {
-                                                            (attendance.is_change || this.props.user.role == 2) &&
-                                                            <div>
-                                                                <TooltipButton placement="top"
-                                                                               text="Đổi giảng viên"
-                                                                >
-                                                                    <button
-                                                                        className="btn btn-xs btn-round"
-                                                                        onClick={() => this.openModalChangeTeacher(attendance)}
-                                                                    >
-                                                                        <i className="material-icons">compare_arrows</i>
-                                                                        <div
-                                                                            className="ripple-container"/>
-                                                                    </button>
-                                                                </TooltipButton>
-                                                                {/*<TooltipButton placement="top"*/}
-                                                                {/*               text="Xem thêm"*/}
-                                                                {/*>*/}
-                                                                {/*    <button*/}
-                                                                {/*        className="btn btn-xs btn-round btn-rose"*/}
-                                                                {/*        onClick={() => this.openModalTeachingLesson(attendance, 1)}*/}
-                                                                {/*    >*/}
-                                                                {/*        <i className="material-icons">more_horiz</i>*/}
-                                                                {/*        <div*/}
-                                                                {/*            className="ripple-container"/>*/}
-                                                                {/*    </button>*/}
-                                                                {/*</TooltipButton>*/}
-                                                            </div>
+                        {/*                                    }*/}
+                        {/*                                </div>*/}
+                        {/*                                {*/}
+                        {/*                                    (attendance.is_change || this.props.user.role == 2) &&*/}
+                        {/*                                    <div>*/}
+                        {/*                                        <TooltipButton placement="top"*/}
+                        {/*                                                       text="Đổi giảng viên"*/}
+                        {/*                                        >*/}
+                        {/*                                            <button*/}
+                        {/*                                                className="btn btn-xs btn-round"*/}
+                        {/*                                                onClick={() => this.openModalChangeTeacher(attendance)}*/}
+                        {/*                                            >*/}
+                        {/*                                                <i className="material-icons">compare_arrows</i>*/}
+                        {/*                                                <div*/}
+                        {/*                                                    className="ripple-container"/>*/}
+                        {/*                                            </button>*/}
+                        {/*                                        </TooltipButton>*/}
+                        {/*                                        /!*<TooltipButton placement="top"*!/*/}
+                        {/*                                        /!*               text="Xem thêm"*!/*/}
+                        {/*                                        /!*>*!/*/}
+                        {/*                                        /!*    <button*!/*/}
+                        {/*                                        /!*        className="btn btn-xs btn-round btn-rose"*!/*/}
+                        {/*                                        /!*        onClick={() => this.openModalTeachingLesson(attendance, 1)}*!/*/}
+                        {/*                                        /!*    >*!/*/}
+                        {/*                                        /!*        <i className="material-icons">more_horiz</i>*!/*/}
+                        {/*                                        /!*        <div*!/*/}
+                        {/*                                        /!*            className="ripple-container"/>*!/*/}
+                        {/*                                        /!*    </button>*!/*/}
+                        {/*                                        /!*</TooltipButton>*!/*/}
+                        {/*                                    </div>*/}
 
-                                                        }
-                                                    </div>
-                                                    <AttendanceTeacher
-                                                        attendance={attendance}
-                                                        addCheckinCheckout={this.addCheckinCheckout}
-                                                        type={"teacher"}
-                                                    />
-                                                </div>
-                                            )
-                                                ;
-                                        }
-                                    )}
+                        {/*                                }*/}
+                        {/*                            </div>*/}
+                        {/*                            <AttendanceTeacher*/}
+                        {/*                                attendance={attendance}*/}
+                        {/*                                addCheckinCheckout={this.addCheckinCheckout}*/}
+                        {/*                                type={"teacher"}*/}
+                        {/*                            />*/}
+                        {/*                        </div>*/}
+                        {/*                    )*/}
+                        {/*                        ;*/}
+                        {/*                }*/}
+                        {/*            )}*/}
 
-                                </div>
-                            </div>
-                            }
-                            {classData.teacher_assistant &&
-                            <div><h4><strong>Điểm danh trợ giảng</strong></h4>
-                                <div className="smooth-scroll-y max-height-400">
-                                    {classData.teacher_assistant.attendances.map((attendance, index) => {
-                                            return (
-                                                <div key={'teacher_assistant' + index}>
-                                                    <div
-                                                        className="flex flex-row-center flex-space-between">
-                                                        <div>
-                                                            <strong>Buổi {attendance.order} </strong>
-                                                            {
-                                                                attendance.staff &&
-                                                                attendance.staff.name
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    }*/}
+                        {/*    {classData.teacher_assistant &&*/}
+                        {/*    <div><h4><strong>Điểm danh trợ giảng</strong></h4>*/}
+                        {/*        <div className="smooth-scroll-y max-height-400">*/}
+                        {/*            {classData.teacher_assistant.attendances.map((attendance, index) => {*/}
+                        {/*                    return (*/}
+                        {/*                        <div key={'teacher_assistant' + index}>*/}
+                        {/*                            <div*/}
+                        {/*                                className="flex flex-row-center flex-space-between">*/}
+                        {/*                                <div>*/}
+                        {/*                                    <strong>Buổi {attendance.order} </strong>*/}
+                        {/*                                    {*/}
+                        {/*                                        attendance.staff &&*/}
+                        {/*                                        attendance.staff.name*/}
 
-                                                            }
-                                                        </div>
-                                                        {
-                                                            (attendance.is_change || this.props.user.role == 2) &&
-                                                            <div>
-                                                                <TooltipButton placement="top"
-                                                                               text="Đổi trợ giảng"
-                                                                >
-                                                                    <button
-                                                                        className="btn btn-xs btn-round"
-                                                                        onClick={() => this.openModalTeachAssis(attendance)}
-                                                                    >
-                                                                        <i className="material-icons">compare_arrows</i>
-                                                                        <div
-                                                                            className="ripple-container"/>
-                                                                    </button>
-                                                                </TooltipButton>
-                                                                {/*<TooltipButton placement="top"*/}
-                                                                {/*               text="Xem thêm"*/}
-                                                                {/*>*/}
-                                                                {/*    <button*/}
-                                                                {/*        className="btn btn-xs btn-round btn-rose"*/}
-                                                                {/*        onClick={() => this.openModalTeachingLesson(attendance, 2)}*/}
-                                                                {/*    >*/}
-                                                                {/*        <i className="material-icons">more_horiz</i>*/}
-                                                                {/*        <div*/}
-                                                                {/*            className="ripple-container"/>*/}
-                                                                {/*    </button>*/}
-                                                                {/*</TooltipButton>*/}
-                                                            </div>
+                        {/*                                    }*/}
+                        {/*                                </div>*/}
+                        {/*                                {*/}
+                        {/*                                    (attendance.is_change || this.props.user.role == 2) &&*/}
+                        {/*                                    <div>*/}
+                        {/*                                        <TooltipButton placement="top"*/}
+                        {/*                                                       text="Đổi trợ giảng"*/}
+                        {/*                                        >*/}
+                        {/*                                            <button*/}
+                        {/*                                                className="btn btn-xs btn-round"*/}
+                        {/*                                                onClick={() => this.openModalTeachAssis(attendance)}*/}
+                        {/*                                            >*/}
+                        {/*                                                <i className="material-icons">compare_arrows</i>*/}
+                        {/*                                                <div*/}
+                        {/*                                                    className="ripple-container"/>*/}
+                        {/*                                            </button>*/}
+                        {/*                                        </TooltipButton>*/}
+                        {/*                                        /!*<TooltipButton placement="top"*!/*/}
+                        {/*                                        /!*               text="Xem thêm"*!/*/}
+                        {/*                                        /!*>*!/*/}
+                        {/*                                        /!*    <button*!/*/}
+                        {/*                                        /!*        className="btn btn-xs btn-round btn-rose"*!/*/}
+                        {/*                                        /!*        onClick={() => this.openModalTeachingLesson(attendance, 2)}*!/*/}
+                        {/*                                        /!*    >*!/*/}
+                        {/*                                        /!*        <i className="material-icons">more_horiz</i>*!/*/}
+                        {/*                                        /!*        <div*!/*/}
+                        {/*                                        /!*            className="ripple-container"/>*!/*/}
+                        {/*                                        /!*    </button>*!/*/}
+                        {/*                                        /!*</TooltipButton>*!/*/}
+                        {/*                                    </div>*/}
 
-                                                        }
+                        {/*                                }*/}
 
-                                                    </div>
-                                                    <AttendanceTeacher
-                                                        attendance={attendance}
-                                                        addCheckinCheckout={this.addCheckinCheckout}
-                                                        type={"teaching_assistant"}
-                                                    />
-                                                </div>
-                                            );
-                                        }
-                                    )}
+                        {/*                            </div>*/}
+                        {/*                            <AttendanceTeacher*/}
+                        {/*                                attendance={attendance}*/}
+                        {/*                                addCheckinCheckout={this.addCheckinCheckout}*/}
+                        {/*                                type={"teaching_assistant"}*/}
+                        {/*                            />*/}
+                        {/*                        </div>*/}
+                        {/*                    );*/}
+                        {/*                }*/}
+                        {/*            )}*/}
 
-                                </div>
-                            </div>
-                            }
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*    }*/}
 
 
-                        </div>
+                        {/*</div>*/}
 
                     </div>
                     <div className="col-md-8">
-                        <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
+                        <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
                             {this.routes.map((route, index) => {
                                 return (
                                     index ?
@@ -765,7 +770,7 @@ class ClassContainer extends React.Component {
                             </div>}
                             {(this.path == `${this.routePrefix}/history-teaching` || this.path == `${this.routePrefix}/score`)
                             && classData.course &&
-                            <a className="btn btn-actions" href={`/courses/edit/${classData.course.id}`} target='_blank'>
+                            <a className="btn btn-actions radius-5" href={`/teaching/courses/edit/${classData.course.id}`} target='_blank'>
                                 <span className="material-icons">create</span>
                                 &nbsp;&nbsp;&nbsp;&nbsp;Sửa môn học
                             </a>}
@@ -780,8 +785,8 @@ class ClassContainer extends React.Component {
                                 exportExcel={this.exportExcel}
                                 exportAttendanceExcel={this.exportAttendanceExcel}
                             />}
-                            <div className="dropdown">
-                                <button className="btn btn-icon btn-actions margin-right-10" mask="extra"
+                            {this.path != `${this.routePrefix}/checkin-checkout` && <div className="dropdown">
+                                <button className="btn btn-icon btn-actions radius-5 margin-right-10" mask="extra"
                                         type="button" data-toggle="dropdown">
                                     <i className="material-icons">arrow_drop_down</i>
                                 </button>
@@ -790,7 +795,7 @@ class ClassContainer extends React.Component {
                                         <a onClick={this.genCerti}>Xếp bằng</a>
                                     </li>
                                 </ul>
-                            </div>
+                            </div>}
                         </div>
                         {!isLoadingClass && classData &&
 

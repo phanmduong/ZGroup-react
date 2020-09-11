@@ -27,7 +27,7 @@ class ExportClassOverlay extends React.Component {
         return (
 
             <div style={{position: "relative"}} className="">
-                <button className="btn btn-actions"
+                <button className="btn btn-actions radius-5"
                         ref="target" onClick={this.toggle}
                         disabled={isLoading}>
                     <span className="material-icons">get_app</span>&nbsp;&nbsp;&nbsp;Tải xuống

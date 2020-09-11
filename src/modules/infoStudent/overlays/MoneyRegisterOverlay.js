@@ -22,12 +22,18 @@ import {isEmpty} from "../../../helpers/entity/mobx";
 class MoneyRegisterOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
+        let code ='';
+        if(this.props.register.code){
+            code = this.props.register.code;
+        }else {
+            code= this.props.register.class.type == 'active' ? this.props.register.next_code : this.props.register.next_waiting_code;
+        }
         this.initState = {
             show: false,
             isLoading: false,
             register: {
                 ...this.props.register,
-                code: this.props.register.class.type == 'active' ? this.props.register.next_code : this.props.register.next_waiting_code,
+                code,
                 received_book: 0,
                 money: 0,
                 note: '',

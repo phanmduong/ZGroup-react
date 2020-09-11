@@ -22,6 +22,7 @@ import CreateCouponOverlay from "../overlays/CreateCouponOverlay";
 import EmptyData from "../../../components/common/EmptyData";
 import FormInputText from "../../../components/common/FormInputText";
 import {DATE_VN_FORMAT} from "../../../constants/constants";
+import MarketingCampaignRegisterOverlay from "../../registerStudentsV3/overlays/MarketingCampaignRegisterOverlay";
 
 class RegistersContainer extends React.Component {
     constructor(props, context) {
@@ -174,24 +175,28 @@ class RegistersContainer extends React.Component {
                                                                     </div>
                                                                 )
                                                         }
-                                                        {
-                                                            register.campaign ?
-                                                                <button className="btn btn-xs"
-                                                                        data-toggle="tooltip"
-                                                                        rel="tooltip"
-                                                                        data-original-title="Chiến dịch"
-                                                                        style={{backgroundColor: '#' + register.campaign.color}}
-                                                                >
-                                                                    {helper.getShortName(register.campaign.name)}
-                                                                    <div className="ripple-container"/>
-                                                                </button>
-                                                                : (
-                                                                    <button className="btn btn-xs">
-                                                                        No campaign
-                                                                        <div className="ripple-container"/>
-                                                                    </button>
-                                                                )
-                                                        }
+                                                        {/*{*/}
+                                                        {/*    register.campaign ?*/}
+                                                        {/*        <button className="btn btn-xs"*/}
+                                                        {/*                data-toggle="tooltip"*/}
+                                                        {/*                rel="tooltip"*/}
+                                                        {/*                data-original-title="Chiến dịch"*/}
+                                                        {/*                style={{backgroundColor: '#' + register.campaign.color}}*/}
+                                                        {/*        >*/}
+                                                        {/*            {helper.getShortName(register.campaign.name)}*/}
+                                                        {/*            <div className="ripple-container"/>*/}
+                                                        {/*        </button>*/}
+                                                        {/*        : (*/}
+                                                        {/*            <button className="btn btn-xs">*/}
+                                                        {/*                No campaign*/}
+                                                        {/*                <div className="ripple-container"/>*/}
+                                                        {/*            </button>*/}
+                                                        {/*        )*/}
+                                                        {/*}*/}
+                                                        <MarketingCampaignRegisterOverlay
+                                                            register={register}
+                                                            className="btn status-overlay btn-xs"
+                                                        />
                                                         <SourceOverlay
                                                             className="btn status-overlay btn-xs"
                                                             student={register}

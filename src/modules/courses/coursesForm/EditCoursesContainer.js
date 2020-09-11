@@ -53,7 +53,7 @@ class EditCoursesContainer extends React.Component {
                 {/*<div className={"card"}>*/}
                 {/*    <div className={"card-content"}>*/}
                 {this.props.isLoadingCourse ? <Loading/> :
-                    <div className="row">
+                    <div className="row" data-space="10">
                         <div className="col-md-4">
                             <div className="card none-margin radius-5" mask="blue">
                                 <div className="card-content flex flex-col">
@@ -80,8 +80,8 @@ class EditCoursesContainer extends React.Component {
                             <div className="card radius-5 none-margin">
                                 <div className="card-content">
                                     <div className="detail-wrap">
-                                        {course.type && <p>Loại khóa
-                                            học<strong>{course.type ? course.type.name : "Chưa có"}</strong></p>}
+                                        {/*{course.type && <p>Loại khóa*/}
+                                        {/*    học<strong>{course.type ? course.type.name : "Chưa có"}</strong></p>}*/}
                                         {course.linkmac && <p>URL p/mềm (MAC) <strong><a href={course.linkmac}
                                                                       target="_blank">{course.linkmac || "Chưa có"}</a></strong>
                                         </p>}

@@ -7,6 +7,8 @@ import {STATUS_REFS, TYPE_CLASSES_OBJECT} from "../../constants/constants";
 import EmptyData from "../../components/common/EmptyData";
 import {Overlay} from "react-bootstrap";
 import * as ReactDOM from "react-dom";
+import * as helper from "../../helpers/helper";
+import TooltipButton from "../../components/common/TooltipButton";
 
 class ListClass extends React.Component {
     constructor(props, context) {
@@ -58,14 +60,16 @@ class ListClass extends React.Component {
                     {/*    <table className="table"  cellSpacing="0">*/}
                     <thead>
                     <tr>
-                        {/*<th/>*/}
+                        <th/>
                         <th>Tên lớp học</th>
-                        <th>Môn học</th>
+                        {/*<th>Môn học</th>*/}
                         <th>Giờ học</th>
                         <th>Khai giảng</th>
                         <th>Số đăng kí</th>
                         <th>Đã đóng h.phí</th>
                         <th>Đ.kí mới</th>
+                        <th>Giảng viên</th>
+                        <th>Trợ giảng</th>
                         <th>Trạng thái</th>
                         <th/>
                     </tr>
@@ -75,20 +79,29 @@ class ListClass extends React.Component {
                         this.props.classes.map((classItem) => {
                             let color = classItem.total_register >= classItem.regis_target ? 'success' : '';
 
+                            let classCourse = classItem.course ? {
+                                ...classItem.course,
+                                name: `Môn học: ${classItem.course.name}`,
+                                editUrl: `/teaching/courses/edit/${classItem.course.id}`,
+                            } : {
+                                name :'Chưa có môn học',
+                                icon_url :'',
+                                editUrl :'#',
+                            };
                             return (
                                 <tr key={classItem.id} className={color}>
-                                    {/*<td>*/}
-                                    {/*    <button className="btn btn-round btn-fab btn-fab-mini text-white"*/}
-                                    {/*            data-toggle="tooltip" title="" type="button" rel="tooltip"*/}
-                                    {/*            data-placement="right"*/}
-                                    {/*            data-original-title={classItem.name}>*/}
-                                    {/*        <img src={classItem.course ? classItem.course.icon_url : ''} alt=""/>*/}
-                                    {/*    </button>*/}
-                                    {/*</td>*/}
+                                    <td>
+                                        <TooltipButton text={classCourse.name} placement="top">
+                                            <Link to={classCourse.editUrl} target="_blank" className="btn btn-round btn-fab btn-fab-mini text-white">
+                                                <img src={classCourse.icon_url} alt=""/>
+                                            </Link>
+
+                                        </TooltipButton>
+                                    </td>
                                     <td><Link to={`/teaching/class/${classItem.id}`}
                                               target="_blank">{classItem.name}</Link></td>
-                                    <td><Link to={`/teaching/class/${classItem.id}`}
-                                              target="_blank">{classItem.name}</Link></td>
+                                    {/*<td>{classItem.course ? <Link to={`/teaching/courses/edit/${classItem.course.id}`}*/}
+                                    {/*          target="_blank">{classItem.course.name}</Link> : 'Chưa có'}</td>*/}
                                     <td>{classItem.study_time}</td>
                                     <td>{classItem.datestart}</td>
                                     <td>
@@ -141,7 +154,77 @@ class ListClass extends React.Component {
                                             )
                                         }
                                     </td>
+                                    <td className="text-center">
+                                        {
+                                            classItem.teacher ?
+                                                (
+                                                    <Link className="btn btn-xs btn-main text-center width-100 none-margin"
+                                                          style={{backgroundColor: '#' + classItem.teacher.color}}
+                                                          to={"/teaching/classes/" + classItem.teacher.id}
+                                                    >
+                                                        {helper.getShortName(classItem.teacher.name)}
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                )
+                                                :
+                                                (
+                                                    <div className="no-data">
+                                                        Không có
+                                                    </div>
+                                                )
 
+                                        }
+
+                                        {
+                                            classItem.teachers_detail && classItem.teachers_detail.map((teacher) => {
+                                                let itmClassName = `btn btn-xs btn-main text-center width-100  none-margin-bottom margin-top-10`;
+                                                return (
+                                                    <Link className={itmClassName}
+                                                          style={{backgroundColor: '#' + teacher.color}}
+                                                          to={"/teaching/classes/" + teacher.id}
+                                                    >
+                                                        {helper.getShortName(teacher.name)}
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                );
+                                            })
+                                        }
+                                    </td>
+                                    <td className="text-center">
+                                        {
+                                            classItem.teacher_assistant ?
+                                                (
+                                                    <Link className="btn btn-xs btn-main text-center width-100  none-margin"
+                                                          style={{backgroundColor: '#' + classItem.teacher_assistant.color}}
+                                                          to={"/teaching/classes/" + classItem.teacher_assistant.id}
+                                                    >
+                                                        {helper.getShortName(classItem.teacher_assistant.name)}
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                )
+                                                :
+                                                (
+                                                    <div className="no-data">
+                                                        Không có
+                                                    </div>
+                                                )
+
+                                        }
+                                        {
+                                            classItem.teaching_assistants_detail && classItem.teaching_assistants_detail.map((teacher) => {
+                                                let itmClassName = `btn btn-xs btn-main text-center width-100 none-margin-bottom margin-top-10 `;
+                                                return (
+                                                    <Link className={itmClassName}
+                                                          style={{backgroundColor: '#' + teacher.color}}
+                                                          to={"/teaching/classes/" + teacher.id}
+                                                    >
+                                                        {helper.getShortName(teacher.name)}
+                                                        <div className="ripple-container"/>
+                                                    </Link>
+                                                );
+                                            })
+                                        }
+                                    </td>
                                     <td>
                                         <StatusesOverlay
                                             data={classItem.classStatus}
@@ -151,74 +234,7 @@ class ListClass extends React.Component {
                                         />
                                     </td>
                                     {/*<td className="text-center">{classItem.gen ? classItem.gen.name : ''}</td>*/}
-                                    {/*<td className="text-center">*/}
-                                    {/*    {*/}
-                                    {/*        classItem.teacher ?*/}
-                                    {/*            (*/}
-                                    {/*                <Link className="btn btn-xs btn-main text-center width-100"*/}
-                                    {/*                      style={{backgroundColor: '#' + classItem.teacher.color}}*/}
-                                    {/*                      to={"/teaching/classes/" + classItem.teacher.id}*/}
-                                    {/*                >*/}
-                                    {/*                    {helper.getShortName(classItem.teacher.name)}*/}
-                                    {/*                    <div className="ripple-container"/>*/}
-                                    {/*                </Link>*/}
-                                    {/*            )*/}
-                                    {/*            :*/}
-                                    {/*            (*/}
-                                    {/*                <div className="no-data">*/}
-                                    {/*                    Không có*/}
-                                    {/*                </div>*/}
-                                    {/*            )*/}
 
-                                    {/*    }*/}
-                                    {/*    {*/}
-                                    {/*        classItem.teachers_detail && classItem.teachers_detail.map((teacher) => {*/}
-                                    {/*            return (*/}
-                                    {/*                <Link className="btn btn-xs btn-main text-center width-100"*/}
-                                    {/*                      style={{backgroundColor: '#' + teacher.color}}*/}
-                                    {/*                      to={"/teaching/classes/" + teacher.id}*/}
-                                    {/*                >*/}
-                                    {/*                    {helper.getShortName(teacher.name)}*/}
-                                    {/*                    <div className="ripple-container"/>*/}
-                                    {/*                </Link>*/}
-                                    {/*            );*/}
-                                    {/*        })*/}
-                                    {/*    }*/}
-                                    {/*</td>*/}
-                                    {/*<td className="text-center">*/}
-                                    {/*    {*/}
-                                    {/*        classItem.teacher_assistant ?*/}
-                                    {/*            (*/}
-                                    {/*                <Link className="btn btn-xs btn-main text-center width-100"*/}
-                                    {/*                      style={{backgroundColor: '#' + classItem.teacher_assistant.color}}*/}
-                                    {/*                      to={"/teaching/classes/" + classItem.teacher_assistant.id}*/}
-                                    {/*                >*/}
-                                    {/*                    {helper.getShortName(classItem.teacher_assistant.name)}*/}
-                                    {/*                    <div className="ripple-container"/>*/}
-                                    {/*                </Link>*/}
-                                    {/*            )*/}
-                                    {/*            :*/}
-                                    {/*            (*/}
-                                    {/*                <div className="no-data">*/}
-                                    {/*                    Không có*/}
-                                    {/*                </div>*/}
-                                    {/*            )*/}
-
-                                    {/*    }*/}
-                                    {/*    {*/}
-                                    {/*        classItem.teaching_assistants_detail && classItem.teaching_assistants_detail.map((teacher) => {*/}
-                                    {/*            return (*/}
-                                    {/*                <Link className="btn btn-xs btn-main text-center width-100"*/}
-                                    {/*                      style={{backgroundColor: '#' + teacher.color}}*/}
-                                    {/*                      to={"/teaching/classes/" + teacher.id}*/}
-                                    {/*                >*/}
-                                    {/*                    {helper.getShortName(teacher.name)}*/}
-                                    {/*                    <div className="ripple-container"/>*/}
-                                    {/*                </Link>*/}
-                                    {/*            );*/}
-                                    {/*        })*/}
-                                    {/*    }*/}
-                                    {/*</td>*/}
 
                                     {/*<td>*/}
                                     {/*    {this.typeClass(classItem.type)}*/}

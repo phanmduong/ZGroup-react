@@ -438,6 +438,9 @@ svg:not(:root) {
 .margin-bottom-10 {
   margin-bottom: 10px !important;
 }
+.margin-bottom-15 {
+  margin-bottom: 15px !important;
+}
 
 .square-100 {
   width: 100px !important;
@@ -728,6 +731,9 @@ $starInactive: #c4c5c6;
 
 .none-margin-bottom {
   margin-bottom: 0 !important;
+}
+.none-margin-top {
+  margin-top: 0 !important;
 }
 
 .none-padding {
@@ -1869,7 +1875,7 @@ table tr td .avatar-honor {
 
 .white-seacrh {
   margin-top: -10px;
-
+  font-size: 12px;
   .form-group {
     position: relative;
 
@@ -1878,7 +1884,7 @@ table tr td .avatar-honor {
       content: "search";
       position: absolute;
       left: 10px;
-      top: 10px;
+      top: 12px;
       font-size: 20px;
       color: black;
     }
@@ -1886,8 +1892,8 @@ table tr td .avatar-honor {
     .after-text {
       position: absolute;
       right: 15px;
-      top: 11px;
-      font-size: 14px;
+      top: 12px;
+      font-size: 12px;
       color: black;
       cursor: pointer;
       font-weight: bold;
@@ -1899,6 +1905,10 @@ table tr td .avatar-honor {
     border-radius: 5px !important;
     padding: 21px 40px 21px 35px !important;
     background-image: none !important;
+
+  }
+  input::placeholder{
+    font-size: 12px!important;
   }
 }
 
@@ -2262,7 +2272,8 @@ table tr td .avatar-honor {
 
 .btn-actions {
   padding: 12px 15px !important;
-  font-size: 14px;
+  font-size: 12px;
+  line-height: 20px;
   cursor: pointer;
   margin-right: 10px;
   border-radius: 8px;
@@ -2842,6 +2853,8 @@ $mute: #6f6f6f;
 .button-green {
   @extend .button-default;
   background-color: #00BC07;
+  font-size: 12px;
+  line-height: 20px;
   color: white;
 
   &:hover {
@@ -5398,3 +5411,17 @@ $ct-series-colors: (
   background-color: #04bc06;
 }
 
+.row[data-space="10"]{
+  div[class*=col]:not(:last-child, :first-child){
+    padding-right: 0px;
+    padding-left: 10px;
+  }
+  div[class*=col]:last-child {
+    padding-right: 15px;
+    padding-left: 10px;
+  }
+  div[class*=col]:first-child {
+    padding-right: 10px;
+    padding-left: 15px;
+  }
+}

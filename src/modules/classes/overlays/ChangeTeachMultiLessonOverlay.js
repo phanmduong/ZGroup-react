@@ -248,7 +248,7 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
     onCheckLesson = (lesson) => {
         let lessons = this.state.lessons.map(l => {
             let is_checked = l.is_checked;
-            if(l.id == lesson.id) is_checked = !l.is_checked;
+            if (l.id == lesson.id) is_checked = !l.is_checked;
             return {
                 ...l,
                 is_checked,
@@ -383,12 +383,12 @@ class ChangeTeachMultiLessonOverlay extends React.Component {
 
         return (
             <div style={{position: "relative"}} className="">
-                <button className="btn btn-actions"
+                <button className="btn btn-actions radius-5"
                         ref="target" onClick={this.toggle}
                         disabled={isLoading}>
                    <span className="material-icons">
-calendar_today
-</span>&nbsp;&nbsp;&nbsp;&nbsp;Xếp lịch giảng viên
+                    calendar_today
+                    </span>&nbsp;&nbsp;&nbsp;&nbsp;Xếp lịch giảng viên
                 </button>
                 <Overlay
                     rootClose={true}
