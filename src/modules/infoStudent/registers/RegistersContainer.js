@@ -200,7 +200,7 @@ class RegistersContainer extends React.Component {
                                                         {/*        )*/}
                                                         {/*}*/}
                                                         <MarketingCampaignRegisterOverlay
-                                                            register={register}
+                                                            register={{...register, campaign_id: register.campaign ? register.campaign.id : null}}
                                                             store={this.campaignStore}
                                                             className="btn status-overlay btn-xs"
                                                             updateInfoRegister={this.updateRegisterStudent}

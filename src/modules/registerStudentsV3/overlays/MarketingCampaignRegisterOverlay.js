@@ -93,7 +93,9 @@ class MarketingCampaignRegisterOverlay extends React.Component {
                 .then(() => {
                     this.setState({
                         campaign: {},
-                        create: false
+                        create: false,
+                        isLoading: false,
+
                     });
                     this.loadCampaigns();
                 });
