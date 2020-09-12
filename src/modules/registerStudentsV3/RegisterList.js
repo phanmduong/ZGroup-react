@@ -1,5 +1,5 @@
 import React from "react";
-import {store} from "./RegisterListStore";
+import {store} from "./store/RegisterListStore";
 import ToggleStar from "../../components/common/ToggleStar";
 import {observer} from "mobx-react";
 import {REGISTER_CALL_STATUS_CLASS_NAMES} from "../../constants/constants";
@@ -12,6 +12,7 @@ import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
 import {isEmpty} from "../../helpers/entity/mobx";
 import RegisterActionsOverlay from "./overlays/RegisterActionsOverlay";
 import MarketingCampaignRegisterOverlay from "./overlays/MarketingCampaignRegisterOverlay";
+import MarketingCampaignRegisterStore from "./store/MarketingCampaignRegisterStore";
 
 @observer
 class RegisterList extends React.Component {
@@ -19,6 +20,7 @@ class RegisterList extends React.Component {
 
     constructor(props, context) {
         super(props, context);
+        this.campaignStore = new MarketingCampaignRegisterStore();
 
     }
 
@@ -229,6 +231,8 @@ class RegisterList extends React.Component {
                                 {/*}*/}
                                 <MarketingCampaignRegisterOverlay
                                     register={register}
+                                    store={this.campaignStore}
+                                    updateInfoRegister={store.changeCampaignRegister}
                                     className="btn btn-xs source-value width-100 bold"
                                 />
                                 </td>

@@ -92,6 +92,15 @@ export function setInfoStudent(student) {
 
     };
 }
+export function setRegisterStudent(register) {
+    return function (dispatch) {
+        dispatch({
+            type: types.SET_REGISTER_STUDENT,
+            register
+        });
+
+    };
+}
 
 export function loadRegisters(studentId) {
     return function (dispatch) {

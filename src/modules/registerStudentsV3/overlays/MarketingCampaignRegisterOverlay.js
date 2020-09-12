@@ -3,7 +3,6 @@ import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
 import {
     assignRegisterMarketingCampaign,
-    loadMarketingEmail,
     storeMarketingCampaign
 } from "../../marketingCampaign/marketingCampaignApi";
 import {Overlay} from "react-bootstrap";
@@ -11,8 +10,11 @@ import * as ReactDOM from "react-dom";
 import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
 import {CirclePicker} from "react-color";
 import Search from "../../../components/common/Search";
+import MarketingCampaignRegisterStore from "../store/MarketingCampaignRegisterStore";
+import {observer} from "mobx-react";
 
 
+@observer
 class MarketingCampaignRegisterOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -20,28 +22,33 @@ class MarketingCampaignRegisterOverlay extends React.Component {
             show: false,
             create: false,
             campaign: {},
-            isLoading: true,
+            isLoading: false,
             isProcessing: false,
             isDeleting: false,
             search: ''
         };
         this.state = this.initState;
+        this.store = this.props.store ? this.props.store : new MarketingCampaignRegisterStore();
     }
 
     componentDidMount() {
-        this.loadMarketingEmail();
+        if(!this.store.isLoaded) this.loadCampaigns();
     }
 
-    loadMarketingEmail = () => {
-        loadMarketingEmail(1, -1).then((res) => {
-            if (this.refs.MarketingCampaignRegisterOverlay)
-                this.setState({
-                    campaigns: res.data.data.marketing_campaigns,
-                    isLoading: false
-                });
-
-        });
-    };
+    loadCampaigns = ()=> {
+        this.store.loadCampaigns();
+    }
+    
+    // loadCampaigns = () => {
+    //     loadCampaigns(1, -1).then((res) => {
+    //         if (this.refs.MarketingCampaignRegisterOverlay)
+    //             this.setState({
+    //                 campaigns: res.data.data.marketing_campaigns,
+    //                 isLoading: false
+    //             });
+    //
+    //     });
+    // };
 
     toggleDelete = () => {
         this.setState({
@@ -88,7 +95,7 @@ class MarketingCampaignRegisterOverlay extends React.Component {
                         campaign: {},
                         create: false
                     });
-                    this.loadMarketingEmail();
+                    this.loadCampaigns();
                 });
 
 
@@ -103,11 +110,11 @@ class MarketingCampaignRegisterOverlay extends React.Component {
             });
             assignRegisterMarketingCampaign(this.props.register.id,  campaign.id)
                 .then(() => {
-                    this.loadMarketingEmail();
+                    this.loadCampaigns();
                     if(updateInfoRegister){
                         updateInfoRegister({...register, campaign_id: campaign.id});
                         this.setState({
-                            show: false
+                            show: false,
                         });
                     }
 
@@ -139,18 +146,21 @@ class MarketingCampaignRegisterOverlay extends React.Component {
     };
 
     campaignName = () => {
-        if(this.state.isLoading) return 'Đang tải dữ liệu...';
+        let { isLoading, isProcessing} = this.state;
+
+        if(isLoading || isProcessing || this.store.isLoading) return 'Đang tải dữ liệu...';
         let defaultText = this.props.defaultText || "No Campaign";
-        let s = this.state.campaigns && this.state.campaigns.filter(i => i.id == this.props.register.campaign_id)[0];
+        let s = this.store.campaigns && this.store.campaigns.filter(i => i.id == this.props.register.campaign_id)[0];
         return s ? s.name : defaultText;
     };
+
 
     render() {
         let {isDeleting, isLoading, isProcessing,show} = this.state;
         let {className,styleWrapper,styleOverlay, styleButton} = this.props;
-        let showLoading = isLoading || isProcessing;
+        let showLoading = isLoading || isProcessing || this.store.isLoading;
         let zIndex = show ? 1 : 0;
-        const current = (this.props.register && this.state.campaigns && this.state.campaigns.filter(s => s.id == this.props.register.campaign_id)[0]) || {};
+        const current = (this.props.register && this.store.campaigns && this.store.campaigns.filter(s => s.id == this.props.register.campaign_id)[0]) || {};
 
         return (
             <div style={{position: "relative", backgroundColor:  `#${current.color}`,zIndex,...styleWrapper}} className={className}
@@ -286,7 +296,7 @@ class MarketingCampaignRegisterOverlay extends React.Component {
                                                 </button>
 
                                                 <div className="kt-scroll">
-                                                    {this.state.campaigns && this.state.campaigns
+                                                    {this.store.campaigns && this.store.campaigns
                                                         .filter(campaign => {
                                                             const s1 = campaign.name.trim().toLowerCase();
                                                             const s2 = this.state.search.trim().toLowerCase();

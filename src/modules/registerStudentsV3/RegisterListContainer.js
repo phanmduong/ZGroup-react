@@ -7,7 +7,7 @@ import Search from "../../components/common/Search";
 import Select from "../registerStudents/SelectGen";
 import CreateRegisterOverlay from "../infoStudent/overlays/CreateRegisterOverlay";
 import RegisterList from "./RegisterList";
-import {store} from "./RegisterListStore";
+import {store} from "./store/RegisterListStore";
 import Pagination from "../../components/common/Pagination";
 import DateRangePicker from "../../components/common/DateTimePicker";
 import moment from "moment";

@@ -44,6 +44,17 @@ export default function studentReducer(state = initialState.infoStudent, action)
                     student: action.student
                 }
             };
+        case types.SET_REGISTER_STUDENT:
+            return {
+                ...state,
+                ...{
+                    isLoadingStudent: false,
+                    errorStudent: false,
+                    registers: state.registers.map(r=>{
+                        return r.id == action.register.id ? action.register : r;
+                    })
+                }
+            };
         case types.BEGIN_LOAD_INFO_STUDENT:
             return {
                 ...state,

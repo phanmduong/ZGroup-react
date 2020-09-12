@@ -7,16 +7,16 @@ import {
     loadRegisters,
     loadSources,
     loadStatuses
-} from "./registerListApi";
-import {isEmptyInput, showErrorNotification, showNotification, showWarningNotification} from "../../helpers/helper";
-import {changeMarkRegister} from "../registerStudents/registerStudentsApi";
+} from "../registerListApi";
+import {isEmptyInput, showErrorNotification, showNotification, showWarningNotification} from "../../../helpers/helper";
+import {changeMarkRegister} from "../../registerStudents/registerStudentsApi";
 import moment from "moment";
-import {DATE_FORMAT_SQL, DISCOUNTYPE, STATUS_REFS} from "../../constants/constants";
-import {isEmpty} from "../../helpers/entity/mobx";
-import {NO_AVATAR} from "../../constants/env";
-import {loadGens} from "../dashboard/dashboardApi";
+import {DATE_FORMAT_SQL, DISCOUNTYPE, STATUS_REFS} from "../../../constants/constants";
+import {isEmpty} from "../../../helpers/entity/mobx";
+import {NO_AVATAR} from "../../../constants/env";
+import {loadGens} from "../../dashboard/dashboardApi";
 import {parallel} from "async";
-import {loadDiscountsApi} from "../discount/dicountApis";
+import {loadDiscountsApi} from "../../discount/dicountApis";
 
 const defaultSelectObject = {id :'', avatar_url: NO_AVATAR,name:'Tất cả', label:'Tất cả', value:''};
 const defaultEmptySelectObject = {id :'-1', avatar_url: NO_AVATAR, name:'Không có', label:'Không có', value:''};
@@ -195,6 +195,14 @@ export const store = new class TargetPersonStore {
             showErrorNotification("Có lỗi xảy ra");
         }).finally(() => {
             this.isChangingBookmark = false;
+        });
+    }
+
+    @action changeCampaignRegister = (register) =>{
+        this.registers = this.registers.map(r=>{
+           return {...r,
+               campaign_id: r.id == register.id ? register.campaign_id : r.campaign_id
+           };
         });
     }
 

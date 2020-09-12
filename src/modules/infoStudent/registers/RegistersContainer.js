@@ -23,6 +23,7 @@ import EmptyData from "../../../components/common/EmptyData";
 import FormInputText from "../../../components/common/FormInputText";
 import {DATE_VN_FORMAT} from "../../../constants/constants";
 import MarketingCampaignRegisterOverlay from "../../registerStudentsV3/overlays/MarketingCampaignRegisterOverlay";
+import MarketingCampaignRegisterStore from "../../registerStudentsV3/store/MarketingCampaignRegisterStore";
 
 class RegistersContainer extends React.Component {
     constructor(props, context) {
@@ -32,6 +33,7 @@ class RegistersContainer extends React.Component {
 
         };
         this.studentId = this.props.params ? this.props.params.studentId : this.props.studentId;
+        this.campaignStore = new MarketingCampaignRegisterStore();
     }
 
     componentWillMount() {
@@ -103,6 +105,10 @@ class RegistersContainer extends React.Component {
             this.reload();
         });
     };
+
+    updateRegisterStudent = (register)=>{
+        this.props.studentActions.setRegisterStudent(register);
+    }
 
     render() {
         let {currentRegister} = this.state;
@@ -195,7 +201,9 @@ class RegistersContainer extends React.Component {
                                                         {/*}*/}
                                                         <MarketingCampaignRegisterOverlay
                                                             register={register}
+                                                            store={this.campaignStore}
                                                             className="btn status-overlay btn-xs"
+                                                            updateInfoRegister={this.updateRegisterStudent}
                                                         />
                                                         <SourceOverlay
                                                             className="btn status-overlay btn-xs"
