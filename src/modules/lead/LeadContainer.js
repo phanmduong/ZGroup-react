@@ -911,6 +911,8 @@ class LeadContainer extends React.Component {
                     interest: item.interest ? item.interest : "Không có",
                     rate: item.rate || 0,
                     note: item.note || '',
+                    district: item.district ? item.district : 'Không có',
+                    dob: item.dob ? item.dob : 'Không có',
                     imported_by: item.imported_by ? item.importer.name : 'Không có',
                     pic: item.staff_id ? item.carer.name : 'Không có',
                     last_call_time: item.last_call_time ? item.last_call_time : 'Không có',

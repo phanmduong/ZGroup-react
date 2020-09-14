@@ -241,6 +241,8 @@ class RegisterListContainer extends React.Component {
                     tele_call: item.tele_call ? item.tele_call : {call_status_text: 'Chưa gọi'},
                     studyClass: item.studyClass ? {...item.studyClass, type:TYPE_CLASSES_OBJECT[item.studyClass.type]} : {name: 'Không có', type: 'null'},
                     how_know: item.how_know ? item.how_know : 'Không có',
+                    dob: item.dob ? item.dob : 'Không có',
+                    district: item.district ? item.district : 'Không có',
                     course: item.course ? item.course : {name: 'Không có'},
                     base: item.base ? {name: `${item.base.name} ${item.base.address}`} : {name: 'Không có'},
                     province: (item.base && item.base.district && item.base.district.province) ? item.base.district.province.name : 'Không có',

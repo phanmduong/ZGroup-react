@@ -166,9 +166,8 @@ class MarketingCampaignRegisterOverlay extends React.Component {
 
         return (
             <div style={{position: "relative", backgroundColor:  `#${current.color}`,zIndex,...styleWrapper}} className={className}
-                 ref="MarketingCampaignRegisterOverlay">
-                <div style={{...styleButton}}
-                     onClick={() => this.setState({show: true})}>
+                 onClick={() => this.setState({show: true})}  ref="MarketingCampaignRegisterOverlay">
+                <div style={{...styleButton}}>
                     {this.campaignName()}
                 </div>
                 <Overlay

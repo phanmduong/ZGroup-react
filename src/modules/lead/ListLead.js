@@ -21,6 +21,7 @@ import {DATE_FORMAT_SQL, DATE_VN_FORMAT} from "../../constants/constants";
 import moment from "moment";
 import * as ReactDOM from "react-dom";
 import MarketingCampaignOverlay from "../infoStudent/overlays/MarketingCampaignOverlay";
+import MarketingCampaignRegisterStore from "../registerStudentsV3/store/MarketingCampaignRegisterStore";
 
 //import TooltipButton from "../../components/common/TooltipButton";
 const TAGS = [
@@ -47,6 +48,7 @@ class ListLead extends React.Component {
             lead: {}, showOverlay: [],
 
         };
+        this.campaignStore = new MarketingCampaignRegisterStore();
 
     }
 
@@ -208,6 +210,7 @@ class ListLead extends React.Component {
                                                         student={lead}
                                                         updateInfoStudent={this.props.leadActions.updateLeadInList}
                                                         className="btn btn-xs source-value width-100"
+                                                        store={this.campaignStore}
                                                     />
                                                     {/*{lead.campaign && <div className="btn btn-xs btn-main width-100">*/}
                                                     {/*    {lead.campaign}</div>}*/}

@@ -3,7 +3,6 @@ import FormInputText from "../../../components/common/FormInputText";
 import Loading from "../../../components/common/Loading";
 import {
     assignMarketingCampaign,
-    loadMarketingEmail,
     storeMarketingCampaign
 } from "../../marketingCampaign/marketingCampaignApi";
 import {Overlay} from "react-bootstrap";
@@ -11,8 +10,10 @@ import * as ReactDOM from "react-dom";
 import {isEmptyInput, showErrorNotification} from "../../../helpers/helper";
 import {CirclePicker} from "react-color";
 import Search from "../../../components/common/Search";
+import MarketingCampaignRegisterStore from "../../registerStudentsV3/store/MarketingCampaignRegisterStore";
+import {observer} from "mobx-react";
 
-
+@observer
 class MarketingCampaignOverlay extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -20,27 +21,29 @@ class MarketingCampaignOverlay extends React.Component {
             show: false,
             create: false,
             campaign: {},
-            isLoading: true,
+            isLoading: false,
             isProcessing: false,
             isDeleting: false,
             search: ''
         };
         this.state = this.initState;
+        this.store = this.props.store ? this.props.store : new MarketingCampaignRegisterStore();
     }
 
     componentDidMount() {
-        this.loadMarketingEmail();
+        if(!this.store.isLoaded) this.loadCampaigns();
     }
 
-    loadMarketingEmail = () => {
-        loadMarketingEmail(1, -1).then((res) => {
-            if (this.refs.MarketingCampaignOverlay)
-                this.setState({
-                    campaigns: res.data.data.marketing_campaigns,
-                    isLoading: false
-                });
-
-        });
+    loadCampaigns = () => {
+        // loadCampaigns(1, -1).then((res) => {
+        //     if (this.refs.MarketingCampaignOverlay)
+        //         this.setState({
+        //             campaigns: res.data.data.marketing_campaigns,
+        //             isLoading: false
+        //         });
+        //
+        // });
+        this.store.loadCampaigns();
     };
     //
     // delete = (campaign) => {
@@ -49,7 +52,7 @@ class MarketingCampaignOverlay extends React.Component {
     //     });
     //     delete(campaign)
     //         .then(() => {
-    //             this.loadMarketingEmail();
+    //             this.loadCampaigns();
     //         }).catch(() => {
     //         showErrorNotification("Chiến dịch đang sử dụng không thể xóa!");
     //     }).finally(() => {
@@ -102,9 +105,11 @@ class MarketingCampaignOverlay extends React.Component {
                 .then(() => {
                     this.setState({
                         campaign: {},
-                        create: false
+
+                        isLoading: false,
+                        create: false,
                     });
-                    this.loadMarketingEmail();
+                    this.loadCampaigns();
                 });
 
 
@@ -119,7 +124,7 @@ class MarketingCampaignOverlay extends React.Component {
             });
             assignMarketingCampaign(this.props.student.id,  campaign.id)
                 .then(() => {
-                    this.loadMarketingEmail();
+                    this.loadCampaigns();
                     if(updateInfoStudent){
                         updateInfoStudent({...student, campaign_id: campaign.id});
                         this.setState({
@@ -155,24 +160,25 @@ class MarketingCampaignOverlay extends React.Component {
     };
 
     campaignName = () => {
-        if(this.state.isLoading) return 'Đang tải dữ liệu...';
+        let { isLoading, isProcessing} = this.state;
+        if(  isLoading || this.store.isLoading || isProcessing ) return 'Đang tải dữ liệu...';
         let defaultText = this.props.defaultText || "No Campaign";
-        let s = this.state.campaigns && this.state.campaigns.filter(i => i.id == this.props.student.campaign_id)[0];
+        let s = this.store.campaigns && this.store.campaigns.filter(i => i.id == this.props.student.campaign_id)[0];
         return s ? s.name : defaultText;
     };
 
     render() {
         let {isDeleting, isLoading, isProcessing,show} = this.state;
         let {className,styleWrapper,styleOverlay, styleButton} = this.props;
-        let showLoading = isLoading || isProcessing;
+        let showLoading = isLoading ||  this.store.isLoading || isProcessing ;
         let zIndex = show ? 1 : 0;
-        const current = (this.props.student && this.state.campaigns && this.state.campaigns.filter(s => s.id == this.props.student.campaign_id)[0]) || {};
+        const current = (this.props.student && this.store.campaigns && this.store.campaigns.filter(s => s.id == this.props.student.campaign_id)[0]) || {};
 
         return (
             <div style={{position: "relative", backgroundColor:  `#${current.color}`,zIndex,...styleWrapper}} className={className}
+                 onClick={() => this.setState({show: true})}
                  ref="MarketingCampaignOverlay">
-                <div style={{...styleButton}}
-                     onClick={() => this.setState({show: true})}>
+                <div style={{...styleButton}}>
                     {this.campaignName()}
                 </div>
                 <Overlay
@@ -302,7 +308,7 @@ class MarketingCampaignOverlay extends React.Component {
                                                 </button>
 
                                                 <div className="kt-scroll">
-                                                    {this.state.campaigns && this.state.campaigns
+                                                    {this.store.campaigns && this.store.campaigns
                                                         .filter(campaign => {
                                                             const s1 = campaign.name.trim().toLowerCase();
                                                             const s2 = this.state.search.trim().toLowerCase();

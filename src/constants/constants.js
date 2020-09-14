@@ -930,7 +930,8 @@ export const LEAD_EXPORT_FIELDS_OBJECT = {
     created_at:{id:"created_at",name: "Ngày tạo",},
     rate:{id:"rate",name: "Đánh giá",},
     note:{id:"note",name: "Ghi chú",},
-    mock_exams_text:{id:"mock_exams_text",name: "Thông tin thi thử(PT)",},
+    district:{id:"district",name: "Quận",},
+    mock_exams_text:{id:"mock_exams_text",name: "Thông tin thi thử (PT)",},
     last_call_time:{id:"last_call_time",name: "Last call",},
     last_call_result:{id:"last_call_result",name: "Last call status",},
     last_deal_status_text:{id:"last_deal_status_text",name: "Last  Deal status",},
@@ -965,7 +966,9 @@ export const REGISTER_EXPORT_FIELDS_OBJECT = {
     'base.name':{id:"base.name",name: "Cơ sở",},
     'source.name':{id:"source.name",name: "Nguồn",},
     how_know:{id:"how_know",name: "Cách tiếp cận",},
+    dob:{id:"dob",name: "Ngày sinh",},
+    district:{id:"district",name: "Quận",},
     created_at:{id:"created_at",name: "Ngày tạo",},
-    mock_exams_text:{id:"mock_exams_text",name: "Thông tin thi thử(PT)",},
+    mock_exams_text:{id:"mock_exams_text",name: "Thông tin thi thử (PT)",},
 };
 
