@@ -343,7 +343,7 @@ class HistoryTeachingContainer extends React.Component {
         // console.log(classData);
         // console.log(moment().add(1, 'days').format(DATE_VN_FORMAT));
         let moveLessons = [];
-        if (classData && classData.lessons) {
+        if (classData && classData.lessons && classData.study_session && classData.study_session.length > 0) {
             let daysArray = classData.study_session.map((item) => item.order).sort();
             let lessons = classData.lessons.slice(delayLessonIndex, classData.lessons.length);
             for (let i = 0; i < lessons.length; i++) {
@@ -392,7 +392,7 @@ class HistoryTeachingContainer extends React.Component {
                     </thead>
                     <tbody>
                     {
-                        !isLoading && classData.lessons && classData.lessons.length > 0 ? classData.lessons.map((lesson, key) => {
+                        !isLoading && classData.lessons && classData.lessons.length > 0 && classData.lessons.map((lesson, key) => {
                                 // let color = lesson.studied ? 'success' : '';
                                 let minWidth = 120, margin = '5px 3px';
                                 return (
@@ -435,29 +435,42 @@ class HistoryTeachingContainer extends React.Component {
                                         </td>
                                         <td>
                                             <div>
-                                                <div className="flex flex-align-items-center flex-space-between flex-row"
-                                                     style={{width: "calc(100%)", minWidth}}>
-                                                    <div className="progress progress-bar-table width-100" style={{
-                                                        "marginBottom": "0",
-                                                        "height": "7px",
-                                                        "borderRadius": "5px",
-                                                        "marginRight": "10px",
-                                                        "backgroundColor": "#f7f5f7"
-                                                    }}>
-                                                        <div
-                                                            className="progress-bar progress-bar-success"
-                                                            role="progressbar"
-                                                            aria-valuemin="0"
-                                                            aria-valuemax="100"
-                                                            style={{width: (100 * lesson.total_attendance / classData.total_paid) + '%',}}
-                                                        >
-                                                        <span className="sr-only">
-                                                            {100 * lesson.total_attendance / classData.total_paid}%
-                                                        </span>
-                                                        </div>
+                                                {/*<div className="flex flex-align-items-center flex-space-between flex-row"*/}
+                                                {/*     style={{width: "calc(100%)", minWidth}}>*/}
+                                                {/*    <div className="progress progress-bar-table width-100" style={{*/}
+                                                {/*        "marginBottom": "0",*/}
+                                                {/*        "height": "7px",*/}
+                                                {/*        "borderRadius": "5px",*/}
+                                                {/*        "marginRight": "10px",*/}
+                                                {/*        "backgroundColor": "#f7f5f7"*/}
+                                                {/*    }}>*/}
+                                                {/*        <div*/}
+                                                {/*            className="progress-bar progress-bar-success"*/}
+                                                {/*            role="progressbar"*/}
+                                                {/*            aria-valuemin="0"*/}
+                                                {/*            aria-valuemax="100"*/}
+                                                {/*            style={{width: (100 * lesson.total_attendance / classData.total_paid) + '%',}}*/}
+                                                {/*        >*/}
+                                                {/*        <span className="sr-only">*/}
+                                                {/*            {100 * lesson.total_attendance / classData.total_paid}%*/}
+                                                {/*        </span>*/}
+                                                {/*        </div>*/}
+                                                {/*    </div>*/}
+                                                {/*    <div*/}
+                                                {/*        style={{fontSize: 12}}>{lesson.total_attendance}/{classData.total_paid}</div>*/}
+                                                {/*</div>*/}
+                                                <h6>{lesson.total_attendance}/{classData.total_paid}</h6>
+                                                <div
+                                                    className="progress progress-line-success progress-bar-table width-100">
+                                                    <div className="progress-bar progress-bar-success"
+                                                         role="progressbar"
+                                                         aria-valuemin="0"
+                                                         aria-valuemax="100"
+                                                         style={{width: (100 *  lesson.total_attendance / classData.total_paid) + '%'}}
+                                                    >
+                                                        <span
+                                                            className="sr-only">{(100 *  lesson.total_attendance / classData.total_paid)}%</span>
                                                     </div>
-                                                    <div
-                                                        style={{fontSize: 12}}>{lesson.total_attendance}/{classData.total_paid}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -604,11 +617,11 @@ class HistoryTeachingContainer extends React.Component {
                                     </tr>
                                 );
                             })
-                            :
-                            <EmptyData/>
                     }
                     </tbody>
                 </table>
+                {!(!isLoading && classData.lessons && classData.lessons.length > 0) &&
+                <EmptyData/>}
 
                 <Modal show={showModalLessonEvent} onHide={this.closeModalLessonEvent} bsSize="large">
                     <Modal.Header closeButton>

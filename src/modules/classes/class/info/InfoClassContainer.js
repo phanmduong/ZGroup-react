@@ -337,7 +337,7 @@ class InfoClassContainer extends React.Component {
                                                                 </button>
                                                             </TooltipButton>
                                                             :
-                                                            <button className="btn btn-xs min-width-100-px">
+                                                            <button className="btn btn-xs min-width-100-px" style={{lineHeight:'20px'}}>
                                                                 Chưa nộp
                                                             </button>
 
@@ -367,6 +367,7 @@ class InfoClassContainer extends React.Component {
                                                         statusRef="registers"
                                                         className="btn btn-xs source-value width-100 bold"
                                                         styleOverlay={{marginLeft:-180}}
+                                                        styleButton={{lineHeight:'20px'}}
                                                     />
                                                 </td>
 

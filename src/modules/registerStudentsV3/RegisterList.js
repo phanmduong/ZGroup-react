@@ -129,7 +129,7 @@ class RegisterList extends React.Component {
                                 <td>
                                     <div>
 
-                                        {register.studyClass && <div>
+                                        {register.course && <div>
                                             <a href={`/teaching/courses/edit/${register.course.id}`} target="_blank"
                                                className="text-name-student-register">
                                                 <TooltipButton text="Môn học" placement="top"><b>
@@ -142,7 +142,7 @@ class RegisterList extends React.Component {
                                 <td>
 
                                     <div>
-                                        {register.course && <div>
+                                        {register.studyClass && <div>
                                             <a href={`/teaching/class/${register.studyClass.id}`} target="_blank"
                                                className="text-name-student-register">
                                                 <TooltipButton text="Lớp học" placement="top"><b>
