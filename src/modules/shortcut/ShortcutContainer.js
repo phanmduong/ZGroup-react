@@ -3,91 +3,92 @@ import {connect} from 'react-redux';
 import {isEmpty} from "../../helpers/entity/mobx";
 import Loading from "../../components/common/Loading";
 import _ from "lodash";
+import {PROTOCOL} from "../../constants/env";
 
 const SHORTCUTS = [
     {
         name: 'Học viên',
         description: 'Quản lý danh sách, thông tin chi tiết về học viên',
-        color: '#F44236',
+        color: '#608DFF',
         link: '/sales/register-list',
-        icon: 'school'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223r9iTNffgvkfO6Z1.png'
     },
     {
         name: 'Lớp học',
         description: 'Quản lý danh sách lớp học, môn học, điểm danh',
-        color: '#00BCD5',
+        color: '#A888F8',
         link: '/teaching/classes',
-        icon: 'home_work'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223bRSHt8ObSQOY0Nu.png'
     },
     {
         name: 'Chấm công',
         description: 'Thống kê chấm công nhân viên, giảng viên, trợ giảng',
-        color: '#673BB7',
+        color: '#FFDC60',
         link: '/dashboard/checkin-checkout',
-        icon: 'fingerprint'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/16003142235zJj2IMDqvkKoHr.png'
     },
     {
         name: 'CRM',
         description: 'Quản lý các học viên tiềm năng, các đăng kí học',
-        color: '#4CB050',
+        color: '#FFDC60',
         link: '/customer-services/leads',
-        icon: 'contact_phone'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/16003142232zFuDvSs6Wu1UX7.png'
     },
     {
         name: 'Tài chính',
         description: 'Quản lý tài chính, dòng tiền, thu chi',
-        color: '#EA1E63',
+        color: '#90C8FC',
         link: '/finance/moneycollect',
-        icon: 'attach_money'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223RPQVCQnGQDU3VIf.png'
     },
     {
         name: 'Cài đặt',
         description: 'Người dùng hệ thống, Email, SMS tự động',
-        color: '#673BB7',
+        color: '#F5B38A',
         link: '/setting',
-        icon: 'settings'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222bNr4w9keWEyhGGr.png'
     },
     {
         name: 'SMS',
         description: 'Gửi SMS tự động đến hàng loạt học viên',
-        color: '#4CB050',
+        color: '#90C8FC',
         link: '/sms/campaign-list',
-        icon: 'textsms'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222hgnCPTSuSyujWyd.png'
     },
     {
         name: 'Email',
         description: 'Gửi Email tự động đến hàng loạt học viên',
-        color: '#F44236',
-        link: '/email/campaigns',
-        icon: 'email'
+        color: '#5956E9',
+        link: `${PROTOCOL}${window.location.hostname}:2222/email`,
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222Bc3RRZciSF9I2ke.png'
     }, {
         name: 'Dashboard',
         description: 'Thống kê, báo cáo theo thời gian thực',
-        color: '#00BCD5',
+        color: '#A888F8',
         link: '/dashboard/sale',
-        icon: 'dashboard'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222YXkUhhjS2CFZlDp.png'
     },
     {
         name: 'Mobile App',
         description: 'Ứng dụng riêng cho học viên, thống kê và cài đặt',
-        color: '#FF9700',
+        color: '#FFDC60',
         link: '#',
-        icon: 'phone_iphone'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222vEe4EXGP7Nkcsn4.png'
     },
     {
         name: 'Lịch dạy',
         description: 'Xem lịch dạy từng lớp học',
-        color: '#673BB7',
+        color: '#FFEDDC',
         link: '/teaching/teaching-schedule',
-        icon: 'event'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223bRSHt8ObSQOY0Nu.png'
     },
     {
-        name: 'Trang cá nhận',
+        name: 'Trang cá nhân',
         description: 'Thông tin cá nhân của bạn',
-        color: '#EA1E63',
+        color: '#5855E6',
         link: '/profile/my-profile',
-        icon: 'account_box'
-    },
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223r9iTNffgvkfO6Z1.png'
+    }
 ];
 
 class ShortcutContainer extends React.Component {
@@ -105,8 +106,9 @@ class ShortcutContainer extends React.Component {
                     tab.url = "/" + tab.url;
                 }
                 return tab.url == shortcut.link;
-            }) || shortcut.link == "#" || isEmpty(shortcut.link) || shortcut.link == '/profile/my-profile';
+            }) || shortcut.link == "#" || isEmpty(shortcut.link) || shortcut.link == '/profile/my-profile' || shortcut.link == `${PROTOCOL}${window.location.hostname}:2222/email`;
         });
+        console.log(shortcuts)
         shortcuts = shortcuts.filter((item) => item.name.includes(this.state.search) || item.description.includes(this.state.search) || isEmpty(this.state.search));
 
         return (
@@ -134,25 +136,26 @@ class ShortcutContainer extends React.Component {
                                                 <div className="col-md-3 col-sm-4 col-xs-6" key={key}>
                                                     <a
                                                         href={shortcut.link}
-                                                        className="flex flex-col flex-justify-content-center flex-align-items-center padding-vertical-20px cursor-pointer shortcut margin-bottom-20">
+                                                        style={{color: 'black'}}
+                                                        className="flex flex-col flex-justify-content-center flex-align-items-center padding-vertical-20px cursor-pointer margin-bottom-20">
                                                         <div style={{
                                                             width: 100,
                                                             height: 100,
                                                             backgroundColor: shortcut.color,
                                                             padding: 10,
                                                             margin: 10,
-                                                            borderRadius: 10
+                                                            borderRadius: 10,
                                                         }}
                                                              className="flex flex-col flex-justify-content-center flex-align-items-center"
                                                         >
-                                                        <span className="material-icons">
-                                                            {shortcut.icon}
-                                                        </span>
+                                                            <img className="shortcut"
+                                                                 src={shortcut.icon} style={{width: '180%'}}/>
                                                         </div>
                                                         <div className="bold">
                                                             {shortcut.name}
                                                         </div>
-                                                        <div className="text-center" style={{height: 30, maxWidth: 200}}>
+                                                        <div className="text-center"
+                                                             style={{height: 30, maxWidth: 200}}>
                                                             {shortcut.description}
                                                         </div>
                                                     </a>
