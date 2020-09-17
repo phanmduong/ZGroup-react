@@ -317,7 +317,7 @@ class InfoStudentContainer extends React.Component {
                                     </div>
                                 </div>
                                 <label className="bold color-black">Thông tin cá nhân</label>
-                                <div className="card detail-wrap  margin-top-0">
+                                <div className="card detail-wrap  margin-top-0" style={{background:'#f7f7f7'}}>
 
                                     <div className="card-content">
                                         <div className="detail-wrap">

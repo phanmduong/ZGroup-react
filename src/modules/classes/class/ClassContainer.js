@@ -469,7 +469,7 @@ class ClassContainer extends React.Component {
                             </div>
 
                         </div>
-                        <div className="card detail-wrap none-margin-top">
+                        <div className="card detail-wrap none-margin-top" style={{background:'#f7f7f7'}}>
                             <div className="card-content">
                                 <div className="detail-wrap">
                                     <p>Giảng
@@ -489,7 +489,7 @@ class ClassContainer extends React.Component {
                                             })}
                                         </strong>
                                     </p>
-                                    {!isEmpty(classData.schedule) &&<p>Lịch
+                                    {!isEmpty(classData.schedule) && <p>Lịch
                                         học<strong>{(classData.schedule && classData.schedule.name) ? classData.schedule.name : "Chưa có"}</strong>
                                     </p>}
                                     {!isEmpty(classData.description) && <p>Mô tả<strong>
@@ -502,11 +502,12 @@ class ClassContainer extends React.Component {
                                     <p>Chỉ tiêu nộp tiền<strong>{classData.total_paid || "Chưa có"}</strong></p>}
                                     {!isEmpty(classData.datestart_vi) &&
                                     <p>Ngày khai giảng<strong>{classData.datestart_vi || "Chưa có"}</strong></p>}
-                                    {classData.date_end_vi && <p>Ngày bế giảng<strong>{classData.date_end_vi || "Chưa có"}</strong></p>}
+                                    {classData.date_end_vi &&
+                                    <p>Ngày bế giảng<strong>{classData.date_end_vi || "Chưa có"}</strong></p>}
                                     {classData.enroll_start_date_vi && <p>Ngày bắt đầu tuyển
                                         sinh<strong>{classData.enroll_start_date_vi || "Chưa có"}</strong></p>}
                                     {classData.enroll_end_date_vi && <p>Ngày kết thúc tuyển
-                                        sinh<strong>{classData.enroll_end_date_vi || "Chưa có"}</strong></p> }
+                                        sinh<strong>{classData.enroll_end_date_vi || "Chưa có"}</strong></p>}
                                     {!isEmpty(classData.type) && <p>Trạng thái<strong>{{
                                         '': 'Chưa có',
                                         null: 'Chưa có',
@@ -531,13 +532,13 @@ class ClassContainer extends React.Component {
                                 {this.props.isStoringClass ?
                                     (
                                         <button
-                                            className="btn width-100 disabled"
+                                            className="btn  button-green width-100 disabled"
                                         >
                                             <i className="fa fa-spinner fa-spin"/> Đang sửa
                                         </button>
                                     )
                                     :
-                                    <button className="btn width-100"
+                                    <button className="btn button-green width-100"
                                             onClick={this.openModalEditClass}
                                     >Sửa thông tin
                                     </button>
@@ -764,13 +765,14 @@ class ClassContainer extends React.Component {
                                 </div>
 
                             </CreateRegisterOverlay>}
-                            {(this.path == `${this.routePrefix}/history-teaching` || this.path == `${this.routePrefix}/score`)&&
+                            {(this.path == `${this.routePrefix}/history-teaching` || this.path == `${this.routePrefix}/score`) &&
                             <div onClick={this.updateClassLesson} className="btn btn-actions button-green radius-5">
                                 <i className="material-icons">cached</i>&nbsp;&nbsp;&nbsp;&nbsp;Cập nhật chương trình
                             </div>}
                             {(this.path == `${this.routePrefix}/history-teaching` || this.path == `${this.routePrefix}/score`)
                             && classData.course &&
-                            <a className="btn btn-actions radius-5" href={`/teaching/courses/edit/${classData.course.id}`} target='_blank'>
+                            <a className="btn btn-actions radius-5"
+                               href={`/teaching/courses/edit/${classData.course.id}`} target='_blank'>
                                 <span className="material-icons">create</span>
                                 &nbsp;&nbsp;&nbsp;&nbsp;Sửa môn học
                             </a>}
