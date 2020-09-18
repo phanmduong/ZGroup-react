@@ -6,8 +6,11 @@ import PropTypes from 'prop-types';
 import * as tabsActions from './tabsActions';
 import * as helper from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
+import {PROTOCOL} from "../../constants/env";
 
 // Import actions here!!
+const TABIDS = [27];
+
 
 class TabContainer extends React.Component {
     constructor(props, context) {
@@ -77,16 +80,16 @@ class TabContainer extends React.Component {
                                     className={this.props.pathname === tab.url ? "active" : ""}>
                                     {this.parentCurrentTab && tab.parent[1] && this.parentCurrentTab.id == tab.parent[1].id ?
                                         (
-                                            <a href={tab.url} activeClassName="active"
-                                                  onClick={() => {
-                                                      helper.closeSidebar();
-                                                  }}
+                                            <a href={this.newVersionTab(tab)} activeClassName="active"
+                                               onClick={() => {
+                                                   helper.closeSidebar();
+                                               }}
                                             >
                                                 <p style={{paddingLeft: '10px'}}>{tab.name}</p>
                                             </a>
                                         ) :
                                         (
-                                            <a href={tab.url}
+                                            <a href={this.newVersionTab(tab)}
                                                onClick={() => {
                                                    helper.closeSidebar();
                                                }}
@@ -122,6 +125,16 @@ class TabContainer extends React.Component {
 
     }
 
+    newVersionTab = (tab) => {
+        let url;
+        if (TABIDS.indexOf(tab.id) >= 0) {
+            url = `${PROTOCOL}${window.location.hostname}:2222${tab.url}`;
+        } else {
+            url = tab.url;
+        }
+        return url;
+    }
+
     render() {
         if (this.props.isLoadingTab) {
             return <Loading/>;
@@ -133,13 +146,14 @@ class TabContainer extends React.Component {
                             return (
                                 <li key={"keytabpar" + index}
                                     className={this.props.pathname === tab.url ? "active" : ""}>
-                                    <a href={tab.url}
+                                    <a href={this.newVersionTab(tab)}
                                        onClick={() => {
                                            helper.closeSidebar();
                                        }}
                                     >
                                         {//eslint-disable-next-line
-                                        }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                        }
+                                        <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
                                         <p>{tab.name}</p>
                                     </a>
                                 </li>
@@ -150,7 +164,8 @@ class TabContainer extends React.Component {
                                     <a data-toggle="collapse"
                                        href={'#tab' + tab.id}>
                                         {//eslint-disable-next-line
-                                        }<div dangerouslySetInnerHTML={{__html: tab.icon}}/>
+                                        }
+                                        <div dangerouslySetInnerHTML={{__html: tab.icon}}/>
                                         <p>{tab.name}
                                             <b className="caret"/>
                                         </p>

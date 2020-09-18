@@ -21,6 +21,13 @@ const SHORTCUTS = [
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223bRSHt8ObSQOY0Nu.png'
     },
     {
+        name: 'Lịch dạy',
+        description: 'Xem lịch dạy từng lớp học',
+        color: '#FFEDDC',
+        link: '/teaching/teaching-schedule',
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223bRSHt8ObSQOY0Nu.png'
+    },
+    {
         name: 'Chấm công',
         description: 'Thống kê chấm công nhân viên, giảng viên, trợ giảng',
         color: '#FFDC60',
@@ -75,13 +82,7 @@ const SHORTCUTS = [
         link: '#',
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222vEe4EXGP7Nkcsn4.png'
     },
-    {
-        name: 'Lịch dạy',
-        description: 'Xem lịch dạy từng lớp học',
-        color: '#FFEDDC',
-        link: '/teaching/teaching-schedule',
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223bRSHt8ObSQOY0Nu.png'
-    },
+
     {
         name: 'Trang cá nhân',
         description: 'Thông tin cá nhân của bạn',
