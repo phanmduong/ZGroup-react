@@ -107,7 +107,7 @@ class ShortcutContainer extends React.Component {
                     tab.url = "/" + tab.url;
                 }
                 return tab.url == shortcut.link;
-            }) || shortcut.link == "#" || isEmpty(shortcut.link) || shortcut.link == '/profile/my-profile' || shortcut.link == `${PROTOCOL}${window.location.hostname}:2222/email`;
+            }) || shortcut.link == "#" || isEmpty(shortcut.link) || shortcut.link == '/profile/my-profile' || shortcut.link == `${PROTOCOL}${window.location.hostname}:2222/email/list`;
         });
         console.log(shortcuts)
         shortcuts = shortcuts.filter((item) => item.name.includes(this.state.search) || item.description.includes(this.state.search) || isEmpty(this.state.search));
