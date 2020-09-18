@@ -66,7 +66,7 @@ const SHORTCUTS = [
         name: 'Email',
         description: 'Gửi Email tự động đến hàng loạt học viên',
         color: '#5956E9',
-        link: `${PROTOCOL}${window.location.hostname}:2222/email`,
+        link: `${PROTOCOL}${window.location.hostname}:2222/email/list`,
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222Bc3RRZciSF9I2ke.png'
     }, {
         name: 'Dashboard',
