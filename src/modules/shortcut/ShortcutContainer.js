@@ -66,7 +66,7 @@ const SHORTCUTS = [
         name: 'Email',
         description: 'Gửi Email tự động đến hàng loạt học viên',
         color: '#5956E9',
-        link: `${PROTOCOL}${window.location.hostname}:2222/email`,
+        link: `${PROTOCOL}${window.location.hostname}:2222/email/list`,
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222Bc3RRZciSF9I2ke.png'
     }, {
         name: 'Dashboard',
@@ -107,7 +107,7 @@ class ShortcutContainer extends React.Component {
                     tab.url = "/" + tab.url;
                 }
                 return tab.url == shortcut.link;
-            }) || shortcut.link == "#" || isEmpty(shortcut.link) || shortcut.link == '/profile/my-profile' || shortcut.link == `${PROTOCOL}${window.location.hostname}:2222/email`;
+            }) || shortcut.link == "#" || isEmpty(shortcut.link) || shortcut.link == '/profile/my-profile' || shortcut.link == `${PROTOCOL}${window.location.hostname}:2222/email/list`;
         });
         console.log(shortcuts)
         shortcuts = shortcuts.filter((item) => item.name.includes(this.state.search) || item.description.includes(this.state.search) || isEmpty(this.state.search));
