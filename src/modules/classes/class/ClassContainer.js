@@ -498,8 +498,8 @@ class ClassContainer extends React.Component {
                                     {classData.regis_target &&
                                     <p>Chỉ tiêu đăng kí<strong>{classData.regis_target || "Chưa có"}</strong>
                                     </p>}
-                                    {!isEmpty(classData.total_paid) &&
-                                    <p>Chỉ tiêu nộp tiền<strong>{classData.total_paid || "Chưa có"}</strong></p>}
+                                    {!isEmpty(classData.target) &&
+                                    <p>Chỉ tiêu nộp tiền<strong>{classData.target || "Chưa có"}</strong></p>}
                                     {!isEmpty(classData.datestart_vi) &&
                                     <p>Ngày khai giảng<strong>{classData.datestart_vi || "Chưa có"}</strong></p>}
                                     {classData.date_end_vi &&

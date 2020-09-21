@@ -121,18 +121,18 @@ class ListClass extends React.Component {
                                         </div>
                                     </td>
                                     <td>
-                                        <h6>{classItem.total_paid + "/" + classItem.total_register}</h6>
+                                        <h6>{classItem.total_paid + "/" + classItem.target}</h6>
                                         <div className="progress progress-line-success progress-bar-table">
                                             <div className="progress-bar progress-bar-success" role="progressbar"
                                                  aria-valuenow="60"
                                                  aria-valuemin="0"
                                                  aria-valuemax="100"
                                                  style={{
-                                                     width: (classItem.total_paid * 100 / classItem.total_register) + '%',
+                                                     width: (classItem.total_paid * 100 / classItem.target) + '%',
                                                      maxWidth: '100%'
                                                  }}>
                                                 <span
-                                                    className="sr-only">{classItem.total_paid * 100 / classItem.total_register}%</span>
+                                                    className="sr-only">{classItem.total_paid * 100 / classItem.target}%</span>
                                             </div>
                                         </div>
                                     </td>
