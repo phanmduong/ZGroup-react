@@ -67,7 +67,7 @@ const SHORTCUTS = [
         description: 'Gửi Email tự động đến hàng loạt học viên',
         color: '#5956E9',
         link: `${PROTOCOL}${window.location.hostname}:2222/email/list`,
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222Bc3RRZciSF9I2ke.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600678825C2Q5IZAbjt3gThd.png'
     }, {
         name: 'Dashboard',
         description: 'Thống kê, báo cáo theo thời gian thực',
