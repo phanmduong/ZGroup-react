@@ -425,16 +425,18 @@ class HistoryTeachingContainer extends React.Component {
 
                                         <td style={{minWidth: '100px'}}>
                                             <a target="_blank"
-                                               href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.name}</strong></a>
+                                               href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>{lesson.name}</strong></a>
                                             <div>
 
-                                                <a
-                                                    style={{fontWeight: 400, color: 'black'}}
-                                                    target="_blank"
-                                                    href={
-                                                        checkStringIsUrl(lesson.description) ?
-                                                            lesson.description
-                                                            :"#"}>{lesson.description}</a>
+
+                                                {
+                                                    checkStringIsUrl(lesson.description) ?
+                                                        <div
+                                                    //eslint-disable-next-line
+                                                    dangerouslySetInnerHTML={{__html: checkStringIsUrl(lesson.description)}}/>
+                                                    :<a style={{fontWeight: 400, color: 'black'}}
+                                                        target="_blank"
+                                                        href="#">{lesson.description}</a>}
                                             </div>
                                         </td>
                                         <td>
