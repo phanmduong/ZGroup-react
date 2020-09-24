@@ -3,7 +3,7 @@ import * as classActions from "../../classActions";
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import {
-    avatarEmpty,
+    avatarEmpty, checkStringIsUrl,
     findNextInstanceInDaysArray,
     getShortName,
     isEmptyInput,
@@ -349,13 +349,13 @@ class HistoryTeachingContainer extends React.Component {
             for (let i = 0; i < lessons.length; i++) {
                 let date = i == 0 ? "" : moment(moveLessons[i - 1].time, DATE_VN_FORMAT).add(1, "days");
                 let newDate = i == 0 ? delayData.newDate : findNextInstanceInDaysArray(date, daysArray).format(DATE_VN_FORMAT);
-                let newDateNoFormat = moment(newDate, DATE_VN_FORMAT)
+                let newDateNoFormat = moment(newDate, DATE_VN_FORMAT);
                 moveLessons = [...moveLessons, {
                     ...lessons[i],
                     time: newDate,
                     oldTime: lessons[i].time,
                     timeNoFormat: newDateNoFormat
-                }]
+                }];
             }
         }
 
@@ -425,12 +425,16 @@ class HistoryTeachingContainer extends React.Component {
 
                                         <td style={{minWidth: '100px'}}>
                                             <a target="_blank"
-                                               href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.order}</strong></a>
+                                               href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}><strong>Buổi {lesson.name}</strong></a>
                                             <div>
+
                                                 <a
                                                     style={{fontWeight: 400, color: 'black'}}
                                                     target="_blank"
-                                                    href={"/teaching/courses/lessons/edit/" + classData.course.id + "/" + lesson.lesson_id}>{lesson.name}</a>
+                                                    href={
+                                                        checkStringIsUrl(lesson.description) ?
+                                                            lesson.description
+                                                            :"#"}>{lesson.description}</a>
                                             </div>
                                         </td>
                                         <td>
@@ -459,7 +463,7 @@ class HistoryTeachingContainer extends React.Component {
                                                 {/*    <div*/}
                                                 {/*        style={{fontSize: 12}}>{lesson.total_attendance}/{classData.total_paid}</div>*/}
                                                 {/*</div>*/}
-                                                <h6>{lesson.total_attendance}/{classData.total_paid}</h6>
+                                                <h6>{lesson.total_attendance || 0}/{classData.total_paid}</h6>
                                                 <div
                                                     className="progress progress-line-success progress-bar-table width-100">
                                                     <div className="progress-bar progress-bar-success"
