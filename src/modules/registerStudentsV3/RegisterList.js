@@ -250,7 +250,7 @@ class RegisterList extends React.Component {
                                             <TooltipButton text={register.note || 'Chưa có note'} placement="top">
                                                 <div
                                                     className="btn btn-xs btn-main none-margin main-background-color width-100">
-                                                    {helper.dotNumber(register.money)} vnd
+                                                    {helper.dotNumber(register.calculated_money)} vnd
                                                 </div>
                                             </TooltipButton>
                                             :

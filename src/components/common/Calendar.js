@@ -73,7 +73,7 @@ class Calendar extends React.Component {
                 }
 
             },
-            editable: true,
+            editable: !this.props.disabled,
             droppable: true,
             eventLimit: true,
             events: calendarEvents,
