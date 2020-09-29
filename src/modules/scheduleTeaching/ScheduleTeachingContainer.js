@@ -24,8 +24,9 @@ class ScheduleClassContainer extends Component {
 
     componentDidMount() {
         store.loadGens();
-        // store.loadClasses();
         store.loadBases();
+        store.loadClasses();
+
     }
 
     onChangeFilter = (field, value) => {
@@ -37,14 +38,23 @@ class ScheduleClassContainer extends Component {
 
 
     changeDateRangePicker = (start_time, end_time) => {
+        console.log(start_time, end_time)
         if (store.isLoading) return;
-        store.start_time = start_time;
-        store.end_time = end_time;
-        store.filter = {...store.filter, start_time, end_time, gen_id: 0};
+        // store.filter.start_time = start_time;
+        // store.filter.end_time = end_time;
+        store.filter = {...store.filter, start_time, end_time, gen_id: -1};
+        store.loadClasses();
+
     };
 
-    onChangeProvince = (o) => {
-        console.log(o);
+    onChangeGenFilter = (gen_id) => {
+
+        let gen = store.gensData.filter(g=>g.id==gen_id)[0];
+        if(gen){
+            store.filter = {...store.filter, start_time:gen.start_time, end_time:gen.end_time, gen_id};
+            store.loadClasses();
+
+        }
     }
 
     render() {
@@ -71,12 +81,13 @@ class ScheduleClassContainer extends Component {
         let provinces = this.props.provinces ? this.props.provinces.map((province) => {
             return {id: province.id, key: province.id, value: province.name};
         }) : [];
-        provinces = [{id: null, key: 0, value: "T.cả t.phố"}, ...provinces];
+        provinces = [{id: '', key: '', value: "T.cả t.phố"}, ...provinces];
+
+        let currentDate = new Date(filter.end_time.toISOString());
         return (
             <div>
-                {store.isLoadingClasses || store.isLoadingGens || store.isLoadingBases ? <Loading/>
-                    : (
-                        <div>
+
+                        <div className="container-fluid">
                             <div className="row gutter-20">
                                 <div className="col-md-3">
                                     <DateRangePicker
@@ -89,11 +100,7 @@ class ScheduleClassContainer extends Component {
                                 <div className="col-md-3">
                                     <Select
                                         options={store.gensData}
-                                        onChange={val => this.onChangeFilter('gen_id', val)}
-                                        // onChange={(e) => {
-                                        //     store.onChangeFilter('gen_id', e);
-                                        //     store.loadRegisters();
-                                        // }}
+                                        onChange={val => this.onChangeGenFilter(val)}
                                         value={filter.gen_id}
                                         defaultMessage="Chọn giai đoạn"
                                         name="gen_id"
@@ -101,18 +108,6 @@ class ScheduleClassContainer extends Component {
                                         className="btn btn-white"
                                     />
                                 </div>
-                                <div className="col-md-3">
-                                    <Select
-                                        defaultMessage="Chọn cơ sở"
-                                        options={store.basesData}
-                                        value={filter.base_id}
-                                        onChange={val => this.onChangeFilter('base_id', val)}
-                                        name="base_id"
-                                        wrapClassName="react-select-white-light-round  radius-5"
-                                        className="btn btn-white"
-                                    />
-                                </div>
-
                                 <div className="col-md-3">
                                     <ReactSelect.Async
                                         loadOptions={(p1, p2) => store.searchCourses(p1, p2)}
@@ -122,8 +117,8 @@ class ScheduleClassContainer extends Component {
                                         searchPromptText="Không có dữ liệu"
                                         onChange={obj => this.onChangeFilter('course_id', obj ? obj.id : obj)}
                                         value={filter.class_id}
-                                        menuContainerStyle={{zIndex: 4}}
-                                        style={{paddingTop: 4, paddingBottom: 4}}
+                                        menuContainerStyle={{zIndex: 5}}
+                                        style={{paddingTop: 4, paddingBottom: 3.5}}
                                         id="select-async-course"
                                         optionRenderer={(option) => {
                                             return (
@@ -139,43 +134,17 @@ class ScheduleClassContainer extends Component {
                                         }}
                                     />
                                 </div>
-
-                            </div>
-                            <div className="row gutter-20">
-                                <div className="col-md-3">
-                                    <Select
-                                        defaultMessage="Chọn thành phố"
-                                        options={provinces}
-                                        value={filter.province_id}
-                                        onChange={val => this.onChangeFilter('province_id', val)}
-                                        name="province_id"
-                                        wrapClassName="react-select-white-light-round radius-5"
-                                        className="btn btn-white"
-                                    />
-                                </div>
-                                <div className="col-md-3">
-                                    <Select
-                                        defaultMessage="Chọn trạng thái"
-                                        options={store.classStatuses}
-                                        value={filter.class_type}
-                                        onChange={val => this.onChangeFilter('class_type', val)}
-                                        name="class_type"
-                                        wrapClassName="react-select-white-light-round radius-5"
-                                        className="btn btn-white"
-                                    />
-                                </div>
-
                                 <div className="col-md-3">
                                     <ReactSelect.Async
-                                        loadOptions={(p1, p2) => store.loadStaffs(p1, p2,'teacher')}
+                                        loadOptions={(p1, p2) => store.loadStaffs(p1, p2, 'teacher')}
                                         loadingPlaceholder="Đang tải..."
                                         className="react-select-white-light-round cursor-pointer margin-top-10 radius-5"
                                         placeholder="Giảng viên/ trợ giảng"
                                         searchPromptText="Không có dữ liệu"
                                         onChange={obj => this.onChangeFilter('teacher_id', obj ? obj.id : obj)}
                                         value={filter.teacher_id}
-                                        menuContainerStyle={{zIndex: 4}}
-                                        style={{paddingTop: 4, padddingBottom: 4}}
+                                        menuContainerStyle={{zIndex: 5}}
+                                        style={{paddingTop: 4, paddingBottom: 3.5}}
                                         id="select-async-teacher"
                                         optionRenderer={(option) => {
                                             return (
@@ -192,29 +161,77 @@ class ScheduleClassContainer extends Component {
                                     />
                                 </div>
 
+
                             </div>
-                            <div className="card">
-                                <div className="card-content">
-                                    <Calendar
-                                        id={"classes-schedule-calender"}
-                                        calendarEvents={classes}
-                                        onClick={(value) => {
-                                            // console.log(store.class_id,value.class_id, "schedule");
-                                            // store.class_id = value.class_id;
-                                            store.isShowClassModal = true;
-                                            store.loadClass(value.class_id);
-                                        }}
-                                        disabled
-                                        // onClickDay={day => {
-                                        //     self.openModalBooking(day, room);
-                                        // }}
+                            <div className="row gutter-20">
+                                <div className="col-md-3">
+                                    <Select
+                                        defaultMessage="Chọn thành phố"
+                                        options={provinces}
+                                        value={filter.province_id}
+                                        onChange={val => this.onChangeFilter('province_id', val)}
+                                        name="province_id"
+                                        wrapClassName="react-select-white-light-round radius-5"
+                                        className="btn btn-white"
                                     />
                                 </div>
-                            </div>
-                        </div>
-                    )
+                                <div className="col-md-3">
+                                    <Select
+                                        defaultMessage="Chọn cơ sở"
+                                        options={store.basesData}
+                                        value={filter.base_id}
+                                        onChange={val => this.onChangeFilter('base_id', val)}
+                                        name="base_id"
+                                        wrapClassName="react-select-white-light-round  radius-5"
+                                        className="btn btn-white"
+                                    />
+                                </div>
+                                <div className="col-md-3">
+                                    <Select
+                                        defaultMessage="Chọn trạng thái"
+                                        options={store.classStatuses}
+                                        value={filter.type}
+                                        onChange={val => this.onChangeFilter('type', val)}
+                                        name="type"
+                                        wrapClassName="react-select-white-light-round radius-5"
+                                        className="btn btn-white"
+                                    />
+                                </div>
+                                <div className="col-md-3"/>
 
-                }
+
+                            </div>
+                            {store.isLoadingClasses || store.isLoadingGens || store.isLoadingBases ? <Loading/>
+                                :
+                            <div className="row gutter-20">
+                                <div className="col-md-12">
+                                    <div className="card margin-top-10">
+                                        <div className="card-content">
+                                            <Calendar
+                                                id="classes-schedule-calender"
+                                                calendarEvents={classes}
+                                                onClick={(value) => {
+                                                    // console.log(store.class_id,value.class_id, "schedule");
+                                                    // store.class_id = value.class_id;
+                                                    store.isShowClassModal = true;
+                                                    store.loadClass(value.class_id);
+                                                }}
+                                                currentDate={currentDate}
+                                                disabled
+                                                // onClickDay={day => {
+                                                //     self.openModalBooking(day, room);
+                                                // }}
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            }
+                        </div>
+
+
+
                 <ClassContainer/>
             </div>
         );
