@@ -9,9 +9,9 @@ const routes = [
     {
         path: `${routePrefix}`, text: 'Doanh thu và đăng kí',
     },
-    {
-        path: `${routePrefix}/kpi`, text: 'KPI',
-    },
+    // {
+    //     path: `${routePrefix}/kpi`, text: 'KPI',
+    // },
     {
         path: `${routePrefix}/class`, text: 'Lớp học',
     },
