@@ -9,7 +9,7 @@ import Loading from "../../components/common/Loading";
 import {PROTOCOL} from "../../constants/env";
 
 // Import actions here!!
-const TABIDS = [27];
+const TABIDS = [27, 213];
 
 
 class TabContainer extends React.Component {

@@ -42,6 +42,14 @@ const SHORTCUTS = [
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/16003142232zFuDvSs6Wu1UX7.png'
     },
     {
+        name: 'KPI',
+        description: 'Quản lý chỉ tiêu',
+        color: '#5855E6',
+        new: true,
+        link: '/kpi/list',
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222YXkUhhjS2CFZlDp.png'
+    },
+    {
         name: 'Tài chính',
         description: 'Quản lý tài chính, dòng tiền, thu chi',
         color: '#90C8FC',
@@ -66,6 +74,7 @@ const SHORTCUTS = [
         name: 'Email',
         description: 'Gửi Email tự động đến hàng loạt học viên',
         color: '#5956E9',
+        new: true,
         link: `${PROTOCOL}${window.location.hostname}:2222/email/list`,
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600678825C2Q5IZAbjt3gThd.png'
     }, {
@@ -107,7 +116,7 @@ class ShortcutContainer extends React.Component {
                     tab.url = "/" + tab.url;
                 }
                 return tab.url == shortcut.link;
-            }) || shortcut.link == "#" || isEmpty(shortcut.link) || shortcut.link == '/profile/my-profile' || shortcut.link == `${PROTOCOL}${window.location.hostname}:2222/email/list`;
+            }) || shortcut.link == "#" || isEmpty(shortcut.link) || shortcut.link == '/profile/my-profile' || shortcut.new;
         });
         console.log(shortcuts)
         shortcuts = shortcuts.filter((item) => item.name.includes(this.state.search) || item.description.includes(this.state.search) || isEmpty(this.state.search));
