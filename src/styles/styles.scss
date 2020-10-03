@@ -185,6 +185,11 @@ table tr td .avatar-list-staff {
   }
 }
 
+.text-underline {
+  text-decoration: underline;
+
+}
+
 .modal-small-text {
   font-size: 85%;
   opacity: 0.6;
@@ -438,6 +443,7 @@ svg:not(:root) {
 .margin-bottom-10 {
   margin-bottom: 10px !important;
 }
+
 .margin-bottom-15 {
   margin-bottom: 15px !important;
 }
@@ -732,6 +738,7 @@ $starInactive: #c4c5c6;
 .none-margin-bottom {
   margin-bottom: 0 !important;
 }
+
 .none-margin-top {
   margin-top: 0 !important;
 }
@@ -1876,6 +1883,7 @@ table tr td .avatar-honor {
 .white-seacrh {
   margin-top: -10px;
   font-size: 12px;
+
   .form-group {
     position: relative;
 
@@ -1907,8 +1915,9 @@ table tr td .avatar-honor {
     background-image: none !important;
 
   }
-  input::placeholder{
-    font-size: 12px!important;
+
+  input::placeholder {
+    font-size: 12px !important;
   }
 }
 
@@ -2285,12 +2294,13 @@ table tr td .avatar-honor {
   flex-wrap: wrap;
   will-change: unset !important;
 
-  &{
+  & {
     background-color: white;
     color: black;
 
   }
-  &:hover{
+
+  &:hover {
     background-color: #F7F5F7;
     color: black;
 
@@ -3783,6 +3793,10 @@ $min-height-step-content: 500px;
 
 .radius-5 {
   border-radius: 5px;
+
+  .btn {
+    border-radius: 5px;
+  }
 }
 
 
@@ -4339,9 +4353,26 @@ input[type=search], .form-control {
   background-color: white;
 }
 
-.gutter-20 > [class*='col-'] {
-  padding-right: 10px;
-  padding-left: 10px;
+@media screen and (min-width: 768px) {
+
+  .gutter-20 > [class*='col-'] {
+    padding-left: 5px;
+    padding-right: 5px;
+
+    &:first-child {
+      padding-left: 10px;
+    }
+
+    &:last-child {
+      padding-right: 10px;
+    }
+
+    &:only-child {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+  }
 }
 
 .card-tag {
@@ -5407,19 +5438,21 @@ $ct-series-colors: (
   }
 }
 
-.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-success{
+.bootstrap-switch .bootstrap-switch-handle-on.bootstrap-switch-success {
   background-color: #04bc06;
 }
 
-.row[data-space="10"]{
-  div[class*=col]:not(:last-child, :first-child){
+.row[data-space="10"] {
+  div[class*=col]:not(:last-child, :first-child) {
     padding-right: 0px;
     padding-left: 10px;
   }
+
   div[class*=col]:last-child {
     padding-right: 15px;
     padding-left: 10px;
   }
+
   div[class*=col]:first-child {
     padding-right: 10px;
     padding-left: 15px;

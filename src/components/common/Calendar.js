@@ -25,7 +25,7 @@ class Calendar extends React.Component {
     initFullCalendar(calendarEvents) {
         let $calendar = $("#" + this.props.id);
 
-        let today = new Date();
+        let today = this.props.currentDate ? this.props.currentDate: new Date() ;
 
         let dateClickFun = this.props.onClickDay;
 
@@ -73,7 +73,7 @@ class Calendar extends React.Component {
                 }
 
             },
-            editable: true,
+            editable: !this.props.disabled,
             droppable: true,
             eventLimit: true,
             events: calendarEvents,

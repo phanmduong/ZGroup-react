@@ -76,6 +76,16 @@ export function editSurvey(survey, file) {
     return axios.post(url, formData, config);
 }
 
+export function duplicateSurvey(survey) {
+    let url = env.MANAGE_API_URL + `/v2/survey/${survey.id}/duplicate`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.post(url);
+}
+
 
 export const loadSurveys = (page, search) => {
     let url = env.MANAGE_API_URL + "/v2/survey";
