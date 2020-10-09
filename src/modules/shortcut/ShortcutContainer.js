@@ -35,6 +35,14 @@ const SHORTCUTS = [
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/16003142235zJj2IMDqvkKoHr.png'
     },
     {
+        name: 'Form đăng kí',
+        description: 'Form đăng kí học',
+        color: '#608DFF',
+        link: '/register-form/list',
+        newLink: `${PROTOCOL}${window.location.hostname}:2222/register-form/list`,
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223r9iTNffgvkfO6Z1.png'
+    },
+    {
         name: 'CRM',
         description: 'Quản lý các học viên tiềm năng, các đăng kí học',
         color: '#FFDC60',
@@ -45,8 +53,8 @@ const SHORTCUTS = [
         name: 'KPI',
         description: 'Quản lý chỉ tiêu',
         color: '#5855E6',
-        new: true,
         link: '/kpi/list',
+        newLink: `${PROTOCOL}${window.location.hostname}:2222/kpi/list`,
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222YXkUhhjS2CFZlDp.png'
     },
     {
@@ -74,8 +82,8 @@ const SHORTCUTS = [
         name: 'Email',
         description: 'Gửi Email tự động đến hàng loạt học viên',
         color: '#5956E9',
-        new: true,
-        link: `${PROTOCOL}${window.location.hostname}:2222/email/list`,
+        link: '/email/list',
+        newLink: `${PROTOCOL}${window.location.hostname}:2222/email/list`,
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600678825C2Q5IZAbjt3gThd.png'
     }, {
         name: 'Dashboard',
@@ -145,7 +153,7 @@ class ShortcutContainer extends React.Component {
                                             return (
                                                 <div className="col-md-3 col-sm-4 col-xs-6" key={key}>
                                                     <a
-                                                        href={shortcut.link}
+                                                        href={shortcut.newLink ? shortcut.newLink : shortcut.link}
                                                         style={{color: 'black'}}
                                                         className="flex flex-col flex-justify-content-center flex-align-items-center padding-vertical-20px cursor-pointer margin-bottom-20">
                                                         <div style={{
