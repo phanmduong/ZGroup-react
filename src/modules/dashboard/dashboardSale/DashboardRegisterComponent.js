@@ -227,7 +227,7 @@ class DashboardRegisterComponent extends React.Component {
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
                                         <h4 className="card-title">
-                                            <strong>Tỉ lệ học viên new - retention</strong>
+                                            <strong>New Deal - Retention Deal</strong>
                                         </h4>
                                         {
                                             data.dates && data.dates.length > 0 &&
@@ -237,15 +237,15 @@ class DashboardRegisterComponent extends React.Component {
                                                 dateFormat={DATE_FORMAT}
                                                 data={[data.new_retention_register_by_date, data.retention_register_by_date]}
                                                 optionsBar={optionsBarStackRegister}
-                                                fileNameDownload={'tỉ lệ học viên new - retention'}
+                                                fileNameDownload={'New Deal - Retention Deal'}
                                                 labels={[
                                                     {
-                                                        label: "Đơn new",
+                                                        label: "New Deal",
                                                         backgroundColor: '#ffaa00',
                                                         borderColor: '#ffaa00',
                                                     },
                                                     {
-                                                        label: "Đơn retention",
+                                                        label: "Retention Deal",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
                                                     }]}
@@ -264,7 +264,44 @@ class DashboardRegisterComponent extends React.Component {
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
                                         <h4 className="card-title">
-                                            <strong>Tỉ lệ học viên new - retention</strong>
+                                            <strong>New Enrollment - Retention Enrollment</strong>
+                                        </h4>
+                                        {
+                                            data.dates && data.dates.length > 0 &&
+                                            <BarChartFilterDate
+                                                isLoading={isLoading}
+                                                dates={this.formatDates(data.dates)}
+                                                dateFormat={DATE_FORMAT}
+                                                data={[data.paid_new_retention_register_by_date, data.paid_retention_register_by_date]}
+                                                optionsBar={optionsBarStackRegister}
+                                                fileNameDownload={'New Enrollment - Retention Enrollment'}
+                                                labels={[
+                                                    {
+                                                        label: "New Enrollment",
+                                                        backgroundColor: '#ffaa00',
+                                                        borderColor: '#ffaa00',
+                                                    },
+                                                    {
+                                                        label: "Retention Enrollment",
+                                                        backgroundColor: '#4caa00',
+                                                        borderColor: '#4caa00',
+                                                    }]}
+                                            />
+
+                                        }
+                                        <br/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="card margin-bottom-20 margin-top-0">
+                                <div className="card-content text-align-left">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>New Deal - Retention Deal theo chương trình học</strong>
                                         </h4>
                                         {
                                             data.programs && data.programs.length > 0 &&
@@ -302,7 +339,7 @@ class DashboardRegisterComponent extends React.Component {
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
                                         <h4 className="card-title">
-                                            <strong>Tỉ lệ Enrollment</strong>
+                                            <strong>Tỉ lệ Enrollment theo chương trình học</strong>
                                         </h4>
                                         {
                                             data.programs && data.programs.length > 0 &&
@@ -325,80 +362,6 @@ class DashboardRegisterComponent extends React.Component {
                                                 ]
                                                 }
                                                 optionsBar={optionsBarStackRegister}
-                                            />
-
-                                        }
-                                        <br/>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div className="col-md-12">
-                            <div className="card margin-bottom-20 margin-top-0">
-                                <div className="card-content text-align-left">
-                                    <div className="tab-content">
-                                        <h4 className="card-title">
-                                            <strong>Tỉ lệ học viên new - retention</strong>
-                                        </h4>
-                                        {
-                                            data.dates && data.dates.length > 0 &&
-                                            <BarChartFilterDate
-                                                isLoading={isLoading}
-                                                dates={this.formatDates(data.dates)}
-                                                dateFormat={DATE_FORMAT}
-                                                data={[data.new_retention_register_by_date, data.retention_register_by_date]}
-                                                optionsBar={optionsBarStackRegister}
-                                                fileNameDownload={'tỉ lệ học viên new - retention'}
-                                                labels={[
-                                                    {
-                                                        label: "Đơn new",
-                                                        backgroundColor: '#ffaa00',
-                                                        borderColor: '#ffaa00',
-                                                    },
-                                                    {
-                                                        label: "Đơn retention",
-                                                        backgroundColor: '#4caa00',
-                                                        borderColor: '#4caa00',
-                                                    }]}
-                                            />
-
-                                        }
-                                        <br/>
-
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                        <div className="col-md-12">
-                            <div className="card margin-bottom-20 margin-top-0">
-                                <div className="card-content text-align-left">
-                                    <div className="tab-content">
-                                        <h4 className="card-title">
-                                            <strong>Tỉ lệ học viên nộp tiền new - retention</strong>
-                                        </h4>
-                                        {
-                                            data.dates && data.dates.length > 0 &&
-                                            <BarChartFilterDate
-                                                isLoading={isLoading}
-                                                dates={this.formatDates(data.dates)}
-                                                dateFormat={DATE_FORMAT}
-                                                data={[data.paid_new_retention_register_by_date, data.paid_retention_register_by_date]}
-                                                optionsBar={optionsBarStackRegister}
-                                                fileNameDownload={'tỉ lệ học viên new - retention'}
-                                                labels={[
-                                                    {
-                                                        label: "Đơn new",
-                                                        backgroundColor: '#ffaa00',
-                                                        borderColor: '#ffaa00',
-                                                    },
-                                                    {
-                                                        label: "Đơn retention",
-                                                        backgroundColor: '#4caa00',
-                                                        borderColor: '#4caa00',
-                                                    }]}
                                             />
 
                                         }
