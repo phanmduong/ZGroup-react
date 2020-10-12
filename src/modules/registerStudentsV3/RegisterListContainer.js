@@ -139,7 +139,7 @@ class RegisterListContainer extends React.Component {
     };
 
     showLoadingModal = () => {
-        this.setState({showLoadingModal: true,showExportFieldsModal: false});
+        this.setState({showLoadingModal: true, showExportFieldsModal: false});
         let filter = store.solveFilter();
         filter.limit = -1;
         loadRegisters(filter).then(res => {
@@ -239,7 +239,10 @@ class RegisterListContainer extends React.Component {
                     ...item,
                     stt: index + 1,
                     tele_call: item.tele_call ? item.tele_call : {call_status_text: 'Chưa gọi'},
-                    studyClass: item.studyClass ? {...item.studyClass, type:TYPE_CLASSES_OBJECT[item.studyClass.type]} : {name: 'Không có', type: 'null'},
+                    studyClass: item.studyClass ? {
+                        ...item.studyClass,
+                        type: TYPE_CLASSES_OBJECT[item.studyClass.type]
+                    } : {name: 'Không có', type: 'null'},
                     how_know: item.how_know ? item.how_know : 'Không có',
                     dob: item.dob ? item.dob : 'Không có',
                     district: item.district ? item.district : 'Không có',
@@ -273,9 +276,9 @@ class RegisterListContainer extends React.Component {
                     // 'Ngày đăng kí': item.created_at,
                     // 'Thi thử': mock_exams_text,
                 };
-                objectEntries(selectedExportFields).map(key=>{
+                objectEntries(selectedExportFields).map(key => {
                     let field = selectedExportFields[key];
-                    if (field.checked){
+                    if (field.checked) {
                         res[field.name] = getValueFromKey(item, field.id);
                     }
 
@@ -308,7 +311,12 @@ class RegisterListContainer extends React.Component {
                         return (<li className={className} key={key}
                                     onClick={() => this.changeTabView(tab)}
                         >
-                            <a style={{borderRadius: 5, textTransform: 'none', margin: 0, padding:'10px 20px'}}>{tab.text}</a>
+                            <a style={{
+                                borderRadius: 5,
+                                textTransform: 'none',
+                                margin: 0,
+                                padding: '10px 20px'
+                            }}>{tab.text}</a>
                         </li>);
                     })}
                 </ul>
@@ -322,7 +330,8 @@ class RegisterListContainer extends React.Component {
                                 <button
                                     className="btn btn-icon button-green"
                                     style={{padding: "12px 15px", height: 42, margin: '10px 10px 0 0', borderRadius: 5}}
-                                ><span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Tạo đăng kí mới
+                                ><span className="material-icons">add_circle</span>&nbsp;&nbsp;&nbsp;&nbsp;Tạo đăng kí
+                                    mới
                                 </button>
                             }
                         />
@@ -411,7 +420,7 @@ class RegisterListContainer extends React.Component {
                                 </div>
                             </div>
                             <div className="col-md-3">
-                                <label>Môn học</label>
+                                <label>Môn học/Chương trình học</label>
                                 <ReactSelect
                                     disabled={isLoading}
                                     options={filter_data.courses}
@@ -685,7 +694,7 @@ class RegisterListContainer extends React.Component {
                         <form className="form-grey">
                             {objectEntries(this.state.selectedExportFields).map(key => {
                                 // console.log(field);
-                                let field  = this.state.selectedExportFields[key];
+                                let field = this.state.selectedExportFields[key];
                                 return this.renderFieldExport(this.state.selectedExportFields[field.id]);
                             })}
                             <div className="flex flex-end">
