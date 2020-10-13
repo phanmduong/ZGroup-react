@@ -78,9 +78,41 @@ class DashboardRealRevenueComponent extends React.Component {
                                                 isLoading={isLoading}
                                                 dates={this.formatDates(data.dates)}
                                                 dateFormat={DATE_FORMAT}
-                                                data={[data.money_by_date]}
+                                                data={[data.real_money_by_date]}
                                                 optionsBar={optionsBarMoney}
                                                 fileNameDownload={"doanh thu thực theo ngày"}
+                                                labels={[
+                                                    {
+                                                        label: "Doanh thu",
+                                                        backgroundColor: '#4caa00',
+                                                        borderColor: '#4caa00',
+                                                    }]}
+                                            />
+
+                                        }
+                                        <br/>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="card margin-bottom-20 margin-top-0">
+                                <div className="card-content text-align-left">
+                                    <div className="tab-content">
+                                        <h4 className="card-title">
+                                            <strong>Doanh thu theo ngày</strong>
+                                        </h4>
+                                        {
+                                            data.dates && data.dates.length > 0 &&
+                                            <BarChartFilterDate
+                                                isLoading={isLoading}
+                                                dates={this.formatDates(data.dates)}
+                                                dateFormat={DATE_FORMAT}
+                                                data={[data.money_by_date]}
+                                                optionsBar={optionsBarMoney}
+                                                fileNameDownload={"doanh thu theo ngày"}
                                                 labels={[
                                                     {
                                                         label: "Doanh thu",
