@@ -296,8 +296,9 @@ class AddClassContainer extends React.Component {
             this.props.classActions.addSchedule(schedule);
             this.setState({
                 optionsSelectSchedule: [...this.state.optionsSelectSchedule, {
+                    ...schedule,
+                    label: schedule.name,
                     value: schedule.id,
-                    label: schedule.name
                 }],
             });
             this.changeSchedule(schedule);

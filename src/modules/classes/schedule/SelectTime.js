@@ -23,6 +23,7 @@ class SelectTime extends React.Component {
         this.props.day.start_time = this.state.start_time;
         this.props.day.end_time = this.state.end_time;
         this.props.day.selected = false;
+        this.props.onSave();
     }
 
     onDeleteTime = (e) => {
