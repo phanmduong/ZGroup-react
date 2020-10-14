@@ -18,7 +18,7 @@ class CreateScheduleModal extends React.Component {
     }
 
     onSave = () => {
-        if (isEmptyInput(this.store.name)){
+        if (isEmptyInput(this.store.name)) {
             showWarningNotification("Vui lòng nhập tên lịch học");
             return;
         }
@@ -32,6 +32,7 @@ class CreateScheduleModal extends React.Component {
 
     render() {
         const {days, isLoading} = this.store;
+        console.log(days);
         return (
             <div>
                 <Modal
@@ -49,13 +50,19 @@ class CreateScheduleModal extends React.Component {
                                 {days.map((day) => {
                                     const isActive = !isEmptyInput(day.start_time) && !isEmptyInput(day.end_time);
                                     return (
-                                        <SelectTime day={day} active={isActive}/>
+                                        <SelectTime day={day} active={isActive}
+                                                    onSave={() => {
+                                                        this.store.name = this.store.name + `${this.store.name ? ' - ' : ''}${day.value} (${day.start_time}-${day.end_time})`;
+                                                        console.log(this.store.name)
+                                                    }}
+                                        />
                                     );
                                 })}
                             </div>
                             <div>
-                                <div className="title-select-day">Chọn ngày trong tuần</div>
+                                <div className="title-select-day">Tên lịch học</div>
                                 <input className="custom-input" type="text"
+                                       value={this.store.name}
                                        placeholder="Thứ 2 - Thứ 4 - Thứ 6 (19h-21h)" onChange={(e) => {
                                     this.store.name = e.target.value;
                                 }}/>
@@ -71,7 +78,7 @@ class CreateScheduleModal extends React.Component {
                             <div className={"button-green min-width-100-px" + (isLoading ? " disabled " : "")}
                                  onClick={() => !isLoading && this.onSave()}>
                                 {isLoading &&
-                                <i className="fa fa-spinner fa-spin" style={{fontSize: 16, marginRight: 5}} />}
+                                <i className="fa fa-spinner fa-spin" style={{fontSize: 16, marginRight: 5}}/>}
                                 {isLoading ? "Đang lưu" : "Lưu"}
                             </div>
                         </div>
