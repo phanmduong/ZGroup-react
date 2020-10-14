@@ -37,8 +37,9 @@ const filter = [
 class BarChartFilterDate extends React.Component {
     constructor(props, context) {
         super(props, context);
+
         this.state = {
-            currentFilter: "date"
+            currentFilter: window.location.hostname.includes("ieg") ? "month" : "date"
         };
     }
 

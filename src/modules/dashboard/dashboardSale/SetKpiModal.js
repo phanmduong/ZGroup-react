@@ -1,36 +1,12 @@
 import React from 'react';
 import {observer} from 'mobx-react';
-import filterStore from "./filterStore";
-import {Modal, Panel} from "react-bootstrap";
+import {Modal} from "react-bootstrap";
 import setKpiStore from "./setKpiStore";
-import {getValueFromKey} from "../../../helpers/entity/object";
 import FormInputText from "../../../components/common/FormInputText";
-import ReactSelect from "react-select";
 import moment from "moment";
 import DateRangePicker from "../../../components/common/DateTimePicker";
 import {dotNumber} from "../../../helpers/helper";
-import BarChartFilterDate from "../BarChartFilterDate";
 import {DATE_FORMAT, DATE_FORMAT_SQL} from "../../../constants/constants";
-
-const optionsBar = {
-    tooltips: {
-        callbacks: {
-            label: function (tooltipItem, data) {
-                let label = data.datasets[tooltipItem.datasetIndex].label || '';
-
-                if (label) {
-                    label += ': ';
-                }
-                label += `${dotNumber(tooltipItem.value)}đ`;
-                return label;
-            }
-        }
-    },
-    legend: {
-        display: true,
-        position: "bottom"
-    }
-};
 
 @observer
 class SetKpiModal extends React.Component {
@@ -59,7 +35,7 @@ class SetKpiModal extends React.Component {
 
     changeDateRangePickerHistory = (start_time, end_time) => {
         setKpiStore.historyFilter = {...setKpiStore.historyFilter, start_time, end_time, gen_id: 0};
-        this.loadHistoryKpi({...setKpiStore.historyFilter, base_id: filterStore.base_id});
+        // this.loadHistoryKpi({...setKpiStore.historyFilter, base_id: filterStore.base_id});
     }
 
     submitKpi = () => {
@@ -74,9 +50,9 @@ class SetKpiModal extends React.Component {
 
     }
 
-    loadHistoryKpi = (filter) => {
-        setKpiStore.historyKpi(filter);
-    }
+    // loadHistoryKpi = (filter) => {
+    //     setKpiStore.historyKpi(filter);
+    // }
     formatDates = (dates) => {
         return dates && dates.map((date) => {
             return moment(date, DATE_FORMAT_SQL).format(DATE_FORMAT);
@@ -84,34 +60,34 @@ class SetKpiModal extends React.Component {
     }
 
     render() {
-        let {isStoring, setKpi, selectedSaler, showModal, isLoading, data, openHistoryPanel, historyFilter} = setKpiStore;
+        let {isStoring, setKpi, showModal} = setKpiStore;
         return (
 
             <Modal show={showModal} bsSize="large" onHide={this.toggleModal}>
                 <Modal.Header closeButton>
-                    <div className="title">Set KPI</div>
+                    <div className="title">Đặt mục tiêu doanh thu</div>
                 </Modal.Header>
                 <Modal.Body>
-                    {
-                        selectedSaler &&
-                        <div className="flex flex-row flex-align-items-center">
-                            <div>
-                                <img className="circle"
-                                     src={selectedSaler.avatar_url} alt="" style={{height: 80, width: 80}}/>
-                            </div>
-                            <div className="flex flex-col margin-left-15">
-                                <strong>{selectedSaler.name}</strong>
-                                {selectedSaler.base &&
-                                <div>{getValueFromKey(selectedSaler, "base.name")} - Thành
-                                    phố {getValueFromKey(selectedSaler, "base.district.province.name")}</div>}
+                    {/*{*/}
+                    {/*    selectedSaler &&*/}
+                    {/*    <div className="flex flex-row flex-align-items-center">*/}
+                    {/*        <div>*/}
+                    {/*            <img className="circle"*/}
+                    {/*                 src={selectedSaler.avatar_url} alt="" style={{height: 80, width: 80}}/>*/}
+                    {/*        </div>*/}
+                    {/*        <div className="flex flex-col margin-left-15">*/}
+                    {/*            <strong>{selectedSaler.name}</strong>*/}
+                    {/*            {selectedSaler.base &&*/}
+                    {/*            <div>{getValueFromKey(selectedSaler, "base.name")} - Thành*/}
+                    {/*                phố {getValueFromKey(selectedSaler, "base.district.province.name")}</div>}*/}
 
-                            </div>
-                        </div>
-                    }
+                    {/*        </div>*/}
+                    {/*    </div>*/}
+                    {/*}*/}
                     <div className="margin-top-20" className="set-kpi-form">
                         <div className="form-modal">
                             <div className="row">
-                                <div className="col-md-4">
+                                <div className="col-md-6">
                                     <label>Thời gian</label>
                                     <DateRangePicker
                                         className="padding-vertical-10px cursor-pointer margin-bottom-20"
@@ -120,19 +96,19 @@ class SetKpiModal extends React.Component {
                                         onChange={this.changeDateRangePicker}
                                     />
                                 </div>
-                                <div className="col-md-4">
-                                    <label>Khóa</label>
-                                    <ReactSelect
-                                        value={setKpi.gen_id}
-                                        options={filterStore.gensData}
-                                        onChange={this.onChangeGen}
-                                        className="cursor-pointer margin-bottom-20"
-                                        placeholder="Chọn khóa"
-                                        clearable={false}
-                                    />
-                                </div>
-                                <div className="col-md-4">
-                                    <label>KPI</label>
+                                {/*<div className="col-md-4">*/}
+                                {/*    <label>Khóa</label>*/}
+                                {/*    <ReactSelect*/}
+                                {/*        value={setKpi.gen_id}*/}
+                                {/*        options={filterStore.gensData}*/}
+                                {/*        onChange={this.onChangeGen}*/}
+                                {/*        className="cursor-pointer margin-bottom-20"*/}
+                                {/*        placeholder="Chọn khóa"*/}
+                                {/*        clearable={false}*/}
+                                {/*    />*/}
+                                {/*</div>*/}
+                                <div className="col-md-6">
+                                    <label>Mục tiêu</label>
                                     <FormInputText
                                         placeholder="KPI"
                                         name="number"
@@ -149,54 +125,54 @@ class SetKpiModal extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="panel panel-default">
-                            <div className="panel-heading"
-                                 style={{width: 110, border: "none"}}
-                                 onClick={() => {
-                                     setKpiStore.openHistoryPanel = !openHistoryPanel;
-                                 }}
-                            >
-                                <a aria-expanded={openHistoryPanel}
-                                   style={{
-                                       color: "black"
-                                   }}
-                                >
-                                    <h4 className="panel-title" style={{fontWeight: "bold"}}>
-                                        Lịch sử kpi
-                                        <i className="material-icons">arrow_drop_down</i>
-                                    </h4>
-                                </a>
-                            </div>
-                        </div>
-                        <Panel collapsible className="none-margin"
-                               expanded={openHistoryPanel}>
-                            <BarChartFilterDate
-                                isLoading={isLoading}
-                                dates={this.formatDates(data.dates)}
-                                dateFormat={DATE_FORMAT}
-                                data={[data.kpi, data.revenue]}
-                                optionsBar={optionsBar}
-                                fileNameDownload={"lịch sử KPI của " + selectedSaler.name}
-                                labels={[
-                                    {
-                                        label: "KPI",
-                                        backgroundColor: '#ffaa00',
-                                        borderColor: '#ffaa00',
-                                    },
-                                    {
-                                        label: "Doanh thu",
-                                        backgroundColor: '#4caa00',
-                                        borderColor: '#4caa00',
-                                    }]}
-                            >
-                                <DateRangePicker
-                                    className="padding-vertical-10px cursor-pointer margin-vertical-15"
-                                    start={historyFilter.start_time} end={historyFilter.end_time}
-                                    style={{padding: '5px 10px 5px 20px', lineHeight: '34px', marginBottom: 18}}
-                                    onChange={this.changeDateRangePickerHistory}
-                                />
-                            </BarChartFilterDate>
-                        </Panel>
+                        {/*<div className="panel panel-default">*/}
+                        {/*    <div className="panel-heading"*/}
+                        {/*         style={{width: 110, border: "none"}}*/}
+                        {/*         onClick={() => {*/}
+                        {/*             setKpiStore.openHistoryPanel = !openHistoryPanel;*/}
+                        {/*         }}*/}
+                        {/*    >*/}
+                        {/*        <a aria-expanded={openHistoryPanel}*/}
+                        {/*           style={{*/}
+                        {/*               color: "black"*/}
+                        {/*           }}*/}
+                        {/*        >*/}
+                        {/*            <h4 className="panel-title" style={{fontWeight: "bold"}}>*/}
+                        {/*                Lịch sử kpi*/}
+                        {/*                <i className="material-icons">arrow_drop_down</i>*/}
+                        {/*            </h4>*/}
+                        {/*        </a>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+                        {/*<Panel collapsible className="none-margin"*/}
+                        {/*       expanded={openHistoryPanel}>*/}
+                        {/*    <BarChartFilterDate*/}
+                        {/*        isLoading={isLoading}*/}
+                        {/*        dates={this.formatDates(data.dates)}*/}
+                        {/*        dateFormat={DATE_FORMAT}*/}
+                        {/*        data={[data.kpi, data.revenue]}*/}
+                        {/*        optionsBar={optionsBar}*/}
+                        {/*        fileNameDownload={"lịch sử KPI của " + selectedSaler.name}*/}
+                        {/*        labels={[*/}
+                        {/*            {*/}
+                        {/*                label: "KPI",*/}
+                        {/*                backgroundColor: '#ffaa00',*/}
+                        {/*                borderColor: '#ffaa00',*/}
+                        {/*            },*/}
+                        {/*            {*/}
+                        {/*                label: "Doanh thu",*/}
+                        {/*                backgroundColor: '#4caa00',*/}
+                        {/*                borderColor: '#4caa00',*/}
+                        {/*            }]}*/}
+                        {/*    >*/}
+                        {/*        <DateRangePicker*/}
+                        {/*            className="padding-vertical-10px cursor-pointer margin-vertical-15"*/}
+                        {/*            start={historyFilter.start_time} end={historyFilter.end_time}*/}
+                        {/*            style={{padding: '5px 10px 5px 20px', lineHeight: '34px', marginBottom: 18}}*/}
+                        {/*            onChange={this.changeDateRangePickerHistory}*/}
+                        {/*        />*/}
+                        {/*    </BarChartFilterDate>*/}
+                        {/*</Panel>*/}
                         {isStoring ?
                             <div className="flex flex-align-items-center flex-end">
                                 <div className="btn btn-white">

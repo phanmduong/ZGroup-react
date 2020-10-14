@@ -178,8 +178,8 @@ class DashboardClassComponent extends React.Component {
             <div>
                 <Filter loadData={this.loadData} disabledCampaign disabledSource/>
                 <CardRevenue/>
-                <div className="row gutter-20 margin-bottom-20">
-                    <div className="col-md-12">
+                <div className="row margin-bottom-20" >
+                    <div className="col-md-12" style={{paddingLeft: 10, paddingRight: 10}}>
                         <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
                             <li className={currentTab == "registering" ? "active" : ""}
                                 onClick={() => this.onChangeTab("registering")}>
@@ -202,8 +202,8 @@ class DashboardClassComponent extends React.Component {
                     </div>
                 </div>
                 {isLoading ? <Loading/> :
-                    <div className="row gutter-20">
-                        <div className="col-md-12">
+                    <div className="row">
+                        <div className="col-md-12" style={{paddingLeft: 10, paddingRight: 10}}>
                             <ReactTable
                                 data={classes}
                                 columns={this.columns}

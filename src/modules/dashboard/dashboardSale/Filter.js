@@ -135,99 +135,104 @@ class Filter extends React.Component {
             </div>
         );
         return (
-            <div className="row gutter-20 margin-top-20">
-                <div className="col-md-3">
-                    <DateRangePicker
-                        className="background-white padding-vertical-10px cursor-pointer margin-bottom-20"
-                        start={filter.start_time} end={filter.end_time}
-                        style={{padding: '5px 10px 5px 20px', lineHeight: '33px'}}
-                        onChange={this.changeDateRangePicker}
-                    />
+            <div>
+                <div className="row gutter-20 margin-top-20">
+                    <div className="col-md-3">
+                        <DateRangePicker
+                            className="background-white padding-vertical-10px cursor-pointer margin-bottom-20"
+                            start={filter.start_time} end={filter.end_time}
+                            style={{padding: '5px 10px 5px 20px', lineHeight: '33px'}}
+                            onChange={this.changeDateRangePicker}
+                        />
+                    </div>
+                    <div className="col-md-3">
+                        <ReactSelect
+                            value={filter.gen_id}
+                            options={gensData}
+                            onChange={this.onChangeGen}
+                            className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                            placeholder="Chọn khóa"
+                            clearable={false}
+                        />
+                    </div>
+                    <div className="col-md-3">
+                        <ReactSelect
+                            value={filter.course_id}
+                            options={coursesData}
+                            onChange={this.onChangeCourse}
+                            className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                            placeholder="Chọn khóa học"
+                            clearable={false}
+                        />
+                    </div>
+                    <div className="col-md-3">
+                        <ReactSelect.Async
+                            loadOptions={(p1, p2) => filterStore.loadStaffs(p1, p2, true)}
+                            loadingPlaceholder="Đang tải..."
+                            className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                            placeholder="Chọn nhân viên"
+                            searchPromptText="Không có dữ liệu nhân viên"
+                            onChange={this.onChangeStaff}
+                            value={filter.staff}
+                            optionRenderer={(option) => {
+                                return (
+                                    <ItemReactSelect label={option.label}
+                                                     url={option.avatar_url}/>
+                                );
+                            }}
+                            valueRenderer={(option) => {
+                                return (
+                                    <ItemReactSelect label={option.label}
+                                                     url={option.avatar_url}/>
+                                );
+                            }}
+                        />
+                    </div>
                 </div>
-                <div className="col-md-3">
-                    <ReactSelect
-                        value={filter.gen_id}
-                        options={gensData}
-                        onChange={this.onChangeGen}
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn khóa"
-                        clearable={false}
-                    />
-                </div>
-                <div className="col-md-3">
-                    <ReactSelect
-                        value={filter.course_id}
-                        options={coursesData}
-                        onChange={this.onChangeCourse}
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn khóa học"
-                        clearable={false}
-                    />
-                </div>
-                <div className="col-md-3">
-                    <ReactSelect.Async
-                        loadOptions={(p1, p2) => filterStore.loadStaffs(p1, p2, true)}
-                        loadingPlaceholder="Đang tải..."
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn nhân viên"
-                        searchPromptText="Không có dữ liệu nhân viên"
-                        onChange={this.onChangeStaff}
-                        value={filter.staff}
-                        optionRenderer={(option) => {
-                            return (
-                                <ItemReactSelect label={option.label}
-                                                 url={option.avatar_url}/>
-                            );
-                        }}
-                        valueRenderer={(option) => {
-                            return (
-                                <ItemReactSelect label={option.label}
-                                                 url={option.avatar_url}/>
-                            );
-                        }}
-                    />
-                </div>
-                <div className="col-md-3">
-                    <ReactSelect
-                        value={user && user.choice_province_id ? user.choice_province_id : 0}
-                        options={this.getProvincesData()}
-                        onChange={this.onChangeProvince}
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn thành phồ"
-                        clearable={false}
-                    />
-                </div>
-                <div className="col-md-3">
-                    <ReactSelect
-                        value={selectedBaseId}
-                        options={this.getBasesData()}
-                        onChange={this.onChangeBase}
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn cơ sở"
-                        clearable={false}
-                    />
-                </div>
-                <div className="col-md-3">
-                    <ReactSelect
-                        value={filter.source_id}
-                        options={sourcesData}
-                        onChange={this.onChangeSource}
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn nguồn"
-                        clearable={false}
-                        disabled={disabledSource}
-                    />
-                </div>
-                <div className="col-md-3">
-                    <ReactSelect
-                        value={filter.campaign_id}
-                        options={marketingCampaignData}
-                        onChange={this.onChangeCampaign}
-                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
-                        placeholder="Chọn chiến dịch"
-                        clearable={false}
-                        disabled={disabledCampaign}
-                    />
+
+                <div className="row gutter-20">
+                    <div className="col-md-3">
+                        <ReactSelect
+                            value={user && user.choice_province_id ? user.choice_province_id : 0}
+                            options={this.getProvincesData()}
+                            onChange={this.onChangeProvince}
+                            className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                            placeholder="Chọn thành phồ"
+                            clearable={false}
+                        />
+                    </div>
+                    <div className="col-md-3">
+                        <ReactSelect
+                            value={selectedBaseId}
+                            options={this.getBasesData()}
+                            onChange={this.onChangeBase}
+                            className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                            placeholder="Chọn cơ sở"
+                            clearable={false}
+                        />
+                    </div>
+                    <div className="col-md-3">
+                        <ReactSelect
+                            value={filter.source_id}
+                            options={sourcesData}
+                            onChange={this.onChangeSource}
+                            className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                            placeholder="Chọn nguồn"
+                            clearable={false}
+                            disabled={disabledSource}
+                        />
+                    </div>
+                    <div className="col-md-3">
+                        <ReactSelect
+                            value={filter.campaign_id}
+                            options={marketingCampaignData}
+                            onChange={this.onChangeCampaign}
+                            className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                            placeholder="Chọn chiến dịch"
+                            clearable={false}
+                            disabled={disabledCampaign}
+                        />
+                    </div>
                 </div>
             </div>
         );
