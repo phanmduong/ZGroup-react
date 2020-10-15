@@ -192,7 +192,7 @@ class DashboardKpiComponent extends React.Component {
                 <CardKpi totalKpi={totalKpi.kpi} totalMoney={totalKpi.revenue} totalSaler={data.length - 1}/>
                 {isLoading ? <Loading/> :
                     <div className="row">
-                        <div className="col-md-12">
+                        <div className="col-md-12" style={{paddingLeft: 10, paddingRight: 10}}>
                             <ReactTable
                                 data={data}
                                 columns={this.columns}

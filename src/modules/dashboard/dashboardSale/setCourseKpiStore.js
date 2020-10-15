@@ -12,7 +12,6 @@ export default new class SetCourseKpiStore {
     @observable setKpi = {
         start_time: '',
         end_time: '',
-        course_ids: [],
         money: 0
     };
     @observable historyFilter = {
@@ -49,8 +48,8 @@ export default new class SetCourseKpiStore {
             if (callback) {
                 callback();
             }
-        }).catch(() => {
-
+        }).catch((e) => {
+            console.log(e);
         }).finally(() => {
             this.isStoring = false;
         });

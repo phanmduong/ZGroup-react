@@ -12,9 +12,7 @@ import {checkColor, dotNumber, convertDotMoneyToK} from "../../../helpers/helper
 import Sort from "../../../components/common/ReactTable/Sort";
 import BarChartFilterDate from "../BarChartFilterDate";
 import moment from "moment";
-import SetCourseKpiModal from "./SetCourseKpiModal";
 import setCourseKpiStore from "./setCourseKpiStore";
-import {isEmpty} from "../../../helpers/entity/mobx";
 
 const optionsStackedBar = {
     scales: {
@@ -102,27 +100,7 @@ class DashboardCourseComponent extends React.Component {
             {
                 Header: <Sort title="Doanh thu"/>,
                 accessor: 'revenue',
-                Cell: props => {
-                    const value = props.original;
-                    let percent = value.kpi ? value.revenue * 100 / value.kpi : 0;
-                    percent = percent >= 100 ? 100 : percent;
-                    return (
-                        <div style={{width: '100%'}}>
-                            <h6>{convertDotMoneyToK(dotNumber(value.revenue)) + "/" + convertDotMoneyToK(dotNumber(value.kpi))}</h6>
-                            <div className="progress progress-line-success progress-bar-table"
-                                 style={{width: '100%!important'}}>
-                                <div className="progress-bar progress-bar-success" role="progressbar" aria-valuenow="60"
-                                     aria-valuemin="0"
-                                     aria-valuemax="100"
-                                     style={{width: (percent) + '%'}}>
-                                                <span
-                                                    className="sr-only">{percent}%</span>
-                                </div>
-                            </div>
-                        </div>
-
-                    );
-                }
+                Cell: props => <div><strong>{convertDotMoneyToK(dotNumber(props.value))}</strong></div>
             },
             {
                 Header: <Sort title="Enrolled"/>,
@@ -174,52 +152,11 @@ class DashboardCourseComponent extends React.Component {
                     );
                 }
             },
-            {
-                sortable: false,
-                Header: "",
-                accessor: 'id',
-                Cell: props => (<div className="flex flex-row flex-align-items-center">
-                    <div
-                        className="padding-vertical-10px padding-horizontal-20px white-light-round margin-right-10 btn-grey text-center font-weight-400 cursor-pointer"
-                        style={{width: 120}}
-                        onClick={() => {
-                            if (!isEmpty(props.value)) {
-                                window.open("/teaching/courses/edit/" + props.value, "_blank");
-                            } else {
-                                window.open("/teaching/courses", "_blank");
-                            }
-                        }}
-                    >Xem chi tiết
-                    </div>
-                    <div
-                        className="padding-vertical-10px padding-horizontal-20px white-light-round margin-right-10 btn-grey text-center font-weight-400 cursor-pointer"
-                        style={{width: 120}}
-                        onClick={() => this.openModalSetKpi(props.original, true)}
-                    >Lịch sử KPI
-                    </div>
-                    <div
-                        className="padding-vertical-10px padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
-                        style={{width: 120}}
-                        onClick={() => this.openModalSetKpi(props.original)}
-                    >Set KPI
-                    </div>
-                </div>),
-                maxWidth: 400,
-                width: 400
-            },
         ];
     }
 
     componentDidMount() {
         this.loadDataCourses();
-        for(let a = 0; a<=1;++a){
-            for(let b = 0; b<=1;++b)
-                for(let c = 0;c<=1;++c)
-                    for(let d = 0; d<=1;++d)
-                        for(let e = 0; e<=1;++e){
-                            console.log(!((a && (b || c) && e) || !c) && (!d || (c && e)));
-                        }
-        }
     }
 
     loadData = (filter) => {
@@ -293,8 +230,8 @@ class DashboardCourseComponent extends React.Component {
                 <Filter loadData={this.loadData}/>
                 <CardRevenue/>
                 {isLoading ? <Loading/> :
-                    <div className="row gutter-20">
-                        <div className="col-md-12">
+                    <div className="row" >
+                        <div className="col-md-12" style={{paddingLeft: 10, paddingRight: 10}}>
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
@@ -319,7 +256,7 @@ class DashboardCourseComponent extends React.Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-12">
+                        <div className="col-md-12" style={{paddingLeft: 10, paddingRight: 10}}>
                             <ReactTable
                                 data={courses}
                                 columns={this.columns}
@@ -340,7 +277,7 @@ class DashboardCourseComponent extends React.Component {
                         </div>
                     </div>
                 }
-                <SetCourseKpiModal reload={this.loadDataCourses}/>
+                {/*<SetCourseKpiModal reload={this.loadDataCourses}/>*/}
             </div>
 
         );

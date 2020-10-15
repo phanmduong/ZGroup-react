@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Bar} from "react-chartjs-2";
+import {Bar, Line} from "react-chartjs-2";
 import _ from 'lodash';
 import moment from "moment";
 import {
@@ -9,6 +9,7 @@ import {
 import Loading from "../../components/common/Loading";
 import TooltipButton from "../../components/common/TooltipButton";
 import * as helper from "../../helpers/helper";
+import ReactSelect from "react-select";
 
 const filter = [
     {
@@ -33,12 +34,24 @@ const filter = [
     }
 ];
 
+const chartTypes = [
+    {
+        label: "Bar chart",
+        value: "bar"
+    }, {
+        label: "Line chart",
+        value: "line"
+    }
+]
+
 
 class BarChartFilterDate extends React.Component {
     constructor(props, context) {
         super(props, context);
+
         this.state = {
-            currentFilter: "date"
+            currentFilter: window.location.hostname.includes("ieg") ? "month" : "date",
+            chartType: "bar"
         };
     }
 
@@ -116,14 +129,20 @@ class BarChartFilterDate extends React.Component {
         });
     }
 
+    onChangeType = (value) => {
+        const type = value ? value.value : 'bar';
+
+        this.setState({chartType: type})
+    }
+
     renderFilter = () => {
         const {currentFilter} = this.state;
 
         return (
             <div className="flex flex-wrap flex-space-between flex-row flex-align-items-center">
-                <div>
-                    {this.props.children}
-                </div>
+                {/*<div>*/}
+                {/*    {this.props.children}*/}
+                {/*</div>*/}
                 <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs"
                     style={{marginTop: 15, marginBottom: "15"}}>
                     {filter.map((item, index) => {
@@ -146,6 +165,16 @@ class BarChartFilterDate extends React.Component {
                         </TooltipButton>
                     </li>
                 </ul>
+                <div style={{width: 130}}>
+                    <ReactSelect
+                        value={this.state.chartType}
+                        options={chartTypes}
+                        onChange={this.onChangeType}
+                        className="react-select-white-light-round cursor-pointer margin-bottom-20"
+                        placeholder="Chọn biểu đồ"
+                        clearable={false}
+                    />
+                </div>
 
             </div>
         );
@@ -173,11 +202,20 @@ class BarChartFilterDate extends React.Component {
         return (
             <div>
                 {this.renderFilter()}
-                <Bar
-                    data={dataSet}
-                    options={optionsBar}
-                    height={height}
-                />
+                {this.state.chartType == 'line' ?
+                    <Line
+                        data={dataSet}
+                        options={optionsBar}
+                        height={height}
+                    />
+                    :
+                    <Bar
+                        data={dataSet}
+                        options={optionsBar}
+                        height={height}
+                    />
+                }
+
             </div>
         );
     }

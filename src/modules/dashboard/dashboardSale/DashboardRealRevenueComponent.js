@@ -64,13 +64,13 @@ class DashboardRealRevenueComponent extends React.Component {
                 <Filter loadData={this.loadData}/>
                 <CardRealRevenue store={this.store}/>
                 {isLoading ? <Loading/> :
-                    <div className="row gutter-20">
-                        <div className="col-md-12">
+                    <div className="row">
+                        <div className="col-md-12" style={{paddingLeft: 10, paddingRight: 10}}>
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
                                         <h4 className="card-title">
-                                            <strong>Doanh thu thực theo ngày</strong>
+                                            <strong>Doanh thu thực</strong>
                                         </h4>
                                         {
                                             data.dates && data.dates.length > 0 &&
@@ -86,6 +86,8 @@ class DashboardRealRevenueComponent extends React.Component {
                                                         label: "Doanh thu",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
+                                                        fill: false,
+
                                                     }]}
                                             />
 
@@ -97,12 +99,12 @@ class DashboardRealRevenueComponent extends React.Component {
 
                             </div>
                         </div>
-                        <div className="col-md-12">
+                        <div className="col-md-12" style={{paddingLeft: 10, paddingRight: 10}}>
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
                                         <h4 className="card-title">
-                                            <strong>Doanh thu theo ngày</strong>
+                                            <strong>Doanh thu</strong>
                                         </h4>
                                         {
                                             data.dates && data.dates.length > 0 &&
@@ -118,6 +120,8 @@ class DashboardRealRevenueComponent extends React.Component {
                                                         label: "Doanh thu",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
+                                                        fill: false,
+
                                                     }]}
                                             />
 
