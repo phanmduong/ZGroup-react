@@ -194,11 +194,13 @@ class DashboardRegisterComponent extends React.Component {
                                                         label: "Đơn đăng kí",
                                                         backgroundColor: '#ffaa00',
                                                         borderColor: '#ffaa00',
+                                                        fill: false,
                                                     },
                                                     {
                                                         label: "Đơn đã nộp tiền",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
+                                                        fill: false,
                                                     }]}
                                             />
                                         }
@@ -236,10 +238,12 @@ class DashboardRegisterComponent extends React.Component {
                                                         label: "Doanh thu",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
+                                                        fill: false,
                                                     }, {
                                                         label: "Mục tiêu",
                                                         backgroundColor: '#ffaa00',
                                                         borderColor: '#ffaa00',
+                                                        fill: false,
                                                     }]}
                                             />
 
@@ -278,10 +282,12 @@ class DashboardRegisterComponent extends React.Component {
                                                         label: "Enrollment",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
+                                                        fill: false,
                                                     }, {
                                                         label: "Mục tiêu",
                                                         backgroundColor: '#ffaa00',
                                                         borderColor: '#ffaa00',
+                                                        fill: false,
                                                     }]}
                                             />
 
@@ -351,11 +357,13 @@ class DashboardRegisterComponent extends React.Component {
                                                         label: "New Deal",
                                                         backgroundColor: '#ffaa00',
                                                         borderColor: '#ffaa00',
+                                                        fill: false,
                                                     },
                                                     {
                                                         label: "Retention Deal",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
+                                                        fill: false,
                                                     }]}
                                             />
 
@@ -388,11 +396,13 @@ class DashboardRegisterComponent extends React.Component {
                                                         label: "New Enrollment",
                                                         backgroundColor: '#ffaa00',
                                                         borderColor: '#ffaa00',
+                                                        fill: false,
                                                     },
                                                     {
                                                         label: "Retention Enrollment",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
+                                                        fill: false,
                                                     }]}
                                             />
 
@@ -421,12 +431,14 @@ class DashboardRegisterComponent extends React.Component {
                                                         label: "Đơn new",
                                                         backgroundColor: '#ffaa00',
                                                         borderColor: '#ffaa00',
+                                                        fill: false,
                                                         data: data.programs.map((program) => program.total_new_register)
                                                     },
                                                     {
                                                         label: "Đơn retention",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
+                                                        fill: false,
                                                         data: data.programs.map((program) => program.total_retention_register)
                                                     }
                                                 ]
@@ -459,12 +471,14 @@ class DashboardRegisterComponent extends React.Component {
                                                         label: "Đơn new",
                                                         backgroundColor: '#ffaa00',
                                                         borderColor: '#ffaa00',
+                                                        fill: false,
                                                         data: data.programs.map((program) => program.total_paid_new_register)
                                                     },
                                                     {
                                                         label: "Đơn retention",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
+                                                        fill: false,
                                                         data: data.programs.map((program) => program.total_paid_retention_register)
                                                     }
                                                 ]
@@ -499,6 +513,7 @@ class DashboardRegisterComponent extends React.Component {
                                                 labels={data.statuses.map((status) => ({
                                                     label: status.name,
                                                     backgroundColor: (status.color ? status.color : "#ddd"),
+                                                    fill: false,
                                                     borderColor: (status.color ? status.color : "#ddd")
                                                 })).reverse()}
                                             />
@@ -530,6 +545,7 @@ class DashboardRegisterComponent extends React.Component {
                                                 labels={data.sources.map((source) => ({
                                                     label: source.name,
                                                     backgroundColor: (source.color ? source.color : "#ddd"),
+                                                    fill: false,
                                                     borderColor: (source.color ? source.color : "#ddd")
                                                 })).reverse()}
                                             />
@@ -561,6 +577,7 @@ class DashboardRegisterComponent extends React.Component {
                                                 labels={data.campaigns.map((campaign) => ({
                                                     label: campaign.name,
                                                     backgroundColor: (campaign.color ? "#" + campaign.color : "#ddd"),
+                                                    fill: false,
                                                     borderColor: (campaign.color ? "#" + campaign.color : "#ddd")
                                                 })).reverse()}
                                             />

@@ -86,6 +86,8 @@ class DashboardRealRevenueComponent extends React.Component {
                                                         label: "Doanh thu",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
+                                                        fill: false,
+
                                                     }]}
                                             />
 
@@ -118,6 +120,8 @@ class DashboardRealRevenueComponent extends React.Component {
                                                         label: "Doanh thu",
                                                         backgroundColor: '#4caa00',
                                                         borderColor: '#4caa00',
+                                                        fill: false,
+
                                                     }]}
                                             />
 
