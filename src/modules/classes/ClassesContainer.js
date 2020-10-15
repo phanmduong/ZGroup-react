@@ -17,7 +17,6 @@ import Pagination from "../../components/common/Pagination";
 import ReactSelect from "react-select";
 import {STATUS_REFS, TYPE_CLASSES} from "../../constants/constants";
 import * as studentActions from "../infoStudent/studentActions";
-import store from "../scheduleTeaching/ScheduleTeachingStore";
 import ItemReactSelect from "../../components/common/ItemReactSelect";
 import {isEmptyInput} from "../../helpers/helper";
 import {findUser} from "../registerStudentsV3/registerListApi";
