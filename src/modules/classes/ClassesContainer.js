@@ -11,38 +11,53 @@ import * as classActions from './classActions';
 import ListClass from './ListClass';
 import PropTypes from 'prop-types';
 import * as helper from '../../helpers/helper';
-import {Modal} from 'react-bootstrap';
+import {Modal, Panel} from 'react-bootstrap';
 import AddClassContainer from './AddClassContainer';
-import Select from './SelectGen';
 import Pagination from "../../components/common/Pagination";
+import ReactSelect from "react-select";
+import {STATUS_REFS, TYPE_CLASSES} from "../../constants/constants";
+import * as studentActions from "../infoStudent/studentActions";
+import store from "../scheduleTeaching/ScheduleTeachingStore";
+import ItemReactSelect from "../../components/common/ItemReactSelect";
+import {isEmptyInput} from "../../helpers/helper";
+import {findUser} from "../registerStudentsV3/registerListApi";
+import {NO_AVATAR} from "../../constants/env";
+
+const defaultState = {
+    page: 1,
+    search: "",
+    selectGenId: '',
+    courseId: '',
+    status: '',
+    class_status: '',
+    type: '',
+    teacherId: '',
+};
 
 class ClassesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
+        this.statusRef = STATUS_REFS.classes;
         this.state = {
-            page: 1,
-            query: "",
-            showModalClass: false,
-            classSelected: {},
-            editClass: false,
+            filter:{...defaultState,},
             gens: [],
             courses: [],
-            selectGenId: '',
-            courseId: '',
             openLoadingModal: false,
+            openFilterPanel: false,
+            editClass: false,
+            showModalClass: false,
+            classSelected: {},
         };
         this.search = {
             teacherId: ''
         };
         this.timeOut = null;
-        this.loadClasses = this.loadClasses.bind(this);
         this.classesSearchChange = this.classesSearchChange.bind(this);
         this.deleteClass = this.deleteClass.bind(this);
         this.duplicateClass = this.duplicateClass.bind(this);
         this.changeClassStatus = this.changeClassStatus.bind(this);
         this.closeModalClass = this.closeModalClass.bind(this);
         this.openModalClass = this.openModalClass.bind(this);
-        this.changeGens = this.changeGens.bind(this);
         this.beginExportExcel = this.beginExportExcel.bind(this);
     }
 
@@ -57,27 +72,38 @@ class ClassesContainer extends React.Component {
                 selectedBaseId: this.props.selectedBaseId,
             });
         });
+        if(!this.props.isLoadedStatuses[this.statusRef])
+            this.props.studentActions.loadStatuses(this.statusRef);
     }
 
     componentWillReceiveProps(nextProps) {
         if (!nextProps.isLoadingGens && this.props.isLoadingGens) {
             let gens = _.sortBy(nextProps.gens, [function (o) {
                 return parseInt(o.name);
-            }]);
+            }]).map(o => {
+                return {...o, value: o.id, label: o.name,};
+            });
             gens = _.reverse(gens);
             this.setState({
-                gens: [{id: 0, name: 'Tất cả'}, ...gens],
-                selectGenId: 0,
+                gens: [{value: '', label: 'Tất cả'}, ...gens],
+                filter:{
+                    ...this.state.filter,
+                    selectGenId: '',
+                }
             });
         }
         if (!nextProps.isLoadingCourses && this.props.isLoadingCourses) {
             let courses = _.sortBy(nextProps.courses, [function (o) {
                 return parseInt(o.name);
-            }]);
+            }]).map(o => {
+                return {...o, value: o.id, label: o.name,};
+            });
             courses = _.reverse(courses);
             this.setState({
-                courses: [{id: 0, name: 'Tất cả'}, ...courses],
-                courseId: '',
+                courses: [{value: '', label: 'Tất cả'}, ...courses],
+                filter:{
+                    ...this.state.filter,courseId: '',
+                },
             });
         }
         /*if (!nextProps.isLoadingExcel && this.props.isLoadingExcel)
@@ -101,51 +127,59 @@ class ClassesContainer extends React.Component {
         if (nextProps.params.teacherId !== this.props.params.teacherId) {
             this.search.teacherId = nextProps.params.teacherId;
             this.setState({
-                query: ''
+                filter:{
+                    ...this.state.filter,
+                    search: '',
+                    page:1
+                }
             });
-            this.loadClasses(1, '');
+            this.loadClasses({
+                ...this.state.filter,
+                page:1, search:''
+            });
         }
         if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
             this.setState({
-                selectedBaseId: nextProps.selectedBaseId,
-                baseId: nextProps.selectedBaseId,
+                
+                filter:{
+                    ...this.state.filter,selectedBaseId: nextProps.selectedBaseId,
+                },
             });
             this.props.classActions.loadClasses({
                 ...this.state,
-                search: this.state.query,
+                search: this.state.search,
                 page: this.state.page,
                 teacherId: this.search.teacherId,
                 selectGenId: this.state.selectGenId,
                 selectedBaseId: nextProps.selectedBaseId,
-                baseId: nextProps.selectedBaseId,
             });
         }
     }
 
     classesSearchChange(value) {
         this.setState({
-            page: 1,
-            query: value,
+            filter:{
+                ...this.state.filter,page: 1,
+                search: value,
+            },
+            
         });
     }
 
     onSearchClasses = () => {
-        this.loadClasses({
-            page: this.state.page,
-            query: this.state.query,
-        });
+        this.loadClasses(this.state.filter);
     }
 
-    loadClasses(page = 1, query = this.state.query) {
-        this.setState({page});
-        this.props.classActions.loadClasses({
-            ...this.state,
-            search: query,
-            page,
-            teacherId: this.search.teacherId,
-            selectGenId: this.state.selectGenId,
-            selectedBaseId: this.props.selectedBaseId
-        });
+    loadClasses = (filter) => {
+        this.props.classActions.loadClasses(filter);
+        // this.props.classActions.loadClasses({
+        //     ...this.state.filter,
+        //     search: search,
+        //     page,
+        //     teacherId: this.search.teacherId,
+        //     selectGenId: this.state.selectGenId,
+        //     selectedBaseId: this.props.selectedBaseId
+        // });
     }
 
     deleteClass(classData) {
@@ -180,7 +214,7 @@ class ClassesContainer extends React.Component {
                 gen_id: classData.gen ? classData.gen.id : '',
                 course_id: classData.course ? classData.course.id : '',
                 teacher_assis_id: classData.teacher_assistant ? classData.teacher_assistant.id : '',
-                teacher_id: classData.teacher ? classData.teacher.id : '',
+                teacherId: classData.teacher ? classData.teacher.id : '',
                 schedule_id: classData.schedule_id,
                 type: classData.type,
                 status: classData.status,
@@ -200,28 +234,16 @@ class ClassesContainer extends React.Component {
         });
     }
 
-
-    changeGens(value) {
+    changeFilterSelect = (field,value) => {
         this.setState({
-            page: 1,
-            selectGenId: value
+            filter: {
+                ...this.state.filter,
+                [field]: value ? value.value : '',
+                // [field+'Id']: value ? value.id : ''
+            }
         });
-        this.props.classActions.loadClasses({
-            ...this.state,
-            search: this.state.query, page: 1, teacherId: this.search.teacherId, genId: value
-        });
+        console.log(this.state.filter)
     }
-
-    changeCourses = (value) => {
-        this.setState({
-            page: 1,
-            courseId: value
-        });
-        this.props.classActions.loadClasses({
-            ...this.state,
-            search: this.state.query, page: 1, teacherId: this.search.teacherId, courseId: value
-        });
-    };
 
     beginExportExcel() {
         /*if(this.state.selectGenId == 11 || this.state.selectGenId == '')
@@ -232,6 +254,59 @@ class ClassesContainer extends React.Component {
         }*/
     }
 
+    onChangePage = (page) => {
+        let filter = {
+            ...this.state.filter,
+            page
+        };
+        this.setState(({
+            filter
+        }));
+        this.loadClasses(filter);
+    }
+
+    resetFilters = () => {
+        this.setState({filter: defaultState});
+    }
+
+    applyFilter = () => {
+        this.props.classActions.loadClasses(this.state.filter);
+    }
+    getStatuses = () => {
+        if(this.props.isLoadingStatuses) return [];
+        return [
+            {value:'',label:'Tất cả'},
+            ...this.props.statuses[this.statusRef].map(st=>{return{...st,value:st.id,label:st.name};})
+        ];
+    }
+    loadStaffs = (input, callback, field) => {
+        if (isEmptyInput(this.timeOut)) this.timeOut = {};
+        if (this.timeOut[field] !== null) {
+            clearTimeout(this.timeOut[field]);
+        }
+        this.timeOut[field] = setTimeout(function () {
+            findUser(input, true).then(res => {
+
+                let data = [
+                    {id: '', avatar_url: NO_AVATAR, name: 'Tất cả', label: 'Tất cả', value: 'Tất cả'},
+                    // defaultEmptySelectObject,
+                    ...res.data.map((staff) => {
+                        return {
+                            ...staff,
+                            ...{
+                                value: staff.id,
+                                label: staff.name
+                            }
+                        };
+                    })
+                ];
+
+
+                // this.data[field] = data;
+                callback(null, {options: data, complete: true});
+            });
+        }.bind(this), 500);
+    }
     render() {
         return (
             <div className="">
@@ -259,89 +334,138 @@ class ClassesContainer extends React.Component {
                             </button>
                             <Search
                                 onChange={this.classesSearchChange}
-                                value={this.state.query}
+                                value={this.state.filter.search}
                                 placeholder="Tìm kiếm lớp học"
                                 className="white-seacrh margin-right-10 min-width-200-px form-group-none-padding"
                                 onSearch={this.onSearchClasses}
                             />
+                            <button
+                                onClick={() => {
+                                    this.setState({openFilterPanel: !this.state.openFilterPanel});
+                                }}
+                                className="btn btn-white btn-icon"
+                                style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 0'}}
+                            ><span className="material-icons">filter_alt</span>&nbsp;&nbsp;&nbsp;&nbsp;Lọc
+                            </button>
 
-                            <Select
-                                options={this.state.gens}
-                                onChange={this.changeGens}
-                                value={this.state.selectGenId}
-                                defaultMessage="Chọn giai đoạn"
-                                className="btn btn-white"
-                                wrapClassName="margin-right-10 react-select-white-light-round radius-5"
-                                name="gens"
-                            />
 
-                            <Select
-                                options={this.state.courses}
-                                onChange={this.changeCourses}
-                                value={this.state.courseId}
-                                defaultMessage="Chọn môn học"
-                                noPrefix={true}
-                                className="btn btn-white"
-                                wrapClassName="margin-right-10 react-select-white-light-round radius-5"
-                                name="courses"
-                                style={{width: 150}}
-                            />
                         </div>
                     </div>
                 </div>
                 }
-                {/*{!this.props.isLoadingGens && <div className="card" mask="purple">*/}
-                {/*    <img className="img-absolute"/>*/}
+                <Panel collapsible className="none-margin" expanded={
+                    this.state.openFilterPanel
+                    &&
+                    !(this.props.isLoading)
+                }>
+                    <div className="card-filter" style={{borderRadius: 5}}>
 
-                {/*    <div className="card-content">*/}
-                {/*        <div className="row">*/}
-                {/*            <div className="col-sm-12">*/}
-                {/*                <div className="flex-row flex">*/}
-                {/*                    <h4 className="card-title">*/}
-                {/*                        <strong>Danh sách lớp học</strong>*/}
-                {/*                    </h4>*/}
-                {/*                </div>*/}
-                {/*                <div className="flex-row flex flex-wrap" style={{marginTop: '8%'}}>*/}
-                {/*                    <Search*/}
-                {/*                        onChange={this.classesSearchChange}*/}
-                {/*                        value={this.state.query}*/}
-                {/*                        placeholder="Tìm kiếm lớp học"*/}
-                {/*                        className="round-white-seacrh"*/}
-                {/*                        onSearch={this.onSearchClasses}*/}
-                {/*                    />*/}
-                {/*                    <Select*/}
-                {/*                        options={this.state.gens}*/}
-                {/*                        onChange={this.changeGens}*/}
-                {/*                        value={this.state.selectGenId}*/}
-                {/*                        defaultMessage="Chọn khóa học"*/}
-                {/*                        name="gens"*/}
-                {/*                    />*/}
-                {/*                    <Select*/}
-                {/*                        options={this.state.courses}*/}
-                {/*                        onChange={this.changeCourses}*/}
-                {/*                        value={this.state.courseId}*/}
-                {/*                        defaultMessage="Chọn môn học"*/}
-                {/*                        noPrefix={true}*/}
-                {/*                        name="courses"*/}
-                {/*                        style={{width: 150}}*/}
-                {/*                    />*/}
-                {/*                    <button*/}
-                {/*                        className="btn btn-white btn-round btn-icon"*/}
-                {/*                        type="button" onClick={() => {*/}
-                {/*                        this.openModalClass();*/}
-                {/*                    }}>*/}
-                {/*                        Thêm lớp học&nbsp;&nbsp;<i className="material-icons">*/}
-                {/*                        add*/}
-                {/*                    </i>*/}
-                {/*                    </button>*/}
-                {/*                </div>*/}
+                        <div className="row">
 
-
-                {/*            </div>*/}
-
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>}*/}
+                                <div className="col-md-4">
+                                <label>Môn học/ chương trình học</label>
+                                <ReactSelect
+                                    options={this.state.courses}
+                                    onChange={val=>this.changeFilterSelect('courseId',val)}
+                                    value={this.state.filter.courseId}
+                                    defaultMessage="Chọn môn học"
+                                    name="course"
+                                    menuContainerStyle={{zIndex: 11}}
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <label>Giai đoạn tuyển sinh</label>
+                                <ReactSelect
+                                    options={this.state.gens}
+                                    onChange={val=>this.changeFilterSelect('selectGenId',val)}
+                                    value={this.state.filter.selectGenId}
+                                    defaultMessage="Chọn giai đoạn"
+                                    name="gen"
+                                    menuContainerStyle={{zIndex: 11}}
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <label>Trạng thái tuyển sinh của lớp</label>
+                                <ReactSelect
+                                    options={[
+                                        {value:'',label:'Tất cả'},
+                                        {value:'1',label:'Đang tuyển sinh'},
+                                        {value:'0',label:'Đang học'},
+                                    ]}
+                                    onChange={val=>this.changeFilterSelect('status',val)}
+                                    value={this.state.filter.status}
+                                    defaultMessage="Chọn trạng thái"
+                                    menuContainerStyle={{zIndex: 11}}
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <label>Trạng thái lớp học</label>
+                                <ReactSelect
+                                    options={this.getStatuses()}
+                                    onChange={val=>this.changeFilterSelect('class_status',val)}
+                                    value={this.state.filter.class_status}
+                                    defaultMessage="Chọn trạng thái"
+                                    menuContainerStyle={{zIndex: 11}}
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <label>Thể loại lớp</label>
+                                <ReactSelect
+                                    options={[
+                                        {value:'',label:'Tất cả'},
+                                        ...TYPE_CLASSES
+                                    ]}
+                                    onChange={val=>this.changeFilterSelect('type',val)}
+                                    value={this.state.filter.type}
+                                    defaultMessage="Chọn thể loại"
+                                    menuContainerStyle={{zIndex: 11}}
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <label>Giảng viên/ trợ giảng</label>
+                                <ReactSelect.Async
+                                    loadOptions={(p1, p2) => this.loadStaffs(p1, p2, 'teacher')}
+                                    loadingPlaceholder="Đang tải..."
+                                    menuContainerStyle={{zIndex: 11}}
+                                    placeholder="Giảng viên/ trợ giảng"
+                                    searchPromptText="Không có dữ liệu"
+                                    onChange={obj => this.changeFilterSelect('teacherId', obj)}
+                                    value={this.state.filter.teacherId}
+                                    // style={{paddingTop: 4, paddingBottom: 3.5}}
+                                    id="select-async-teacher"
+                                    optionRenderer={(option) => {
+                                        return (
+                                            <ItemReactSelect label={option.label}
+                                                             url={option.avatar_url}/>
+                                        );
+                                    }}
+                                    valueRenderer={(option) => {
+                                        return (
+                                            <ItemReactSelect label={option.label}
+                                                             url={option.avatar_url}/>
+                                        );
+                                    }}
+                                />
+                            </div>
+                            <div className="col-xs-12">
+                                <div className="flex flex-end">
+                                    <div className="btn btn-white"
+                                         onClick={this.resetFilters}
+                                         style={{"margin-rigth": "5px",}} disabled={this.props.isLoading}
+                                    >
+                                        Xóa bộ lọc
+                                    </div>
+                                    {/*<div className="btn button-green"*/}
+                                    {/*     onClick={this.copyShareUrl}>Sao chép đường dẫn*/}
+                                    {/*</div>*/}
+                                    <div className="btn button-green" disabled={this.props.isLoading}
+                                         onClick={this.applyFilter}>Áp dụng
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </Panel>
 
                 {(this.props.isLoadingGens || this.props.isLoading) && <Loading/>}
 
@@ -367,7 +491,7 @@ class ClassesContainer extends React.Component {
                     <Pagination
                         totalPages={this.props.totalPages}
                         currentPage={this.props.currentPage}
-                        loadDataPage={this.loadClasses || 0}
+                        loadDataPage={this.onChangePage}
                     />
 
                 </div>
@@ -432,12 +556,16 @@ function mapStateToProps(state) {
         gens: state.classes.gens,
         isLoadingGens: state.classes.isLoadingGens,
         selectedBaseId: state.global.selectedBaseId,
+        statuses: state.infoStudent.statuses,
+        isLoadingStatuses: state.infoStudent.isLoadingStatuses,
+        isLoadedStatuses: state.infoStudent.isLoadedStatuses,
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        classActions: bindActionCreators(classActions, dispatch)
+        classActions: bindActionCreators(classActions, dispatch),
+        studentActions: bindActionCreators(studentActions, dispatch),
     };
 }
 

@@ -14,7 +14,8 @@ import moment from "moment";
 import {
     appendJsonToWorkBook,
     isEmptyInput,
-    newWorkBook, objectEntries,
+    newWorkBook,
+    objectEntries,
     saveWorkBookToExcel,
     showErrorNotification,
     showWarningNotification
@@ -394,68 +395,68 @@ class RegisterListContainer extends React.Component {
                             <div className="col-md-3">
                                 <div className="form-group none-padding">
                                     <label>Saler</label>
-                                    <ReactSelect.Async
-                                        loadOptions={(p1, p2) => store.loadStaffs(p1, p2, 'salers')}
-                                        loadingPlaceholder="Đang tải..."
-                                        className="cursor-pointer margin-bottom-20"
-                                        placeholder="Chọn nhân viên"
-                                        searchPromptText="Không có dữ liệu"
-                                        onChange={(e) => store.onChangeFilter('saler_id', e)}
-                                        value={filter.saler}
-                                        id="select-async-importer"
-                                        disabled={isLoading}
-                                        optionRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label}
-                                                                 url={option.avatar_url}/>
-                                            );
-                                        }}
-                                        valueRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label}
-                                                                 url={option.avatar_url}/>
-                                            );
-                                        }}
+                                    <ReactSelect.Async menuContainerStyle={{zIndex: 11}}
+                                                       loadOptions={(p1, p2) => store.loadStaffs(p1, p2, 'salers')}
+                                                       loadingPlaceholder="Đang tải..."
+                                                       className="cursor-pointer margin-bottom-20"
+                                                       placeholder="Chọn nhân viên"
+                                                       searchPromptText="Không có dữ liệu"
+                                                       onChange={(e) => store.onChangeFilter('saler_id', e)}
+                                                       value={filter.saler}
+                                                       id="select-async-importer"
+                                                       disabled={isLoading}
+                                                       optionRenderer={(option) => {
+                                                           return (
+                                                               <ItemReactSelect label={option.label}
+                                                                                url={option.avatar_url}/>
+                                                           );
+                                                       }}
+                                                       valueRenderer={(option) => {
+                                                           return (
+                                                               <ItemReactSelect label={option.label}
+                                                                                url={option.avatar_url}/>
+                                                           );
+                                                       }}
                                     />
                                 </div>
                             </div>
                             <div className="col-md-3">
                                 <label>Môn học/Chương trình học</label>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    options={filter_data.courses}
-                                    onChange={(e) => store.onChangeFilter('course_id', e)}
-                                    value={filter.course_id}
-                                    defaultMessage="Chọn môn"
-                                    name="course_id"
+                                <ReactSelect menuContainerStyle={{zIndex: 11}}
+                                             disabled={isLoading}
+                                             options={filter_data.courses}
+                                             onChange={(e) => store.onChangeFilter('course_id', e)}
+                                             value={filter.course_id}
+                                             defaultMessage="Chọn môn"
+                                             name="course_id"
                                 />
                             </div>
 
                             <div className="col-md-3">
                                 <div className="form-group none-padding">
                                     <label>Lớp học</label>
-                                    <ReactSelect.Async
-                                        loadOptions={(p1, p2) => store.searchClasses(p1, p2)}
-                                        loadingPlaceholder="Đang tải..."
-                                        className="cursor-pointer margin-bottom-20"
-                                        placeholder="Chọn lớp học"
-                                        searchPromptText="Không có dữ liệu"
-                                        onChange={(e) => store.onChangeFilter('class_id', e)}
-                                        value={filter.class}
-                                        id="select-async-class"
-                                        disabled={isLoading}
-                                        optionRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label}
-                                                                 url={option.avatar_url}/>
-                                            );
-                                        }}
-                                        valueRenderer={(option) => {
-                                            return (
-                                                <ItemReactSelect label={option.label}
-                                                                 url={option.avatar_url}/>
-                                            );
-                                        }}
+                                    <ReactSelect.Async menuContainerStyle={{zIndex: 11}}
+                                                       loadOptions={(p1, p2) => store.searchClasses(p1, p2)}
+                                                       loadingPlaceholder="Đang tải..."
+                                                       className="cursor-pointer margin-bottom-20"
+                                                       placeholder="Chọn lớp học"
+                                                       searchPromptText="Không có dữ liệu"
+                                                       onChange={(e) => store.onChangeFilter('class_id', e)}
+                                                       value={filter.class}
+                                                       id="select-async-class"
+                                                       disabled={isLoading}
+                                                       optionRenderer={(option) => {
+                                                           return (
+                                                               <ItemReactSelect label={option.label}
+                                                                                url={option.avatar_url}/>
+                                                           );
+                                                       }}
+                                                       valueRenderer={(option) => {
+                                                           return (
+                                                               <ItemReactSelect label={option.label}
+                                                                                url={option.avatar_url}/>
+                                                           );
+                                                       }}
                                     />
                                 </div>
                             </div>
@@ -466,39 +467,39 @@ class RegisterListContainer extends React.Component {
                                 <label className="">
                                     Học phí
                                 </label>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    options={filter_data.pay_statuses}
-                                    onChange={(e) => store.onChangeFilter('pay_status', e)}
-                                    value={filter.pay_status}
-                                    defaultMessage="Tuỳ chọn"
-                                    name="pay_status"
+                                <ReactSelect menuContainerStyle={{zIndex: 11}}
+                                             disabled={isLoading}
+                                             options={filter_data.pay_statuses}
+                                             onChange={(e) => store.onChangeFilter('pay_status', e)}
+                                             value={filter.pay_status}
+                                             defaultMessage="Tuỳ chọn"
+                                             name="pay_status"
                                 />
                             </div>
                             <div className="col-md-3">
                                 <label className="">
                                     Trạng thái lớp
                                 </label>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    options={filter_data.class_statuses}
-                                    onChange={(e) => store.onChangeFilter('class_status', e)}
-                                    value={filter.class_status}
-                                    defaultMessage="Tuỳ chọn"
-                                    name="class_status"
+                                <ReactSelect menuContainerStyle={{zIndex: 11}}
+                                             disabled={isLoading}
+                                             options={filter_data.class_statuses}
+                                             onChange={(e) => store.onChangeFilter('class_status', e)}
+                                             value={filter.class_status}
+                                             defaultMessage="Tuỳ chọn"
+                                             name="class_status"
                                 />
                             </div>
                             <div className="col-md-3">
                                 <label className="">
                                     Trạng thái gọi
                                 </label>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    options={filter_data.tele_call_statuses}
-                                    onChange={(e) => store.onChangeFilter('tele_call_status', e)}
-                                    value={filter.tele_call_status}
-                                    defaultMessage="Tuỳ chọn"
-                                    name="tele_call_status"
+                                <ReactSelect menuContainerStyle={{zIndex: 11}}
+                                             disabled={isLoading}
+                                             options={filter_data.tele_call_statuses}
+                                             onChange={(e) => store.onChangeFilter('tele_call_status', e)}
+                                             value={filter.tele_call_status}
+                                             defaultMessage="Tuỳ chọn"
+                                             name="tele_call_status"
                                 />
                             </div>
                             <div className="col-md-3">
@@ -546,13 +547,13 @@ class RegisterListContainer extends React.Component {
                                 {/*    disabled={isLoading}*/}
                                 {/*/>*/}
                                 <label>Tìm kiếm theo coupon</label>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    options={filter_data.coupons}
-                                    onChange={(e) => store.onChangeFilter('coupon_id', e)}
-                                    value={filter.coupon_id}
-                                    defaultMessage="Chọn coupon"
-                                    name="coupon_id"
+                                <ReactSelect menuContainerStyle={{zIndex: 11}}
+                                             disabled={isLoading}
+                                             options={filter_data.coupons}
+                                             onChange={(e) => store.onChangeFilter('coupon_id', e)}
+                                             value={filter.coupon_id}
+                                             defaultMessage="Chọn coupon"
+                                             name="coupon_id"
                                 />
                             </div>
                             <div className="col-md-3">
@@ -572,51 +573,51 @@ class RegisterListContainer extends React.Component {
                                 <label className="">
                                     Đánh dấu
                                 </label>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    options={filter_data.bookmarks}
-                                    onChange={(e) => store.onChangeFilter('bookmark', e)}
-                                    value={filter.bookmark}
-                                    defaultMessage="Tuỳ chọn"
-                                    name="bookmark"
+                                <ReactSelect menuContainerStyle={{zIndex: 11}}
+                                             disabled={isLoading}
+                                             options={filter_data.bookmarks}
+                                             onChange={(e) => store.onChangeFilter('bookmark', e)}
+                                             value={filter.bookmark}
+                                             defaultMessage="Tuỳ chọn"
+                                             name="bookmark"
                                 />
                             </div>
                             <div className="col-md-3">
                                 <label className="">
                                     Theo trạng thái
                                 </label>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    options={filter_data.register_statuses}
-                                    onChange={(e) => store.onChangeFilter('register_status_id', e)}
-                                    value={filter.register_status_id}
-                                    defaultMessage="Tuỳ chọn"
-                                    name="register_status_id"
+                                <ReactSelect menuContainerStyle={{zIndex: 11}}
+                                             disabled={isLoading}
+                                             options={filter_data.register_statuses}
+                                             onChange={(e) => store.onChangeFilter('register_status_id', e)}
+                                             value={filter.register_status_id}
+                                             defaultMessage="Tuỳ chọn"
+                                             name="register_status_id"
                                 />
                             </div>
                             <div className="col-md-3">
                                 <label className="">
                                     Theo nguồn
                                 </label>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    options={filter_data.sources}
-                                    onChange={(e) => store.onChangeFilter('source_id', e)}
-                                    value={filter.source_id}
-                                    defaultMessage="Tuỳ chọn"
-                                    name="source_id"
+                                <ReactSelect menuContainerStyle={{zIndex: 11}}
+                                             disabled={isLoading}
+                                             options={filter_data.sources}
+                                             onChange={(e) => store.onChangeFilter('source_id', e)}
+                                             value={filter.source_id}
+                                             defaultMessage="Tuỳ chọn"
+                                             name="source_id"
                                 />
                             </div>
 
                             <div className="col-md-3">
                                 <label>Chiến dịch</label>
-                                <ReactSelect
-                                    disabled={isLoading}
-                                    options={filter_data.marketing_campaigns}
-                                    onChange={(e) => store.onChangeFilter('campaign_id', e.id)}
-                                    value={filter.campaign_id}
-                                    defaultMessage="Chọn chiến dịch"
-                                    name="campaign"
+                                <ReactSelect menuContainerStyle={{zIndex: 11}}
+                                             disabled={isLoading}
+                                             options={filter_data.marketing_campaigns}
+                                             onChange={(e) => store.onChangeFilter('campaign_id', e.id)}
+                                             value={filter.campaign_id}
+                                             defaultMessage="Chọn chiến dịch"
+                                             name="campaign"
                                 />
                             </div>
 

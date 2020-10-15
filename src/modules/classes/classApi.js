@@ -32,7 +32,18 @@ export function loadCoursesApi() {
     return axios.get(url);
 }
 
-export function loadClasses(search='', page = 1, teacherId = '', genId = '', baseId = '',courseId='') {
+export function loadClasses(filter) {
+    let {search = '',
+        page = '',
+        teacherId = '',
+        selectGenId = '',
+        selectedBaseId = '',
+        courseId = '',
+        status = '',
+        class_status = '',
+        type = '',
+    } = filter;
+
     let url = env.MANAGE_API_URL;
     switch (env.TYPE_API) {
         case 'alibaba':
@@ -42,7 +53,15 @@ export function loadClasses(search='', page = 1, teacherId = '', genId = '', bas
             url += "/class/all";
             break;
     }
-    url += "?search=" + search + "&teacher_id=" + teacherId +"&course_id=" + courseId + "&page=" + page + "&gen_id=" + (genId === 0 ? '' : genId) + "&base_id=" + (baseId === 0 ? '' : baseId);
+    url += "?search=" + search +
+        "&teacher_id=" + teacherId +
+        "&course_id=" + courseId +
+        "&page=" + page +
+        "&type=" + type +
+        "&status=" + status +
+        "&class_status=" + class_status +
+        "&gen_id=" + (selectGenId === 0 ? '' : selectGenId) +
+        "&base_id=" + (selectedBaseId === 0 ? '' : selectedBaseId);
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

@@ -62,12 +62,11 @@ export function loadGensData(loadClass) {
 
 
 export function loadClasses(filter) {
-    let {search, page, teacherId, genId, baseId,courseId} = filter;
     return function (dispatch) {
         dispatch({
             type: types.BEGIN_LOAD_CLASSES_DATA,
         });
-        classApi.loadClasses(search, page, teacherId, genId, baseId,courseId)
+        classApi.loadClasses(filter)
             .then((res) => {
                 dispatch({
                     type: types.LOAD_CLASSES_DATA_SUCCESS,

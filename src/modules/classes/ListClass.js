@@ -37,7 +37,6 @@ class ListClass extends React.Component {
         let showOverlay = [...this.props.classes].map(() => false);
         showOverlay[key] = true;
         this.setState({showOverlay});
-        console.log(123123123)
     };
 
     closeOverlay = (key) => {
