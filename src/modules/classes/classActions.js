@@ -18,7 +18,7 @@ export function changeLinkDriver(classId, link) {
                 dispatch({
                     type: types.CHANGE_LINK_DRIVER_CLASS_SUCCESS,
                 });
-                helper.showNotification("Lưu thành công!");
+                helper.showNotification("Lưu thành công! ");
             })
             .catch(() => {
                 helper.showErrorNotification("Có lỗi xảy ra!");
