@@ -7,6 +7,8 @@ import {HISTORY_CARE_TYPES} from "../../../constants/constants";
 import CreateRegisterHistoryCareOverlay from "../overlays/CreateRegisterHistoryCareOverlay";
 import {isEmptyInput} from "../../../helpers/helper";
 import EmptyData from "../../../components/common/EmptyData";
+import _ from "lodash";
+import {getValueFromKey} from "../../../helpers/entity/object";
 
 class HistoryCareContainer extends React.Component {
     constructor(props, context) {
@@ -22,13 +24,38 @@ class HistoryCareContainer extends React.Component {
 
     loadHistoryCares = () => {
         this.props.studentActions.loadStudentCareHistory(this.studentId);
-
+        this.props.studentActions.loadHistoryCalls(this.studentId);
     };
 
+    historyCares = () => {
+        let historyCares = [
+            ...this.props.historyCares,
+            ...this.props.historyCalls.map(hc => {
+                return {
+                    id:hc.id,
+                    type:'tele_call',
+                    date:hc.created_at,
+                    created_at:hc.created_at,
+                    creator:hc.caller,
+                    title:'',
+                    status:hc.call_status,
+                    note:hc.note,
+                };
+            }),
+        ];
+        const sortedArray = _.orderBy(historyCares,
+            [function (item) {
+                return getValueFromKey(item, "created_at");
+            }], ["desc"]);
+        return sortedArray;
+    }
+
     render() {
+        let historyCares = this.historyCares();
+        console.log(historyCares)
         return (
             <div className="tab-pane active">
-                {this.props.isLoading ? <Loading/> :
+                {(this.props.isLoading || this.props.isLoadingHistoryCalls) ? <Loading/> :
                     <ul className="timeline timeline-simple">
                         <li className="timeline-inverted">
                             <div className="timeline-badge" style={{backgroundColor: '#4855d1'}}>
@@ -46,11 +73,11 @@ class HistoryCareContainer extends React.Component {
                             </div>
                         </li>
 
-                        {this.props.historyCares && this.props.historyCares.length > 0 ? this.props.historyCares.map((log, index) => {
+                        {historyCares.map((log, index) => {
                             let type = HISTORY_CARE_TYPES.OBJECT_OPTIONS[log.type];
                             return (
                                 <li className="timeline-inverted" key={index}>
-                                    <div className={"timeline-badge "} style={{backgroundColor: type.color}}>
+                                    <div className={"timeline-badge "} style={{backgroundColor: log.status == 'failed' ? '#f44336' : type.color}}>
                                         <i className="material-icons">{type.icon}</i>
                                     </div>
                                     <div className="timeline-panel">
@@ -75,9 +102,9 @@ class HistoryCareContainer extends React.Component {
                                                     }<span dangerouslySetInnerHTML={{__html: log.note}}/>
 
                                                 </div>}
-                                                {type.status && <div className="flex-row-center">
+                                                {log.status && <div className="flex-row-center">
                                                     <i className="material-icons">info</i>
-                                                    &nbsp; &nbsp;Trạng thái:&nbsp;Thành công
+                                                    &nbsp; &nbsp;Trạng thái:&nbsp;{log.status !='failed' ? 'Thành công' : "Thất bại"}
 
                                                 </div>}
                                             </div>
@@ -86,9 +113,8 @@ class HistoryCareContainer extends React.Component {
                                     </div>
                                 </li>
                             );
-                        }) : <EmptyData/>
-
-                        }
+                        })}
+                        {historyCares.length == 0 && <EmptyData/>}
 
                     </ul>
                 }
@@ -101,6 +127,8 @@ function mapStateToProps(state) {
     return {
         historyCares: state.infoStudent.historyCare.historyCares,
         isLoading: state.infoStudent.historyCare.isLoading,
+        historyCalls: state.infoStudent.historyCalls,
+        isLoadingHistoryCalls: state.infoStudent.isLoadingHistoryCalls,
     };
 }
 

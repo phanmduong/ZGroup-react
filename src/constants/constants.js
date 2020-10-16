@@ -787,6 +787,7 @@ export const HISTORY_CARE_TYPES = {
         appointment: {name: 'Hẹn gặp mặt', icon: 'face', color: '#4e9fb4'},
         email: {name: 'Đã gửi Email tự động', icon: 'mail_outline', color: '#E25241', status: 'Thành công'},
         sms: {name: 'Đã gửi SMS tự động', icon: 'chat', color: '#32CA41', status: 'Thành công'},
+        tele_call: {name: 'Đã gọi điện thoại', icon: 'call', color: '#32CA41', status: 'Thành công'},
         notification: {
             name: 'Đã gửi Notification tự động',
             icon: 'notifications',
