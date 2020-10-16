@@ -98,6 +98,7 @@ class LeadContainer extends React.Component {
                 startTime: '',
                 endTime: '',
                 call_back_time: '',
+                mock_exam_time: '',
                 status: '',
             },
             leadStatusId: '',
@@ -168,6 +169,7 @@ class LeadContainer extends React.Component {
                     startTime: query.startTime,
                     endTime: query.endTime,
                     call_back_time: query.call_back_time,
+                    mock_exam_time: query.mock_exam_time,
                 },
 
             };
@@ -329,6 +331,7 @@ class LeadContainer extends React.Component {
             `&staff=${JSON.stringify(staff)}` +
             `&startTime=${filter.startTime || ''}` +
             `&endTime=${filter.endTime || ''}` +
+            `&mock_exam_time=${filter.mock_exam_time || ''}` +
             `&call_back_time=${filter.call_back_time || ''}`;
         return current_link;
     };
@@ -475,6 +478,7 @@ class LeadContainer extends React.Component {
             endTime: newState.filter ? newState.filter.endTime : '',
             staffId: this.isAdmin ? newState.staffId : this.props.user.id,
             call_back_time: newState.filter ? newState.filter.call_back_time : '',
+            mock_exam_time: newState.filter ? newState.filter.mock_exam_time : '',
         });
     };
 
@@ -511,6 +515,7 @@ class LeadContainer extends React.Component {
             search: this.state.search,
             startTime: this.state.filter.startTime,
             endTime: this.state.filter.endTime,
+            mock_exam_time: this.state.filter.mock_exam_time,
             call_back_time: this.state.filter.call_back_time,
             base_id: this.state.selectedBaseId,
             staffId: this.isAdmin ? this.state.staffId : this.props.user.id,
@@ -1170,6 +1175,16 @@ class LeadContainer extends React.Component {
                                         updateFormData={this.updateFormFilter}
                                         id="form-call_back_time"
                                         value={this.state.filter.call_back_time}
+                                    />
+                                </div>
+                                <div className="col-md-3">
+                                    <label>Ngày thi xếp lớp</label>
+                                    <FormInputDate
+                                        label=""
+                                        name="mock_exam_time"
+                                        updateFormData={this.updateFormFilter}
+                                        id="form-mock_exam_time"
+                                        value={this.state.filter.mock_exam_time}
                                     />
                                 </div>
                                 {

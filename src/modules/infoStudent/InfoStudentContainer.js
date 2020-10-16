@@ -67,7 +67,7 @@ class InfoStudentContainer extends React.Component {
             },
             {
                 path: `/sales/info-student/${this.studentId}/mock-exams`,
-                text: 'Thi thử',
+                text: 'Thi xếp lớp',
                 component: <MockExamsContainer studentId={this.studentId}/>
             },
         ];

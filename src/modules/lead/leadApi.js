@@ -2,7 +2,7 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import {isEmptyInput} from "../../helpers/helper";
 
-export function loadLeads(limit = 20, page = 1, search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "", address = '', leadStatusId = '', orderBy = '', orderByType = '', source_id = '', campaign_id = '', duplicate = '', lead_tag = "",call_back_time='',base_id = '') {
+export function loadLeads(limit = 20, page = 1, search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "", address = '', leadStatusId = '', orderBy = '', orderByType = '', source_id = '', campaign_id = '', duplicate = '', lead_tag = "",call_back_time='',base_id = '',mock_exam_time = '') {
 
     let url = env.MANAGE_API_URL + "/lead/all";
     let token = localStorage.getItem('token');
@@ -17,6 +17,7 @@ export function loadLeads(limit = 20, page = 1, search = "", startTime = "", end
     url += "&start_time=" + startTime;
     url += "&end_time=" + endTime;
     url += "&call_back_time=" + call_back_time;
+    url += "&mock_exam_time=" + mock_exam_time;
     url += "&carer_id=" + (isEmptyInput(staffId) ? '' : staffId);
     url += "&leadStatusId=" + (isEmptyInput(leadStatusId) ? '' : leadStatusId);
     url += "&rate=" + rate;

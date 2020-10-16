@@ -111,9 +111,8 @@ class ListLead extends React.Component {
 
                                 <th>Ghi chú</th>
                                 <th>Quan tâm</th>
-                                {
-                                    !this.props.showSelectedLead && <th>Ngày tạo</th>
-                                }
+                                {!this.props.showSelectedLead && <th>Ngày tạo</th>}
+                                {!this.props.last_time_interact && <th>Thời gian cuối tương tác</th>}
                                 <th/>
                             </tr>
                             </thead>
@@ -282,9 +281,8 @@ class ListLead extends React.Component {
                                                 </td>
                                                 <td onClick={() => this.openEditModal(lead)}>{lead.interest}</td>
 
-                                                {
-                                                    !this.props.showSelectedLead && <td>{lead.created_at}</td>
-                                                }
+                                                {!this.props.showSelectedLead && <td>{lead.created_at}</td>}
+                                                {!this.props.showSelectedLead && <td>{lead.last_time_interact}</td>}
                                                 <td>
                                                     {!this.props.showSelectedLead && <div style={{position: "relative"}}
                                                          className="cursor-pointer" mask="table-btn-action">

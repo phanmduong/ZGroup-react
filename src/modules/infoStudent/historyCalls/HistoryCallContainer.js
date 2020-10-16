@@ -64,6 +64,8 @@ class HistoryCallContainer extends React.Component {
     }
 
     render() {
+
+        console.log(this.state.teleCallTagStatus)
         return (
             <div className="tab-pane active">
                 {

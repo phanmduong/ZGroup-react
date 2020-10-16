@@ -85,11 +85,17 @@ class CreateMockExamButtonModal extends React.Component {
         if (isEmpty(data.score)) {
             errs.push('Bạn chưa nhập điểm bài thi!');
         }
-        if (isEmpty(data.type)) {
-            errs.push('Bạn chưa nhập loại bài thi!');
-        }
+        // if (isEmpty(data.type)) {
+        //     errs.push('Bạn chưa nhập loại bài thi!');
+        // }
         if (isEmpty(data.date)) {
             errs.push('Bạn chưa ngày thi!');
+        }
+        if (isEmpty(data.time)) {
+            errs.push('Bạn chưa giờ thi!');
+        }
+        if (isEmpty(data.course_id)) {
+            errs.push('Bạn chưa chọn môn thi!');
         }
         errs.forEach((e) => showErrorNotification(e));
         if (errs.length == 0) {
@@ -132,7 +138,7 @@ class CreateMockExamButtonModal extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         {isSaving ? <Loading/> : <div className="form-grey">
-                            <label>Giờ</label>
+                            <label className="required-label">Giờ</label>
                             <TimePicker
                                 onChange={this.updateForm}
                                 label=""
@@ -140,13 +146,13 @@ class CreateMockExamButtonModal extends React.Component {
                                 name="time"
                                 value={data.time}
                             />
-                            <label>Ngày</label>
+                            <label className="required-label">Ngày</label>
                             <FormInputDate name="date"
                                            id="mock-exam-date"
                                            updateFormData={this.updateForm}
                                            value={data.date}
                             />
-                            <label>Điểm thi</label>
+                            <label className="required-label">Điểm thi</label>
                             <FormInputText name="score"
                                            value={data.score}
                                            placeholder="Nhập điểm"
@@ -154,7 +160,6 @@ class CreateMockExamButtonModal extends React.Component {
                                            updateFormData={this.updateForm}
                             />
                             <label>Loại bài thi</label>
-
                             <FormInputText name="type"
                                            value={data.type}
                                            type="text"
@@ -169,7 +174,7 @@ class CreateMockExamButtonModal extends React.Component {
                                           value={data.note}
                                           onChange={this.updateForm}/>
                             </div>
-                            <label>Môn thi</label>
+                            <label className="required-label">Môn thi</label>
                             <ReactSelect
                                 value={data.course_id}
                                 options={courses}
