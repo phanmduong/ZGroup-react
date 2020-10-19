@@ -1222,7 +1222,13 @@ export default {
         errorChangeStatusCall: false,
         isLoadingStatuses: false,
         isLoadedStatuses: [],
-        statuses: {},
+        statuses: {
+            leads: [],
+            classes: [],
+            registers: [],
+            tickets: [],
+            tele_calls: [],
+        },
         log: {
             isLoading: false,
             error: false,

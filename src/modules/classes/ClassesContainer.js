@@ -36,7 +36,7 @@ const defaultState = {
 class ClassesContainer extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.statusRef = STATUS_REFS.classes;
+
         this.state = {
             filter:{...defaultState,},
             gens: [],
@@ -50,8 +50,8 @@ class ClassesContainer extends React.Component {
         this.search = {
             teacherId: ''
         };
+        this.statusRef = STATUS_REFS.classes;
         this.timeOut = null;
-        this.classesSearchChange = this.classesSearchChange.bind(this);
         this.deleteClass = this.deleteClass.bind(this);
         this.duplicateClass = this.duplicateClass.bind(this);
         this.changeClassStatus = this.changeClassStatus.bind(this);
@@ -155,7 +155,7 @@ class ClassesContainer extends React.Component {
         }
     }
 
-    classesSearchChange(value) {
+    classesSearchChange = (value) => {
         this.setState({
             filter:{
                 ...this.state.filter,page: 1,
@@ -307,6 +307,7 @@ class ClassesContainer extends React.Component {
         }.bind(this), 500);
     }
     render() {
+        console.log(this.props)
         return (
             <div className="">
                 <Modal

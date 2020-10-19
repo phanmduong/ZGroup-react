@@ -797,7 +797,7 @@ export const HISTORY_CARE_TYPES = {
         null: {name: 'Thông tin', icon: 'info', color: 'grey'}
     }
 };
-
+//when added, need to add empty array to init state infoStudent
 export const STATUS_REFS = {
     leads: 'leads',
     classes: 'classes',
