@@ -128,7 +128,7 @@ class TabContainer extends React.Component {
     newVersionTab = (tab) => {
         let url;
         if (TABIDS.indexOf(tab.id) >= 0) {
-            url = `${PROTOCOL}${window.location.hostname}:2222${tab.url}`;
+            url = `https://${window.location.hostname}${tab.url}`;
         } else {
             url = tab.url;
         }
