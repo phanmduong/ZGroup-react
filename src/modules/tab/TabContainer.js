@@ -7,6 +7,7 @@ import * as tabsActions from './tabsActions';
 import * as helper from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
 import {PROTOCOL} from "../../constants/env";
+import {getNewDomain} from "../../helpers/helper";
 
 // Import actions here!!
 const TABIDS = [27, 213, 214];
@@ -128,7 +129,7 @@ class TabContainer extends React.Component {
     newVersionTab = (tab) => {
         let url;
         if (TABIDS.indexOf(tab.id) >= 0) {
-            url = `https://${window.location.hostname}${tab.url}`;
+            url = `${getNewDomain()}${tab.url}`;
         } else {
             url = tab.url;
         }
