@@ -12,6 +12,7 @@ import {
     PHONE_HEAD_4
 } from '../constants/constants';
 import {isEmpty} from "./entity/mobx";
+import {PROTOCOL} from "../constants/env";
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {
@@ -1740,20 +1741,29 @@ export function deleteCookie(name) {
         'max-age': -1
     })
 }
-export function objectEntries(obj ){
-    if(false == (obj  instanceof Object)){
+
+export function objectEntries(obj) {
+    if (false == (obj instanceof Object)) {
         return [];
     }
-    return Object.entries(obj).map(entry=>{
-       return entry[0];
+    return Object.entries(obj).map(entry => {
+        return entry[0];
     });
 }
 
 export function checkStringIsUrl(text, target = '_blank') {
-    if(isEmptyInput(text))return false;
+    if (isEmptyInput(text)) return false;
     //eslint-disable-next-line
     var urlRegex = /((?:(http|https|Http|Https|rtsp|Rtsp):\/\/(?:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,64}(?:\:(?:[a-zA-Z0-9\$\-\_\.\+\!\*\'\(\)\,\;\?\&\=]|(?:\%[a-fA-F0-9]{2})){1,25})?\@)?)?((?:(?:[a-zA-Z0-9][a-zA-Z0-9\-]{0,64}\.)+(?:(?:aero|arpa|asia|a[cdefgilmnoqrstuwxz])|(?:biz|b[abdefghijmnorstvwyz])|(?:cat|com|coop|c[acdfghiklmnoruvxyz])|d[ejkmoz]|(?:edu|e[cegrstu])|f[ijkmor]|(?:gov|g[abdefghilmnpqrstuwy])|h[kmnrtu]|(?:info|int|i[delmnoqrst])|(?:jobs|j[emop])|k[eghimnrwyz]|l[abcikrstuvy]|(?:mil|mobi|museum|m[acdghklmnopqrstuvwxyz])|(?:name|net|n[acefgilopruz])|(?:org|om)|(?:pro|p[aefghklmnrstwy])|qa|r[eouw]|s[abcdeghijklmnortuvyz]|(?:tel|travel|t[cdfghjklmnoprtvwz])|u[agkmsyz]|v[aceginu]|w[fs]|y[etu]|z[amw]))|(?:(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9])\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[1-9]|0)\.(?:25[0-5]|2[0-4][0-9]|[0-1][0-9]{2}|[1-9][0-9]|[0-9])))(?:\:\d{1,5})?)(\/(?:(?:[a-zA-Z0-9\;\/\?\:\@\&\=\#\~\-\.\+\!\*\'\(\)\,\_])|(?:\%[a-fA-F0-9]{2}))*)?(?:\b|$)/gi;
-    return text.replace(urlRegex, function(url) {
-        return '<a href="' + url + '" target="'+target+'">' + url + '</a>';
+    return text.replace(urlRegex, function (url) {
+        return '<a href="' + url + '" target="' + target + '">' + url + '</a>';
     });
+}
+
+export function getNewDomain() {
+    if (window.location.hostname.includes("eduto.net")) {
+        return `https://${window.location.hostname}`
+    } else {
+        return `${window.location.protocol}//${window.location.hostname}:2222`
+    }
 }

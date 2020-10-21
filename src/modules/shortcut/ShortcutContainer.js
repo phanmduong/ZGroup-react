@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {isEmpty} from "../../helpers/entity/mobx";
 import Loading from "../../components/common/Loading";
 import _ from "lodash";
-import {PROTOCOL} from "../../constants/env";
+import {getNewDomain} from "../../helpers/helper";
 
 const SHORTCUTS = [
     {
@@ -39,7 +39,7 @@ const SHORTCUTS = [
         description: 'Form đăng kí học',
         color: '#608DFF',
         link: '/register-form/list',
-        newLink: `https://${window.location.hostname}/register-form/list`,
+        newLink: `${getNewDomain()}/register-form/list`,
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223r9iTNffgvkfO6Z1.png'
     },
     {
@@ -54,7 +54,7 @@ const SHORTCUTS = [
         description: 'Quản lý chỉ tiêu',
         color: '#5855E6',
         link: '/kpi/list',
-        newLink: `https://${window.location.hostname}/kpi/list`,
+        newLink: `${getNewDomain()}/kpi/list`,
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222YXkUhhjS2CFZlDp.png'
     },
     {
@@ -83,7 +83,7 @@ const SHORTCUTS = [
         description: 'Gửi Email tự động đến hàng loạt học viên',
         color: '#5956E9',
         link: '/email/list',
-        newLink: `https://${window.location.hostname}/email/list`,
+        newLink: `${getNewDomain()}/email/list`,
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600678825C2Q5IZAbjt3gThd.png'
     }, {
         name: 'Dashboard',
