@@ -5,14 +5,8 @@ import _ from 'lodash';
 import moment from 'moment';
 import XLSX from 'xlsx';
 import * as  FILE_SAVER from 'file-saver';
-import {
-    CIRCLE_PICKER_COLORS,
-    DATE_FORMAT_SQL,
-    PHONE_HEAD_3,
-    PHONE_HEAD_4
-} from '../constants/constants';
+import {CIRCLE_PICKER_COLORS, DATE_FORMAT_SQL, PHONE_HEAD_3, PHONE_HEAD_4} from '../constants/constants';
 import {isEmpty} from "./entity/mobx";
-import {PROTOCOL} from "../constants/env";
 
 /*eslint no-console: 0 */
 export function shortenStr(str, length) {

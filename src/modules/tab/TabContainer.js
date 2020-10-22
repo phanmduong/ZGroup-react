@@ -6,9 +6,7 @@ import PropTypes from 'prop-types';
 import * as tabsActions from './tabsActions';
 import * as helper from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
-import {PROTOCOL} from "../../constants/env";
 import {getNewDomain} from "../../helpers/helper";
-
 // Import actions here!!
 const TABIDS = [27, 213, 214];
 
