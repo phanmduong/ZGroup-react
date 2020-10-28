@@ -393,13 +393,14 @@ class coursesCreateEditCurriculum extends React.Component {
                                         <td>
                                             <div className="flex flex-align-items-center">
                                                 {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
-                                                    let de = LESSON_EVENT_TYPES_OBJECT[entry[0]];
-                                                    let lesson_event = lesson.events.filter(e => e.event_type == de.type)[0];
-                                                    return (<TooltipButton text={de.name} placement="top">
+                                                    let default_event = LESSON_EVENT_TYPES_OBJECT[entry[0]];
+                                                    let lesson_event = lesson.events ? lesson.events.filter(e => e.event_type == default_event.type)[0] : null;
+
+                                                    return (<TooltipButton text={default_event.name} placement="top">
                                                         <div className="icon8 icon8-wrap cursor-pointer margin-right-5"
                                                              mask={lesson_event ? 'on' : 'off'}
-                                                             icon={de.type}
-                                                             onClick={() => this.createLessonEvent(lesson.id, de.type)}
+                                                             icon={default_event.type}
+                                                             onClick={() => this.createLessonEvent(lesson.id, default_event.type)}
                                                         >
                                                             <div className="icon"/>
                                                         </div>

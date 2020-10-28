@@ -1761,3 +1761,10 @@ export function getNewDomain() {
         return `${window.location.protocol}//${window.location.hostname}:2222`
     }
 }
+
+export function isContainsDomain(domains = []){
+    domains.forEach(domain=>{
+        if(window.location.origin.includes(domain)) return true;
+    });
+    return false;
+}

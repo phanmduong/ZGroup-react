@@ -27,7 +27,7 @@ class ProgressContainer extends React.Component {
         this.tabs = [
             {label: 'Điểm danh',},
             {label: 'Bài kiểm tra',},
-            {label: 'Nhận xét',},
+            {label: 'Sự kiện',},
         ];
     }
 
@@ -242,7 +242,7 @@ class ProgressContainer extends React.Component {
                                                     <div className="col-md-12">
                                                         <div className="flex flex-wrap">
                                                             {this.tabs.map((tab, key) => {
-                                                                let classNameTab = currentTab == key ? "btn btn-actions" : "btn btn-actions background-transparent";
+                                                                let classNameTab = currentTab == key ? "btn btn-actions btn-github" : "btn btn-actions background-transparent";
                                                                 return (
                                                                     <div className={classNameTab}
                                                                          onClick={() => {
@@ -312,6 +312,7 @@ class ProgressContainer extends React.Component {
                                                                                         return (<tr key={key_event}>
                                                                                             <td>{`Buổi ${event.order}`}</td>
                                                                                             <td>{event_time}</td>
+                                                                                            <td>{event.status == 'done' ? 'Hoàn thành' : 'Chưa hoàn thành'}</td>
                                                                                             <td><TooltipButton
                                                                                                 text={`Nhập bởi ${event.creator_name}`}
                                                                                                 placement="top">
@@ -329,8 +330,7 @@ class ProgressContainer extends React.Component {
                                                             })}
                                                         </div>}
                                                     </div>}
-                                                    {currentTab == 1 &&
-                                                    <div className="col-md-12">
+                                                    {currentTab == 1 && <div className="col-md-12">
 
                                                         {progressClass.exams.length == 0 && noneGroup.length == 0 &&
                                                         <div><b>Không có dữ liệu</b></div>}

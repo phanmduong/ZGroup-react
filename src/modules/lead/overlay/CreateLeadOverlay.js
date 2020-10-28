@@ -419,7 +419,7 @@ class CreateLeadOverlay extends React.Component {
                                             {/*    updateFormData={this.updateFormData}*/}
                                             {/*/>*/}
                                             <ReactSelect
-                                                placeholder="Chọn chương trình học"
+                                                placeholder="Chọn syllabus"
 
                                                 value={selectedInterests}
                                                 name="selectedInterests"

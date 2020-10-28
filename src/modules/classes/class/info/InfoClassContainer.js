@@ -9,7 +9,7 @@ import Loading from '../../../../components/common/Loading';
 import TooltipButton from '../../../../components/common/TooltipButton';
 import {NO_AVATAR} from '../../../../constants/env';
 import * as helper from '../../../../helpers/helper';
-import {isEmptyInput} from '../../../../helpers/helper';
+import {isContainsDomain, isEmptyInput} from '../../../../helpers/helper';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import {Modal} from "react-bootstrap";
@@ -86,7 +86,7 @@ class InfoClassContainer extends React.Component {
         } else {
             let classData = this.props.class;
             return (
-                <div style={{marginTop:-5}}>
+                <div style={{marginTop: -5}}>
                     <Modal show={this.state.showModalChangeClass}
                            onHide={() => {
                                if (!this.props.isChangingClass)
@@ -226,8 +226,8 @@ class InfoClassContainer extends React.Component {
                                         <th>Họ tên</th>
                                         <th>Mã học viên</th>
                                         <th>Điểm danh</th>
-                                        <th>Chứng chỉ</th>
-                                        <th>Học phí</th>
+                                        {!isContainsDomain(['ieg']) && <th>Chứng chỉ</th>}
+                                        {!isContainsDomain(['ieg']) && <th>Học phí</th>}
                                         <th>Trạng thái</th>
                                         {/*<th>Bài tập</th>*/}
                                         <th/>
@@ -281,21 +281,6 @@ class InfoClassContainer extends React.Component {
                                                     {/*}*/}
                                                     {register.code}
                                                 </td>
-                                                <td><h6>{register.total_attendances}/{register.attendances.length}</h6>
-                                                    <div
-                                                        className="progress progress-line-success progress-bar-table width-100">
-                                                        <div className="progress-bar progress-bar-success"
-                                                             role="progressbar"
-                                                             aria-valuemin="0"
-                                                             aria-valuemax="100"
-                                                             style={{width: (100 * register.total_attendances / register.attendances.length) + '%'}}
-                                                        >
-                                                        <span
-                                                            className="sr-only">{(100 * register.total_attendances / register.attendances.length)}%</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-
                                                 <td>
                                                     <div
                                                         data-toggle="tooltip"
@@ -314,15 +299,30 @@ class InfoClassContainer extends React.Component {
                                                         rel="tooltip"
                                                         id={`row-tooltip-${register.id}`}
                                                     >
-
-                                                        {
-                                                            register.certificate || "Chưa xét"
-                                                        }
+                                                        <h6>{register.total_attendances}/{register.attendances.length}</h6>
+                                                        <div
+                                                            className="progress progress-line-success progress-bar-table width-100">
+                                                            <div className="progress-bar progress-bar-success"
+                                                                 role="progressbar"
+                                                                 aria-valuemin="0"
+                                                                 aria-valuemax="100"
+                                                                 style={{width: (100 * register.total_attendances / register.attendances.length) + '%'}}
+                                                            >
+                                                        <span
+                                                            className="sr-only">{(100 * register.total_attendances / register.attendances.length)}%</span>
+                                                            </div>
+                                                        </div>
                                                     </div>
-
-
                                                 </td>
-                                                <td>
+
+                                                {!isContainsDomain(['ieg']) && <td>
+                                                    {
+                                                        register.certificate || "Chưa xét"
+                                                    }
+
+
+                                                </td>}
+                                                {!isContainsDomain(['ieg']) && <td>
                                                     {
                                                         register.paid_status ?
                                                             <TooltipButton
@@ -337,13 +337,14 @@ class InfoClassContainer extends React.Component {
                                                                 </button>
                                                             </TooltipButton>
                                                             :
-                                                            <button className="btn btn-xs min-width-100-px" style={{lineHeight:'20px'}}>
+                                                            <button className="btn btn-xs min-width-100-px"
+                                                                    style={{lineHeight: '20px'}}>
                                                                 Chưa nộp
                                                             </button>
 
 
                                                     }
-                                                </td>
+                                                </td>}
                                                 {/*<td>*/}
                                                 {/*    <h6>{register.total_weigh_topic_register}/{register.total_weigh_topic}</h6>*/}
                                                 {/*    <div*/}
@@ -366,8 +367,8 @@ class InfoClassContainer extends React.Component {
                                                         refId={register.id}
                                                         statusRef="registers"
                                                         className="btn btn-xs source-value width-100 bold"
-                                                        styleOverlay={{marginLeft:-180}}
-                                                        styleButton={{lineHeight:'20px'}}
+                                                        styleOverlay={{marginLeft: -180}}
+                                                        styleButton={{lineHeight: '20px'}}
                                                     />
                                                 </td>
 

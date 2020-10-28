@@ -118,7 +118,7 @@ class ListCourse extends React.Component {
                             <th>Trạng thái</th>
                             <th>Thời lượng</th>
                             <th>Học phí</th>
-                            <th>Chương trình học</th>
+                            <th>Syllabus</th>
                             <th/>
                         </tr>
                         </thead>

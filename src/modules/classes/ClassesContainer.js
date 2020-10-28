@@ -363,7 +363,7 @@ class ClassesContainer extends React.Component {
                         <div className="row">
 
                                 <div className="col-md-4">
-                                <label>Môn học/ chương trình học</label>
+                                <label>Môn học/ syllabus</label>
                                 <ReactSelect
                                     options={this.state.courses}
                                     onChange={val=>this.changeFilterSelect('courseId',val)}
