@@ -421,7 +421,7 @@ class RegisterListContainer extends React.Component {
                                 </div>
                             </div>
                             <div className="col-md-3">
-                                <label>Môn học/Syllabus</label>
+                                <label>Môn học/Chương trình học</label>
                                 <ReactSelect menuContainerStyle={{zIndex: 11}}
                                              disabled={isLoading}
                                              options={filter_data.courses}

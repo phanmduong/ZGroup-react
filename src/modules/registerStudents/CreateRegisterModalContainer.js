@@ -228,7 +228,7 @@ class CreateRegisterModalContainer extends React.Component {
                             value={register.course_id}
                             options={addSelectCourse(this.props.courses)}
                             onChange={this.updateCourse}
-                            placeholder="Chọn môn học/syllabus"
+                            placeholder="Chọn môn học/chương trình học"
                             valueComponent={MemberReactSelectValue}
                         />
                         {/*</div>*/}

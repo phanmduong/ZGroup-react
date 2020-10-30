@@ -103,7 +103,7 @@ class ParentCourseOverlay extends React.Component {
     courseName = () => {
         const {parentCourses} = this.props;
         let s = parentCourses && parentCourses.filter(i => i.id == this.props.selectedParentId)[0];
-        return s ? s.name : "Không syllabus";
+        return s ? s.name : "Không chương trình học";
     };
 
     onSelected = (data) => {
@@ -174,10 +174,10 @@ class ParentCourseOverlay extends React.Component {
                                     <form role="form" id="form-course" className="form-overlay">
 
                                         <div>
-                                            <label>Tên syllabus</label>
+                                            <label>Tên chương trình học</label>
                                             <FormInputText
                                                 name="name"
-                                                placeholder="Tên syllabus"
+                                                placeholder="Tên chương trình học"
                                                 required
                                                 value={course.name}
                                                 updateFormData={this.updateFormData}

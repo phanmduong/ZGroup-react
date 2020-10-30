@@ -419,7 +419,7 @@ class DashboardRegisterComponent extends React.Component {
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
                                         <h4 className="card-title">
-                                            <strong>New Deal - Retention Deal theo syllabus</strong>
+                                            <strong>New Deal - Retention Deal theo chương trình học</strong>
                                         </h4>
                                         {
                                             data.programs && data.programs.length > 0 &&
@@ -459,7 +459,7 @@ class DashboardRegisterComponent extends React.Component {
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
                                         <h4 className="card-title">
-                                            <strong>New Enrollment - Retention Enrollment theo syllabus</strong>
+                                            <strong>New Enrollment - Retention Enrollment theo chương trình học</strong>
                                         </h4>
                                         {
                                             data.programs && data.programs.length > 0 &&

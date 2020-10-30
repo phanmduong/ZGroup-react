@@ -131,7 +131,7 @@ class EditCoursesContainer extends React.Component {
                             <ul className="nav nav-pills nav-pills-dark" data-tabs="tabs">
                                 <li className={this.props.location.pathname === `${this.urlType}` ? 'active' : ''}>
                                     <IndexLink to={`${this.urlType}`} style={styleNavPills}>
-                                        Syllabus &#160;
+                                        Chương trình học &#160;
                                         <div className="ripple-container"/>
                                     </IndexLink>
                                 </li>
