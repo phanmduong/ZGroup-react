@@ -27,7 +27,12 @@ class ProgressContainer extends React.Component {
         this.tabs = [
             {label: 'Điểm danh',},
             {label: 'Bài kiểm tra',},
-            {label: 'Sự kiện',},
+            // {label: 'Sự kiện',},
+            ...Object.keys(LESSON_EVENT_TYPES_OBJECT).map((event_type) => {
+                return {
+                    label: LESSON_EVENT_TYPES_OBJECT[event_type].name
+                };
+            }),
         ];
     }
 
@@ -86,6 +91,50 @@ class ProgressContainer extends React.Component {
             default:
                 return (<div/>);
         }
+    }
+
+    renderEventTab = (event_type,classLessonEvents) => {
+        // let event_obj = LESSON_EVENT_TYPES_OBJECT[event_type];
+        let event_arr = classLessonEvents ? classLessonEvents.filter(e => e.event_type == event_type) : [];
+
+        if (event_arr.length > 0) return(
+            <div className="col-md-12">
+                <div className="max-height-400 smooth-scroll-y">
+                    {/*{Object.keys(LESSON_EVENT_TYPES_OBJECT).map((event_type) => {*/}
+                                <div className="margin-bottom-10">
+                                    {/*<div><b>{event_obj.name}</b></div>*/}
+                                    <div className="">
+                                        <table id="datatables"
+                                               className="table table-hover table-split"
+                                               cellSpacing="0" width="100%"
+                                               style={{width: "100%"}}>
+                                            <tbody>
+                                            {event_arr.map((event, key_event) => {
+                                                let event_time = moment(event.time, DATE_FORMAT_SQL).format(DATE_VN_FORMAT);
+
+                                                return (<tr key={key_event}>
+                                                    <td>{`Buổi ${event.order}`}</td>
+                                                    <td>{event_time}</td>
+                                                    <td>{event.status == 'done' ? 'Hoàn thành' : 'Chưa hoàn thành'}</td>
+                                                    <td><TooltipButton
+                                                        text={`Nhập bởi ${event.creator_name}`}
+                                                        placement="top">
+                                                        <div>{event.data}</div>
+                                                    </TooltipButton>
+                                                    </td>
+
+                                                </tr>);
+                                            })}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                    {/*})}*/}
+                </div>}
+            </div>
+        );
+        return (<b>Không có dữ liệu</b>);
     }
 
     render() {
@@ -147,7 +196,8 @@ class ProgressContainer extends React.Component {
                                                         </div>
                                                         <div className="flex-row-center">
                                                             <i className="material-icons">access_time</i>
-                                                            &nbsp; &nbsp;Ngày bắt đầu học:&nbsp;<b>{firstAttendanceSuccessTime} </b>
+                                                            &nbsp; &nbsp;Ngày bắt đầu học:&nbsp;
+                                                            <b>{firstAttendanceSuccessTime} </b>
                                                         </div>
                                                         <div className="flex-row-center">
                                                             <i className="material-icons">home</i>&nbsp; &nbsp;
@@ -205,18 +255,19 @@ class ProgressContainer extends React.Component {
 
                                                         {Object.keys(LESSON_EVENT_TYPES_OBJECT).map((event_type) => {
                                                             let event_obj = LESSON_EVENT_TYPES_OBJECT[event_type];
-                                                            let lesson_events_count = progressClass.lesson_events.filter(e=>e.event_type == event_type).length;
-                                                            let student_lesson_events_count = progressClass.classLessonEvents.filter(e=>e.event_type == event_type && e.status == 'done').length;
-                                                            let event_percentage = lesson_events_count ? (student_lesson_events_count/lesson_events_count*100) : 0;
+                                                            let lesson_events_count = progressClass.lesson_events.filter(e => e.event_type == event_type).length;
+                                                            let student_lesson_events_count = progressClass.classLessonEvents.filter(e => e.event_type == event_type && e.status == 'done').length;
+                                                            let event_percentage = lesson_events_count ? (student_lesson_events_count / lesson_events_count * 100) : 0;
                                                             return ([<div className="flex-row-center">
                                                                 <i className="material-icons">{event_obj.progress_icon}</i>&nbsp; &nbsp;
                                                                 {event_obj.name}
-                                                            </div>,<div className="content-progress-student">
+                                                            </div>, <div className="content-progress-student">
                                                                 <div
                                                                     className="progress progress-line-success progress-student">
                                                                     <div className="progress-bar progress-bar-success"
                                                                          style={{width: event_percentage + "%"}}>
-                                                                        <span className="sr-only">{student_lesson_events_count}</span>
+                                                                        <span
+                                                                            className="sr-only">{student_lesson_events_count}</span>
                                                                     </div>
                                                                 </div>
                                                                 <div className="text-progress-student">
@@ -288,48 +339,6 @@ class ProgressContainer extends React.Component {
                                                         </div>
                                                         }
                                                     </div>}
-                                                    {currentTab == 2 && <div className="col-md-12">
-                                                        {!progressClass.classLessonEvents || progressClass.classLessonEvents.length == 0 &&
-                                                        <div><b>Không có dữ liệu</b></div>}
-                                                        {progressClass.classLessonEvents && progressClass.classLessonEvents.length > 0 &&
-                                                        <div className="max-height-400 smooth-scroll-y">
-                                                            {Object.keys(LESSON_EVENT_TYPES_OBJECT).map((event_type) => {
-                                                                let event_obj = LESSON_EVENT_TYPES_OBJECT[event_type];
-                                                                let event_arr = progressClass.classLessonEvents.filter(e => e.event_type == event_type) || [];
-                                                                if (event_arr.length > 0)
-                                                                    return (
-                                                                        <div className="margin-bottom-10">
-                                                                            <div><b>{event_obj.name}</b></div>
-                                                                            <div className="">
-                                                                                <table id="datatables"
-                                                                                       className="table table-hover table-split"
-                                                                                       cellSpacing="0" width="100%"
-                                                                                       style={{width: "100%"}}>
-                                                                                    <tbody>
-                                                                                    {event_arr.map((event, key_event) => {
-                                                                                        let event_time = moment(event.time, DATE_FORMAT_SQL).format(DATE_VN_FORMAT);
-
-                                                                                        return (<tr key={key_event}>
-                                                                                            <td>{`Buổi ${event.order}`}</td>
-                                                                                            <td>{event_time}</td>
-                                                                                            <td>{event.status == 'done' ? 'Hoàn thành' : 'Chưa hoàn thành'}</td>
-                                                                                            <td><TooltipButton
-                                                                                                text={`Nhập bởi ${event.creator_name}`}
-                                                                                                placement="top">
-                                                                                                <div>{event.data}</div>
-                                                                                            </TooltipButton>
-                                                                                            </td>
-
-                                                                                        </tr>);
-                                                                                    })}
-                                                                                    </tbody>
-                                                                                </table>
-                                                                            </div>
-                                                                        </div>
-                                                                    );
-                                                            })}
-                                                        </div>}
-                                                    </div>}
                                                     {currentTab == 1 && <div className="col-md-12">
 
                                                         {progressClass.exams.length == 0 && noneGroup.length == 0 &&
@@ -389,6 +398,53 @@ class ProgressContainer extends React.Component {
                                                             </div>}
                                                         </div>}
                                                     </div>}
+
+                                                    {currentTab == 2 && this.renderEventTab(LESSON_EVENT_TYPES_OBJECT.book.type,progressClass.classLessonEvents)}
+                                                    {currentTab == 3 && this.renderEventTab(LESSON_EVENT_TYPES_OBJECT.comment.type,progressClass.classLessonEvents)}
+                                                    {currentTab == 4 && this.renderEventTab(LESSON_EVENT_TYPES_OBJECT.writing.type,progressClass.classLessonEvents)}
+                                                    {/*{currentTab == 2 && <div className="col-md-12">*/}
+                                                    {/*    {!progressClass.classLessonEvents || progressClass.classLessonEvents.length == 0 &&*/}
+                                                    {/*    <b>Không có dữ liệu</b>}*/}
+                                                    {/*    {progressClass.classLessonEvents && progressClass.classLessonEvents.length > 0 &&*/}
+                                                    {/*    <div className="max-height-400 smooth-scroll-y">*/}
+                                                    {/*        {Object.keys(LESSON_EVENT_TYPES_OBJECT).map((event_type) => {*/}
+                                                    {/*            // let event_obj = LESSON_EVENT_TYPES_OBJECT[event_type];*/}
+                                                    {/*            let event_arr = progressClass.classLessonEvents.filter(e => e.event_type == event_type) || [];*/}
+                                                    {/*            if (event_arr.length > 0)*/}
+                                                    {/*                return (*/}
+                                                    {/*                    <div className="margin-bottom-10">*/}
+                                                    {/*                        /!*<div><b>{event_obj.name}</b></div>*!/*/}
+                                                    {/*                        <div className="">*/}
+                                                    {/*                            <table id="datatables"*/}
+                                                    {/*                                   className="table table-hover table-split"*/}
+                                                    {/*                                   cellSpacing="0" width="100%"*/}
+                                                    {/*                                   style={{width: "100%"}}>*/}
+                                                    {/*                                <tbody>*/}
+                                                    {/*                                {event_arr.map((event, key_event) => {*/}
+                                                    {/*                                    let event_time = moment(event.time, DATE_FORMAT_SQL).format(DATE_VN_FORMAT);*/}
+
+                                                    {/*                                    return (<tr key={key_event}>*/}
+                                                    {/*                                        <td>{`Buổi ${event.order}`}</td>*/}
+                                                    {/*                                        <td>{event_time}</td>*/}
+                                                    {/*                                        <td>{event.status == 'done' ? 'Hoàn thành' : 'Chưa hoàn thành'}</td>*/}
+                                                    {/*                                        <td><TooltipButton*/}
+                                                    {/*                                            text={`Nhập bởi ${event.creator_name}`}*/}
+                                                    {/*                                            placement="top">*/}
+                                                    {/*                                            <div>{event.data}</div>*/}
+                                                    {/*                                        </TooltipButton>*/}
+                                                    {/*                                        </td>*/}
+
+                                                    {/*                                    </tr>);*/}
+                                                    {/*                                })}*/}
+                                                    {/*                                </tbody>*/}
+                                                    {/*                            </table>*/}
+                                                    {/*                        </div>*/}
+                                                    {/*                    </div>*/}
+                                                    {/*                );*/}
+                                                    {/*        })}*/}
+                                                    {/*    </div>}*/}
+                                                    {/*</div>}*/}
+
 
                                                 </div>
                                             </div>

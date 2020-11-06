@@ -1763,8 +1763,9 @@ export function getNewDomain() {
 }
 
 export function isContainsDomain(domains = []){
+    let res = false;
     domains.forEach(domain=>{
-        if(window.location.origin.includes(domain)) return true;
+        if(window.location.origin.includes(domain)) res = true;
     });
-    return false;
+    return res;
 }

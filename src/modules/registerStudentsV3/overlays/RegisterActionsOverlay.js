@@ -233,7 +233,7 @@ class RegisterActionsOverlay extends React.Component {
                         }
 
                         {
-                            register && register.status > 0 &&
+                            register &&// register.status > 0 &&
                             <button type="button"
                                     className="btn btn-white width-100"
                                     onClick={() => this.printNotiInvoice(register)}>
