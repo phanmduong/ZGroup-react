@@ -111,6 +111,7 @@ class ListLead extends React.Component {
 
                                 <th>Ghi chú</th>
                                 <th>Quan tâm</th>
+                                {!this.props.showSelectedLead && <th>Ngày nhập</th>}
                                 {!this.props.showSelectedLead && <th>Ngày tạo</th>}
                                 {!this.props.last_time_interact && <th>Thời gian cuối tương tác</th>}
                                 <th/>
@@ -281,6 +282,7 @@ class ListLead extends React.Component {
                                                 </td>
                                                 <td onClick={() => this.openEditModal(lead)}>{lead.interest}</td>
 
+                                                {!this.props.showSelectedLead && <td>{lead.imported_at}</td>}
                                                 {!this.props.showSelectedLead && <td>{lead.created_at}</td>}
                                                 {!this.props.showSelectedLead && <td>{lead.last_time_interact}</td>}
                                                 <td>
