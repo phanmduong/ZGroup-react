@@ -2,20 +2,21 @@ import axios from 'axios';
 import * as env from '../../constants/env';
 import {isEmptyInput} from "../../helpers/helper";
 
-export function loadLeads(limit = 20, page = 1, search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "", address = '', leadStatusId = '', orderBy = '', orderByType = '', source_id = '', campaign_id = '', duplicate = '', lead_tag = "",call_back_time='',base_id = '',mock_exam_time = '') {
+export function loadLeads(limit = 20, page = 1, search = "", startTime = "", endTime = "", staffId = "", rate = "", top = "", address = '', leadStatusId = '', orderBy = '', orderByType = '', source_id = '', campaign_id = '', duplicate = '', lead_tag = "",call_back_time='',base_id = '',mock_exam_time = '',imported_at='') {
 
     let url = env.MANAGE_API_URL + "/lead/all";
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    console.log(page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate, lead_tag, call_back_time);
+    console.log(page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate, lead_tag, call_back_time, imported_at);
 
     url += "&limit=" + limit;
     url += "&page=" + page;
     url += "&search=" + search;
     url += "&start_time=" + startTime;
     url += "&end_time=" + endTime;
+    url += "&imported_at=" + imported_at;
     url += "&call_back_time=" + call_back_time;
     url += "&mock_exam_time=" + mock_exam_time;
     url += "&carer_id=" + (isEmptyInput(staffId) ? '' : staffId);

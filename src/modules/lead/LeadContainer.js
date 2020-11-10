@@ -97,6 +97,7 @@ class LeadContainer extends React.Component {
             filter: {
                 startTime: '',
                 endTime: '',
+                imported_at: '',
                 call_back_time: '',
                 mock_exam_time: '',
                 status: '',
@@ -479,6 +480,7 @@ class LeadContainer extends React.Component {
             staffId: this.isAdmin ? newState.staffId : this.props.user.id,
             call_back_time: newState.filter ? newState.filter.call_back_time : '',
             mock_exam_time: newState.filter ? newState.filter.mock_exam_time : '',
+            imported_at: newState.filter ? newState.filter.imported_at : '',
         });
     };
 
@@ -517,6 +519,7 @@ class LeadContainer extends React.Component {
             endTime: this.state.filter.endTime,
             mock_exam_time: this.state.filter.mock_exam_time,
             call_back_time: this.state.filter.call_back_time,
+            imported_at: this.state.filter.imported_at,
             base_id: this.state.selectedBaseId,
             staffId: this.isAdmin ? this.state.staffId : this.props.user.id,
         });
@@ -1165,6 +1168,17 @@ class LeadContainer extends React.Component {
                                         value={this.state.filter.endTime}
                                         minDate={this.state.filter.startTime}
 
+                                    />
+                                </div>
+
+                                <div className="col-md-3">
+                                    <label>Ngày nhập</label>
+                                    <FormInputDate
+                                        label=""
+                                        name="imported_at"
+                                        updateFormData={this.updateFormFilter}
+                                        id="form-imported_at"
+                                        value={this.state.filter.imported_at}
                                     />
                                 </div>
                                 <div className="col-md-3">
