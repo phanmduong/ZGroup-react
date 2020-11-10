@@ -1290,7 +1290,7 @@ class LeadContainer extends React.Component {
                                 {/*        /></div>*/}
                                 {/*</div>}*/}
                                 <div className="col-md-3">
-                                    <div className="form-group">
+                                    <div className="form-group margin-bottom-10">
                                         <label>Tỉnh/thành phố</label>
                                         <FormInputText name="address"
                                                        value={this.state.address}
