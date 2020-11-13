@@ -113,7 +113,7 @@ class ListLead extends React.Component {
                                 <th>Quan tâm</th>
                                 {!this.props.showSelectedLead && <th>Ngày nhập</th>}
                                 {!this.props.showSelectedLead && <th>Ngày tạo</th>}
-                                {!this.props.last_time_interact && <th>Thời gian cuối tương tác</th>}
+                                {!this.props.last_time_interact && <th>Tương tác</th>}
                                 <th/>
                             </tr>
                             </thead>
