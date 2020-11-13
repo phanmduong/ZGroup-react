@@ -138,6 +138,15 @@ class CreateMockExamButtonModal extends React.Component {
                     </Modal.Header>
                     <Modal.Body>
                         {isSaving ? <Loading/> : <div className="form-grey">
+
+                            <label className="required-label">Môn thi</label>
+                            <ReactSelect
+                                value={data.course_id}
+                                options={courses}
+                                onChange={e => this.updateForm({target: {name: 'course_id', value: e ? e.id : e}})}
+                                clearable={false}
+                                placeholder="Chọn môn học"
+                            />
                             <label className="required-label">Giờ</label>
                             <TimePicker
                                 onChange={this.updateForm}
@@ -174,14 +183,6 @@ class CreateMockExamButtonModal extends React.Component {
                                           value={data.note}
                                           onChange={this.updateForm}/>
                             </div>
-                            <label className="required-label">Môn thi</label>
-                            <ReactSelect
-                                value={data.course_id}
-                                options={courses}
-                                onChange={e => this.updateForm({target: {name: 'course_id', value: e ? e.id : e}})}
-                                clearable={false}
-                                placeholder="Chọn môn học"
-                            />
 
                             <div className="flex">
                                 <button type="button"

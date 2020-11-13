@@ -65,7 +65,7 @@ class MockExamsContainer extends React.Component {
 
                                             <h4 className="cursor-pointer"
                                                 onClick={()=>this.openModalEdit({...mock_exam})}>
-                                                <b>{mock_exam.type}</b>
+                                                <b>{mock_exam.course.name}</b>
                                             </h4>
                                             <div className="timeline-body">
                                                 {!isEmptyInput(mock_exam.time) &&<div className="flex-row-center">
@@ -81,9 +81,9 @@ class MockExamsContainer extends React.Component {
                                                     <i className="material-icons font-size-14px">info</i>
                                                     &nbsp; &nbsp;Điểm:&nbsp;{mock_exam.score}
                                                 </div>}
-                                                {!isEmptyInput(mock_exam.course_id) && mock_exam.course && <div className="">
+                                                {!isEmptyInput(mock_exam.type) && <div className="">
                                                     <i className="material-icons font-size-14px">info</i>
-                                                    &nbsp; &nbsp;Môn học:&nbsp;{mock_exam.course.name}
+                                                    &nbsp; &nbsp;Loại bài thi:&nbsp;{mock_exam.type}
                                                 </div>}
                                                 {!isEmptyInput(mock_exam.note) && <div className="">
                                                     <i className="material-icons font-size-14px">description</i>
@@ -92,7 +92,7 @@ class MockExamsContainer extends React.Component {
                                                     }<span dangerouslySetInnerHTML={{__html: mock_exam.note}}/>
 
                                                 </div>}
-
+                                                <button className="btn btn-actions margin-top-10" onClick={()=>this.openModalEdit({...mock_exam})}>Sửa</button>
                                             </div>
 
                                         </div>
