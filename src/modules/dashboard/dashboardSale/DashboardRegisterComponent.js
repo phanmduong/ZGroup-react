@@ -25,7 +25,7 @@ const optionsBarEnroll = {
                 if (label) {
                     label += ': ';
                 }
-                label += `${dotNumber(tooltipItem.value)} lượt`;
+                label += `${dotNumber(Number.parseInt(tooltipItem.value))} lượt`;
                 return label;
             }
         }

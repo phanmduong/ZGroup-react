@@ -110,7 +110,7 @@ class BarChartFilterDate extends React.Component {
                 data = this.props.data.map((dataArray) => {
                     let firstIndex = 0;
                     return Object.keys(groupDates).map((key) => {
-                        const newData = _.sumBy(dataArray.slice(firstIndex, firstIndex + groupDates[key].length), (item) => Number.parseInt(item));
+                        const newData = _.sumBy(dataArray.slice(firstIndex, firstIndex + groupDates[key].length), (item) => Number.parseFloat(item));
                         firstIndex = groupDates[key].length + firstIndex;
                         return newData;
                     });

@@ -2,6 +2,7 @@ import React from "react";
 import {observer} from "mobx-react";
 import {Modal} from "react-bootstrap";
 import Checkbox from "../../components/common/Checkbox";
+import {getValueFromKey} from "../../helpers/entity/object";
 
 @observer
 class SendMail extends React.Component {
@@ -61,7 +62,9 @@ class SendMail extends React.Component {
                               onChange={this.checkboxAll}/>
                     {this.state.data && this.state.data.map((data) => {
                         return (
-                            <Checkbox label={data.user.name} checked={data.isSendMail} checkBoxLeft
+                            <Checkbox label={data.user.name + ' (' + getValueFromKey(data.user, "province.name") + ') '}
+                                      checked={data.isSendMail} checkBoxLeft
+
                                       onChange={() => this.onChangeCheckBox(data.teaching_salary_id)}/>
                         );
                     })}

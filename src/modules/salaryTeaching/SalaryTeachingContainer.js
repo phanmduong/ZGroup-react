@@ -15,6 +15,7 @@ import {
 import AddSalaryBonus from "./AddSalaryBonus";
 import DetailSalaryBonus from "./DetailSalaryBonus";
 import SendMail from "./SendMail";
+import {getValueFromKey} from "../../helpers/entity/object";
 
 @observer
 class SalaryTeachingContainer extends React.Component {
@@ -60,7 +61,7 @@ class SalaryTeachingContainer extends React.Component {
         let gen = store.gens.filter((gen => gen.id == store.selectedGenId))[0].name;
         let wb = newWorkBook();
         let data;
-        let cols = renderExcelColumnArray([5, 25, 25, 15, 25]);//độ rộng cột
+        let cols = renderExcelColumnArray([5, 25, 25, 15, 25, 30]);//độ rộng cột
 
         data = store.getData.map((item, index) => {
 
@@ -73,6 +74,7 @@ class SalaryTeachingContainer extends React.Component {
                 'SOTAIKHOAN': user.bank_number,
                 'SOTIEN': item.total_salary,
                 'MOTA': xoa_dau(user.name + " luong khoa " + gen),
+                'THANHPHO': getValueFromKey(user, "province.name")
             };
             /* eslint-enable */
             return res;
