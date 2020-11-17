@@ -10,7 +10,7 @@ class SendMail extends React.Component {
         super(props, context);
         this.store = this.props.store;
         this.state = {
-            checkboxAll: true
+            checkboxAll: true,
         };
     }
 
