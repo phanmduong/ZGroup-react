@@ -224,7 +224,8 @@ class InfoClassContainer extends React.Component {
                                     <tr>
                                         {/*<th/>*/}
                                         <th>Họ tên</th>
-                                        <th>Mã học viên</th>
+                                        {/*<th>Mã học viên</th>*/}
+                                        <th>ID học viên</th>
                                         <th>Điểm danh</th>
                                         {!isContainsDomain(['ieg']) && <th>Chứng chỉ</th>}
                                         {!isContainsDomain(['ieg']) && <th>Học phí</th>}
@@ -279,7 +280,8 @@ class InfoClassContainer extends React.Component {
                                                     {/*    </button>*/}
 
                                                     {/*}*/}
-                                                    {register.code}
+                                                    {/*{register.code}*/}
+                                                    {register.id}
                                                 </td>
                                                 <td>
                                                     <div

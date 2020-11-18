@@ -26,7 +26,6 @@ class ScheduleClassContainer extends Component {
         store.loadGens();
         store.loadBases();
         store.loadClasses();
-
     }
 
     onChangeFilter = (field, value) => {
@@ -97,17 +96,17 @@ class ScheduleClassContainer extends Component {
                                         onChange={this.changeDateRangePicker}
                                     />
                                 </div>
-                                <div className="col-md-3">
-                                    <Select
-                                        options={store.gensData}
-                                        onChange={val => this.onChangeGenFilter(val)}
-                                        value={filter.gen_id}
-                                        defaultMessage="Chọn giai đoạn"
-                                        name="gen_id"
-                                        wrapClassName="react-select-white-light-round radius-5"
-                                        className="btn btn-white"
-                                    />
-                                </div>
+                                {/*<div className="col-md-3">*/}
+                                {/*    <Select*/}
+                                {/*        options={store.gensData}*/}
+                                {/*        onChange={val => this.onChangeGenFilter(val)}*/}
+                                {/*        value={filter.gen_id}*/}
+                                {/*        defaultMessage="Chọn giai đoạn"*/}
+                                {/*        name="gen_id"*/}
+                                {/*        wrapClassName="react-select-white-light-round radius-5"*/}
+                                {/*        className="btn btn-white"*/}
+                                {/*    />*/}
+                                {/*</div>*/}
                                 <div className="col-md-3">
                                     <ReactSelect.Async
                                         loadOptions={(p1, p2) => store.searchCourses(p1, p2)}
@@ -160,10 +159,6 @@ class ScheduleClassContainer extends Component {
                                         }}
                                     />
                                 </div>
-
-
-                            </div>
-                            <div className="row gutter-20">
                                 <div className="col-md-3">
                                     <Select
                                         defaultMessage="Chọn thành phố"
@@ -175,6 +170,10 @@ class ScheduleClassContainer extends Component {
                                         className="btn btn-white"
                                     />
                                 </div>
+
+                            </div>
+                            <div className="row gutter-20">
+
                                 <div className="col-md-3">
                                     <Select
                                         defaultMessage="Chọn cơ sở"
@@ -213,8 +212,9 @@ class ScheduleClassContainer extends Component {
                                                 onClick={(value) => {
                                                     // console.log(store.class_id,value.class_id, "schedule");
                                                     // store.class_id = value.class_id;
-                                                    store.isShowClassModal = true;
-                                                    store.loadClass(value.class_id);
+                                                    window.open(`/teaching/class/${value.class_id}`, "_blank");
+                                                    // store.isShowClassModal = true;
+                                                    // store.loadClass(value.class_id);
                                                 }}
                                                 currentDate={currentDate}
                                                 disabled
