@@ -10,7 +10,7 @@ class SendMail extends React.Component {
         super(props, context);
         this.store = this.props.store;
         this.state = {
-            checkboxAll: true,
+            checkboxAll: true
         };
     }
 
@@ -39,7 +39,7 @@ class SendMail extends React.Component {
                               onChange={this.checkboxAll}/>
                     {this.store.data && this.store.data.map((data) => {
                         return (
-                            <Checkbox label={data.user.name + ' (' + getValueFromKey(data.user, "province.name") + ') '} checked={data.isSendMail} checkBoxLeft onChange={() => {
+                            <Checkbox label={data.user.name + ' (' + getValueFromKey(data.user, "province.name") + ')'} checked={data.isSendMail} checkBoxLeft onChange={() => {
                                 data.isSendMail = !data.isSendMail;
                             }}/>
                         );

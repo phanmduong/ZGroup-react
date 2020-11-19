@@ -7,7 +7,7 @@ import {bindActionCreators} from "redux";
 import * as registerActions from "../../registerStudents/registerActions";
 import {
     confirm,
-    dotNumber,
+    dotNumber, getNewDomain,
     showErrorNotification,
     showNotification,
     showWarningNotification
@@ -115,11 +115,11 @@ class RegisterActionsOverlay extends React.Component {
     };
 
     printNotiInvoice = (register) => {
-        window.open("/noti-invoice/" + register.id, "_blank");
+        window.open(getNewDomain() + "/tuition-notice/" + register.id, "_blank");
     };
 
     printInvoice = (register) => {
-        window.open("/invoice/" + register.id, "_blank");
+        window.open(getNewDomain() + "/invoice/" + register.id, "_blank");
     };
 
     showModalRefund = (currentRegister) => {

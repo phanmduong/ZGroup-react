@@ -6,7 +6,7 @@ import * as studentActions from "../studentActions";
 import {bindActionCreators} from "redux";
 import * as registerActions from "../../registerStudents/registerActions";
 import * as helper from "../../../helpers/helper";
-import {showErrorNotification, showNotification, showWarningNotification} from "../../../helpers/helper";
+import {getNewDomain, showErrorNotification, showNotification, showWarningNotification} from "../../../helpers/helper";
 import ListClass from "../../registerStudents/ListClass";
 import {Modal, Overlay} from 'react-bootstrap';
 import {deleteRegisterStudent} from "../../registerStudents/registerStudentsApi";
@@ -102,11 +102,11 @@ class ExtraRegisterOverlay extends React.Component {
     };
 
     printNotiInvoice = (register) => {
-        window.open("/noti-invoice/" + register.id, "_blank");
+        window.open(getNewDomain() + "/tuition-notice/" + register.id, "_blank");
     };
 
     printInvoice = (register) => {
-        window.open("/invoice/" + register.id, "_blank");
+        window.open(getNewDomain() + "/invoice/" + register.id, "_blank");
     };
 
     render() {

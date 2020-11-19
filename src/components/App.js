@@ -140,30 +140,30 @@ class App extends React.Component {
                                         </i>
                                         <div className="ripple-container"/>
                                     </div>
-                                    <div
-                                        style={{width: 150}}
+                                    {/*<div*/}
+                                    {/*    style={{width: 150}}*/}
 
-                                    >
-                                        <Select
-                                            defaultMessage={'Chọn thành phố'}
-                                            options={provinces}
-                                            className="select-transparent"
-                                            value={this.props.user && this.props.user.choice_province_id ? this.props.user.choice_province_id : 0}
-                                            onChange={this.props.onChangeProvince}
-                                        />
-                                    </div>
-                                    <div
-                                        style={{width: 150}}
-                                    >
-                                        <Select
-                                            defaultMessage={'Chọn cơ sở'}
-                                            options={bases}
-                                            className="select-transparent"
-                                            value={this.props.selectedBaseId}
-                                            onChange={this.props.onChangeBase}
-                                            // onChange={this.onChangeGen}
-                                        />
-                                    </div>
+                                    {/*>*/}
+                                    {/*    <Select*/}
+                                    {/*        defaultMessage={'Chọn thành phố'}*/}
+                                    {/*        options={provinces}*/}
+                                    {/*        className="select-transparent"*/}
+                                    {/*        value={this.props.user && this.props.user.choice_province_id ? this.props.user.choice_province_id : 0}*/}
+                                    {/*        onChange={this.props.onChangeProvince}*/}
+                                    {/*    />*/}
+                                    {/*</div>*/}
+                                    {/*<div*/}
+                                    {/*    style={{width: 150}}*/}
+                                    {/*>*/}
+                                    {/*    <Select*/}
+                                    {/*        defaultMessage={'Chọn cơ sở'}*/}
+                                    {/*        options={bases}*/}
+                                    {/*        className="select-transparent"*/}
+                                    {/*        value={this.props.selectedBaseId}*/}
+                                    {/*        onChange={this.props.onChangeBase}*/}
+                                    {/*        // onChange={this.onChangeGen}*/}
+                                    {/*    />*/}
+                                    {/*</div>*/}
                                 </div>
 
                             </div>
