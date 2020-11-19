@@ -99,12 +99,17 @@ class FilterStore {
                 loadGens().then((res) => {
                     this.gens = res.data.data.gens;
 
-                    const currentGen = this.gens.filter((gen) => gen.id == res.data.data.current_gen.id)[0];
+                    if (window.location.hostname.includes("ieg")) {
+                        this.filter.start_time = moment().startOf('year');
+                        this.filter.end_time = moment().endOf('year');
+                    } else {
+                        const currentGen = this.gens.filter((gen) => gen.id == res.data.data.current_gen.id)[0];
 
-                    this.filter.start_time = moment(currentGen.start_time);
-                    this.filter.end_time = moment(currentGen.end_time);
+                        this.filter.start_time = moment(currentGen.start_time);
+                        this.filter.end_time = moment(currentGen.end_time);
 
-                    this.filter.gen_id = res.data.data.current_gen.id;
+                        this.filter.gen_id = res.data.data.current_gen.id;
+                    }
                     callback(null, {});
                 }).catch((e) => {
                     showErrorNotification('Có lỗi xảy ra!');
