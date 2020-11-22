@@ -11,26 +11,36 @@ import * as classActions from './classActions';
 import ListClass from './ListClass';
 import PropTypes from 'prop-types';
 import * as helper from '../../helpers/helper';
+import {isEmptyInput} from '../../helpers/helper';
 import {Modal, Panel} from 'react-bootstrap';
 import AddClassContainer from './AddClassContainer';
 import Pagination from "../../components/common/Pagination";
 import ReactSelect from "react-select";
-import {STATUS_REFS, TYPE_CLASSES} from "../../constants/constants";
+import {DATE_FORMAT_SQL, STATUS_REFS, TYPE_CLASSES} from "../../constants/constants";
 import * as studentActions from "../infoStudent/studentActions";
 import ItemReactSelect from "../../components/common/ItemReactSelect";
-import {isEmptyInput} from "../../helpers/helper";
 import {findUser} from "../registerStudentsV3/registerListApi";
 import {NO_AVATAR} from "../../constants/env";
+import DateRangePicker from "../../components/common/DateTimePicker";
+import moment from "moment";
 
 const defaultState = {
     page: 1,
     search: "",
     selectGenId: '',
+    selectedBaseId: '',
+    province_id: '',
     courseId: '',
     status: '',
     class_status: '',
     type: '',
     teacherId: '',
+    enroll_start_time: moment().subtract(1, 'years'),
+    enroll_end_time: moment(),
+    lesson_start_time: moment().subtract(1, 'years'),
+    lesson_end_time: moment(),
+    study_start_time: moment().subtract(1, 'years'),
+    study_end_time: moment(),
 };
 
 class ClassesContainer extends React.Component {
@@ -38,9 +48,10 @@ class ClassesContainer extends React.Component {
         super(props, context);
 
         this.state = {
-            filter:{...defaultState,},
+            filter: {...defaultState,},
             gens: [],
             courses: [],
+            bases: [],
             openLoadingModal: false,
             openFilterPanel: false,
             editClass: false,
@@ -64,15 +75,23 @@ class ClassesContainer extends React.Component {
         if (this.props.params.teacherId) {
             this.search.teacherId = this.props.params.teacherId;
         }
+        this.setState({filter:{
+                ...this.state.filter,
+                province_id: this.props.user.choice_province_id,
+                selectedBaseId: this.props.user.selectedBaseId
+            }});
         this.props.classActions.loadCourses();
         this.props.classActions.loadGensData(() => {
             this.props.classActions.loadClasses({
-                page: 1, teacherId: this.search.teacherId, selectGenId: this.state.selectGenId,
+                page: 1, teacherId: this.search.teacherId,
+                selectGenId: this.state.selectGenId,
                 selectedBaseId: this.props.selectedBaseId,
+                province_id: this.props.user.choice_province_id
             });
         });
-        if(!this.props.isLoadedStatuses[this.statusRef])
+        if (!this.props.isLoadedStatuses[this.statusRef])
             this.props.studentActions.loadStatuses(this.statusRef);
+
     }
 
     componentWillReceiveProps(nextProps) {
@@ -85,7 +104,7 @@ class ClassesContainer extends React.Component {
             gens = _.reverse(gens);
             this.setState({
                 gens: [{value: '', label: 'Tất cả'}, ...gens],
-                filter:{
+                filter: {
                     ...this.state.filter,
                     selectGenId: '',
                 }
@@ -100,8 +119,8 @@ class ClassesContainer extends React.Component {
             courses = _.reverse(courses);
             this.setState({
                 courses: [{value: '', label: 'Tất cả'}, ...courses],
-                filter:{
-                    ...this.state.filter,courseId: '',
+                filter: {
+                    ...this.state.filter, courseId: '',
                 },
             });
         }
@@ -126,22 +145,22 @@ class ClassesContainer extends React.Component {
         if (nextProps.params.teacherId !== this.props.params.teacherId) {
             this.search.teacherId = nextProps.params.teacherId;
             this.setState({
-                filter:{
+                filter: {
                     ...this.state.filter,
                     search: '',
-                    page:1
+                    page: 1
                 }
             });
             this.loadClasses({
                 ...this.state.filter,
-                page:1, search:''
+                page: 1, search: ''
             });
         }
         if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
             this.setState({
-                
-                filter:{
-                    ...this.state.filter,selectedBaseId: nextProps.selectedBaseId,
+
+                filter: {
+                    ...this.state.filter, selectedBaseId: nextProps.selectedBaseId,
                 },
             });
             this.props.classActions.loadClasses({
@@ -157,11 +176,11 @@ class ClassesContainer extends React.Component {
 
     classesSearchChange = (value) => {
         this.setState({
-            filter:{
-                ...this.state.filter,page: 1,
+            filter: {
+                ...this.state.filter, page: 1,
                 search: value,
             },
-            
+
         });
     }
 
@@ -170,7 +189,15 @@ class ClassesContainer extends React.Component {
     }
 
     loadClasses = (filter) => {
-        this.props.classActions.loadClasses(filter);
+        this.props.classActions.loadClasses({
+            ...filter,
+            enroll_start_time: this.state.filter.enroll_start_time.format(DATE_FORMAT_SQL),
+            enroll_end_time: this.state.filter.enroll_end_time.format(DATE_FORMAT_SQL),
+            lesson_start_time: this.state.filter.lesson_start_time.format(DATE_FORMAT_SQL),
+            lesson_end_time: this.state.filter.lesson_end_time.format(DATE_FORMAT_SQL),
+            study_start_time: this.state.filter.study_start_time.format(DATE_FORMAT_SQL),
+            study_end_time: this.state.filter.study_end_time.format(DATE_FORMAT_SQL),
+        });
         // this.props.classActions.loadClasses({
         //     ...this.state.filter,
         //     search: search,
@@ -233,13 +260,23 @@ class ClassesContainer extends React.Component {
         });
     }
 
-    changeFilterSelect = (field,value) => {
-        this.setState({
-            filter: {
-                ...this.state.filter,
-                [field]: value ? value.value : '',
-                // [field+'Id']: value ? value.id : ''
+    changeFilterSelect = (field, value) => {
+        let filter= {
+            ...this.state.filter,
+            [field]: value ? value.value : '',
+        };
+        switch (field){
+            case 'selectedBaseId':{
+                filter.province_id = '';
+                break;
             }
+            case 'province_id':{
+                filter.selectedBaseId = '';
+                break;
+            }
+        }
+        this.setState({
+            filter
         });
         console.log(this.state.filter)
     }
@@ -272,10 +309,12 @@ class ClassesContainer extends React.Component {
         this.props.classActions.loadClasses(this.state.filter);
     }
     getStatuses = () => {
-        if(this.props.isLoadingStatuses) return [];
+        if (this.props.isLoadingStatuses) return [];
         return [
-            {value:'',label:'Tất cả'},
-            ...this.props.statuses[this.statusRef].map(st=>{return{...st,value:st.id,label:st.name};})
+            {value: '', label: 'Tất cả'},
+            ...this.props.statuses[this.statusRef].map(st => {
+                return {...st, value: st.id, label: st.name};
+            })
         ];
     }
     loadStaffs = (input, callback, field) => {
@@ -306,8 +345,34 @@ class ClassesContainer extends React.Component {
             });
         }.bind(this), 500);
     }
+
+    getProvinces = () => {
+        return [
+            {id: '', value: '', label: "T.cả t.phố"},
+            ...(this.props.provinces ? this.props.provinces.map((province) => {
+                return {id: province.id, value: province.id, label: province.name};
+            }) : [])
+        ];
+    }
+    getBases = () => {
+        return [
+            {id: '', value: '', label: "T.cả cơ sở"},
+            ...(this.props.bases ? this.props.bases.map((base) => {
+                return {id: base.id, value: base.id, label: base.name};
+            }) : [])
+        ];
+    }
+
+    changeDateRangePicker = (field, start_time, end_time) => {
+        if (this.props.isLoading) return;
+        this.setState({
+            [`${field}_start_time`]: start_time,
+            [`${field}_end_time`]: end_time,
+        });
+    };
+
     render() {
-        console.log(this.props)
+        console.log(this.props);
         return (
             <div className="">
                 <Modal
@@ -362,11 +427,11 @@ class ClassesContainer extends React.Component {
 
                         <div className="row">
 
-                                <div className="col-md-4">
+                            <div className="col-md-4">
                                 <label>Môn học/ chương trình học</label>
                                 <ReactSelect
                                     options={this.state.courses}
-                                    onChange={val=>this.changeFilterSelect('courseId',val)}
+                                    onChange={val => this.changeFilterSelect('courseId', val)}
                                     value={this.state.filter.courseId}
                                     defaultMessage="Chọn môn học"
                                     name="course"
@@ -377,7 +442,7 @@ class ClassesContainer extends React.Component {
                                 <label>Giai đoạn tuyển sinh</label>
                                 <ReactSelect
                                     options={this.state.gens}
-                                    onChange={val=>this.changeFilterSelect('selectGenId',val)}
+                                    onChange={val => this.changeFilterSelect('selectGenId', val)}
                                     value={this.state.filter.selectGenId}
                                     defaultMessage="Chọn giai đoạn"
                                     name="gen"
@@ -388,11 +453,11 @@ class ClassesContainer extends React.Component {
                                 <label>Trạng thái tuyển sinh của lớp</label>
                                 <ReactSelect
                                     options={[
-                                        {value:'',label:'Tất cả'},
-                                        {value:'1',label:'Đang tuyển sinh'},
-                                        {value:'0',label:'Đang học'},
+                                        {value: '', label: 'Tất cả'},
+                                        {value: '1', label: 'Đang tuyển sinh'},
+                                        {value: '0', label: 'Đang học'},
                                     ]}
-                                    onChange={val=>this.changeFilterSelect('status',val)}
+                                    onChange={val => this.changeFilterSelect('status', val)}
                                     value={this.state.filter.status}
                                     defaultMessage="Chọn trạng thái"
                                     menuContainerStyle={{zIndex: 11}}
@@ -402,7 +467,7 @@ class ClassesContainer extends React.Component {
                                 <label>Trạng thái lớp học</label>
                                 <ReactSelect
                                     options={this.getStatuses()}
-                                    onChange={val=>this.changeFilterSelect('class_status',val)}
+                                    onChange={val => this.changeFilterSelect('class_status', val)}
                                     value={this.state.filter.class_status}
                                     defaultMessage="Chọn trạng thái"
                                     menuContainerStyle={{zIndex: 11}}
@@ -412,10 +477,10 @@ class ClassesContainer extends React.Component {
                                 <label>Thể loại lớp</label>
                                 <ReactSelect
                                     options={[
-                                        {value:'',label:'Tất cả'},
+                                        {value: '', label: 'Tất cả'},
                                         ...TYPE_CLASSES
                                     ]}
-                                    onChange={val=>this.changeFilterSelect('type',val)}
+                                    onChange={val => this.changeFilterSelect('type', val)}
                                     value={this.state.filter.type}
                                     defaultMessage="Chọn thể loại"
                                     menuContainerStyle={{zIndex: 11}}
@@ -445,6 +510,56 @@ class ClassesContainer extends React.Component {
                                                              url={option.avatar_url}/>
                                         );
                                     }}
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <label>Thời gian tuyển sinh</label>
+                                <DateRangePicker
+                                    className="padding-vertical-10px cursor-pointer margin-top-10 radius-5"
+                                    start={this.state.filter.enroll_start_time} end={this.state.filter.enroll_end_time}
+                                    style={{padding: '5px 10px 5px 20px', lineHeight: '31px'}}
+                                    onChange={(s, e) => this.changeDateRangePicker('enroll', s, e)}
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <label>Thời gian học</label>
+                                <DateRangePicker
+                                    className="padding-vertical-10px cursor-pointer margin-top-10 radius-5"
+                                    start={this.state.filter.lesson_start_time} end={this.state.filter.lesson_end_time}
+                                    style={{padding: '5px 10px 5px 20px', lineHeight: '31px'}}
+                                    onChange={(s, e) => this.changeDateRangePicker('lesson', s, e)}
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <label>Khai giảng</label>
+                                <DateRangePicker
+                                    className="padding-vertical-10px cursor-pointer margin-top-10 radius-5"
+                                    start={this.state.filter.study_start_time} end={this.state.filter.study_end_time}
+                                    style={{padding: '5px 10px 5px 20px', lineHeight: '31px'}}
+                                    onChange={(s, e) => this.changeDateRangePicker('study', s, e)}
+                                />
+                            </div>
+
+                            <div className="col-md-4">
+                                <label>Tỉnh/thành phố</label>
+                                <ReactSelect
+                                    defaultMessage="Chọn thành phố"
+                                    options={this.getProvinces()}
+                                    value={this.state.filter.province_id}
+                                    onChange={val => this.changeFilterSelect('province_id', val)}
+                                    name="province_id"
+                                    menuContainerStyle={{zIndex: 11}}
+                                />
+                            </div>
+                            <div className="col-md-4">
+                                <label>Cơ sở</label>
+                                <ReactSelect
+                                    defaultMessage="Chọn cơ sở"
+                                    options={this.getBases()}
+                                    value={this.state.filter.selectedBaseId}
+                                    onChange={val => this.changeFilterSelect('selectedBaseId', val)}
+                                    name="selectedBaseId"
+                                    menuContainerStyle={{zIndex: 11}}
                                 />
                             </div>
                             <div className="col-xs-12">
@@ -542,6 +657,8 @@ ClassesContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        provinces: state.global.provinces,
+        bases: state.global.bases,
         currentPage: state.classes.currentPage,
         totalPages: state.classes.totalPages,
         totalCount: state.classes.totalCount,
@@ -559,6 +676,8 @@ function mapStateToProps(state) {
         statuses: state.infoStudent.statuses,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
         isLoadedStatuses: state.infoStudent.isLoadedStatuses,
+        isLoadingBases: PropTypes.bool.isRequired,
+        user: state.login.user,
     };
 }
 

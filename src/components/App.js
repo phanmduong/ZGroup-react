@@ -6,7 +6,8 @@ import TabContainer from "../modules/tab/TabContainer";
 import {Link} from "react-router";
 import * as helper from "../helpers/helper";
 import NotificationContainer from "../modules/notification/NotificationContainer";
-// import Select from "./common/Select";
+import Select from "./common/Select";
+ import {getValueFromKey} from "../helpers/entity/object";
 // import Select from "./common/Select";
 
 // This is a class-based component because the current
@@ -52,7 +53,7 @@ class App extends React.Component {
 
         let bases = this.props.bases ? this.props.bases.filter((base) => {
             if (this.props.user && this.props.user.choice_province_id > 0) {
-                return base.district.province.id == this.props.user.choice_province_id;
+                return getValueFromKey(base,'district.province.id') == this.props.user.choice_province_id;
             } else {
                 return true;
             }
@@ -140,30 +141,30 @@ class App extends React.Component {
                                         </i>
                                         <div className="ripple-container"/>
                                     </div>
-                                    {/*<div*/}
-                                    {/*    style={{width: 150}}*/}
+                                    <div
+                                        style={{width: 150}}
 
-                                    {/*>*/}
-                                    {/*    <Select*/}
-                                    {/*        defaultMessage={'Chọn thành phố'}*/}
-                                    {/*        options={provinces}*/}
-                                    {/*        className="select-transparent"*/}
-                                    {/*        value={this.props.user && this.props.user.choice_province_id ? this.props.user.choice_province_id : 0}*/}
-                                    {/*        onChange={this.props.onChangeProvince}*/}
-                                    {/*    />*/}
-                                    {/*</div>*/}
-                                    {/*<div*/}
-                                    {/*    style={{width: 150}}*/}
-                                    {/*>*/}
-                                    {/*    <Select*/}
-                                    {/*        defaultMessage={'Chọn cơ sở'}*/}
-                                    {/*        options={bases}*/}
-                                    {/*        className="select-transparent"*/}
-                                    {/*        value={this.props.selectedBaseId}*/}
-                                    {/*        onChange={this.props.onChangeBase}*/}
-                                    {/*        // onChange={this.onChangeGen}*/}
-                                    {/*    />*/}
-                                    {/*</div>*/}
+                                    >
+                                        <Select
+                                            defaultMessage={'Chọn thành phố'}
+                                            options={provinces}
+                                            className="select-transparent"
+                                            value={this.props.user && this.props.user.choice_province_id ? this.props.user.choice_province_id : 0}
+                                            onChange={this.props.onChangeProvince}
+                                        />
+                                    </div>
+                                    <div
+                                        style={{width: 150}}
+                                    >
+                                        <Select
+                                            defaultMessage={'Chọn cơ sở'}
+                                            options={bases}
+                                            className="select-transparent"
+                                            value={this.props.selectedBaseId}
+                                            onChange={this.props.onChangeBase}
+                                            // onChange={this.onChangeGen}
+                                        />
+                                    </div>
                                 </div>
 
                             </div>

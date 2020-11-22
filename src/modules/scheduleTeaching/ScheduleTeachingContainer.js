@@ -9,7 +9,7 @@ import Loading from "../../components/common/Loading";
 import Calendar from "../../components/common/Calendar";
 import store from "./ScheduleTeachingStore";
 import PropTypes from 'prop-types';
-import ClassContainer from "./ClassContainer";
+// import ClassContainer from "./ClassContainer";
 import Select from "./Select";
 import ReactSelect from "react-select";
 import DateRangePicker from "../../components/common/DateTimePicker";
@@ -23,38 +23,52 @@ class ScheduleClassContainer extends Component {
     }
 
     componentDidMount() {
-        store.loadGens();
+        // store.loadGens();
+        store.filter.province_id =  this.props.user.choice_province_id;
         store.loadBases();
         store.loadClasses();
     }
 
     onChangeFilter = (field, value) => {
-        console.log(field, value)
+        console.log(field, value);
         if (store.isLoading) return;
+
+        switch (field){
+            case 'base_id':{
+                store.filter.province_id = null;
+                break;
+            }
+            case 'province_id':{
+                store.filter.base_id = null;
+                break;
+            }
+        }
         store.filter[field] = value;
+        store.filter.type = 'active';
         store.loadClasses();
     }
 
 
     changeDateRangePicker = (start_time, end_time) => {
-        console.log(start_time, end_time)
+        console.log(start_time, end_time);
         if (store.isLoading) return;
         // store.filter.start_time = start_time;
         // store.filter.end_time = end_time;
-        store.filter = {...store.filter, start_time, end_time, gen_id: -1};
+        store.filter = {...store.filter, start_time, end_time,
+            // gen_id: -1
+        };
         store.loadClasses();
-
     };
 
-    onChangeGenFilter = (gen_id) => {
-
-        let gen = store.gensData.filter(g=>g.id==gen_id)[0];
-        if(gen){
-            store.filter = {...store.filter, start_time:gen.start_time, end_time:gen.end_time, gen_id};
-            store.loadClasses();
-
-        }
-    }
+    // onChangeGenFilter = (gen_id) => {
+    //
+    //     let gen = store.gensData.filter(g=>g.id==gen_id)[0];
+    //     if(gen){
+    //         store.filter = {...store.filter, start_time:gen.start_time, end_time:gen.end_time, gen_id};
+    //         store.loadClasses();
+    //
+    //     }
+    // }
 
     render() {
         let {filter} = store;
@@ -83,11 +97,11 @@ class ScheduleClassContainer extends Component {
         provinces = [{id: '', key: '', value: "T.cả t.phố"}, ...provinces];
 
         let currentDate = new Date(filter.end_time.toISOString());
-        return (
+        let showContents = store.isLoadingClasses || store.isLoadingGens || store.isLoadingBases;        return (
             <div>
 
                         <div className="container-fluid">
-                            <div className="row gutter-20">
+                            {!showContents &&<div className="row gutter-20">
                                 <div className="col-md-3">
                                     <DateRangePicker
                                         className="background-white padding-vertical-10px cursor-pointer margin-top-10 radius-5"
@@ -171,8 +185,8 @@ class ScheduleClassContainer extends Component {
                                     />
                                 </div>
 
-                            </div>
-                            <div className="row gutter-20">
+                            </div>}
+                            {!showContents && <div className="row gutter-20">
 
                                 <div className="col-md-3">
                                     <Select
@@ -199,8 +213,8 @@ class ScheduleClassContainer extends Component {
                                 <div className="col-md-3"/>
 
 
-                            </div>
-                            {store.isLoadingClasses || store.isLoadingGens || store.isLoadingBases ? <Loading/>
+                            </div>}
+                            {showContents ? <Loading/>
                                 :
                             <div className="row gutter-20">
                                 <div className="col-md-12">
@@ -232,7 +246,7 @@ class ScheduleClassContainer extends Component {
 
 
 
-                <ClassContainer/>
+                {/*<ClassContainer/>*/}
             </div>
         );
     }

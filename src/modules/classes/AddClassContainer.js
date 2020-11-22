@@ -418,7 +418,20 @@ class AddClassContainer extends React.Component {
                         <FormInputDate
                             label=""
                             name="datestart"
-                            updateFormData={this.updateFormData}
+                            updateFormData={(event)=> {
+                                let classData = {...this.props.class};
+                                if (classData.course_id && !classData.id) {
+                                    let currentClass  = this.state.optionsSelectCourse.filter(cl=>cl.id == classData.course_id)[0];
+                                    if(currentClass){
+                                        let {duration} = currentClass;
+                                        console.log(duration,moment(event.target.value).add(duration, 'days').toISOString());
+                                        classData.date_end = moment(event.target.value).add(duration, 'days').toISOString();
+                                    }
+
+                                }
+                                classData.datestart = event.target.value;
+                                this.props.classActions.updateFormCreateClass(classData);
+                            }}
                             value={datestart ? datestart.slice(0, 10) : new Date().toISOString().slice(0, 10)}
                             id="form-date-datestart"
                         />

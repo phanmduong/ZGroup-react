@@ -175,7 +175,7 @@ class ListCourse extends React.Component {
                                                     courseData.parent_id = parentCourse ? parentCourse.id : '';
                                                     this.props.updateCourse(courseData);
                                                 }}
-                                                styleOverlay={{marginLeft:-155}}
+                                                styleOverlay={{marginLeft: -155}}
                                                 style={{width: '100%'}}
                                             />
                                         </td>
@@ -199,16 +199,16 @@ class ListCourse extends React.Component {
                                                         marginTop: 10,
                                                         left: -115,
                                                     }} onClick={() => this.closeOverlay(index)}>
-                                                        <button type="button"
-                                                                className="btn btn-white width-100"
-                                                                onClick={() => {
-                                                                    this.props.coursesActions.loadOneCourse(course.id);
-                                                                    this.setState({openModalEdit: true});
-                                                                    // browserHistory.push("/teaching/courses/edit/" + course.id + "");
-                                                                    // e.stopPropagation();
-                                                                }}>
+                                                        {this.props.user.role == 2 && <button type="button"
+                                                                                              className="btn btn-white width-100"
+                                                                                              onClick={() => {
+                                                                                                  this.props.coursesActions.loadOneCourse(course.id);
+                                                                                                  this.setState({openModalEdit: true});
+                                                                                                  // browserHistory.push("/teaching/courses/edit/" + course.id + "");
+                                                                                                  // e.stopPropagation();
+                                                                                              }}>
                                                             Sửa thông tin
-                                                        </button>
+                                                        </button>}
                                                         <button type="button"
                                                                 className="btn btn-white width-100"
                                                                 onClick={() => this.props.duplicateCourse(course)}>

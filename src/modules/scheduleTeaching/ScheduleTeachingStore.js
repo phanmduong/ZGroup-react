@@ -6,7 +6,7 @@ import {observable, action, computed} from "mobx";
 import {isEmptyInput, showErrorNotification} from "../../helpers/helper";
 import * as scheduleTeachingApis from "./scheduleTeachingApis";
 import {findClass} from "../registerStudentsV2/registerListApi";
-import {DATE_FORMAT_SQL, DATETIME_FORMAT_SQL, TYPE_CLASSES} from "../../constants/constants";
+import {DATE_FORMAT_SQL, TYPE_CLASSES} from "../../constants/constants";
 import {findUser} from "../registerStudentsV3/registerListApi";
 import {NO_AVATAR} from "../../constants/env";
 import moment from "moment";
@@ -169,28 +169,28 @@ export default new class ScheduleTeachingStore {
             })];
     }
 
-    @computed
-    get gensData() {
-        return [
-            {
-                id: null, avatar_url: NO_AVATAR,
-                name: '30 ngày qua',
-                value: '30 ngày qua',
-                label: 'Tất cả',
-                start_time: moment().subtract(30, 'days'),
-                end_time: moment(),
-            },
-            ...this.gens.map(function (gen) {
-                return {
-                    ...gen,
-                    key: gen.id,
-                    value: "Khóa " + gen.name,
-                    start_time: moment(gen.start_time, DATETIME_FORMAT_SQL),
-                    end_time: moment(gen.end_time, DATETIME_FORMAT_SQL),
-                };
-            })
-        ];
-    }
+    // @computed
+    // get gensData() {
+    //     return [
+    //         {
+    //             id: null, avatar_url: NO_AVATAR,
+    //             name: '30 ngày qua',
+    //             value: '30 ngày qua',
+    //             label: 'Tất cả',
+    //             start_time: moment().subtract(30, 'days'),
+    //             end_time: moment(),
+    //         },
+    //         ...this.gens.map(function (gen) {
+    //             return {
+    //                 ...gen,
+    //                 key: gen.id,
+    //                 value: "Khóa " + gen.name,
+    //                 start_time: moment(gen.start_time, DATETIME_FORMAT_SQL),
+    //                 end_time: moment(gen.end_time, DATETIME_FORMAT_SQL),
+    //             };
+    //         })
+    //     ];
+    // }
 
     @computed
     get basesData() {

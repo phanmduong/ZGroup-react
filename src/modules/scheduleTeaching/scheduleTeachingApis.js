@@ -33,7 +33,7 @@ export  function loadClassesApi({
     }
     // url += `&gen_id=${gen_id|| ''}`;
     url += `&base_id=${base_id|| ''}`;
-    url += `&end_time=${course_id|| ''}`;
+    url += `&course_id=${course_id|| ''}`;
     url += `&teacher_id=${teacher_id|| ''}`;
     url += `&province_id=${province_id|| ''}`;
     url += `&type=${type|| ''}`;

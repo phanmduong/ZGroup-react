@@ -156,7 +156,9 @@ class TermOverlay extends React.Component {
                 cursor: 'pointer', ...style
             }} className={className} ref="StatusesOverlay">
                 <div style={{zIndex:1}}
-                    onClick={() => this.setState({show: true})}>
+                    onClick={() => {
+                        if(!this.props.disabled) this.setState({show: true});
+                    }}>
                     {this.termsName()}
                 </div>
                 <Overlay

@@ -389,7 +389,9 @@ class coursesCreateEditCurriculum extends React.Component {
                                 let urlEditLesson = "/teaching/courses/lessons/edit/" + this.props.data.id + "/" + lesson.id;
                                 return (
                                     <tr key={lesson.id}>
-                                        <td><strong className="cursor-pointer" onClick={()=> window.open(urlEditLesson)}>{lesson.order}</strong></td>
+                                        <td><strong className="cursor-pointer"
+                                                    onClick={() => window.open(urlEditLesson)}>{lesson.order}</strong>
+                                        </td>
                                         <td>
                                             <div className="flex flex-align-items-center">
                                                 {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
@@ -400,8 +402,9 @@ class coursesCreateEditCurriculum extends React.Component {
                                                         <div className="icon8 icon8-wrap cursor-pointer margin-right-5"
                                                              mask={lesson_event ? 'on' : 'off'}
                                                              icon={default_event.type}
-                                                             onClick={() => this.createLessonEvent(lesson.id, default_event.type)}
-                                                        >
+                                                             onClick={() => {
+                                                                 if (this.props.user.role == 2) this.createLessonEvent(lesson.id, default_event.type);
+                                                             }}>
                                                             <div className="icon"/>
                                                         </div>
                                                     </TooltipButton>);
@@ -417,7 +420,8 @@ class coursesCreateEditCurriculum extends React.Component {
                                             wordWrap: "break-word",
                                             whiteSpace: "initial",
                                         }}>
-                                            <b  className="cursor-pointer" onClick={()=> window.open(urlEditLesson)}>{lesson.name}</b>
+                                            <b className="cursor-pointer"
+                                               onClick={() => window.open(urlEditLesson)}>{lesson.name}</b>
                                             <div>{lesson.description}</div>
                                         </td>
                                         <td>
@@ -430,6 +434,7 @@ class coursesCreateEditCurriculum extends React.Component {
                                                 onChange={(term) => this.selectedTerm(lesson, term)}
                                                 style={{minWidth: '100%'}}
                                                 styleOverlay={{marginLeft: -130}}
+                                                disabled={this.props.user.role < 2}
                                             />
                                             {/*<ReactSelect*/}
                                             {/*    options={this.getSelectTerm(this.props.data)}*/}
@@ -480,24 +485,24 @@ class coursesCreateEditCurriculum extends React.Component {
                                                         marginTop: 10,
                                                         left: -115,
                                                     }} onClick={() => this.closeOverlay(index)}>
-                                                        <button type="button"
-                                                                className="btn btn-white width-100"
-                                                                onClick={() => {
-                                                                    window.open(urlEditLesson);
-                                                                }}>
+                                                        {this.props.user.role == 2 && <button type="button"
+                                                                                              className="btn btn-white width-100"
+                                                                                              onClick={() => {
+                                                                                                  window.open(urlEditLesson);
+                                                                                              }}>
                                                             Sửa thông tin
-                                                        </button>
+                                                        </button>}
                                                         {!this.props.isDuplicating && <button type="button"
                                                                                               className="btn btn-white width-100"
                                                                                               onClick={() => this.duplicateLesson(lesson)}>
                                                             Nhân đôi
                                                         </button>}
 
-                                                        <button type="button"
-                                                                className="btn btn-white width-100"
-                                                                onClick={() => this.deleteLesson(lesson.id)}>
+                                                        {this.props.user.role == 2 && <button type="button"
+                                                                                              className="btn btn-white width-100"
+                                                                                              onClick={() => this.deleteLesson(lesson.id)}>
                                                             Xóa
-                                                        </button>
+                                                        </button>}
                                                     </div>
                                                 </Overlay>
                                             </div>
@@ -632,6 +637,7 @@ function mapStateToProps(state) {
         isUploadingTermIcon: state.courses.isUploadingTermIcon,
         isChangingLessonEvent: state.courses.isChangingLessonEvent,
         term: state.courses.term,
+        user: state.login.user,
     };
 }
 

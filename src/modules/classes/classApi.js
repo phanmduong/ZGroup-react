@@ -41,7 +41,14 @@ export function loadClasses(filter) {
         courseId = '',
         status = '',
         class_status = '',
+        enroll_start_time = '',
+        enroll_end_time = '',
+        lesson_start_time = '',
+        lesson_end_time = '',
+        study_start_time = '',
+        study_end_time = '',
         type = '',
+        province_id = '',
     } = filter;
 
     let url = env.MANAGE_API_URL;
@@ -54,14 +61,21 @@ export function loadClasses(filter) {
             break;
     }
     url += "?search=" + search +
+        "&enroll_start_time=" + enroll_start_time +
+        "&enroll_end_time=" + enroll_end_time +
+        "&lesson_start_time=" + lesson_start_time +
+        "&lesson_end_time=" + lesson_end_time +
+        "&study_start_time=" + study_start_time +
+        "&study_end_time=" + study_end_time +
         "&teacher_id=" + teacherId +
         "&course_id=" + courseId +
+        "&province_id=" + province_id +
         "&page=" + page +
         "&type=" + type +
         "&status=" + status +
         "&class_status=" + class_status +
         "&gen_id=" + (selectGenId === 0 ? '' : selectGenId) +
-        "&base_id=" + (selectedBaseId === 0 ? '' : selectedBaseId);
+        "&base_id=" + ((selectedBaseId || selectedBaseId === 0) ? '' : selectedBaseId);
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;
