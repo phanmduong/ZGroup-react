@@ -81,7 +81,8 @@ class ClassesContainer extends React.Component {
             }});
         this.props.classActions.loadCourses();
         this.props.classActions.loadGensData(() => {
-            this.props.classActions.loadClasses({
+            this.loadClasses({
+                ...this.state.filter,
                 page: 1, teacherId: this.search.teacherId,
                 selectGenId: this.state.selectGenId,
                 province_id: this.props.user.city || '',
@@ -305,7 +306,8 @@ class ClassesContainer extends React.Component {
     }
 
     applyFilter = () => {
-        this.props.classActions.loadClasses(this.state.filter);
+        // this.props.classActions.loadClasses(this.state.filter);
+        this.loadClasses(this.state.filter);
     }
     getStatuses = () => {
         if (this.props.isLoadingStatuses) return [];
