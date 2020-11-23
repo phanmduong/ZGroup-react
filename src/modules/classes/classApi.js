@@ -75,7 +75,7 @@ export function loadClasses(filter) {
         "&status=" + status +
         "&class_status=" + class_status +
         "&gen_id=" + (selectGenId === 0 ? '' : selectGenId) +
-        "&base_id=" + ((selectedBaseId || selectedBaseId === 0) ? '' : selectedBaseId);
+        "&base_id=" + ((!selectedBaseId || selectedBaseId === 0) ? '' : selectedBaseId);
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;

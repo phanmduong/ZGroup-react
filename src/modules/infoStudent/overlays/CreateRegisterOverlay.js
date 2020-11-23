@@ -646,10 +646,10 @@ class CreateRegisterOverlay extends React.Component {
                                             />
                                         </div>
                                         <div>
-                                            <label>Nơi làm việc</label>
+                                            <label>Nghề nghiệp</label>
                                             <FormInputText
                                                 name="work"
-                                                placeholder="Nơi làm việc"
+                                                placeholder="Nghề nghiệp"
                                                 value={register.work}
                                                 updateFormData={this.updateFormData}
                                             />

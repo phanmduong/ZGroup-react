@@ -334,7 +334,7 @@ class InfoStudentContainer extends React.Component {
                                             {student.mother_name &&
                                             <p>Phụ huynh 2<strong>{student.mother_name || "Chưa có"}</strong></p>}
                                             {student.work &&
-                                            <p>Nơi làm việc<strong>{student.work || "Chưa có"}</strong></p>}
+                                            <p>Nghề nghiệp<strong>{student.work || "Chưa có"}</strong></p>}
                                             {gender && <p>Giới tính<strong>{gender.name}</strong>
                                             </p>}
                                             {student.university &&
@@ -722,10 +722,10 @@ class InfoStudentContainer extends React.Component {
                                     value={this.state.student.interest}
                                     updateFormData={this.updateFormData}
                                 />
-                                <label>Nơi làm việc</label>
+                                <label>Nghề nghiệp</label>
                                 <FormInputText
                                     name="work"
-                                    placeholder="Nơi làm việc"
+                                    placeholder="Nghề nghiệp"
                                     value={this.state.student.work}
                                     updateFormData={this.updateFormData}
                                 />

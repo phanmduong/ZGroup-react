@@ -988,7 +988,7 @@ export function appendArrayToWorkBook(json, wb, sheetname, cols, cmts, merges) {
     return wb;
 }
 
-export function appendJsonToWorkBook(json, wb, sheetname, cols, cmts, merges) {
+export function appendJsonToWorkBook(json, wb, sheetname, cols=[], cmts=[], merges=[]) {
     let sheet = XLSX.utils.json_to_sheet(json);
     if (cols) sheet['!cols'] = cols;
     if (cmts) {

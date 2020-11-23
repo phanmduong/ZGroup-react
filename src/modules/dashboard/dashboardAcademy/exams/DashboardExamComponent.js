@@ -9,8 +9,17 @@ import {NO_AVATAR} from "../../../../constants/env";
 import EmptyData from "../../../../components/common/EmptyData";
 import {openModalRegisterDetail} from "../../../globalModal/globalModalActions";
 import MNABarChart from "./MNABarChart";
-import * as helper from "../../../../helpers/helper";
-import {meanOfArray, medianOfArray, modeOfArray} from "../../../../helpers/helper";
+import {
+    appendJsonToWorkBook,
+    avatarEmpty,
+    meanOfArray,
+    medianOfArray,
+    modeOfArray,
+    newWorkBook,
+    saveWorkBookToExcel
+} from "../../../../helpers/helper";
+import TooltipButton from "../../../../components/common/TooltipButton";
+import {removeObservable} from "../../../../helpers/entity/mobx";
 
 const labels = ['0-1', '1-2', '2-3', '3-4', '4-5', '5-6', '6-7', '7-8', '8-9', '9-10'];
 
@@ -49,7 +58,7 @@ class DashboardExamComponent extends React.Component {
         let scores = [];
         analyticTemplate.forEach((item) => {
             item.user_exams.forEach((user_exam) => {
-                if(user_exam. score !== null) scores = [...scores, {...user_exam, 'class': item.class}];
+                if (user_exam.score !== null) scores = [...scores, {...user_exam, 'class': item.class}];
             });
         });
         return scores.sort((a, b) => b.score - a.score);
@@ -100,10 +109,18 @@ class DashboardExamComponent extends React.Component {
                     }
                 });
                 let avg = sum / count;
-                if(min == 10 || max == -1){
+                if (min == 10 || max == -1) {
                     min = -1, max = -1, sum = 0, count = 0;
                 }
-                t.data.push({meta: `${t.name}: ${min}-${max}`, exam_id: t.id, value: max,range: max-min, max, min, avg});
+                t.data.push({
+                    meta: `${t.name}: ${min}-${max}`,
+                    exam_id: t.id,
+                    value: max,
+                    range: max - min,
+                    max,
+                    min,
+                    avg
+                });
             });
 
         });
@@ -202,6 +219,62 @@ class DashboardExamComponent extends React.Component {
         return [...groupExams, {id: null, name: 'Không có nhóm'}];
     }
 
+    downloadData = () => {
+        let wb = newWorkBook();
+        let analytic_exam = removeObservable(this.store.analytic_exam);
+        let course = filterExamStore.coursesData.filter(c => c.id == filterExamStore.filter.course_id)[0];
+        console.log('analytic_exam', analytic_exam)
+        let classes = [];
+        analytic_exam.forEach(ae => {
+            let cindex = classes.findIndex(c => c.id == ae.class.id);
+            if (cindex < 0) {
+                classes.push({
+                    ...ae.class,
+                    students: []
+                });
+                cindex = classes.length - 1;
+            }
+            ae.user_exams.forEach(ue => {
+                let index = classes[cindex].students.findIndex(s => s.id == ue.user.id);
+                if (index < 0) {
+                    classes[cindex].students.push({
+                        ...ue.user,
+                        scores: {}
+                    });
+                    index = classes[cindex].students.length - 1;
+                }
+                classes[cindex].students[index].scores[`${ae.group_exam.name} - ${ae.title}`] = ue.score;
+            });
+        });
+        classes.forEach(c => {
+            // c.students.forEach(s => {
+            //     let ordered = {};
+            //     Object.keys(s.scores).sort().forEach(function (key) {
+            //         ordered[key] = s.scores[key];
+            //     });
+            //     s.scores = ordered;
+            // });
+            let json = c.students.map((item, index) => {
+                if (item) {
+                    /* eslint-disable */
+                    let res = {
+                        'STT': index + 1,
+                        'Họ tên': item.name,
+                        ...item.scores
+                    };
+
+                    /* eslint-enable */
+                    return res;
+                }
+            });
+            appendJsonToWorkBook(json, wb, `Bảng điểm lớp ${c.name}`, [], []);
+
+        });
+
+
+        saveWorkBookToExcel(wb, `Bảng điểm môn ${course.name}`);
+    }
+
     render() {
         let {course_id, class_id} = filterExamStore.filter;
         let {isLoading, analytic_exam} = this.store;
@@ -212,6 +285,20 @@ class DashboardExamComponent extends React.Component {
             <div>
                 <FilterExam loadData={this.loadData}/>
                 <CardAcademy/>
+                {analytic_exam.length > 0 &&
+                <ul className="nav nav-pills nav-pills-dark margin-top-10" data-tabs="tabs">
+                    <li style={{float: 'right'}} onClick={this.downloadData}>
+                        <TooltipButton text="Tải xuống" placement="top">
+                            <div
+                                className="flex flex-align-items-center flex-align-items-center flex-justify-content-center cursor-pointer"
+                                style={{"height": "44px"}}>
+                                <i className="material-icons" style={{padding: 0}}>
+                                    cloud_download
+                                </i>
+                            </div>
+                        </TooltipButton>
+                    </li>
+                </ul>}
                 <div className="row gutter-20 margin-top-20">
                     <div className="col-md-12">
                         {(isLoading || filterExamStore.isLoading) && <Loading/>}
@@ -223,7 +310,7 @@ class DashboardExamComponent extends React.Component {
                             let groupStudents = this.getGroupStudent(analytic_exam, group);
                             let classesStatistic = this.getClassesStatistic(analytic_exam, group);
                             let analyticsMna = this.getGroupExamAnalyticsMna(groupScores, templates);
-                            console.log(group.id,'analyticsMna', analyticsMna);
+                            console.log(group.id, 'analyticsMna', analyticsMna);
                             if (templates.length && groupScores.length) return (
                                 <div className="card" key={key_group}>
                                     <div className="card-content">
@@ -233,34 +320,11 @@ class DashboardExamComponent extends React.Component {
                                             marginTop: 30,
                                             fontWeight: 'bold',
                                         }}>{group.name}</div>
-                                        {/*<div>*/}
-                                        {/*    {templates.map((template, key_temp) => {*/}
-                                        {/*        const scores = this.getScore(analytic_exam, template);*/}
-                                        {/*        const data = this.getAnalytics(scores);*/}
-                                        {/*        let barchartId = `barchart-analytics-exam-${key_group}-${key_temp}-${template.group_exam_id}-${template.exam_template_id}`;*/}
-                                        {/*        console.log(barchartId, data);*/}
-                                        {/*        return (*/}
-                                        {/*            <div key={key_temp}>*/}
-                                        {/*                <div><h6><strong>{template.title}</strong></h6></div>*/}
-                                        {/*                <div className="row">*/}
-                                        {/*                    <div className="col-md-12">*/}
-                                        {/*                        <div>Phân tích phổ điểm</div>*/}
-                                        {/*                        <Barchart*/}
-                                        {/*                            label={labels}*/}
-                                        {/*                            data={data}*/}
-                                        {/*                            id={barchartId}*/}
-                                        {/*                        />*/}
-                                        {/*                    </div>*/}
-                                        {/*                </div>*/}
-                                        {/*            </div>*/}
-                                        {/*        );*/}
-                                        {/*    })}*/}
-                                        {/*</div>*/}
                                         <div className="row">
                                             <div className="col-md-12">
                                                 <h6 className="margin-bottom-20">
                                                     <strong>Bảng điểm chi tiết
-                                                    ({groupStudents.length})</strong>
+                                                        ({groupStudents.length})</strong>
                                                 </h6>
                                                 <div style={{width: '97%'}}>
                                                     <div style={{height: 500, overflowY: 'scroll'}}
@@ -271,7 +335,7 @@ class DashboardExamComponent extends React.Component {
                                                             style={{width: "100%"}}>
                                                             <thead>
                                                             <tr>
-                                                                <th />
+                                                                <th/>
                                                                 <th>Học viên</th>
                                                                 <th>Lớp</th>
                                                                 {templates.map((t, key_th) => {
@@ -281,7 +345,7 @@ class DashboardExamComponent extends React.Component {
                                                             </thead>
                                                             <tbody>
                                                             {groupStudents.map((item, index) => {
-                                                                let avatar = helper.avatarEmpty(item.avatar_url) ?
+                                                                let avatar = avatarEmpty(item.avatar_url) ?
                                                                     NO_AVATAR : item.avatar_url;
                                                                 return (
                                                                     <tr key={`${item.id}-${index}`}>

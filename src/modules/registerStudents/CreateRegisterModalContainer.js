@@ -297,7 +297,7 @@ class CreateRegisterModalContainer extends React.Component {
                                     />
                                     <FormInputText
                                         name="work"
-                                        label="Nơi làm việc"
+                                        label="Nghề nghiệp"
                                         value={register.work}
                                         updateFormData={this.updateFormData}
                                     />

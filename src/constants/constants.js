@@ -969,6 +969,8 @@ export const REGISTER_EXPORT_FIELDS_OBJECT = {
     how_know:{id:"how_know",name: "Cách tiếp cận",},
     dob:{id:"dob",name: "Ngày sinh",},
     district:{id:"district",name: "Quận",},
+    work:{id:"work",name: "Nghề nghiệp",},
+    university:{id:"university",name: "Trường học",},
     created_at:{id:"created_at",name: "Ngày tạo",},
     mock_exams_text:{id:"mock_exams_text",name: "Thông tin thi thử (PT)",},
 };

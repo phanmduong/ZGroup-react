@@ -444,10 +444,10 @@ class CreateLeadOverlay extends React.Component {
                                             value={lead.nationality}
                                             updateFormData={this.updateFormData}
                                         />
-                                        <label>Nơi làm việc</label>
+                                        <label>Nghề nghiệp</label>
                                         <FormInputText
                                             name="work"
-                                            placeholder="Nơi làm việc"
+                                            placeholder="Nghề nghiệp"
                                             value={lead.work}
                                             updateFormData={this.updateFormData}
                                         />

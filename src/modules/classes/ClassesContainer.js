@@ -10,8 +10,7 @@ import Search from '../../components/common/Search';
 import * as classActions from './classActions';
 import ListClass from './ListClass';
 import PropTypes from 'prop-types';
-import * as helper from '../../helpers/helper';
-import {isEmptyInput} from '../../helpers/helper';
+import {isEmptyInput,confirm} from '../../helpers/helper';
 import {Modal, Panel} from 'react-bootstrap';
 import AddClassContainer from './AddClassContainer';
 import Pagination from "../../components/common/Pagination";
@@ -77,16 +76,16 @@ class ClassesContainer extends React.Component {
         }
         this.setState({filter:{
                 ...this.state.filter,
-                province_id: this.props.user.choice_province_id,
-                selectedBaseId: this.props.user.selectedBaseId
+                province_id: this.props.user.city || '',
+                // selectedBaseId: this.props.user.base_id
             }});
         this.props.classActions.loadCourses();
         this.props.classActions.loadGensData(() => {
             this.props.classActions.loadClasses({
                 page: 1, teacherId: this.search.teacherId,
                 selectGenId: this.state.selectGenId,
-                selectedBaseId: this.props.selectedBaseId,
-                province_id: this.props.user.choice_province_id
+                province_id: this.props.user.city || '',
+                // selectedBaseId: this.props.user.base_id
             });
         });
         if (!this.props.isLoadedStatuses[this.statusRef])
@@ -134,11 +133,11 @@ class ClassesContainer extends React.Component {
               };
               return res;
           });
-          if(data.length == 0){ helper.showErrorNotification("Khóa hiện tại chưa có dữ liệu")}
+          if(data.length == 0){ showErrorNotification("Khóa hiện tại chưa có dữ liệu")}
           else {
-              let wb = helper.newWorkBook();
-              helper.appendJsonToWorkBook(data, wb, 'Danh sách lớp');
-              helper.saveWorkBookToExcel(wb, 'Danh sách lớp');
+              let wb = newWorkBook();
+              appendJsonToWorkBook(data, wb, 'Danh sách lớp');
+              saveWorkBookToExcel(wb, 'Danh sách lớp');
           }
           this.setState({openLoadingModal: false});
         }*/
@@ -156,22 +155,22 @@ class ClassesContainer extends React.Component {
                 page: 1, search: ''
             });
         }
-        if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
-            this.setState({
-
-                filter: {
-                    ...this.state.filter, selectedBaseId: nextProps.selectedBaseId,
-                },
-            });
-            this.props.classActions.loadClasses({
-                ...this.state,
-                search: this.state.search,
-                page: this.state.page,
-                teacherId: this.search.teacherId,
-                selectGenId: this.state.selectGenId,
-                selectedBaseId: nextProps.selectedBaseId,
-            });
-        }
+        // if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
+        //     this.setState({
+        //
+        //         filter: {
+        //             ...this.state.filter, selectedBaseId: nextProps.selectedBaseId,
+        //         },
+        //     });
+        //     this.props.classActions.loadClasses({
+        //         ...this.state,
+        //         search: this.state.search,
+        //         page: this.state.page,
+        //         teacherId: this.search.teacherId,
+        //         selectGenId: this.state.selectGenId,
+        //         selectedBaseId: nextProps.selectedBaseId,
+        //     });
+        // }
     }
 
     classesSearchChange = (value) => {
@@ -209,7 +208,7 @@ class ClassesContainer extends React.Component {
     }
 
     deleteClass(classData) {
-        helper.confirm('error', 'Xóa', "Bạn có muốn xóa lớp " + classData.name + " không?", () => {
+        confirm('error', 'Xóa', "Bạn có muốn xóa lớp " + classData.name + " không?", () => {
             this.props.classActions.deleteClass(classData.id);
         });
 
@@ -283,7 +282,7 @@ class ClassesContainer extends React.Component {
 
     beginExportExcel() {
         /*if(this.state.selectGenId == 11 || this.state.selectGenId == '')
-            helper.showErrorNotification('Vui lòng chọn một khóa.');
+            showErrorNotification('Vui lòng chọn một khóa.');
         else{
             this.setState({openLoadingModal: true});
             this.props.classActions.loadExcelData(this.state.selectGenId);
@@ -672,7 +671,6 @@ function mapStateToProps(state) {
         isCreateClass: state.classes.isCreateClass,
         gens: state.classes.gens,
         isLoadingGens: state.classes.isLoadingGens,
-        selectedBaseId: state.global.selectedBaseId,
         statuses: state.infoStudent.statuses,
         isLoadingStatuses: state.infoStudent.isLoadingStatuses,
         isLoadedStatuses: state.infoStudent.isLoadedStatuses,

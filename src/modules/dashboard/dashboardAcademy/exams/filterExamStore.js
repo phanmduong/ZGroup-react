@@ -16,7 +16,7 @@ class FilterExamStore {
         end_time: moment().subtract(0, 'days'),
         course_id: 0,
         class_id: 0,
-        class: {},
+        class: null,
     };
 
 

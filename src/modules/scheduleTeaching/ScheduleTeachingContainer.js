@@ -14,6 +14,7 @@ import Select from "./Select";
 import ReactSelect from "react-select";
 import DateRangePicker from "../../components/common/DateTimePicker";
 import ItemReactSelect from "../../components/common/ItemReactSelect";
+import moment from "moment";
 
 
 @observer
@@ -24,7 +25,7 @@ class ScheduleClassContainer extends Component {
 
     componentDidMount() {
         // store.loadGens();
-        store.filter.province_id =  this.props.user.choice_province_id;
+        store.filter.province_id =  this.props.user.city ||'';
         store.loadBases();
         store.loadClasses();
     }
@@ -73,9 +74,12 @@ class ScheduleClassContainer extends Component {
     render() {
         let {filter} = store;
         let classes = [];
+        let currentDate = filter.start_time;
         store.classes && store.classes.map(_class => {
             if (_class.lessons) {
                 const tmp = _class.lessons.map(lesson => {
+                    let lesson_end = moment(lesson.time + " " + lesson.end_time, 'hh:mm:ss YYYY-MM-DD');
+                    if(currentDate.isBefore(lesson_end)) currentDate = lesson_end;
                     return {
                         title: _class.name,
                         teacher_name: _class.teacher && _class.teacher.name,
@@ -95,9 +99,12 @@ class ScheduleClassContainer extends Component {
             return {id: province.id, key: province.id, value: province.name};
         }) : [];
         provinces = [{id: '', key: '', value: "T.cả t.phố"}, ...provinces];
+        currentDate = new Date(currentDate.toISOString());
 
-        let currentDate = new Date(filter.end_time.toISOString());
-        let showContents = store.isLoadingClasses || store.isLoadingGens || store.isLoadingBases;        return (
+
+        let showContents = store.isLoadingClasses || store.isLoadingGens || store.isLoadingBases;
+
+        return (
             <div>
 
                         <div className="container-fluid">
