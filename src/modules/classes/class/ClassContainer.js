@@ -182,7 +182,8 @@ class ClassContainer extends React.Component {
                 'Email': item.student.email,
                 'Phone': item.student.phone,
                 'Facebook': item.student.facebook,
-                'Trường ĐH': item.student.university,
+                'Trường học': item.student.university,
+                'Công việc': item.student.work,
             };
             return res;
         });
