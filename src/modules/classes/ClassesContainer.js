@@ -35,11 +35,11 @@ const defaultState = {
     type: '',
     teacherId: '',
     enroll_start_time: moment().subtract(1, 'years'),
-    enroll_end_time: moment(),
+    enroll_end_time: moment().add(1,'months'),
     lesson_start_time: moment().subtract(1, 'years'),
-    lesson_end_time: moment(),
-    study_start_time: moment().subtract(1, 'years'),
-    study_end_time: moment(),
+    lesson_end_time: moment().add(1,'months'),
+    start_time: moment().subtract(1, 'years'),
+    end_time: moment().add(1,'months'),
 };
 
 class ClassesContainer extends React.Component {
@@ -195,8 +195,8 @@ class ClassesContainer extends React.Component {
             enroll_end_time: this.state.filter.enroll_end_time.format(DATE_FORMAT_SQL),
             lesson_start_time: this.state.filter.lesson_start_time.format(DATE_FORMAT_SQL),
             lesson_end_time: this.state.filter.lesson_end_time.format(DATE_FORMAT_SQL),
-            study_start_time: this.state.filter.study_start_time.format(DATE_FORMAT_SQL),
-            study_end_time: this.state.filter.study_end_time.format(DATE_FORMAT_SQL),
+            start_time: this.state.filter.start_time.format(DATE_FORMAT_SQL),
+            end_time: this.state.filter.end_time.format(DATE_FORMAT_SQL),
         });
         // this.props.classActions.loadClasses({
         //     ...this.state.filter,
@@ -367,8 +367,11 @@ class ClassesContainer extends React.Component {
     changeDateRangePicker = (field, start_time, end_time) => {
         if (this.props.isLoading) return;
         this.setState({
-            [`${field}_start_time`]: start_time,
-            [`${field}_end_time`]: end_time,
+            filter:{
+                ...this.state.filter,
+                [`${field}start_time`]: start_time,
+                [`${field}end_time`]: end_time,
+            }
         });
     };
 
@@ -519,7 +522,7 @@ class ClassesContainer extends React.Component {
                                     className="padding-vertical-10px cursor-pointer margin-top-10 radius-5"
                                     start={this.state.filter.enroll_start_time} end={this.state.filter.enroll_end_time}
                                     style={{padding: '5px 10px 5px 20px', lineHeight: '31px'}}
-                                    onChange={(s, e) => this.changeDateRangePicker('enroll', s, e)}
+                                    onChange={(s, e) => this.changeDateRangePicker('enroll_', s, e)}
                                 />
                             </div>
                             <div className="col-md-4">
@@ -528,16 +531,7 @@ class ClassesContainer extends React.Component {
                                     className="padding-vertical-10px cursor-pointer margin-top-10 radius-5"
                                     start={this.state.filter.lesson_start_time} end={this.state.filter.lesson_end_time}
                                     style={{padding: '5px 10px 5px 20px', lineHeight: '31px'}}
-                                    onChange={(s, e) => this.changeDateRangePicker('lesson', s, e)}
-                                />
-                            </div>
-                            <div className="col-md-4">
-                                <label>Khai giảng</label>
-                                <DateRangePicker
-                                    className="padding-vertical-10px cursor-pointer margin-top-10 radius-5"
-                                    start={this.state.filter.study_start_time} end={this.state.filter.study_end_time}
-                                    style={{padding: '5px 10px 5px 20px', lineHeight: '31px'}}
-                                    onChange={(s, e) => this.changeDateRangePicker('study', s, e)}
+                                    onChange={(s, e) => this.changeDateRangePicker('lesson_', s, e)}
                                 />
                             </div>
 
@@ -550,6 +544,16 @@ class ClassesContainer extends React.Component {
                                     onChange={val => this.changeFilterSelect('province_id', val)}
                                     name="province_id"
                                     menuContainerStyle={{zIndex: 11}}
+                                />
+                            </div>
+
+                            <div className="col-md-4">
+                                <label>Khai giảng</label>
+                                <DateRangePicker
+                                    className="padding-vertical-10px cursor-pointer margin-top-10 radius-5"
+                                    start={this.state.filter.start_time} end={this.state.filter.end_time}
+                                    style={{padding: '5px 10px 5px 20px', lineHeight: '31px'}}
+                                    onChange={(s, e) => this.changeDateRangePicker('', s, e)}
                                 />
                             </div>
                             <div className="col-md-4">

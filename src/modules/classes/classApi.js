@@ -45,8 +45,8 @@ export function loadClasses(filter) {
         enroll_end_time = '',
         lesson_start_time = '',
         lesson_end_time = '',
-        study_start_time = '',
-        study_end_time = '',
+        start_time = '',
+        end_time = '',
         type = '',
         province_id = '',
     } = filter;
@@ -65,8 +65,8 @@ export function loadClasses(filter) {
         "&enroll_end_time=" + enroll_end_time +
         "&lesson_start_time=" + lesson_start_time +
         "&lesson_end_time=" + lesson_end_time +
-        "&study_start_time=" + study_start_time +
-        "&study_end_time=" + study_end_time +
+        "&start_time=" + start_time +
+        "&end_time=" + end_time +
         "&teacher_id=" + teacherId +
         "&course_id=" + courseId +
         "&province_id=" + province_id +

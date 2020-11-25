@@ -125,6 +125,7 @@ class LeadContainer extends React.Component {
             top: "",
             rate: "",
             carer: "",
+            province_id: '',
             selectedBaseId: 0,
             isAll: false,
             selectedLeads: [],
@@ -407,7 +408,14 @@ class LeadContainer extends React.Component {
         // this.setState({filter: filter, page: 1, isAll: false});
         this.onFilterChange(filter, 'filter');
     };
-
+    getProvinces = () => {
+        return [
+            {id: '', value: '', label: "T.cả t.phố"},
+            ...(this.props.provinces ? this.props.provinces.map((province) => {
+                return {id: province.id, value: province.id, label: province.name};
+            }) : [])
+        ];
+    }
     changeStaff = value => {
         // let staff;
         // staff = value && value.value ? value.value : "";
@@ -458,6 +466,11 @@ class LeadContainer extends React.Component {
             }
             case 'campaign_id': {
                 newState.campaign_id = value ? value.id : value;
+                break;
+            }
+            case 'province_id': {
+                newState.province_id = value ? value.id : value;
+                newState.address = value ? value.label : value;
                 break;
             }
             default: {
@@ -1136,6 +1149,7 @@ class LeadContainer extends React.Component {
                                     className="react-select-white-round margin-left-auto min-width-150-px"
                                 />
                             </div>
+
                         </div>
                     </div>
 
@@ -1289,18 +1303,18 @@ class LeadContainer extends React.Component {
 
                                 {/*        /></div>*/}
                                 {/*</div>}*/}
-                                <div className="col-md-3">
-                                    <div className="form-group margin-bottom-10">
-                                        <label>Tỉnh/thành phố</label>
-                                        <FormInputText name="address"
-                                                       value={this.state.address}
-                                                       placeholder="Nhập tỉnh/thành phố"
-                                                       disabled={this.props.isLoading}
-                                                       updateFormData={e => this.changeAddress(e.target.value)}
+                                {/*<div className="col-md-3">*/}
+                                {/*    <div className="form-group margin-bottom-10">*/}
+                                {/*        <label>Tỉnh/thành phố</label>*/}
+                                {/*        <FormInputText name="address"*/}
+                                {/*                       value={this.state.address}*/}
+                                {/*                       placeholder="Nhập tỉnh/thành phố"*/}
+                                {/*                       disabled={this.props.isLoading}*/}
+                                {/*                       updateFormData={e => this.changeAddress(e.target.value)}*/}
 
-                                        />
-                                    </div>
-                                </div>
+                                {/*        />*/}
+                                {/*    </div>*/}
+                                {/*</div>*/}
 
                                 <div className="col-md-3">
                                     <div className="form-group margin-bottom-20">
@@ -1381,6 +1395,17 @@ class LeadContainer extends React.Component {
                                     </div>
                                 </div>
                                 <div className="col-md-3">
+                                    <label>Tỉnh/thành phố</label>
+                                    <ReactSelect
+                                        defaultMessage="Chọn thành phố"
+                                        options={this.getProvinces()}
+                                        value={this.state.province_id}
+                                        onChange={val => this.onFilterChange( val ,'province_id')}
+                                        name="province_id"
+                                        menuContainerStyle={{zIndex: 11}}
+                                    />
+                                </div>
+                                <div className="col-md-3">
                                     <div className="form-group margin-bottom-20">
                                         <label className="">
                                             Theo cơ sở
@@ -1397,6 +1422,7 @@ class LeadContainer extends React.Component {
                                         />
                                     </div>
                                 </div>
+
                                 {/*{this.state.isDistribution &&*/}
                                 {/*<div className="col-md-3">*/}
                                 {/*    <label>Top</label>*/}
@@ -1756,6 +1782,7 @@ LeadContainer.propTypes = {
 
 function mapStateToProps(state) {
     return {
+        provinces: state.global.provinces,
         leads: state.lead.leads,
         isLoading: state.lead.isLoading,
         totalPages: state.lead.totalPages,
