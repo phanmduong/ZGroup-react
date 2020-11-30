@@ -40,7 +40,6 @@ import CreateLeadOverlay from "./overlay/CreateLeadOverlay";
 import * as studentActions from "../infoStudent/studentActions";
 import Checkbox from "../../components/common/Checkbox";
 import Loading from "../../components/common/Loading";
-import FormInputText from "../../components/common/FormInputText";
 import * as baseActions from "../../actions/baseActions";
 import {getValueFromKey} from "../../helpers/entity/object";
 
@@ -109,7 +108,7 @@ class LeadContainer extends React.Component {
             orderByOptions: [
                 {value: 'staff_id', label: 'Lead chưa có P.I.C', type: 'asc'},
                 {value: 'created_at', label: 'Lead từ mới đến cũ', type: 'desc'},
-                {value:'imported_at',label:'Ngày nhập mới đến cũ', type: 'desc'},
+                {value: 'imported_at', label: 'Ngày nhập mới đến cũ', type: 'desc'},
                 {value: 'rate', label: 'Số sao', type: 'asc'},
                 {value: 'last_time_interact', label: 'Tương tác gần đây', type: 'desc'},
                 // {value: 'donwstar', label: 'Sao giảm dần'},
@@ -1400,7 +1399,7 @@ class LeadContainer extends React.Component {
                                         defaultMessage="Chọn thành phố"
                                         options={this.getProvinces()}
                                         value={this.state.province_id}
-                                        onChange={val => this.onFilterChange( val ,'province_id')}
+                                        onChange={val => this.onFilterChange(val, 'province_id')}
                                         name="province_id"
                                         menuContainerStyle={{zIndex: 11}}
                                     />
@@ -1579,8 +1578,6 @@ class LeadContainer extends React.Component {
 
                 </div>
                 }
-
-
 
 
                 {this.state.isDistribution && !this.props.isLoading &&
