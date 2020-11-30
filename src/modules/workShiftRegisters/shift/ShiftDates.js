@@ -17,7 +17,7 @@ class ShiftDates extends React.Component {
                     </div>
                     <div className="card-content">
                         {
-                            date.shifts && date.shifts.map((shift, index) => {
+                            date.shifts && [...date.shifts.reverse()].map((shift, index) => {
                                 return (
                                     <div style={{marginBottom: '20px'}} key={index}>
                                         <div>

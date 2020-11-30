@@ -94,15 +94,15 @@ class ShiftRegistersContainer extends React.Component {
                     (
                         <div>
                             <div className="row">
-                                <div className="col-sm-3 col-xs-5">
-                                    <Select
-                                        defaultMessage={'Chọn khóa học'}
-                                        options={this.state.gens}
-                                        // disableRound
-                                        value={this.state.selectGenId}
-                                        onChange={this.onChangeGen}
-                                    />
-                                </div>
+                                {/*<div className="col-sm-3 col-xs-5">*/}
+                                {/*    <Select*/}
+                                {/*        defaultMessage={'Chọn khóa học'}*/}
+                                {/*        options={this.state.gens}*/}
+                                {/*        // disableRound*/}
+                                {/*        value={this.state.selectGenId}*/}
+                                {/*        onChange={this.onChangeGen}*/}
+                                {/*    />*/}
+                                {/*</div>*/}
                                 <div className="col-sm-3 col-xs-5">
                                     <Select
                                         defaultMessage={'Chọn cơ sở'}
