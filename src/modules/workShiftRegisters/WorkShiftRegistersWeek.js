@@ -111,7 +111,7 @@ class ShiftRegistersWeek extends React.Component {
                     <div className="col-md-12">
                         {
                             this.props.shiftRegisters[currentWeek].dates &&
-                            this.props.shiftRegisters[currentWeek].dates.map((date, index) => {
+                            [...this.props.shiftRegisters[currentWeek].dates].reverse().map((date, index) => {
                                 return <ShiftDates date={date} key={index}/>;
                             })
                         }

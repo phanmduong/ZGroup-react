@@ -191,7 +191,7 @@ export const store = new class Store {
                         this.filter.start_time = moment().startOf('year');
                         this.filter.end_time = moment().endOf('year');
                     } else {
-                        const currentGen = this.gens.filter((gen) => gen.id == res.data.data.current_gen.id)[0];
+                        const currentGen = this.data.gens.filter((gen) => gen.id == res.data.data.current_gen.id)[0];
 
                         this.filter.start_time = moment(currentGen.start_time);
                         this.filter.end_time = moment(currentGen.end_time);
