@@ -26,5 +26,21 @@ export function payMoney(register) {
         actual_input_at: register.actual_input_at,
     });
 }
+export function editPayment(payment) {
+    let url = env.MANAGE_API_URL + "/collect-money/edit-payment";
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.post(url, {
+        id: payment.id,
+        money: "" + payment.money,
+        code: payment.code,
+        note: payment.note,
+        payment_method: payment.payment_method,
+        received_book_at: payment.received_book_at,
+        actual_input_at: payment.actual_input_at,
+    });
+}
 
 
