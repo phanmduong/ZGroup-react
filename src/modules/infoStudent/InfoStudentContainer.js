@@ -300,8 +300,10 @@ class InfoStudentContainer extends React.Component {
                                         <h4 className="card-title">{student.name}</h4>
 
                                         <h6 className="category text-gray text-email">
+                                            id:&nbsp;{student.id}
+                                        </h6>
+                                        <h6 className="category text-gray text-email">
                                             {student.email}
-
                                         </h6>
                                         <h6 className="category text-gray text-email">
                                             <span>{student.phone}</span>

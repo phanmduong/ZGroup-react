@@ -26,13 +26,13 @@ export function payMoney(register) {
         actual_input_at: register.actual_input_at,
     });
 }
-export function editPayment(payment) {
-    let url = env.MANAGE_API_URL + "/collect-money/edit-payment";
+export function editPayment(studentId,payment) {
+    let url = env.MANAGE_API_URL + `/student/${studentId}/edit-payment`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "?token=" + token;
     }
-    return axios.post(url, {
+    return axios.put(url, {
         id: payment.id,
         money: "" + payment.money,
         code: payment.code,
