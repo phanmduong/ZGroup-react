@@ -102,7 +102,7 @@ class ScheduleClassContainer extends Component {
         currentDate = new Date(currentDate.toISOString());
 
 
-        let showContents = store.isLoadingClasses || store.isLoadingGens || store.isLoadingBases;
+        let showContents = store.isLoadingClasses  || store.isLoadingBases;
 
         return (
             <div>

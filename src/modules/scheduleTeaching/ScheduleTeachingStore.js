@@ -15,20 +15,20 @@ const defaultSelectObject = {id: '', avatar_url: NO_AVATAR, name: 'Tất cả', 
 // const defaultEmptySelectObject = {id :'-1', avatar_url: NO_AVATAR, name:'Không có', label:'Không có', value:''};
 export default new class ScheduleTeachingStore {
     @observable isLoadingClasses = false;
-    @observable isLoadingGens = false;
+    // @observable isLoadingGens = false;
     @observable isLoadingBases = false;
     @observable isShowClassModal = false;
     @observable isLoadingClass = false;
     @observable classInModal = {};
 
-    @observable currentGen = 0;
-    @observable gens = [];
+    // @observable currentGen = 0;
+    // @observable gens = [];
     @observable bases = [];
     @observable courses = [];
 
     @observable filter = {
         course_id: '',
-        gen_id: '',
+        // gen_id: '',
         base_id: '',
         teacher_id: '',
         province_id: '',
@@ -71,21 +71,21 @@ export default new class ScheduleTeachingStore {
             });
     }
 
-    @action
-    loadGens() {
-        this.isLoadingGens = true;
-        scheduleTeachingApis.loadGens()
-            .then((res) => {
-                this.isLoadingGens = false;
-                this.gens = res.data.data.gens;
-                // this.gen_id = res.data.data.current_gen.id;
-                // console.log(this.gen_id ,"xxxxxxxx",res.data.data.current_gen);
-                // this.loadClasses();
-            })
-            .catch(() => {
-                this.isLoadingGens = false;
-            });
-    }
+    // @action
+    // loadGens() {
+    //     this.isLoadingGens = true;
+    //     scheduleTeachingApis.loadGens()
+    //         .then((res) => {
+    //             this.isLoadingGens = false;
+    //             this.gens = res.data.data.gens;
+    //             // this.gen_id = res.data.data.current_gen.id;
+    //             // console.log(this.gen_id ,"xxxxxxxx",res.data.data.current_gen);
+    //             // this.loadClasses();
+    //         })
+    //         .catch(() => {
+    //             this.isLoadingGens = false;
+    //         });
+    // }
 
     @action
     loadBases() {

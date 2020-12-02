@@ -17,7 +17,7 @@ module_name="${file_name%.*}"
 echo "${i} : ${file_name%.*}"
 gnome-terminal --tab --command="./build.sh $module_name $branch_name"
 i=$((i+1))
-if ! (( i % 5 ));
+if ! (( i % 6 ));
 then
   secs=$((180))
   while [ $secs -gt 0 ]; do
