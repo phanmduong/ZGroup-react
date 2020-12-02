@@ -42,8 +42,8 @@ export default new class ScheduleTeachingStore {
         if (this.isLoadingClasses) return;
         let filter = {
             ...this.filter,
-            start_time: this.filter.start_time.format(DATE_FORMAT_SQL),
-            end_time: this.filter.end_time.format(DATE_FORMAT_SQL),
+            lesson_start_time: this.filter.start_time.format(DATE_FORMAT_SQL),
+            lesson_end_time: this.filter.end_time.format(DATE_FORMAT_SQL),
         };
         this.isLoadingClasses = true;
         scheduleTeachingApis.loadClassesApi(filter)
