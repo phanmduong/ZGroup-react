@@ -175,7 +175,7 @@ class ListClass extends React.Component {
                                         }
 
                                         {
-                                            classItem.teachers_detail && classItem.teachers_detail.map((teacher) => {
+                                            classItem.teachers && classItem.teachers.map((teacher) => {
                                                 let itmClassName = `btn btn-xs btn-main text-center width-100  none-margin-bottom margin-top-10`;
                                                 return (
                                                     <Link className={itmClassName}
@@ -207,10 +207,9 @@ class ListClass extends React.Component {
                                                         Không có
                                                     </div>
                                                 )
-
                                         }
                                         {
-                                            classItem.teaching_assistants_detail && classItem.teaching_assistants_detail.map((teacher) => {
+                                            classItem.teaching_assistants && classItem.teaching_assistants.map((teacher) => {
                                                 let itmClassName = `btn btn-xs btn-main text-center width-100 none-margin-bottom margin-top-10 `;
                                                 return (
                                                     <Link className={itmClassName}

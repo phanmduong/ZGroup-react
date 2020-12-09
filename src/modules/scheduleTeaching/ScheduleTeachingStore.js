@@ -3,32 +3,35 @@
  */
 
 import {observable, action, computed} from "mobx";
-import {isEmptyInput, showErrorNotification} from "../../helpers/helper";
+import {isEmptyInput, showErrorNotification, showWarningNotification} from "../../helpers/helper";
 import * as scheduleTeachingApis from "./scheduleTeachingApis";
 import {findClass} from "../registerStudentsV2/registerListApi";
 import {DATE_FORMAT_SQL, TYPE_CLASSES} from "../../constants/constants";
 import {findUser} from "../registerStudentsV3/registerListApi";
 import {NO_AVATAR} from "../../constants/env";
 import moment from "moment";
+import * as roomApi from "../roomRegisterListTrongDong/roomApi";
 
 const defaultSelectObject = {id: '', avatar_url: NO_AVATAR, name: 'Tất cả', label: 'Tất cả', value: 'Tất cả'};
 // const defaultEmptySelectObject = {id :'-1', avatar_url: NO_AVATAR, name:'Không có', label:'Không có', value:''};
 export default new class ScheduleTeachingStore {
     @observable isLoadingClasses = false;
-    @observable isLoadingGens = false;
-    @observable isLoadingBases = false;
+    // @observable isLoadingGens = false;
+    // @observable isLoadingBases = false;
     @observable isShowClassModal = false;
     @observable isLoadingClass = false;
     @observable classInModal = {};
 
-    @observable currentGen = 0;
-    @observable gens = [];
-    @observable bases = [];
+    // @observable currentGen = 0;
+    // @observable gens = [];
+    // @observable bases = [];
     @observable courses = [];
+    @observable rooms = [];
 
     @observable filter = {
+        room_id: '',
         course_id: '',
-        gen_id: '',
+        // gen_id: '',
         base_id: '',
         teacher_id: '',
         province_id: '',
@@ -42,13 +45,14 @@ export default new class ScheduleTeachingStore {
         if (this.isLoadingClasses) return;
         let filter = {
             ...this.filter,
-            start_time: this.filter.start_time.format(DATE_FORMAT_SQL),
-            end_time: this.filter.end_time.format(DATE_FORMAT_SQL),
+            lesson_start_time: this.filter.start_time.format(DATE_FORMAT_SQL),
+            lesson_end_time: this.filter.end_time.format(DATE_FORMAT_SQL),
         };
         this.isLoadingClasses = true;
         scheduleTeachingApis.loadClassesApi(filter)
             .then((res) => {
                 this.classes = res.data.data.classes;
+                if(this.classes.length == 0) showWarningNotification("Không có lớp học phù hợp.");
                 this.isLoadingClasses = false;
             })
             .catch(() => {
@@ -71,34 +75,34 @@ export default new class ScheduleTeachingStore {
             });
     }
 
-    @action
-    loadGens() {
-        this.isLoadingGens = true;
-        scheduleTeachingApis.loadGens()
-            .then((res) => {
-                this.isLoadingGens = false;
-                this.gens = res.data.data.gens;
-                // this.gen_id = res.data.data.current_gen.id;
-                // console.log(this.gen_id ,"xxxxxxxx",res.data.data.current_gen);
-                // this.loadClasses();
-            })
-            .catch(() => {
-                this.isLoadingGens = false;
-            });
-    }
+    // @action
+    // loadGens() {
+    //     this.isLoadingGens = true;
+    //     scheduleTeachingApis.loadGens()
+    //         .then((res) => {
+    //             this.isLoadingGens = false;
+    //             this.gens = res.data.data.gens;
+    //             // this.gen_id = res.data.data.current_gen.id;
+    //             // console.log(this.gen_id ,"xxxxxxxx",res.data.data.current_gen);
+    //             // this.loadClasses();
+    //         })
+    //         .catch(() => {
+    //             this.isLoadingGens = false;
+    //         });
+    // }
 
-    @action
-    loadBases() {
-        this.isLoadingBases = true;
-        scheduleTeachingApis.loadBases()
-            .then((res) => {
-                this.isLoadingBases = false;
-                this.bases = res.data.data.bases;
-            })
-            .catch(() => {
-                this.isLoadingBases = false;
-            });
-    }
+    // @action
+    // loadBases() {
+    //     this.isLoadingBases = true;
+    //     scheduleTeachingApis.loadBases()
+    //         .then((res) => {
+    //             this.isLoadingBases = false;
+    //             this.bases = res.data.data.bases;
+    //         })
+    //         .catch(() => {
+    //             this.isLoadingBases = false;
+    //         });
+    // }
 
     @action
     loadStaffs = (input, callback, field) => {
@@ -168,7 +172,36 @@ export default new class ScheduleTeachingStore {
                 };
             })];
     }
+    @action
+    loadRooms() {
+        roomApi.loadRooms()
+            .then((res) => {
+                this.rooms =  res.data.data.rooms;
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra.");
+            });
+    }
 
+    @computed
+    get roomsData() {
+        let roomsData = this.rooms.map(function (rooms) {
+            return {
+                ...rooms,
+                key: rooms.id,
+                value: rooms.name,
+            };
+        });
+        return [
+            {
+                id: '',
+                key: 0,
+                value: 0,
+                name: "T.cả phòng",
+            },
+            ...roomsData,
+        ];
+    }
     // @computed
     // get gensData() {
     //     return [
@@ -192,23 +225,23 @@ export default new class ScheduleTeachingStore {
     //     ];
     // }
 
-    @computed
-    get basesData() {
-        let basesData = this.bases.map(function (base) {
-            return {
-                ...base,
-                key: base.id,
-                value: base.name,
-            };
-        });
-        return [
-            {
-                key: 0,
-                value: "Tất cả cơ sở"
-            },
-            ...basesData,
-        ];
-    }
+    // @computed
+    // get basesData() {
+    //     let basesData = this.bases.map(function (base) {
+    //         return {
+    //             ...base,
+    //             key: base.id,
+    //             value: base.name,
+    //         };
+    //     });
+    //     return [
+    //         {
+    //             key: 0,
+    //             value: "Tất cả cơ sở"
+    //         },
+    //         ...basesData,
+    //     ];
+    // }
 
 
 }();

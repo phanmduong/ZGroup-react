@@ -577,7 +577,7 @@ class ClassesContainer extends React.Component {
                                     </div>
                                     {/*<div className="btn button-green"*/}
                                     {/*     onClick={this.copyShareUrl}>Sao chép đường dẫn*/}
-                                    {/*</div>*/}
+                                    {/*</div>*/}s
                                     <div className="btn button-green" disabled={this.props.isLoading}
                                          onClick={this.applyFilter}>Áp dụng
                                     </div>

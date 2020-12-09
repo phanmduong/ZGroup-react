@@ -26,5 +26,21 @@ export function payMoney(register) {
         actual_input_at: register.actual_input_at,
     });
 }
+export function editPayment(studentId,payment) {
+    let url = env.MANAGE_API_URL + `/student/${studentId}/edit-payment`;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+    return axios.put(url, {
+        id: payment.id,
+        money: "" + payment.money,
+        code: payment.code,
+        note: payment.note,
+        payment_method: payment.payment_method,
+        received_book_at: payment.received_book_at,
+        actual_input_at: payment.actual_input_at,
+    });
+}
 
 
