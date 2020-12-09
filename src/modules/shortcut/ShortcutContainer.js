@@ -9,60 +9,60 @@ const SHORTCUTS = [
     {
         name: 'Học viên',
         description: 'Quản lý danh sách, thông tin chi tiết về học viên',
-        color: '#608DFF',
+        color: '#FFEEAF',
         link: '/sales/register-list',
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223r9iTNffgvkfO6Z1.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504474I3hakjYtDkJr40O.png'
     },
     {
         name: 'Lớp học',
         description: 'Quản lý danh sách lớp học, môn học, điểm danh',
-        color: '#A888F8',
+        color: '#FFEEAF',
         link: '/teaching/classes',
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223bRSHt8ObSQOY0Nu.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504473nCe7jgS1wfhk1H4.png'
     },
     {
         name: 'Lịch dạy',
         description: 'Xem lịch dạy từng lớp học',
-        color: '#FFEDDC',
+        color: '#FFEEAF',
         link: '/teaching/teaching-schedule',
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223bRSHt8ObSQOY0Nu.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504472eWOlnySV4Bsj7Jw.png'
     },
     {
         name: 'Chấm công',
         description: 'Thống kê chấm công nhân viên, giảng viên, trợ giảng',
-        color: '#FFDC60',
+        color: '#FFEEAF',
         link: '/dashboard/checkin-checkout',
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/16003142235zJj2IMDqvkKoHr.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504473CDCV6IU3wkNFHwK.png'
     },
     {
         name: 'Form đăng kí',
         description: 'Form đăng kí học',
-        color: '#608DFF',
+        color: '#FFC5B8',
         link: '/register-form/list',
         newLink: `${getNewDomain()}/register-form/list`,
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223r9iTNffgvkfO6Z1.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504474BrfOhb63UqjtFs9.png'
     },
     {
         name: 'CRM',
         description: 'Quản lý các học viên tiềm năng, các đăng kí học',
-        color: '#FFDC60',
+        color: '#FFEEAF',
         link: '/customer-services/leads',
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/16003142232zFuDvSs6Wu1UX7.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504474YkLXBlRNFJ4QR5S.png'
     },
     {
         name: 'KPI',
         description: 'Quản lý chỉ tiêu',
-        color: '#5855E6',
+        color: '#FFC5B8',
         link: '/kpi/list',
         newLink: `${getNewDomain()}/kpi/list`,
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222YXkUhhjS2CFZlDp.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504473SJ7K1nAIKeICIQV.png'
     },
     {
         name: 'Tài chính',
         description: 'Quản lý tài chính, dòng tiền, thu chi',
-        color: '#90C8FC',
+        color: '#B2B3FF',
         link: '/finance/moneycollect',
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223RPQVCQnGQDU3VIf.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504473wvGro1a8CfVNFvy.png'
     },
     {
         name: 'Cài đặt',
@@ -74,39 +74,46 @@ const SHORTCUTS = [
     {
         name: 'SMS',
         description: 'Gửi SMS tự động đến hàng loạt học viên',
-        color: '#90C8FC',
+        color: '#FFEEAF',
         link: '/sms/campaign-list',
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222hgnCPTSuSyujWyd.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504474kX0u03EHNgi4CkX.png'
     },
     {
         name: 'Email',
         description: 'Gửi Email tự động đến hàng loạt học viên',
-        color: '#5956E9',
+        color: '#FFEEAF',
         link: '/email/list',
         newLink: `${getNewDomain()}/email/list`,
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600678825C2Q5IZAbjt3gThd.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/160750447448ZULrnBqHCSiy1.png'
     }, {
         name: 'Dashboard',
         description: 'Thống kê, báo cáo theo thời gian thực',
-        color: '#A888F8',
+        color: '#FFC5B8',
         link: '/dashboard/sale',
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222YXkUhhjS2CFZlDp.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504473LwLwpuEQ9TRY04L.png'
     },
     {
         name: 'Mobile App',
         description: 'Ứng dụng riêng cho học viên, thống kê và cài đặt',
-        color: '#FFDC60',
+        color: '#B2B3FF',
         link: '#',
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314222vEe4EXGP7Nkcsn4.png'
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504473wiNNhOb3HjztK3Q.png'
     },
 
     {
         name: 'Trang cá nhân',
         description: 'Thông tin cá nhân của bạn',
-        color: '#5855E6',
+        color: '#B2B3FF',
         link: '/profile/my-profile',
-        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1600314223r9iTNffgvkfO6Z1.png'
-    }
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504474I3hakjYtDkJr40O.png'
+    },
+    {
+        name: 'Đánh giá giảng viên',
+        description: 'Các lượt đánh giá từ học viên',
+        color: '#B2B3FF',
+        link: '/teaching/evaluate',
+        icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504472Jid9bhzt180inwt.png'
+    },
 ];
 
 class ShortcutContainer extends React.Component {
@@ -167,7 +174,7 @@ class ShortcutContainer extends React.Component {
                                                              className="flex flex-col flex-justify-content-center flex-align-items-center"
                                                         >
                                                             <img className="shortcut"
-                                                                 src={shortcut.icon} style={{width: '180%'}}/>
+                                                                 src={shortcut.icon} style={{width: '200%'}}/>
                                                         </div>
                                                         <div className="bold">
                                                             {shortcut.name}
