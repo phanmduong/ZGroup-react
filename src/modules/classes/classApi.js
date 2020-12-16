@@ -43,8 +43,8 @@ export function loadClasses(filter) {
         class_status = '',
         enroll_start_time = '',
         enroll_end_time = '',
-        lesson_start_time = '',
-        lesson_end_time = '',
+        // lesson_start_time = '',
+        // lesson_end_time = '',
         start_time = '',
         end_time = '',
         type = '',
@@ -63,8 +63,8 @@ export function loadClasses(filter) {
     url += "?search=" + search +
         "&enroll_start_time=" + enroll_start_time +
         "&enroll_end_time=" + enroll_end_time +
-        "&lesson_start_time=" + lesson_start_time +
-        "&lesson_end_time=" + lesson_end_time +
+        // "&lesson_start_time=" + lesson_start_time +
+        // "&lesson_end_time=" + lesson_end_time +
         "&start_time=" + start_time +
         "&end_time=" + end_time +
         "&teacher_id=" + teacherId +
