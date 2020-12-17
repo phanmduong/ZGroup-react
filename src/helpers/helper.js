@@ -988,7 +988,7 @@ export function appendArrayToWorkBook(json, wb, sheetname, cols, cmts, merges) {
     return wb;
 }
 
-export function appendJsonToWorkBook(json, wb, sheetname, cols=[], cmts=[], merges=[]) {
+export function appendJsonToWorkBook(json, wb, sheetname, cols = [], cmts = [], merges = []) {
     let sheet = XLSX.utils.json_to_sheet(json);
     if (cols) sheet['!cols'] = cols;
     if (cmts) {
@@ -1755,17 +1755,17 @@ export function checkStringIsUrl(text, target = '_blank') {
 }
 
 export function getNewDomain() {
-    if (window.location.hostname.includes("eduto.net")) {
-        return `https://${window.location.hostname}`
-    } else {
-        return `${window.location.protocol}//${window.location.hostname}:2222`
-    }
+    // if (window.location.hostname.includes("eduto.net")) {
+    return `https://${window.location.hostname}`
+    // } else {
+    //     return `${window.location.protocol}//${window.location.hostname}:2222`
+    // }
 }
 
-export function isContainsDomain(domains = []){
+export function isContainsDomain(domains = []) {
     let res = false;
-    domains.forEach(domain=>{
-        if(window.location.origin.includes(domain)) res = true;
+    domains.forEach(domain => {
+        if (window.location.origin.includes(domain)) res = true;
     });
     return res;
 }
