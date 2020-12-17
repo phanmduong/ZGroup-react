@@ -51,7 +51,7 @@ class CreateLeadOverlay extends React.Component {
             selectedInterests: [],
             parentCourses: [],
             lead: {
-                carer_id: this.props.user && this.props.user.id,
+                // carer_id: this.props.user && this.props.user.id,
                 rate: 5,
                 city: this.props.user.choice_province_id,
                 name: 'Không có tên'
@@ -110,7 +110,7 @@ class CreateLeadOverlay extends React.Component {
         this.setState({lead});
     };
 
-    updateSaler = (e) => {
+    updatePic = (e) => {
         let lead = {...this.state.lead};
         lead["carer_id"] = e ? e.id : e;
         this.setState({lead});
@@ -181,7 +181,7 @@ class CreateLeadOverlay extends React.Component {
         this.props.leadActions.editInfoLead(
             lead,
             () => {
-                this.close;
+                this.close();
                 if (this.props.onSuccess) {
                     this.props.onSuccess();
                 }
@@ -471,14 +471,14 @@ class CreateLeadOverlay extends React.Component {
                                             {/*    optionComponent={MemberReactSelectOption}*/}
                                             {/*    valueComponent={MemberReactSelectValue}*/}
                                             {/*    options={getSelectSaler(salers)}*/}
-                                            {/*    onChange={this.updateSaler}*/}
+                                            {/*    onChange={this.updatePic}*/}
                                             {/*    value={lead.carer_id}*/}
                                             {/*    placeholder="Chọn saler"*/}
                                             {/*    name="carer_id"*/}
                                             {/*/>*/}
                                             <PicOverlay
                                                 styleButton={{padding: '10px 15px'}}
-                                                onChange={this.updateSaler}
+                                                onChange={this.updatePic}
                                                 className="btn status-overlay width-100 none-padding"
                                                 defaultText="Chọn P.I.C"
                                             />

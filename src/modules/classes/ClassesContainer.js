@@ -34,11 +34,11 @@ const defaultState = {
     class_status: '',
     type: '',
     teacherId: '',
-    enroll_start_time: moment().subtract(1, 'years'),
+    enroll_start_time: moment().subtract(5, 'years'),
     enroll_end_time: moment().add(1,'months'),
-    lesson_start_time: moment().subtract(1, 'years'),
-    lesson_end_time: moment().add(1,'months'),
-    start_time: moment().subtract(1, 'years'),
+    // lesson_start_time: moment().subtract(5, 'years'),
+    // lesson_end_time: moment().add(1,'months'),
+    start_time: moment().subtract(5, 'years'),
     end_time: moment().add(1,'months'),
 };
 
@@ -191,12 +191,12 @@ class ClassesContainer extends React.Component {
     loadClasses = (filter) => {
         this.props.classActions.loadClasses({
             ...filter,
-            enroll_start_time: this.state.filter.enroll_start_time.format(DATE_FORMAT_SQL),
-            enroll_end_time: this.state.filter.enroll_end_time.format(DATE_FORMAT_SQL),
-            lesson_start_time: this.state.filter.lesson_start_time.format(DATE_FORMAT_SQL),
-            lesson_end_time: this.state.filter.lesson_end_time.format(DATE_FORMAT_SQL),
-            start_time: this.state.filter.start_time.format(DATE_FORMAT_SQL),
-            end_time: this.state.filter.end_time.format(DATE_FORMAT_SQL),
+            enroll_start_time: moment(this.state.filter.enroll_start_time).format(DATE_FORMAT_SQL),
+            enroll_end_time: moment(this.state.filter.enroll_end_time).format(DATE_FORMAT_SQL),
+            // lesson_start_time: this.state.filter.lesson_start_time.format(DATE_FORMAT_SQL),
+            // lesson_end_time: this.state.filter.lesson_end_time.format(DATE_FORMAT_SQL),
+            start_time: moment(this.state.filter.start_time).format(DATE_FORMAT_SQL),
+            end_time: moment(this.state.filter.end_time).format(DATE_FORMAT_SQL),
         });
         // this.props.classActions.loadClasses({
         //     ...this.state.filter,
@@ -525,15 +525,15 @@ class ClassesContainer extends React.Component {
                                     onChange={(s, e) => this.changeDateRangePicker('enroll_', s, e)}
                                 />
                             </div>
-                            <div className="col-md-4">
-                                <label>Thời gian học</label>
-                                <DateRangePicker
-                                    className="padding-vertical-10px cursor-pointer margin-top-10 radius-5"
-                                    start={this.state.filter.lesson_start_time} end={this.state.filter.lesson_end_time}
-                                    style={{padding: '5px 10px 5px 20px', lineHeight: '31px'}}
-                                    onChange={(s, e) => this.changeDateRangePicker('lesson_', s, e)}
-                                />
-                            </div>
+                            {/*<div className="col-md-4">*/}
+                            {/*    <label>Thời gian học</label>*/}
+                            {/*    <DateRangePicker*/}
+                            {/*        className="padding-vertical-10px cursor-pointer margin-top-10 radius-5"*/}
+                            {/*        start={this.state.filter.lesson_start_time} end={this.state.filter.lesson_end_time}*/}
+                            {/*        style={{padding: '5px 10px 5px 20px', lineHeight: '31px'}}*/}
+                            {/*        onChange={(s, e) => this.changeDateRangePicker('lesson_', s, e)}*/}
+                            {/*    />*/}
+                            {/*</div>*/}
 
                             <div className="col-md-4">
                                 <label>Tỉnh/thành phố</label>
@@ -577,7 +577,7 @@ class ClassesContainer extends React.Component {
                                     </div>
                                     {/*<div className="btn button-green"*/}
                                     {/*     onClick={this.copyShareUrl}>Sao chép đường dẫn*/}
-                                    {/*</div>*/}s
+                                    {/*</div>*/}
                                     <div className="btn button-green" disabled={this.props.isLoading}
                                          onClick={this.applyFilter}>Áp dụng
                                     </div>

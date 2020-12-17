@@ -92,10 +92,16 @@ class RegisterListContainer extends React.Component {
 
     registersSearchChange = (e) => {
         store.filter.search = e;
+
     };
 
     onSearchRegisters = () => {
         if (!store.isLoading) {
+            if(!isEmptyInput(store.filter.search)){
+                store.filter.gen_id = '';
+                store.filter.start_time = moment().subtract(10,'years');
+                store.filter.end_time = moment();
+            }
             store.loadRegisters();
         }
 
@@ -362,6 +368,7 @@ class RegisterListContainer extends React.Component {
                             disabled={isLoading}
                             wrapClassName="margin-right-10 react-select-white-light-round"
                             className="btn btn-white"
+                            id="select-gen-register-list"
                         />
                         <a
                             onClick={this.showExportFieldsModal}
