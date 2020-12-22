@@ -17,7 +17,7 @@ import {TYPE_CLASSES} from "../../constants/constants";
 import SelectTeacher from "./SelectTeacher";
 import TooltipButton from "../../components/common/TooltipButton";
 import CreateScheduleModal from "./schedule/CreateScheduleModal";
-import moment from "moment";
+// import moment from "moment";
 
 class AddClassContainer extends React.Component {
     constructor(props, context) {
@@ -51,7 +51,7 @@ class AddClassContainer extends React.Component {
             let current=new Date().toISOString().slice(0, 10);
             this.props.classActions.updateFormCreateClass({
                 datestart: current,
-                date_end: current,
+                // date_end: current,
                 enroll_end_date: current,
                 enroll_start_date: current,
             });
@@ -140,10 +140,10 @@ class AddClassContainer extends React.Component {
     changeCourse(value) {
         let classData = {...this.props.class};
         classData.course_id = value && value.id ? value.id : '';
-        if (value && !classData.id) {
-            let {duration} = value;
-            classData.date_end = moment(classData.datestart).add(duration, 'days').toISOString();
-        }
+        // if (value && !classData.id) {
+        //     let {duration} = value;
+        //     classData.date_end = moment(classData.datestart).add(duration, 'days').toISOString();
+        // }
         this.props.classActions.updateFormCreateClass(classData);
     }
 
@@ -316,7 +316,7 @@ class AddClassContainer extends React.Component {
         } else {
             let {
                 name, link_drive, description, target, regis_target, teachers, study_time, gen_id, course_id, teacher_assis_id, teaching_assistants, teacher_id, schedule_id,
-                datestart, date_end, enroll_start_date, enroll_end_date, room_id, type
+                datestart,  enroll_start_date, enroll_end_date, room_id, type
             } = {...this.props.class};
             return (
                 <div className="">
@@ -420,29 +420,29 @@ class AddClassContainer extends React.Component {
                             name="datestart"
                             updateFormData={(event)=> {
                                 let classData = {...this.props.class};
-                                if (classData.course_id && !classData.id) {
-                                    let currentClass  = this.state.optionsSelectCourse.filter(cl=>cl.id == classData.course_id)[0];
-                                    if(currentClass){
-                                        let {duration} = currentClass;
-                                        console.log(duration,moment(event.target.value).add(duration, 'days').toISOString());
-                                        classData.date_end = moment(event.target.value).add(duration, 'days').toISOString();
-                                    }
-
-                                }
+                                // if (classData.course_id && !classData.id) {
+                                //     let currentClass  = this.state.optionsSelectCourse.filter(cl=>cl.id == classData.course_id)[0];
+                                //     if(currentClass){
+                                //         let {duration} = currentClass;
+                                //         console.log(duration,moment(event.target.value).add(duration, 'days').toISOString());
+                                //         classData.date_end = moment(event.target.value).add(duration, 'days').toISOString();
+                                //     }
+                                //
+                                // }
                                 classData.datestart = event.target.value;
                                 this.props.classActions.updateFormCreateClass(classData);
                             }}
                             value={datestart ? datestart.slice(0, 10) : new Date().toISOString().slice(0, 10)}
                             id="form-date-datestart"
                         />
-                        <label>Ngày bế giảng (dự kiến)</label>
-                        <FormInputDate
-                            label=""
-                            name="date_end"
-                            updateFormData={this.updateFormData}
-                            value={date_end ? date_end.slice(0, 10) : new Date().toISOString().slice(0, 10)}
-                            id="form-date-date-end"
-                        />
+                        {/*<label>Ngày bế giảng (dự kiến)</label>*/}
+                        {/*<FormInputDate*/}
+                        {/*    label=""*/}
+                        {/*    name="date_end"*/}
+                        {/*    updateFormData={this.updateFormData}*/}
+                        {/*    value={date_end ? date_end.slice(0, 10) : new Date().toISOString().slice(0, 10)}*/}
+                        {/*    id="form-date-date-end"*/}
+                        {/*/>*/}
                         <div className="form-group">
                             <label className="label-control">Chọn khóa (không bắt buộc)</label>
                             <Select
@@ -543,6 +543,7 @@ class AddClassContainer extends React.Component {
                                             key={'SelectTeacher2-'+index}
                                             optionsSelectStaff={this.getSelectTeacher(this.state.optionsSelectStaff, teacher_id, teachers, teach)}
                                             label={"Giảng viên " + (index + 2)}
+                                            placeholder={"giảng viên " + (index + 2)}
                                             value={teach}
                                             onChange={(value) => this.changeTeacher(value, index)}
                                         />
@@ -594,6 +595,7 @@ class AddClassContainer extends React.Component {
                                             key={'SelectTeacher-' + index}
                                             optionsSelectStaff={this.getSelectTeacher(this.state.optionsSelectStaff, teacher_assis_id, teaching_assistants, teach)}
                                             label={"Trợ giảng " + (index + 2)}
+                                            placeholder={"trợ giảng " + (index + 2)}
                                             value={teach}
                                             onChange={(value) => this.changeTeachAssis(value, index)}
                                         />

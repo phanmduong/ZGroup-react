@@ -144,7 +144,7 @@ export function addClass(classData) {
     return axios.post(url, {
         'id': classData.id,
         'datestart': classData.datestart,
-        'date_end': classData.date_end,
+        // 'date_end': classData.date_end,
         'enroll_start_date': classData.enroll_start_date,
         'enroll_end_date': classData.enroll_end_date,
         'name': classData.name,

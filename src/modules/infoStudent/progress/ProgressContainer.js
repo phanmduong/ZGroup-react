@@ -131,7 +131,7 @@ class ProgressContainer extends React.Component {
                                 </div>
 
                     {/*})}*/}
-                </div>}
+                </div>
             </div>
         );
         return (<b>Không có dữ liệu</b>);
@@ -341,10 +341,9 @@ class ProgressContainer extends React.Component {
                                                     </div>}
                                                     {currentTab == 1 && <div className="col-md-12">
 
-                                                        {progressClass.exams.length == 0 && noneGroup.length == 0 &&
-                                                        <div><b>Không có dữ liệu</b></div>}
-                                                        {progressClass.exams.length > 0 &&
-                                                        <div className="max-height-400 smooth-scroll-y">
+                                                        {progressClass.exams.length == 0 && noneGroup.length == 0 &&                                                        <div><b>Không có dữ liệu</b></div>}
+
+                                                        {progressClass.exams.length > 0 &&                                                        <div className="max-height-400 smooth-scroll-y">
                                                             {progressClass.group_exams.map(group => {
                                                                 return (
                                                                     <div className="margin-bottom-10">
@@ -396,6 +395,7 @@ class ProgressContainer extends React.Component {
                                                                     </table>
                                                                 </div>
                                                             </div>}
+
                                                         </div>}
                                                     </div>}
 

@@ -241,6 +241,7 @@ class ClassesContainer extends React.Component {
                 course_id: classData.course ? classData.course.id : '',
                 teacher_assis_id: classData.teacher_assistant ? classData.teacher_assistant.id : '',
                 teacherId: classData.teacher ? classData.teacher.id : '',
+                teacher_id: classData.teacher ? classData.teacher.id : '',
                 schedule_id: classData.schedule_id,
                 type: classData.type,
                 status: classData.status,
@@ -249,8 +250,8 @@ class ClassesContainer extends React.Component {
                 enroll_start_date: classData.enroll_start_date,
                 enroll_end_date: classData.enroll_end_date,
                 room_id: classData.room ? classData.room.id : '',
-                teachers: classData.teachers,
-                teaching_assistants: classData.teaching_assistants,
+                teachers: classData.teachers ? classData.teachers.map(t=>t.id) : [],
+                teaching_assistants: classData.teaching_assistants ? classData.teaching_assistants.map(t=>t.id) : [],
             };
         }
         this.setState({

@@ -168,7 +168,11 @@ export default function classesReducer(state = initialState.classes, action) {
                 ...{
                     isStoringClass: false,
                     errorStoreClass: false,
-                    classes: [action.class, ...state.classes]
+                    classes: [{
+                        ...action.class,
+                        teachers: action.class.teachers_detail,
+                        teaching_assistants: action.class.teaching_assistants_detail,
+                    }, ...state.classes]
                 }
             };
         case types.LOAD_CREATE_CLASS_ERROR:
@@ -189,7 +193,11 @@ export default function classesReducer(state = initialState.classes, action) {
                 }
             };
         case types.LOAD_EDIT_CLASS_SUCCESS:
-            classes = changeClass(action.class, state.classes);
+            classes = changeClass({
+                ...action.class,
+                teachers: action.class.teachers_detail,
+                teaching_assistants: action.class.teaching_assistants_detail,
+            }, state.classes);
             return {
                 ...state,
                 ...{

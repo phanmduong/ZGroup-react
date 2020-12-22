@@ -12,12 +12,12 @@ branch_name=${branch_name:-HEAD}
 i=0
 for file in $(find "../src/entries" -type f)
 do
-file_name=$(basename $file)  
+file_name=$(basename $file)
 module_name="${file_name%.*}"
 echo "${i} : ${file_name%.*}"
 gnome-terminal --tab --command="./build.sh $module_name $branch_name"
 i=$((i+1))
-if ! (( i % 6 ));
+if ! (( i % 12 ));
 then
   secs=$((180))
   while [ $secs -gt 0 ]; do
