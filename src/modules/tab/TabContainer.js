@@ -8,7 +8,7 @@ import * as helper from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
 import {getNewDomain} from "../../helpers/helper";
 // Import actions here!!
-const TABIDS = [27, 213, 214];
+const TABIDS = [27, 213, 214, 5];
 
 
 class TabContainer extends React.Component {

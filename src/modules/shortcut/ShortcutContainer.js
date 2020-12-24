@@ -10,7 +10,8 @@ const SHORTCUTS = [
         name: 'Học viên',
         description: 'Quản lý danh sách, thông tin chi tiết về học viên',
         color: '#FFEEAF',
-        link: '/sales/register-list',
+        link: '/register/list',
+        newLink: `${getNewDomain()}/register/list`,
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504474I3hakjYtDkJr40O.png'
     },
     {
