@@ -10,8 +10,11 @@ class ListRegister extends React.Component {
 
     render() {
         return (
-            <div className="table-responsive">
-                <table className="table">
+            <div className="table-responsive table-split table-hover table-sticky-head">
+                <table className="table" cellSpacing="0" id="list_register">
+
+            {/*<div className="table-responsive">*/}
+            {/*    <table className="table">*/}
                     <thead className="text-rose">
                     <tr>
                         <th/>
@@ -19,6 +22,7 @@ class ListRegister extends React.Component {
                         <th>Email</th>
                         <th>Số điện thoại</th>
                         <th>Mã học viên</th>
+                        <th>Lớp</th>
                         <th>Số tiền</th>
                         <th>Ngày nộp</th>
                         <th>Người thu</th>
@@ -26,9 +30,9 @@ class ListRegister extends React.Component {
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.registers.map((register) => {
+                    {this.props.registers.map((register,key) => {
                         return (
-                            <tr key={register.id}>
+                            <tr key={key}>
                                 <td>
                                     <TooltipButton
                                         text={register.class.name}
@@ -59,6 +63,7 @@ class ListRegister extends React.Component {
                                 </a>
                                 </td>
                                 <td className="text-center">{register.code}</td>
+                                <td>{register.class ? register.class.name : 'Không có'}</td>
                                 <td className="text-center">
                                     {
                                         register.paid_status ?
