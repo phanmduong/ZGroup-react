@@ -14,8 +14,6 @@ import Select from 'react-select';
 import PropTypes from 'prop-types';
 import ItemReactSelect from '../../../components/common/ItemReactSelect';
 import * as helper from '../../../helpers/helper';
-import moment from "moment";
-import {DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT, DATETIME_FORMAT_SQL} from '../../../constants/constants';
 import {NO_AVATAR} from "../../../constants/env";
 import TimePicker from "../../../components/common/TimePicker";
 import AddClassContainer from "../AddClassContainer";
@@ -166,17 +164,17 @@ class ClassContainer extends React.Component {
         let data = this.props.class.registers;
         let cols = [{"wch": 5}, {"wch": 22}, {"wch": 10}, {"wch": 10}, {"wch": 20}, {"wch": 12}, {"wch": 30}, {"wch": 16}, {"wch": 30}, {"wch": 25},];
         data = data.map((item, index) => {
-            let dob = item.student.dob;
-            let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
-            if (isValidDate)
-                dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
-            else dob = '';
+            // let dob = item.student.dob;
+            // let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
+            // if (isValidDate)
+            //     dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+            // else dob = '';
             let res = {
                 'STT': index + 1,
 
                 'Họ và tên': item.student.name,
                 'Mã học viên': item.code,
-                'Ngày sinh': dob,
+                'Ngày sinh': item.student.dob,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
                 // 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
                 'Email': item.student.email,
@@ -201,16 +199,17 @@ class ClassContainer extends React.Component {
         let cmts = [];// danh sách cmts
         //begin điểm danh
         data = this.props.class.registers.filter(item => (item.paid_status)).map((item, index) => {
-            let dob = item.student.dob;
-            let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
-            if (isValidDate)
-                dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
-            else dob = '';
+            // let dob = item.student.dob;
+            // let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL, DATE_VN_FORMAT]).isValid();
+            // if (isValidDate)
+            //     dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL, DATE_VN_FORMAT]).format(DATETIME_FILE_NAME_FORMAT);
+            // else dob = '';
             let res = {
                 'STT': index + 1,
                 'Họ và tên': item.student.name,
                 'Mã học viên': item.code,
-                'Ngày sinh': dob,
+                'Ngày sinh': item.student.dob,
+                // 'Ngày sinh': dob,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
                 // 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
                 'Email': item.student.email,
@@ -230,16 +229,16 @@ class ClassContainer extends React.Component {
 
         //begin bài tập
         data = this.props.class.registers.filter(item => (item.paid_status)).map((item, index) => {
-            let dob = item.student.dob;
-            let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
-            if (isValidDate)
-                dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
-            else dob = '';
+            // let dob = item.student.dob;
+            // let isValidDate = moment(dob, [DATETIME_FORMAT, DATETIME_FORMAT_SQL]).isValid();
+            // if (isValidDate)
+            //     dob = moment(item.student.dob, [DATETIME_FILE_NAME_FORMAT, DATETIME_FORMAT_SQL]).format(DATETIME_FILE_NAME_FORMAT);
+            // else dob = '';
             let res = {
                 'STT': index + 1,
                 'Họ và tên': item.student.name,
                 'Mã học viên': item.code,
-                'Ngày sinh': dob,
+                'Ngày sinh': item.student.dob,
                 'Tình trạng học phí': item.paid_status ? 'Đã nộp' : 'Chưa nộp',
                 'Thẻ học viên': item.received_id_card ? 'Đã nhận' : 'Chưa nhận',
                 'Email': item.student.email,
