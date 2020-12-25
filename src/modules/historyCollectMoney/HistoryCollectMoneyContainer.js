@@ -183,13 +183,13 @@ class HistoryCollectMoneyContainer extends React.Component {
                             style={{padding: '5px 10px 5px 20px', lineHeight: '33px'}}
                             onChange={this.changeDateRangePicker}
                         />
-                        <div
-                            onClick={this.exportExcel}
-                            className="btn btn-white btn-icon"
-                            style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 10px'}}
-                            disabled={this.props.isLoading}
-                        ><span className="material-icons">get_app</span>&nbsp;&nbsp;&nbsp;&nbsp;Tải xuống
-                        </div>
+                        {/*<div*/}
+                        {/*    onClick={this.exportExcel}*/}
+                        {/*    className="btn btn-white btn-icon"*/}
+                        {/*    style={{padding: "12px 20px", height: 42, margin: '10px 10px 0 10px'}}*/}
+                        {/*    disabled={this.props.isLoading}*/}
+                        {/*><span className="material-icons">get_app</span>&nbsp;&nbsp;&nbsp;&nbsp;Tải xuống*/}
+                        {/*</div>*/}
                     </div>
                 </div>
                 {this.props.isLoading ? <Loading/> :
