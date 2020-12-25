@@ -40,11 +40,11 @@ export default [
         component: TargetListContainer
     },
     {
-        path: "/sales/registerlist(/:salerId)",
+        path: "/sales/registerlist-old(/:salerId)",
         component: RegisterListContainer
     },
     {
-        path: "/sales/register-list",
+        path: "/sales/register-list-old",
         component: RegisterListContainerV3
     },
     {
