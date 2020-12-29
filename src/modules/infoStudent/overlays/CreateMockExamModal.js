@@ -82,9 +82,9 @@ class CreateMockExamButtonModal extends React.Component {
         if (data.id == -1) data.id = null;
         data.user_id = this.studentId;
         let errs = [];
-        if (isEmpty(data.score)) {
-            errs.push('Bạn chưa nhập điểm bài thi!');
-        }
+        // if (isEmpty(data.score)) {
+        //     errs.push('Bạn chưa nhập điểm bài thi!');
+        // }
         // if (isEmpty(data.type)) {
         //     errs.push('Bạn chưa nhập loại bài thi!');
         // }
@@ -101,7 +101,10 @@ class CreateMockExamButtonModal extends React.Component {
         if (errs.length == 0) {
             showWarningNotification('Đang lưu...');
             this.setState({isSaving: true});
-            createMockExam(data).then(res => {
+            createMockExam({
+                ...data,
+                date: `${data.date} ${data.time}`
+            }).then(res => {
                 if(res.data.status == 1){
                     showNotification('Lưu thành công.');
                     this.closeModal();
@@ -161,7 +164,7 @@ class CreateMockExamButtonModal extends React.Component {
                                            updateFormData={this.updateForm}
                                            value={data.date}
                             />
-                            <label className="required-label">Điểm thi</label>
+                            <label>Điểm thi</label>
                             <FormInputText name="score"
                                            value={data.score}
                                            placeholder="Nhập điểm"
