@@ -26,6 +26,7 @@ import Checkbox from "../../../../components/common/Checkbox";
 import LessonDetailModal from "../../../attendance/LessonDetailModal";
 import * as attendanceActions from "../../../attendance/attendanceActions";
 import CheckBoxMaterial from "../../../../components/common/CheckBoxMaterial";
+import {Link} from "react-router";
 
 class HistoryTeachingContainer extends React.Component {
     constructor(props, context) {
@@ -395,10 +396,28 @@ class HistoryTeachingContainer extends React.Component {
                         !isLoading && classData.lessons && classData.lessons.length > 0 && classData.lessons.map((lesson, key) => {
                                 // let color = lesson.studied ? 'success' : '';
                                 let minWidth = 120, margin = '5px 3px';
+                                let lesson_exams = classData.exams.filter(ex=>ex.lesson && ex.lesson.id == lesson.lesson_id);
+                                let lesson_exam_names = lesson_exams.map(ex=>ex.title).join(', \n');
                                 return (
                                     <tr key={key}>
                                         <td>
                                             <div className="flex flex-align-items-center">
+
+                                                {lesson_exams.length > 0 &&
+                                                <TooltipButton text={lesson_exam_names} placement="top">
+                                                    <Link to={`/teaching/class/${this.props.params.classId}/score`} style={{
+                                                        // borderRadius: 5,
+                                                        // textTransform: 'none',
+                                                        // margin: 0,
+                                                        // padding: '10px 20px'
+                                                    }}>
+                                                        <div className="icon8 icon8-wrap margin-right-5" icon="exam"mask="off"
+
+                                                        >
+                                                            <div className="icon"/>
+                                                        </div>
+                                                    </Link>
+                                                    </TooltipButton>}
                                                 {Object.entries(LESSON_EVENT_TYPES_OBJECT).map(entry => {
                                                     let de = LESSON_EVENT_TYPES_OBJECT[entry[0]];
                                                     let lesson_event = lesson.events.filter(e => e.event_type == de.type)[0];

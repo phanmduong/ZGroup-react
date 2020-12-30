@@ -5212,6 +5212,16 @@ input[type=date]::-webkit-outer-spin-button {
       }
     }
   }
+  &[icon="exam"] {
+    &[mask="off"] {
+      background-color: #8a56ff;
+
+      .icon {
+        background: url('http://d1j8r0kxyu9tj8.cloudfront.net/files/1609325018ZDNKaTpJb5vZIX2.png') center/cover;
+      }
+    }
+
+  }
 
 
 }

@@ -262,9 +262,9 @@ class CreateRegisterOverlay extends React.Component {
     // };
 
 
-    close = () => {
-        this.setState({show: false});
-    };
+    // close = () => {
+    //     this.setState({show: false});
+    // };
 
     getCouponSelectOptions(arr, register) {
         let multiCoupons = register.coupons && register.coupons.length > 0 && register.coupons.filter(c => c.shared != 1).length > 0;
@@ -325,7 +325,6 @@ class CreateRegisterOverlay extends React.Component {
         coupons = this.getCouponSelectOptions([...coupons], register);
         let finalPrice = this.getFinalPrice();
         let showLoading = (isLoadingCourses || isLoadingCampaigns || isLoadingCoupons);
-        console.log(btnStyle);
         return (
 
             <div style={{position: "relative"}}>
