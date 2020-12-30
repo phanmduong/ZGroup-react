@@ -12,13 +12,10 @@ import {openModalRegisterDetail} from "../globalModal/globalModalActions";
 import StatusesOverlay from "../infoStudent/overlays/StatusesOverlay";
 import SourceOverlay from "../infoStudent/overlays/SourceOverlay";
 import PicOverlay from "../infoStudent/overlays/PicOverlay";
-import CreateRegisterOverlay from "../infoStudent/overlays/CreateRegisterOverlay";
 import * as studentActions from "../infoStudent/studentActions";
 import {connect} from "react-redux";
 import {bindActionCreators} from "redux";
 import * as leadActions from "./leadActions";
-import {DATE_FORMAT_SQL, DATE_VN_FORMAT} from "../../constants/constants";
-import moment from "moment";
 import * as ReactDOM from "react-dom";
 import MarketingCampaignOverlay from "../infoStudent/overlays/MarketingCampaignOverlay";
 import MarketingCampaignRegisterStore from "../registerStudentsV3/store/MarketingCampaignRegisterStore";
@@ -316,22 +313,26 @@ class ListLead extends React.Component {
                                                                         onClick={() => this.openEditModal(lead)}>
                                                                     Sửa thông tin
                                                                 </button>
-                                                                {!this.props.showSelectedLead && <CreateRegisterOverlay
-                                                                    onShow={() => {
-                                                                        let student = {
-                                                                            ...lead,
-                                                                            dob: lead.dob ? moment(lead.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : ''
-                                                                        };
-                                                                        this.props.studentActions.setInfoStudent(student);
-                                                                    }}
-                                                                    className="register-lead-overlay cursor-pointer"
-                                                                    direction="right"
-                                                                >
-                                                                    <button type="button"
-                                                                            className="btn btn-white width-100">
-                                                                        Tạo đăng kí (Deal)
-                                                                    </button>
-                                                                </CreateRegisterOverlay>}
+                                                                {/*{!this.props.showSelectedLead && <CreateRegisterOverlay*/}
+                                                                {/*    // onShow={() => {*/}
+                                                                {/*    //     let student = {*/}
+                                                                {/*    //         ...lead,*/}
+                                                                {/*    //         dob: lead.dob ? moment(lead.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : ''*/}
+                                                                {/*    //     };*/}
+                                                                {/*    //     console.log('setInfoStudent',student);*/}
+                                                                {/*    //     this.props.studentActions.setInfoStudent(student);*/}
+                                                                {/*    // }}*/}
+                                                                {/*    studentData={{*/}
+                                                                {/*        ...lead,*/}
+                                                                {/*        dob: lead.dob ? moment(lead.dob, DATE_VN_FORMAT).format(DATE_FORMAT_SQL) : ''*/}
+                                                                {/*    }}*/}
+                                                                {/*    className="register-lead-overlay cursor-pointer"*/}
+                                                                {/*    direction="right"*/}
+                                                                {/*    children={<button type="button"*/}
+                                                                {/*                      className="btn btn-white width-100">*/}
+                                                                {/*        Tạo đăng kí (Deal)*/}
+                                                                {/*    </button>}*/}
+                                                                {/*/>}*/}
                                                                 {this.props.removeLead && <button type="button"
                                                                                                   className="btn btn-white width-100"
                                                                                                   onClick={() => this.props.removeLead(lead)}>
@@ -394,7 +395,7 @@ class ListLead extends React.Component {
                                             </tr>
                                         );
                                     })
-                                }
+                            }
                             {this.props.showSelectedLead && this.props.isAll && <tr className="success">
                                 <td/>
                                 <td>+{this.props.selectedLeadsCount - this.props.leads.length} Lead khác</td>
@@ -405,41 +406,41 @@ class ListLead extends React.Component {
                                 <td/>
                                 <td/>
                                 <td/>
-                                </tr>}
-                                </tbody>
-                                </table>
-                                </div>
-                            }
-
-                            {
-                                !this.props.showSelectedLead &&
-                                <Pagination
-                                    currentPage={this.props.currentPage}
-                                    totalPages={this.props.totalPages}
-                                    loadDataPage={this.props.loadData}
-                                />
-                            }
-                            {this.props.isDistribution && <div style={{height: 125}}/>}
-                            <Modal
-                                show={this.state.isOpenModalEdit}
-                                onHide={this.closeEditModal}
-                            >
-                                <Modal.Header closeButton>
-                                    <Modal.Title>
-                                        <h4 className="card-title">Sửa thông tin lead</h4>
-                                    </Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    {this.state.isOpenModalEdit && <EditLead
-                                        lead={this.state.lead}
-                                        closeModal={this.closeEditModal}
-                                    />}
-
-                                </Modal.Body>
-                            </Modal>
+                            </tr>}
+                            </tbody>
+                        </table>
                     </div>
-                    );
                 }
+
+                {
+                    !this.props.showSelectedLead &&
+                    <Pagination
+                        currentPage={this.props.currentPage}
+                        totalPages={this.props.totalPages}
+                        loadDataPage={this.props.loadData}
+                    />
+                }
+                {this.props.isDistribution && <div style={{height: 125}}/>}
+                <Modal
+                    show={this.state.isOpenModalEdit}
+                    onHide={this.closeEditModal}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>
+                            <h4 className="card-title">Sửa thông tin lead</h4>
+                        </Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {this.state.isOpenModalEdit && <EditLead
+                            lead={this.state.lead}
+                            closeModal={this.closeEditModal}
+                        />}
+
+                    </Modal.Body>
+                </Modal>
+            </div>
+        );
+    }
 }
 
 ListLead.propTypes = {
