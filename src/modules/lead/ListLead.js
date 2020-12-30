@@ -96,7 +96,7 @@ class ListLead extends React.Component {
                     <Loading/>
                     :
                     <div className="table-sticky-head table-split" radius="five">
-                        <table className="table" style={{zIndex:0}}>
+                        <table className="table" style={{zIndex: 0}}>
                             <thead className="text-rose">
                             <tr>
                                 {this.props.isDistribution && <th/>}
@@ -110,6 +110,7 @@ class ListLead extends React.Component {
                                 {/*<th>Đã đóng tiền</th>*/}
 
                                 <th>Ghi chú</th>
+                                <th>Ghi chú cuội gọi</th>
                                 <th>Quan tâm</th>
                                 {!this.props.showSelectedLead && <th>Ngày nhập</th>}
                                 {!this.props.showSelectedLead && <th>Ngày tạo</th>}
@@ -151,7 +152,8 @@ class ListLead extends React.Component {
                                                 {/*    />*/}
                                                 {/*</td>*/}
                                                 <td>
-                                                    <div onClick={() => this.openEditModal(lead)} className="btn btn-xs btn-icon btn-warning">
+                                                    <div onClick={() => this.openEditModal(lead)}
+                                                         className="btn btn-xs btn-icon btn-warning">
                                                         {lead.rate}&nbsp;<span className="material-icons">star</span>
                                                     </div>
                                                 </td>
@@ -179,7 +181,7 @@ class ListLead extends React.Component {
                                                 </td>
                                                 <td>
                                                     <PicOverlay
-                                                        styleButton={{padding: '4px 15px', whiteSpace:'nowrap'}}
+                                                        styleButton={{padding: '4px 15px', whiteSpace: 'nowrap'}}
                                                         student={lead}
                                                         disabled={this.props.showSelectedLead}
                                                         className="btn-xs width-100 source-value none-padding"
@@ -268,10 +270,12 @@ class ListLead extends React.Component {
 
                                                 <td onClick={() => this.openEditModal(lead)}>
                                                     {!isEmptyInput(lead.note) &&
-                                                    <div className="" >
+                                                    <div className="">
                                                         {lead.note}
                                                     </div>
                                                     }
+                                                </td>
+                                                <td onClick={() => this.openEditModal(lead)}>
                                                     {!isEmptyInput(lead.notes) && lead.notes.length > 0 && lead.notes.map((note, key) => {
                                                         if (!isEmptyInput(note))
                                                             return (
@@ -287,7 +291,8 @@ class ListLead extends React.Component {
                                                 {!this.props.showSelectedLead && <td>{lead.last_time_interact}</td>}
                                                 <td>
                                                     {!this.props.showSelectedLead && <div style={{position: "relative"}}
-                                                         className="cursor-pointer" mask="table-btn-action">
+                                                                                          className="cursor-pointer"
+                                                                                          mask="table-btn-action">
                                                         <div ref={'target' + lead.id}
                                                              onClick={() => this.toggleOverlay(lead.id)}
                                                              className="flex flex-justify-content-center cursor-pointer">
@@ -328,8 +333,8 @@ class ListLead extends React.Component {
                                                                     </button>
                                                                 </CreateRegisterOverlay>}
                                                                 {this.props.removeLead && <button type="button"
-                                                                                                      className="btn btn-white width-100"
-                                                                                                      onClick={() => this.props.removeLead(lead)}>
+                                                                                                  className="btn btn-white width-100"
+                                                                                                  onClick={() => this.props.removeLead(lead)}>
                                                                     Xóa
                                                                 </button>}
 
@@ -389,7 +394,7 @@ class ListLead extends React.Component {
                                             </tr>
                                         );
                                     })
-                            }
+                                }
                             {this.props.showSelectedLead && this.props.isAll && <tr className="success">
                                 <td/>
                                 <td>+{this.props.selectedLeadsCount - this.props.leads.length} Lead khác</td>
@@ -400,41 +405,41 @@ class ListLead extends React.Component {
                                 <td/>
                                 <td/>
                                 <td/>
-                            </tr>}
-                            </tbody>
-                        </table>
+                                </tr>}
+                                </tbody>
+                                </table>
+                                </div>
+                            }
+
+                            {
+                                !this.props.showSelectedLead &&
+                                <Pagination
+                                    currentPage={this.props.currentPage}
+                                    totalPages={this.props.totalPages}
+                                    loadDataPage={this.props.loadData}
+                                />
+                            }
+                            {this.props.isDistribution && <div style={{height: 125}}/>}
+                            <Modal
+                                show={this.state.isOpenModalEdit}
+                                onHide={this.closeEditModal}
+                            >
+                                <Modal.Header closeButton>
+                                    <Modal.Title>
+                                        <h4 className="card-title">Sửa thông tin lead</h4>
+                                    </Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    {this.state.isOpenModalEdit && <EditLead
+                                        lead={this.state.lead}
+                                        closeModal={this.closeEditModal}
+                                    />}
+
+                                </Modal.Body>
+                            </Modal>
                     </div>
+                    );
                 }
-
-                {
-                    !this.props.showSelectedLead &&
-                    <Pagination
-                        currentPage={this.props.currentPage}
-                        totalPages={this.props.totalPages}
-                        loadDataPage={this.props.loadData}
-                    />
-                }
-                {this.props.isDistribution && <div style={{height: 125}}/>}
-                <Modal
-                    show={this.state.isOpenModalEdit}
-                    onHide={this.closeEditModal}
-                >
-                    <Modal.Header closeButton>
-                        <Modal.Title>
-                            <h4 className="card-title">Sửa thông tin lead</h4>
-                        </Modal.Title>
-                    </Modal.Header>
-                    <Modal.Body>
-                        {this.state.isOpenModalEdit && <EditLead
-                            lead={this.state.lead}
-                            closeModal={this.closeEditModal}
-                        />}
-
-                    </Modal.Body>
-                </Modal>
-            </div>
-        );
-    }
 }
 
 ListLead.propTypes = {

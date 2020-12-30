@@ -469,7 +469,7 @@ class LeadContainer extends React.Component {
             }
             case 'province_id': {
                 newState.province_id = value ? value.id : value;
-                newState.address = value ? value.label : value;
+                newState.address = value && value.id ? value.label : '';
                 break;
             }
             default: {
