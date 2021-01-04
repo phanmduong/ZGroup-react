@@ -35,11 +35,11 @@ const defaultState = {
     type: '',
     teacherId: '',
     enroll_start_time: moment().subtract(5, 'years'),
-    enroll_end_time: moment().add(1,'months'),
+    enroll_end_time: moment().add(1,'years'),
     // lesson_start_time: moment().subtract(5, 'years'),
     // lesson_end_time: moment().add(1,'months'),
     start_time: moment().subtract(5, 'years'),
-    end_time: moment().add(1,'months'),
+    end_time: moment().add(1,'years'),
 };
 
 class ClassesContainer extends React.Component {

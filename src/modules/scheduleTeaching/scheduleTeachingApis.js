@@ -23,8 +23,8 @@ export  function loadClassesApi({
                                     teacher_id,
                                     province_id,
                                     type,
-                                    lesson_start_time,
-                                    lesson_end_time,
+                                    // lesson_start_time,
+                                    // lesson_end_time,
                                     room_id,
 }){
     let url = env.MANAGE_API_URL + "/class/all";
@@ -39,8 +39,8 @@ export  function loadClassesApi({
     url += `&province_id=${province_id|| ''}`;
     url += `&room_id=${room_id|| ''}`;
     url += `&type=${type|| ''}`;
-    url += `&lesson_start_time=${lesson_start_time|| ''}`;
-    url += `&lesson_end_time=${lesson_end_time|| ''}`;
+    // url += `&lesson_start_time=${lesson_start_time|| ''}`;
+    // url += `&lesson_end_time=${lesson_end_time|| ''}`;
     url += `&limit=-1`;
 // &teacher_id=${localStorage.getItem("user").id}
     return axios.get(url);

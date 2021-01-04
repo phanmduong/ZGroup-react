@@ -6,7 +6,7 @@ import {observable, action, computed} from "mobx";
 import {isEmptyInput, showErrorNotification, showWarningNotification} from "../../helpers/helper";
 import * as scheduleTeachingApis from "./scheduleTeachingApis";
 import {findClass} from "../registerStudentsV2/registerListApi";
-import {DATE_FORMAT_SQL, TYPE_CLASSES} from "../../constants/constants";
+import {TYPE_CLASSES} from "../../constants/constants";
 import {findUser} from "../registerStudentsV3/registerListApi";
 import {NO_AVATAR} from "../../constants/env";
 import moment from "moment";
@@ -45,8 +45,8 @@ export default new class ScheduleTeachingStore {
         if (this.isLoadingClasses) return;
         let filter = {
             ...this.filter,
-            lesson_start_time: this.filter.start_time.format(DATE_FORMAT_SQL),
-            lesson_end_time: this.filter.end_time.format(DATE_FORMAT_SQL),
+            // lesson_start_time: this.filter.start_time.format(DATE_FORMAT_SQL),
+            // lesson_end_time: this.filter.end_time.format(DATE_FORMAT_SQL),
         };
         this.isLoadingClasses = true;
         scheduleTeachingApis.loadClassesApi(filter)
