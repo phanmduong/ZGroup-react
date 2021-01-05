@@ -281,7 +281,7 @@ class InfoClassContainer extends React.Component {
 
                                                     {/*}*/}
                                                     {/*{register.code}*/}
-                                                    {register.id}
+                                                    {register.student && register.student.id}
                                                 </td>
                                                 <td>
                                                     <div

@@ -321,6 +321,15 @@ export function updateClassLesson(classId) {
 
     return axios.get(url);
 }
+export function updateClassExam(classId) {
+    let url = env.MANAGE_API_URL + `/class/generate-class-exam/` + classId;
+    let token = localStorage.getItem('token');
+    if (token) {
+        url += "?token=" + token;
+    }
+
+    return axios.get(url);
+}
 
 export function addCheckinCheckout(type, typeUser, userId, classLessonID, time, comment) {
     let url = env.MANAGE_API_URL + `/checkincheckout/add-check-in-checkout`;

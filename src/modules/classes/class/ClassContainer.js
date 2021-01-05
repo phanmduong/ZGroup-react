@@ -22,6 +22,7 @@ import CreateRegisterOverlay from "../../infoStudent/overlays/CreateRegisterOver
 import Checkbox from "../../../components/common/Checkbox";
 import ChangeTeachMultiLessonOverlay from "../overlays/ChangeTeachMultiLessonOverlay";
 import {isEmpty} from "../../../helpers/entity/mobx";
+import CheckBoxMaterial from "../../../components/common/CheckBoxMaterial";
 
 class ClassContainer extends React.Component {
     constructor(props, context) {
@@ -47,6 +48,11 @@ class ClassContainer extends React.Component {
             },
         ];
         this.state = {
+            showModalUpdateClass: false,
+            modalUpdateClass: {
+                syllabus: false,
+                exam: false,
+            },
             showModalClassLesson: false,
             showModalChangeTeacher: false,
             showModalChangeTeachAssis: false,
@@ -119,6 +125,18 @@ class ClassContainer extends React.Component {
             });
             this.setState({staffs: dataStaffs});
         }
+    }
+
+    showModalUpdateClass = () => {
+        this.setState({showModalUpdateClass: true});
+    }
+    hideModalUpdateClass = () => {
+        this.setState({
+            showModalUpdateClass: false, modalUpdateClass: {
+                syllabus: false,
+                exam: false,
+            }
+        });
     }
 
     openModalEditClass = () => {
@@ -419,6 +437,24 @@ class ClassContainer extends React.Component {
         this.props.classActions.updateClassLesson(this.classId);
     };
 
+    updateClassExam = () => {
+        this.props.classActions.updateClassExam(this.classId);
+    };
+
+    onChangeModalUpdateClass = (field) => {
+        let {modalUpdateClass} = this.state;
+        this.setState({
+            modalUpdateClass: {
+                ...modalUpdateClass,
+                [field]: !modalUpdateClass[field],
+            }
+        });
+    }
+
+
+    submitModalUpdateClass = () => {
+        this.props.classActions.updateAndReloadClass(this.classId, this.state.modalUpdateClass, this.hideModalUpdateClass);
+    }
 
     render() {
         this.path = this.props.location.pathname;
@@ -469,7 +505,7 @@ class ClassContainer extends React.Component {
                             </div>
 
                         </div>
-                        <div className="card detail-wrap none-margin-top" style={{background:'#f7f7f7'}}>
+                        <div className="card detail-wrap none-margin-top" style={{background: '#f7f7f7'}}>
                             <div className="card-content">
                                 <div className="detail-wrap">
                                     <p>Giảng
@@ -766,7 +802,7 @@ class ClassContainer extends React.Component {
 
                             </CreateRegisterOverlay>}
                             {(this.path == `${this.routePrefix}/history-teaching` || this.path == `${this.routePrefix}/score`) &&
-                            <div onClick={this.updateClassLesson} className="btn btn-actions button-green radius-5">
+                            <div onClick={this.showModalUpdateClass} className="btn btn-actions button-green radius-5">
                                 <i className="material-icons">cached</i>&nbsp;&nbsp;&nbsp;&nbsp;Cập nhật chương trình
                             </div>}
                             {(this.path == `${this.routePrefix}/history-teaching` || this.path == `${this.routePrefix}/score`)
@@ -809,293 +845,50 @@ class ClassContainer extends React.Component {
                     </div>
                 </div>}
 
-                {/*    </div>*/}
-                {/*</div>*/}
-                {/*{false && <div className="row">*/}
-                {/*    <div className="col-md-8">*/}
-                {/*        <ul className="nav nav-pills nav-pills-rose" data-tabs="tabs">*/}
-                {/*            <li className={this.path === `/teaching/class/${this.classId}` ? 'active' : ''}>*/}
-                {/*                <IndexLink to={`/teaching/class/${this.classId}`}>*/}
-                {/*                    <i className="material-icons">account_circle</i> Tổng quan  &#160;*/}
+                <Modal
+                    show={this.state.showModalUpdateClass}
+                    onHide={this.props.isLoadingClass ? null : this.hideModalUpdateClass}
+                >
+                    <Modal.Header closeButton>
+                        <h4 className="modal-title">Cập nhật chương trình học</h4>
+                        <div>Bạn muốn cập nhật những gì?</div>
+                    </Modal.Header>
+                    <Modal.Body>
+                        {this.props.isLoadingClass && <Loading/>}
+                        {!this.props.isLoadingClass && <div className="form-grey">
+                            <th>
+                                <CheckBoxMaterial
+                                    label="Chương trình học và giảng viên, trợ giảng mỗi buổi học"
 
-                {/*                    <div className="ripple-container"/>*/}
-                {/*                </IndexLink>*/}
-                {/*            </li>*/}
-                {/*            <li className={this.path === `/teaching/class/${this.classId}/history-teaching` ? 'active' : ''}>*/}
-                {/*                <Link to={`/teaching/class/${this.classId}/history-teaching`}>*/}
-                {/*                    <i className="material-icons">smartphone</i> Lịch sử giảng dạy &#160;*/}
-                {/*                    <div className="ripple-container"/>*/}
-                {/*                </Link>*/}
-                {/*            </li>*/}
-                {/*            <li className={this.path === `/teaching/class/${this.classId}/registers` ? 'active' : ''}>*/}
-                {/*                <Link to={`/teaching/class/${this.classId}/registers`}>*/}
-                {/*                    <i className="material-icons">create</i> Đăng kí &#160;*/}
-                {/*                    <div className="ripple-container"/>*/}
-                {/*                </Link>*/}
-                {/*            </li>*/}
-                {/*            <li className={this.path === `/teaching/class/${this.classId}/progress` ? 'active' : ''}>*/}
-                {/*                <Link to={`/teaching/class/${this.classId}/progress`}>*/}
-                {/*                    <i className="material-icons">create</i> Học tập &#160;*/}
-                {/*                    <div className="ripple-container"/>*/}
-                {/*                </Link>*/}
-                {/*            </li>*/}
-                {/*            <li className={this.path === `/teaching/class/${this.classId}/care` ? 'active' : ''}>*/}
-                {/*                <Link to={`/teaching/class/${this.classId}/care`}>*/}
-                {/*                    <i className="material-icons">flag</i> Quan tâm &#160;*/}
-                {/*                    <div className="ripple-container"/>*/}
-                {/*                </Link>*/}
-                {/*            </li>*/}
-                {/*        </ul>*/}
-                {/*        <div className="card">*/}
-                {/*            <div className="card-content">*/}
-                {/*                <div className="tab-content">*/}
-                {/*                    {this.props.children}*/}
-                {/*                </div>*/}
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*    <div className="col-md-4">*/}
-                {/*        <div className="row">*/}
-                {/*            <div className="col-md-12">*/}
-                {/*                <div className="card">*/}
-                {/*                    <div className="card-content">*/}
-                {/*                        <div className="tab-content">*/}
-                {/*                            <h4 className="card-title">*/}
-                {/*                                <strong>Thông tin về điểm danh</strong>*/}
-                {/*                            </h4>*/}
-                {/*                            <br/>*/}
-                {/*                            <div className="col-md-12">*/}
-                {/*                                <div>*/}
-                {/*                                    /!*<button className="btn btn-default width-100" disabled>*/}
-                {/*                                        <i className="material-icons">timer</i>*/}
-                {/*                                        Xem group lớp*/}
-                {/*                                    </button>*/}
-                {/*                                    <button className="btn btn-default width-100" disabled>*/}
-                {/*                                        <i className="material-icons">timer</i>*/}
-                {/*                                        Xếp bằng*/}
-                {/*                                    </button>*/}
-                {/*                                    <button className="btn btn-default width-100" disabled>*/}
-                {/*                                        <i className="material-icons">timer</i>*/}
-                {/*                                        In bằng*/}
-                {/*                                    </button>*!/*/}
-                {/*                                    <button className="btn btn-default width-100"*/}
-                {/*                                            onClick={this.exportExcel}*/}
-                {/*                                            disabled={this.props.isLoadingClass}*/}
-                {/*                                    >*/}
-                {/*                                        <i className="material-icons">file_download</i>*/}
-                {/*                                        Xuất danh sách*/}
-                {/*                                    </button>*/}
-                {/*                                    <button className="btn btn-default width-100"*/}
-                {/*                                            onClick={this.exportAttendanceExcel}*/}
-                {/*                                            disabled={this.props.isLoadingClass}*/}
-                {/*                                    >*/}
-                {/*                                        <i className="material-icons">file_download</i>*/}
-                {/*                                        Xuất danh sách điểm danh*/}
-                {/*                                    </button>*/}
-                {/*                                    <button*/}
-                {/*                                        onClick={this.genCerti}*/}
-                {/*                                        className="btn btn-default width-100"><i*/}
-                {/*                                        className="material-icons">timer</i> Xếp bằng*/}
-                {/*                                    </button>*/}
-                {/*                                    <FormInputText*/}
-                {/*                                        name="link-driver"*/}
-                {/*                                        label="Link Driver"*/}
-                {/*                                        updateFormData={this.changeLinkDriver}*/}
-                {/*                                        value={this.state.linkDriver}*/}
-                {/*                                        type="text"*/}
-                {/*                                        disabled={this.props.isLoadingClass || this.props.isLoading}*/}
-                {/*                                    />*/}
-                {/*                                    <a className="btn btn-rose btn-sm"*/}
-                {/*                                       href={this.state.linkDriver}*/}
-                {/*                                       target="_blank"*/}
-                {/*                                    >*/}
-                {/*                                        Mở link*/}
-                {/*                                    </a>*/}
-                {/*                                    <button className="btn btn-rose btn-sm"*/}
-                {/*                                            onClick={this.submitLinkDriver}*/}
-                {/*                                            disabled={this.props.isLoadingClass || this.props.isLoading}*/}
-                {/*                                    >*/}
-                {/*                                        Lưu*/}
-                {/*                                    </button>*/}
-                {/*                                </div>*/}
-                {/*                                {this.props.isLoadingClass ? <Loading/> :*/}
-                {/*                                    <div>*/}
-                {/*                                        {classData.attendances &&*/}
-                {/*                                        <div><h4><strong>Tình trạng điểm danh</strong></h4>*/}
-                {/*                                            {classData.attendances.map(attendance => {*/}
-                {/*                                                return (*/}
-                {/*                                                    <div key={attendance.order}>*/}
-                {/*                                                        <div*/}
-                {/*                                                            className="flex flex-row-center flex-space-between">*/}
-                {/*                                                            <h6>*/}
-                {/*                                                                <strong>Buổi {attendance.order} </strong>{attendance.total_attendance}/{classData.total_paid}*/}
-                {/*                                                            </h6>*/}
-                {/*                                                            {*/}
-                {/*                                                                (attendance.is_change || this.props.user.role == 2) &&*/}
-                {/*                                                                <TooltipButton placement="top"*/}
-                {/*                                                                               text="Đổi buổi"*/}
-                {/*                                                                >*/}
-                {/*                                                                    <button*/}
-                {/*                                                                        className="btn btn-xs btn-round"*/}
-                {/*                                                                        onClick={() => this.openModalClassLesson(attendance)}*/}
-                {/*                                                                    >*/}
-                {/*                                                                        <i className="material-icons">compare_arrows</i>*/}
-                {/*                                                                        <div*/}
-                {/*                                                                            className="ripple-container"/>*/}
-                {/*                                                                    </button>*/}
-                {/*                                                                </TooltipButton>*/}
-                {/*                                                            }*/}
-                {/*                                                        </div>*/}
+                                    checked={this.state.modalUpdateClass.syllabus}
+                                    onChange={() => this.onChangeModalUpdateClass('syllabus')}
+                                />
+                                <CheckBoxMaterial
+                                    label="Bài kiểm tra"
 
-                {/*                                                        <div*/}
-                {/*                                                            className="progress progress-line-success progress-bar-table width-100">*/}
-                {/*                                                            <div*/}
-                {/*                                                                className="progress-bar progress-bar-success"*/}
-                {/*                                                                role="progressbar"*/}
-                {/*                                                                aria-valuemin="0"*/}
-                {/*                                                                aria-valuemax="100"*/}
-                {/*                                                                style={{width: (100 * attendance.total_attendance / classData.total_paid) + '%'}}*/}
-                {/*                                                            >*/}
-                {/*                                        <span*/}
-                {/*                                            className="sr-only">{100 * attendance.total_attendance / classData.total_paid}%</span>*/}
-                {/*                                                            </div>*/}
-                {/*                                                        </div>*/}
-                {/*                                                    </div>*/}
-                {/*                                                );*/}
-                {/*                                            })}*/}
+                                    checked={this.state.modalUpdateClass.exam}
+                                    onChange={() => this.onChangeModalUpdateClass('exam')}
+                                />
+                            </th>
+                            <div className="flex flex-end">
+                                <button type="button" data-dismiss="modal"
+                                        className="btn btn-white  text-center"
+                                        onClick={this.hideModalUpdateClass}>
+                                    Hủy
+                                </button>
+                                <button type="button"
+                                        className="btn btn-success  text-center"
+                                        style={{backgroundColor: '#2acc4c'}}
+                                        onClick={this.submitModalUpdateClass}
+                                        disabled={!this.state.modalUpdateClass.syllabus && !this.state.modalUpdateClass.exam}
+                                >
+                                    Cập nhật
+                                </button>
+                            </div>
+                        </div>}
 
-                {/*                                        </div>*/}
-                {/*                                        }*/}
-                {/*                                        {classData.teacher &&*/}
-                {/*                                        <div><h4><strong>Điểm danh giảng viên</strong></h4>*/}
-                {/*                                            {classData.teacher.attendances.map((attendance, index) => {*/}
-                {/*                                                    return (*/}
-                {/*                                                        <div key={index}>*/}
-                {/*                                                            <div*/}
-                {/*                                                                className="flex flex-row-center flex-space-between">*/}
-                {/*                                                                <div>*/}
-                {/*                                                                    <strong>Buổi {attendance.order} </strong>*/}
-                {/*                                                                    {*/}
-                {/*                                                                        attendance.staff &&*/}
-                {/*                                                                        attendance.staff.name*/}
-
-                {/*                                                                    }*/}
-                {/*                                                                </div>*/}
-                {/*                                                                {*/}
-                {/*                                                                    (attendance.is_change || this.props.user.role == 2) &&*/}
-                {/*                                                                    <div>*/}
-                {/*                                                                        <TooltipButton placement="top"*/}
-                {/*                                                                                       text="Đổi giảng viên"*/}
-                {/*                                                                        >*/}
-                {/*                                                                            <button*/}
-                {/*                                                                                className="btn btn-xs btn-round"*/}
-                {/*                                                                                onClick={() => this.openModalChangeTeacher(attendance)}*/}
-                {/*                                                                            >*/}
-                {/*                                                                                <i className="material-icons">compare_arrows</i>*/}
-                {/*                                                                                <div*/}
-                {/*                                                                                    className="ripple-container"/>*/}
-                {/*                                                                            </button>*/}
-                {/*                                                                        </TooltipButton>*/}
-                {/*                                                                        <TooltipButton placement="top"*/}
-                {/*                                                                                       text="Xem thêm"*/}
-                {/*                                                                        >*/}
-                {/*                                                                            <button*/}
-                {/*                                                                                className="btn btn-xs btn-round btn-rose"*/}
-                {/*                                                                                onClick={() => this.openModalTeachingLesson(attendance, 1)}*/}
-                {/*                                                                            >*/}
-                {/*                                                                                <i className="material-icons">more_horiz</i>*/}
-                {/*                                                                                <div*/}
-                {/*                                                                                    className="ripple-container"/>*/}
-                {/*                                                                            </button>*/}
-                {/*                                                                        </TooltipButton>*/}
-                {/*                                                                    </div>*/}
-
-                {/*                                                                }*/}
-                {/*                                                            </div>*/}
-                {/*                                                            <AttendanceTeacher*/}
-                {/*                                                                attendance={attendance}*/}
-                {/*                                                                addCheckinCheckout={this.addCheckinCheckout}*/}
-                {/*                                                                type={"teacher"}*/}
-                {/*                                                            />*/}
-                {/*                                                        </div>*/}
-                {/*                                                    )*/}
-                {/*                                                        ;*/}
-                {/*                                                }*/}
-                {/*                                            )}*/}
-
-                {/*                                        </div>*/}
-                {/*                                        }*/}
-                {/*                                        {classData.teacher_assistant &&*/}
-                {/*                                        <div><h4><strong>Điểm danh trợ giảng</strong></h4>*/}
-                {/*                                            {classData.teacher_assistant.attendances.map((attendance, index) => {*/}
-                {/*                                                    return (*/}
-                {/*                                                        <div key={index}>*/}
-                {/*                                                            <div*/}
-                {/*                                                                className="flex flex-row-center flex-space-between">*/}
-                {/*                                                                <div>*/}
-                {/*                                                                    <strong>Buổi {attendance.order} </strong>*/}
-                {/*                                                                    {*/}
-                {/*                                                                        attendance.staff &&*/}
-                {/*                                                                        attendance.staff.name*/}
-
-                {/*                                                                    }*/}
-                {/*                                                                </div>*/}
-                {/*                                                                {*/}
-                {/*                                                                    (attendance.is_change || this.props.user.role == 2) &&*/}
-                {/*                                                                    <div>*/}
-                {/*                                                                        <TooltipButton placement="top"*/}
-                {/*                                                                                       text="Đổi trợ giảng"*/}
-                {/*                                                                        >*/}
-                {/*                                                                            <button*/}
-                {/*                                                                                className="btn btn-xs btn-round"*/}
-                {/*                                                                                onClick={() => this.openModalTeachAssis(attendance)}*/}
-                {/*                                                                            >*/}
-                {/*                                                                                <i className="material-icons">compare_arrows</i>*/}
-                {/*                                                                                <div*/}
-                {/*                                                                                    className="ripple-container"/>*/}
-                {/*                                                                            </button>*/}
-                {/*                                                                        </TooltipButton>*/}
-                {/*                                                                        <TooltipButton placement="top"*/}
-                {/*                                                                                       text="Xem thêm"*/}
-                {/*                                                                        >*/}
-                {/*                                                                            <button*/}
-                {/*                                                                                className="btn btn-xs btn-round btn-rose"*/}
-                {/*                                                                                onClick={() => this.openModalTeachingLesson(attendance, 2)}*/}
-                {/*                                                                            >*/}
-                {/*                                                                                <i className="material-icons">more_horiz</i>*/}
-                {/*                                                                                <div*/}
-                {/*                                                                                    className="ripple-container"/>*/}
-                {/*                                                                            </button>*/}
-                {/*                                                                        </TooltipButton>*/}
-                {/*                                                                    </div>*/}
-
-                {/*                                                                }*/}
-
-                {/*                                                            </div>*/}
-                {/*                                                            <AttendanceTeacher*/}
-                {/*                                                                attendance={attendance}*/}
-                {/*                                                                addCheckinCheckout={this.addCheckinCheckout}*/}
-                {/*                                                                type={"teaching_assistant"}*/}
-                {/*                                                            />*/}
-                {/*                                                        </div>*/}
-                {/*                                                    );*/}
-                {/*                                                }*/}
-                {/*                                            )}*/}
-
-                {/*                                        </div>*/}
-                {/*                                        }*/}
-
-                {/*                                    </div>*/}
-                {/*                                }*/}
-                {/*                            </div>*/}
-                {/*                        </div>*/}
-                {/*                    </div>*/}
-                {/*                </div>*/}
-
-                {/*            </div>*/}
-                {/*        </div>*/}
-                {/*    </div>*/}
-                {/*</div>}*/}
+                    </Modal.Body>
+                </Modal>
                 <Modal
                     show={this.state.showModalClassLesson}
                     onHide={this.props.isChangingClassLesson ? null : this.closeModalClassLesson}

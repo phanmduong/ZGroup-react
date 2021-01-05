@@ -1,11 +1,9 @@
 import * as types from '../../constants/actionTypes';
 import * as classApi from './classApi';
 import * as helper from '../../helpers/helper';
+import {showErrorNotification, showNotification, showTypeNotification} from '../../helpers/helper';
 import * as dashboardApi from "../dashboard/dashboardApi";
-import {showTypeNotification} from "../../helpers/helper";
 import * as registerStudentsApi from "../registerStudents/registerStudentsApi";
-import {showNotification} from "../../helpers/helper";
-import {showErrorNotification} from "../../helpers/helper";
 
 /*eslint no-console: 0 */
 
@@ -197,7 +195,7 @@ export function createClass(classData, closeModal) {
                     class: res.data.data.class
                 });
             }).catch(() => {
-                helper.showErrorNotification('Có lỗi xảy ra!');
+            helper.showErrorNotification('Có lỗi xảy ra!');
             dispatch({
                 type: types.LOAD_CREATE_CLASS_ERROR
             });
@@ -301,7 +299,7 @@ export function changeClassLessons(classLesson, callback) {
             .then((res) => {
                 if (res.data.status === 1) {
                     helper.showNotification(res.data.message);
-                    if(callback) callback();
+                    if (callback) callback();
                     dispatch({
                         type: types.CHANGE_CLASS_LESSONS_SUCCESS,
                     });
@@ -309,7 +307,7 @@ export function changeClassLessons(classLesson, callback) {
                     helper.showErrorNotification(res.data.message);
                 }
             }).catch(() => {
-                showErrorNotification('Có lỗi xảy ra!');
+            showErrorNotification('Có lỗi xảy ra!');
             dispatch({
                 type: types.CHANGE_CLASS_LESSONS_ERROR
             });
@@ -327,7 +325,7 @@ export function saveStudentLessonEvent(lessonEventStudent, callback) {
             .then((res) => {
                 if (res.data.status === 1) {
                     helper.showNotification(res.data.message);
-                    if(callback) callback();
+                    if (callback) callback();
                     dispatch({
                         type: types.SAVE_STUDENT_LESSON_EVENT_SUCCESS,
                     });
@@ -335,7 +333,7 @@ export function saveStudentLessonEvent(lessonEventStudent, callback) {
                     helper.showErrorNotification(res.data.message);
                 }
             }).catch(() => {
-                showErrorNotification('Có lỗi xảy ra!');
+            showErrorNotification('Có lỗi xảy ra!');
             dispatch({
                 type: types.SAVE_STUDENT_LESSON_EVENT_ERROR
             });
@@ -596,16 +594,47 @@ export function confirmChangeClass(register, classId, currentClassId, closeModal
 }
 
 export function updateClassLesson(classId) {
-    return function (dispath) {
-        showTypeNotification("Đang cập nhật", "info");
+    return function () {
+        showTypeNotification("Đang cập nhật chương trình học", "info");
         classApi.updateClassLesson(classId)
             .then(() => {
-                showTypeNotification("Cập nhật thành công");
-                dispath(loadClass(classId));
+                showTypeNotification("Cập nhật chương trình học thành công");
+                // dispath(loadClass(classId));
             })
             .catch(() => {
                 showErrorNotification("Có lỗi xảy ra");
             });
+    };
+}
+
+export function updateClassExam(classId) {
+    return function () {
+        showTypeNotification("Đang cập nhật bài kiểm tra", "info");
+        classApi.updateClassExam(classId)
+            .then(() => {
+                showTypeNotification("Cập nhật bài kiểm tra thành công");
+                // dispath(loadClass(classId));
+            })
+            .catch(() => {
+                showErrorNotification("Có lỗi xảy ra");
+            });
+    };
+}
+
+export function updateAndReloadClass(classId, options, callback) {
+    return async function (dispatch) {
+        if (options.syllabus) {
+            showTypeNotification("Đang cập nhật chương trình học", "info");
+            await classApi.updateClassLesson(classId);
+            showTypeNotification("Cập nhật chương trình học thành công");
+        }
+        if (options.exam) {
+            showTypeNotification("Đang cập nhật bài kiểm tra", "info");
+            await classApi.updateClassExam(classId);
+            showTypeNotification("Cập nhật bài kiểm tra thành công");
+        }
+        dispatch(loadClass(classId));
+        callback();
     };
 }
 
