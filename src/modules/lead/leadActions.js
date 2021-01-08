@@ -11,8 +11,8 @@ import async from "async";
 
 
 /*eslint no-console: 0 */
-export function getLeads(filter) {
-    let {limit, page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate, lead_tag, call_back_time, base_id,mock_exam_time,imported_at} = filter;
+export function getLeads({limit, page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate, lead_tag, call_back_time, base_id,mock_exam_time,imported_at}) {
+
     return function (dispatch) {
         dispatch({type: types.BEGIN_LOAD_LIST_LEAD});
         leadApi.loadLeads(limit, page, search, startTime, endTime, staffId, rate, top, address, leadStatusId, orderBy, orderByType, source_id, campaign_id, duplicate, lead_tag, call_back_time, base_id,mock_exam_time,imported_at)

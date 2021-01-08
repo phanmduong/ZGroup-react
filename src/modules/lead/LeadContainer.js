@@ -99,7 +99,6 @@ class LeadContainer extends React.Component {
                 imported_at: '',
                 call_back_time: '',
                 mock_exam_time: '',
-                status: '',
             },
             leadStatusId: '',
             source_id: '',
@@ -186,6 +185,8 @@ class LeadContainer extends React.Component {
         this.setState(willMountState);
         this.props.leadActions.getLeads({
             ...willMountState,
+            ...willMountState.filter,
+            staffId: this.isAdmin ? willMountState.staffId : this.props.user.id,
         });
 
     }
@@ -195,19 +196,19 @@ class LeadContainer extends React.Component {
         if (!nextProps.isLoading && this.props.isLoading) {
             this.setState({page: nextProps.currentPage});
         }
-        if (this.props.isUploading && !nextProps.isUploading && !nextProps.errorUpload) {
-            this.setState({
-                page: 1,
-                search: "",
-                filter: {
-                    startTime: '',
-                    endTime: '',
-                },
-                staff: "",
-                rate: 0
-            });
-            this.props.leadActions.getLeads({page: 1, staffId: this.isAdmin ? '' : this.props.user.id,});
-        }
+        // if (this.props.isUploading && !nextProps.isUploading && !nextProps.errorUpload) {
+        //     this.setState({
+        //         page: 1,
+        //         search: "",
+        //         filter: {
+        //             startTime: '',
+        //             endTime: '',
+        //         },
+        //         staff: "",
+        //         rate: 0
+        //     });
+        //     this.props.leadActions.getLeads({page: 1, staffId: this.isAdmin ? '' : this.props.user.id,});
+        // }
         // if (this.props.isDistributing && !nextProps.isDistributing && !nextProps.errorDistribution) {
         //     this.setState({
         //         page: 1,
@@ -379,6 +380,8 @@ class LeadContainer extends React.Component {
     onSearchLead = () => {
         this.props.leadActions.getLeads({
                 ...this.state,
+                ...this.state.filter,
+
             }
         );
     };
@@ -387,6 +390,7 @@ class LeadContainer extends React.Component {
         this.setState({page, isAll: false});
         this.props.leadActions.getLeads({
             ...this.state,
+            ...this.state.filter,
             page,
         });
     };
@@ -486,13 +490,10 @@ class LeadContainer extends React.Component {
         let newState = this.onFilterChange(value, name);
         this.props.leadActions.getLeads({
             ...newState,
+            ...newState.filter,
             page: 1,
-            startTime: newState.filter ? newState.filter.startTime : '',
-            endTime: newState.filter ? newState.filter.endTime : '',
             staffId: this.isAdmin ? newState.staffId : this.props.user.id,
-            call_back_time: newState.filter ? newState.filter.call_back_time : '',
-            mock_exam_time: newState.filter ? newState.filter.mock_exam_time : '',
-            imported_at: newState.filter ? newState.filter.imported_at : '',
+
         });
     };
 
@@ -525,13 +526,9 @@ class LeadContainer extends React.Component {
         console.log('applyFilter', this.state);
         this.props.leadActions.getLeads({
             ...this.state,
+            ...this.state.filter,
             page: 1,
             search: this.state.search,
-            startTime: this.state.filter.startTime,
-            endTime: this.state.filter.endTime,
-            mock_exam_time: this.state.filter.mock_exam_time,
-            call_back_time: this.state.filter.call_back_time,
-            imported_at: this.state.filter.imported_at,
             base_id: this.state.selectedBaseId,
             staffId: this.isAdmin ? this.state.staffId : this.props.user.id,
         });
@@ -671,6 +668,7 @@ class LeadContainer extends React.Component {
         this.timeOutTop = setTimeout(function () {
             this.props.leadActions.getLeads({
                 ...this.state,
+                ...this.state.filter,
                 page: 1,
                 top: value,
                 // staffId: this.isAdmin ? -2 : this.props.user.id,
@@ -737,7 +735,11 @@ class LeadContainer extends React.Component {
     };
 
     removeLeadSuccess = () => {
-        this.props.leadActions.getLeads(this.state);
+        this.props.leadActions.getLeads({
+            ...this.state,
+            ...this.state.filter,
+            staffId: this.isAdmin ? this.state.staffId : this.props.user.id,
+        });
     };
 
     removeLead = (lead) => {
@@ -747,9 +749,16 @@ class LeadContainer extends React.Component {
     };
 
     resetLoad = () => {
-        this.setState({staff: "", page: 1, isDistribution: false, selectedLeads: []});
+        this.setState({staff: {}, page: 1, isDistribution: false, selectedLeads: [],filter: {
+                startTime: '',
+                endTime: '',
+                imported_at: '',
+                call_back_time: '',
+                mock_exam_time: '',
+            }});
         this.props.leadActions.getLeads({
             ...this.state,
+            ...this.state.filter,
             page: 1,
             staffId: '',
         });
@@ -1767,7 +1776,7 @@ LeadContainer.propTypes = {
     params: PropTypes.object.isRequired,
     leads: PropTypes.array.isRequired,
     isLoading: PropTypes.bool.isRequired,
-    isUploading: PropTypes.bool.isRequired,
+    // isUploading: PropTypes.bool.isRequired,
     errorDistribution: PropTypes.bool.isRequired,
     errorUpload: PropTypes.bool.isRequired,
     isDistributing: PropTypes.bool.isRequired,
@@ -1784,7 +1793,7 @@ function mapStateToProps(state) {
         isLoading: state.lead.isLoading,
         totalPages: state.lead.totalPages,
         currentPage: state.lead.currentPage,
-        isUploading: state.lead.isUploading,
+        // isUploading: state.lead.isUploading,
         errorUpload: state.lead.errorUpload,
         totalCount: state.lead.totalCount,
         isDistributing: state.lead.isDistributing,
