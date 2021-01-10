@@ -398,6 +398,11 @@ class HistoryTeachingContainer extends React.Component {
                                 let minWidth = 120, margin = '5px 3px';
                                 let lesson_exams = classData.exams.filter(ex=>ex.lesson && ex.lesson.id == lesson.lesson_id);
                                 let lesson_exam_names = lesson_exams.map(ex=>ex.title).join(', \n');
+                            let  total_attendance = 0;
+                            classData.registers.forEach(r=>{
+                                let find_atd = r.attendances ? r.attendances.filter(a=>a.class_lesson_id == lesson.class_lesson_id && a.status)[0] : 0;
+                                if(find_atd) total_attendance++;
+                            });
                                 return (
                                     <tr key={key}>
                                         <td>
@@ -484,17 +489,17 @@ class HistoryTeachingContainer extends React.Component {
                                                 {/*    <div*/}
                                                 {/*        style={{fontSize: 12}}>{lesson.total_attendance}/{classData.total_paid}</div>*/}
                                                 {/*</div>*/}
-                                                <h6>{lesson.total_attendance || 0}/{classData.total_paid}</h6>
+                                                <h6>{total_attendance || 0}/{classData.total_paid}</h6>
                                                 <div
                                                     className="progress progress-line-success progress-bar-table width-100">
                                                     <div className="progress-bar progress-bar-success"
                                                          role="progressbar"
                                                          aria-valuemin="0"
                                                          aria-valuemax="100"
-                                                         style={{width: (100 *  lesson.total_attendance / classData.total_paid) + '%'}}
+                                                         style={{width: (100 *  total_attendance / classData.total_paid) + '%'}}
                                                     >
                                                         <span
-                                                            className="sr-only">{(100 *  lesson.total_attendance / classData.total_paid)}%</span>
+                                                            className="sr-only">{(100 *  total_attendance / classData.total_paid)}%</span>
                                                     </div>
                                                 </div>
                                             </div>
