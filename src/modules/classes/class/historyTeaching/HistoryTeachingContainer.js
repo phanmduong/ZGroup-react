@@ -151,7 +151,7 @@ class HistoryTeachingContainer extends React.Component {
         // console.log(lessonEvent);
         let lessonEventStudent = this.props.classData.registers.map((r) => {
             let {student} = r;
-            let student_class_lesson_event = r.events.filter(e => e.event_type == lessonEventType && e.lesson_id == lessonEvent.lesson_id)[0] || {};
+            let student_class_lesson_event = r.events.filter(e => e &&  e.event_type == lessonEventType && e.lesson_id == lessonEvent.lesson_id)[0] || {};
             // console.log(r.events, student_class_lesson_event);
 
             return {
