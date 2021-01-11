@@ -23,7 +23,10 @@ class EditProfileComponent extends React.Component {
 
     checkValidate() {
         if ($('#form-edit-staff').valid()) {
-            this.props.store.editStaff(this.state.profile);
+            this.props.store.editStaff({
+                ...this.state.profile,
+                revenue:this.state.profile.salary
+            });
         }
     }
 

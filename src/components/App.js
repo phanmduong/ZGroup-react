@@ -6,8 +6,8 @@ import TabContainer from "../modules/tab/TabContainer";
 import {Link} from "react-router";
 import * as helper from "../helpers/helper";
 import NotificationContainer from "../modules/notification/NotificationContainer";
-import Select from "./common/Select";
- import {getValueFromKey} from "../helpers/entity/object";
+// import Select from "./common/Select";
+//  import {getValueFromKey} from "../helpers/entity/object";
 // import Select from "./common/Select";
 
 // This is a class-based component because the current
@@ -46,21 +46,21 @@ class App extends React.Component {
             ? NO_AVATAR
             : this.props.user.avatar_url;
 
-        let provinces = this.props.provinces ? this.props.provinces.map((province) => {
-            return {key: province.id, value: province.name};
-        }) : [];
-        provinces = [{key: 0, value: "T.cả t.phố"}, ...provinces];
+        // let provinces = this.props.provinces ? this.props.provinces.map((province) => {
+        //     return {key: province.id, value: province.name};
+        // }) : [];
+        // provinces = [{key: 0, value: "T.cả t.phố"}, ...provinces];
 
-        let bases = this.props.bases ? this.props.bases.filter((base) => {
-            if (this.props.user && this.props.user.choice_province_id > 0) {
-                return getValueFromKey(base,'district.province.id') == this.props.user.choice_province_id;
-            } else {
-                return true;
-            }
-        }).map((base) => {
-            return {key: base.id, value: base.name};
-        }) : [];
-        bases = [{key: 0, value: "Tất cả cơ sở"}, ...bases];
+        // let bases = this.props.bases ? this.props.bases.filter((base) => {
+        //     if (this.props.user && this.props.user.choice_province_id > 0) {
+        //         return getValueFromKey(base,'district.province.id') == this.props.user.choice_province_id;
+        //     } else {
+        //         return true;
+        //     }
+        // }).map((base) => {
+        //     return {key: base.id, value: base.name};
+        // }) : [];
+        // bases = [{key: 0, value: "Tất cả cơ sở"}, ...bases];
 
         return (
             <div className="wrapper">
@@ -135,36 +135,37 @@ class App extends React.Component {
 
                                 <div className="flex flex-row flex-align-items-center custom-dropdown">
                                     <div className="menu-nav-bar cursor-pointer" onClick={this.onOpenNav}
-                                         style={{paddingLeft: 10}}>
+                                         style={{paddingLeft: 10}}
+                                    >
                                         <i className="material-icons">
                                             menu
                                         </i>
                                         <div className="ripple-container"/>
                                     </div>
-                                    <div
-                                        style={{width: 150}}
+                                    {/*<div*/}
+                                    {/*    style={{width: 150}}*/}
 
-                                    >
-                                        <Select
-                                            defaultMessage={'Chọn thành phố'}
-                                            options={provinces}
-                                            className="select-transparent"
-                                            value={this.props.user && this.props.user.choice_province_id ? this.props.user.choice_province_id : 0}
-                                            onChange={this.props.onChangeProvince}
-                                        />
-                                    </div>
-                                    <div
-                                        style={{width: 150}}
-                                    >
-                                        <Select
-                                            defaultMessage={'Chọn cơ sở'}
-                                            options={bases}
-                                            className="select-transparent"
-                                            value={this.props.selectedBaseId}
-                                            onChange={this.props.onChangeBase}
-                                            // onChange={this.onChangeGen}
-                                        />
-                                    </div>
+                                    {/*>*/}
+                                    {/*    <Select*/}
+                                    {/*        defaultMessage={'Chọn thành phố'}*/}
+                                    {/*        options={provinces}*/}
+                                    {/*        className="select-transparent"*/}
+                                    {/*        value={this.props.user && this.props.user.choice_province_id ? this.props.user.choice_province_id : 0}*/}
+                                    {/*        onChange={this.props.onChangeProvince}*/}
+                                    {/*    />*/}
+                                    {/*</div>*/}
+                                    {/*<div*/}
+                                    {/*    style={{width: 150}}*/}
+                                    {/*>*/}
+                                    {/*    <Select*/}
+                                    {/*        defaultMessage={'Chọn cơ sở'}*/}
+                                    {/*        options={bases}*/}
+                                    {/*        className="select-transparent"*/}
+                                    {/*        value={this.props.selectedBaseId}*/}
+                                    {/*        onChange={this.props.onChangeBase}*/}
+                                    {/*        // onChange={this.onChangeGen}*/}
+                                    {/*    />*/}
+                                    {/*</div>*/}
                                 </div>
 
                             </div>
