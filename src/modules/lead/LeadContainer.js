@@ -99,6 +99,7 @@ class LeadContainer extends React.Component {
                 imported_at: '',
                 call_back_time: '',
                 mock_exam_time: '',
+                appointment_time: '',
             },
             leadStatusId: '',
             source_id: '',
@@ -170,6 +171,7 @@ class LeadContainer extends React.Component {
                     endTime: query.endTime,
                     call_back_time: query.call_back_time,
                     mock_exam_time: query.mock_exam_time,
+                    appointment_time: query.appointment_time,
                 },
 
             };
@@ -334,6 +336,7 @@ class LeadContainer extends React.Component {
             `&startTime=${filter.startTime || ''}` +
             `&endTime=${filter.endTime || ''}` +
             `&mock_exam_time=${filter.mock_exam_time || ''}` +
+            `&appointment_time=${filter.appointment_time || ''}` +
             `&call_back_time=${filter.call_back_time || ''}`;
         return current_link;
     };
@@ -755,6 +758,7 @@ class LeadContainer extends React.Component {
                 imported_at: '',
                 call_back_time: '',
                 mock_exam_time: '',
+                appointment_time: '',
             }});
         this.props.leadActions.getLeads({
             ...this.state,
@@ -1221,6 +1225,16 @@ class LeadContainer extends React.Component {
                                         updateFormData={this.updateFormFilter}
                                         id="form-mock_exam_time"
                                         value={this.state.filter.mock_exam_time}
+                                    />
+                                </div>
+                                <div className="col-md-3">
+                                    <label>Hẹn gặp mặt</label>
+                                    <FormInputDate
+                                        label=""
+                                        name="appointment_time"
+                                        updateFormData={this.updateFormFilter}
+                                        id="form-appointment_time"
+                                        value={this.state.filter.appointment_time}
                                     />
                                 </div>
                                 {
