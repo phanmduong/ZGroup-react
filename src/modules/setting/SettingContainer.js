@@ -34,6 +34,10 @@ class SettingContainer extends React.Component {
                 key: "sms"
             },
             {
+                name: "Cài đặt App học viên",
+                key: "mobile_app_student"
+            },
+            {
                 name: "Cài đặt hóa đơn",
                 key: "invoice"
             }
@@ -51,33 +55,43 @@ class SettingContainer extends React.Component {
     getValue = (key) => {
         const setting = this.getSetting(key);
         return setting ? setting.value : null;
-    }
+    };
 
     getSetting = (key) => {
         return this.store.settings.filter((item) => item.key == key)[0];
-    }
+    };
 
     getSettingsByGroup = (group) => {
         return this.store.settings.filter((item) => item.group == group);
-    }
+    };
 
     updateFormData = (setting, e) => {
         setting.value = e.target.value;
-    }
+    };
 
     updateSelect = (setting, e) => {
         setting.value = e ? e.value : "";
-    }
+    };
+
+    updateCheckbox = (setting, key, value) => {
+        let settingValue = JSON.parse(setting.value);
+        if (value) {
+            settingValue.push(key);
+        } else {
+            settingValue = settingValue.filter((item) => item != key);
+        }
+        setting.value = JSON.stringify(settingValue);
+    };
 
     updateValueIndex = (setting, value, index) => {
         const settingValue = JSON.parse(setting.value);
         settingValue[index] = value;
         setting.value = JSON.stringify(settingValue);
-    }
+    };
 
     saveSettings = () => {
         this.store.saveSettings();
-    }
+    };
 
     render() {
         const {isLoading, isSaving} = this.store;
@@ -135,7 +149,12 @@ class SettingContainer extends React.Component {
                                             {this.tabs.map((tab) => {
                                                 return (
                                                     <li className={currentTab === `${tab.key}` ? 'active' : ''}>
-                                                        <a onClick={() => this.setState({currentTab: tab.key})}>
+                                                        <a onClick={() => {
+                                                            this.setState({currentTab: tab.key});
+                                                            setTimeout(() => {
+                                                                $.material.init();
+                                                            }, 100);
+                                                        }}>
                                                             {tab.name} &#160;
                                                             <div className="ripple-container"/>
                                                         </a>
@@ -177,7 +196,34 @@ class SettingContainer extends React.Component {
                                                         );
                                                     })
                                                 }
-                                                <div>
+                                                {
+                                                    this.getSettingsByGroup(currentTab).filter(setting => setting.type == "checkbox").map((setting) => {
+                                                        return (
+                                                            <div>
+                                                                <label>{setting.name}</label>
+                                                                {JSON.parse(setting.data).map((item) => {
+                                                                    return (
+                                                                        <div className="checkbox">
+                                                                            <label>
+                                                                                {JSON.parse(setting.value).indexOf(item.value) >= 0 ?
+                                                                                    <input type="checkbox" checked
+                                                                                           onChange={() => this.updateCheckbox(setting, item.value, false)}
+                                                                                    />
+                                                                                    :
+                                                                                    <input type="checkbox"
+                                                                                           onChange={() => this.updateCheckbox(setting, item.value, true)}
+                                                                                    />
+                                                                                }
+                                                                                {item.label}
+                                                                            </label>
+                                                                        </div>
+                                                                    );
+                                                                })}
+                                                            </div>
+                                                        );
+                                                    })
+                                                }
+                                                {currentTab == 'info' && <div>
                                                     <label>Thời gian tự động tạo lịch trực: (Hàng tuần vào lúc)</label>
                                                     <div className="flex flex-row flex-wrap">
                                                         <ReactSelect
@@ -197,8 +243,8 @@ class SettingContainer extends React.Component {
                                                             clearable={false}
                                                         />
                                                     </div>
-                                                </div>
-                                                <div>
+                                                </div>}
+                                                {currentTab == 'info' && <div>
                                                     <label>Thời gian tự động tạo lịch làm việc: (Hàng tuần vào
                                                         lúc)</label>
                                                     <div className="flex flex-row flex-wrap">
@@ -219,7 +265,8 @@ class SettingContainer extends React.Component {
                                                             clearable={false}
                                                         />
                                                     </div>
-                                                </div>
+                                                </div>}
+
                                                 <div className=" flex flex-end">
                                                     {isSaving ?
                                                         <button className=" btn btn-success btn-fill disabled"
