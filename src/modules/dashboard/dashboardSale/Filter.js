@@ -65,18 +65,13 @@ class Filter extends React.Component {
     onChangeBase = (value) => {
         const base_id = value ? value.value : 0;
         filterStore.filter = {...filterStore.filter, base_id};
-        this.props.baseActions.selectedBase(base_id);
+        this.load();
     }
 
     onChangeProvince = (value) => {
         const provinceId = value ? value.value : 0;
-        let user = {...this.props.user};
-        user.choice_province_id = provinceId;
-        localStorage.setItem("user", JSON.stringify(user));
-        showTypeNotification("Đang thay đổi thành phố", "info");
-        userActions.choiceProvince(provinceId, false, () => {
-            this.props.loginActions.getUserLocal();
-        });
+        filterStore.filter = {...filterStore.filter, province_id: provinceId};
+        this.load();
     }
 
     onChangeStaff = (value) => {
@@ -85,22 +80,22 @@ class Filter extends React.Component {
         this.load();
     }
 
-    componentWillReceiveProps(nextProps) {
-        if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
-            filterStore.filter = {...filterStore.filter, base_id: nextProps.selectedBaseId};
-            this.load();
-        }
-        if (nextProps.user.choice_province_id !== this.props.user.choice_province_id) {
-            filterStore.filter = {...filterStore.filter, base_id: nextProps.selectedBaseId};
-            this.load();
-        }
-    }
+    // componentWillReceiveProps(nextProps) {
+    //     if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
+    //         filterStore.filter = {...filterStore.filter, base_id: nextProps.selectedBaseId};
+    //         this.load();
+    //     }
+    //     if (nextProps.user.choice_province_id !== this.props.user.choice_province_id) {
+    //         filterStore.filter = {...filterStore.filter, base_id: nextProps.selectedBaseId};
+    //         this.load();
+    //     }
+    // }
 
     getBasesData = () => {
         let {bases, user} = this.props;
         let basesData = bases ? bases.filter((base) => {
             if (user && user.choice_province_id > 0) {
-                return base.district.province.id == user.choice_province_id;
+                return base.district.province.id == filterStore.province_id;
             } else {
                 return true;
             }

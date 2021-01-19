@@ -21,6 +21,7 @@ class FilterStore {
         base_id: 0,
         staff_id: 0,
         course_id: 0,
+        province_id: 0,
         source_id: 0,
         campaign_id: 0,
         staff: {value: 0, label: "Tất cả nhân viên", avatar_url: NO_AVATAR},
