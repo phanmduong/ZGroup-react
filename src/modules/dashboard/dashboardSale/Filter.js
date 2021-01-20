@@ -11,9 +11,7 @@ import {connect} from "react-redux";
 import moment from "moment";
 import Loading from "../../../components/common/Loading";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
-import * as userActions from "../../../actions/userActions";
 import * as loginActions from "../../../modules/login/loginActions";
-import {showTypeNotification} from "../../../helpers/helper";
 
 @observer
 class Filter extends React.Component {

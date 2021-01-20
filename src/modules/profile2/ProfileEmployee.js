@@ -77,6 +77,21 @@ class ProfileEmployee extends React.Component {
         this.store.loadClassesByDate(filter);
     };
 
+    handleFileUpload = () => {
+        let input = document.createElement("input");
+        input.type = "file";
+        input.value = "";
+        input.accept = ".jpg,.png,.gif";
+        input.onchange = (e) => {
+            this.store.changeAvatar(e.target.files[0], (avatar_url) => {
+                this.setState({profile: {...this.state.profile, avatar_url}});
+            });
+            // this.props.handleFileUpload(e);
+        };
+        input.click();
+
+    };
+
     render() {
         const {profile, isLoading, showModalEditProfile, role, base, department, classesByDate, showModalChangePassword} = this.store;
         const {name, email, phone, address, age, bank_name_account, bank_number, avatar_url, homeland, city, start_company, id} = profile;
@@ -128,14 +143,14 @@ class ProfileEmployee extends React.Component {
                                         <div className="card-content">
                                             <div className="detail-wrap">
                                                 <p>Họ và tên<strong>{name}</strong></p>
-                                                {role && <p>Chức vụ<strong>{role.role_title}</strong></p>}
-                                                {department && <p>Phòng ban<strong>{department.name}</strong></p>}
-                                                {phone && <p>Phone<strong>{phone}</strong></p>}
-                                                {email && <p>Email<strong>{email}</strong></p>}
-                                                {homeland && <p>Tỉnh thành <strong>{homeland}</strong></p>}
-                                                {age && <p>Tuổi<strong>{age || "Chưa có"}</strong></p>}
-                                                {address && <p>Địa chỉ<strong>{address || "Chưa có"}</strong></p>}
-                                                {base && <p>Cơ sở<strong>{base.name}</strong></p>}
+                                                {isEmptyInput(role) && <p>Chức vụ<strong>{role.role_title}</strong></p>}
+                                                {isEmptyInput(department) && <p>Phòng ban<strong>{department.name}</strong></p>}
+                                                {isEmptyInput(phone) && <p>Phone<strong>{phone}</strong></p>}
+                                                {isEmptyInput(email) && <p>Email<strong>{email}</strong></p>}
+                                                {isEmptyInput(homeland) && <p>Tỉnh thành <strong>{homeland}</strong></p>}
+                                                {isEmptyInput(age) && <p>Tuổi<strong>{age || "Chưa có"}</strong></p>}
+                                                {isEmptyInput(address) && <p>Địa chỉ<strong>{address || "Chưa có"}</strong></p>}
+                                                {isEmptyInput(base) && <p>Cơ sở<strong>{base.name}</strong></p>}
                                                 {<p>Tên TKNH<strong>{bank_name_account}</strong></p>}
                                                 {<p>Số TKNH<strong>{bank_number}</strong></p>}
                                                 {<p>Bắt đầu làm việc từ<strong>{start_company}</strong></p>}
