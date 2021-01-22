@@ -49,7 +49,7 @@ class ScheduleClassContainer extends Component {
             }
         }
         store.filter[field] = value;
-        store.filter.type = 'active';
+        // store.filter.type = 'active';
         store.loadClasses();
     }
 
@@ -87,7 +87,7 @@ class ScheduleClassContainer extends Component {
         let bases = this.props.bases ? this.props.bases.map((province) => {
             return {id: province.id, key: province.id, value: province.name};
         }) : [];
-        bases = [{id: '', key: '', value: "T.cả t.phố"}, ...bases];
+        bases = [{id: '', key: '', value: "T.cả cơ sở"}, ...bases];
         return bases;
     }
     getRooms = () => {
@@ -166,7 +166,7 @@ class ScheduleClassContainer extends Component {
                                 loadOptions={(p1, p2) => store.searchCourses(p1, p2)}
                                 loadingPlaceholder="Đang tải..."
                                 className="react-select-white-light-round cursor-pointer margin-top-10 radius-5"
-                                placeholder="Chọn môn học"
+                                placeholder="Chọn lớp học"
                                 searchPromptText="Không có dữ liệu"
                                 onChange={obj => this.onChangeFilter('course_id', obj ? obj.id : obj)}
                                 value={filter.class_id}

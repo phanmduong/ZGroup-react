@@ -160,11 +160,12 @@ export default new class ScheduleTeachingStore {
     get classStatuses() {
         return [{
             id: '',
+            key: '',
             avatar_url: NO_AVATAR,
             name: 'Tất cả trạng thái',
             label: 'Tất cả trạng thái',
             value: 'Tất cả trạng thái'
-        },...TYPE_CLASSES.map(function (obj) {
+        },...TYPE_CLASSES.filter(obj=>obj.value != 'waiting').map(function (obj) {
                 return {
                     id: obj.value,
                     key: obj.value,
