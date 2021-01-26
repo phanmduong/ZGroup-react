@@ -25,7 +25,7 @@ class Filter extends React.Component {
     changeDateRangePicker = (start_time, end_time) => {
         filterStore.filter = {...filterStore.filter, start_time, end_time, gen_id: 0};
         this.load();
-    }
+    };
 
     onChangeGen = (value) => {
         const gen_id = value ? value.value : 0;
@@ -37,46 +37,46 @@ class Filter extends React.Component {
 
         filterStore.filter = {...filterStore.filter, gen_id};
         this.load();
-    }
+    };
 
     onChangeCourse = (value) => {
         const course_id = value ? value.value : 0;
 
         filterStore.filter = {...filterStore.filter, course_id};
         this.load();
-    }
+    };
 
     onChangeSource = (value) => {
         const source_id = value ? value.value : 0;
 
         filterStore.filter = {...filterStore.filter, source_id};
         this.load();
-    }
+    };
 
     onChangeCampaign = (value) => {
         const campaign_id = value ? value.value : 0;
 
         filterStore.filter = {...filterStore.filter, campaign_id};
         this.load();
-    }
+    };
 
     onChangeBase = (value) => {
         const base_id = value ? value.value : 0;
         filterStore.filter = {...filterStore.filter, base_id};
         this.load();
-    }
+    };
 
     onChangeProvince = (value) => {
         const provinceId = value ? value.value : 0;
         filterStore.filter = {...filterStore.filter, province_id: provinceId};
         this.load();
-    }
+    };
 
     onChangeStaff = (value) => {
         const staff_id = value ? value.value : 0;
         filterStore.filter = {...filterStore.filter, staff_id, staff: value};
         this.load();
-    }
+    };
 
     // componentWillReceiveProps(nextProps) {
     //     if (nextProps.selectedBaseId !== this.props.selectedBaseId) {
@@ -90,10 +90,10 @@ class Filter extends React.Component {
     // }
 
     getBasesData = () => {
-        let {bases, user} = this.props;
+        let {bases} = this.props;
         let basesData = bases ? bases.filter((base) => {
-            if (user && user.choice_province_id > 0) {
-                return base.district.province.id == filterStore.province_id;
+            if (filterStore.filter.province_id) {
+                return base.district.province.id == filterStore.filter.province_id;
             } else {
                 return true;
             }
@@ -102,26 +102,26 @@ class Filter extends React.Component {
         }) : [];
         basesData = [{value: 0, label: "Tất cả cơ sở"}, ...basesData];
         return basesData;
-    }
+    };
 
     getProvincesData = () => {
         let {provinces} = this.props;
         return [{value: 0, label: "Tất cả thành phố"}, ...provinces.map((province) => {
             return {value: province.id, label: province.name};
         })];
-    }
+    };
 
     load = () => {
         const filter = {...filterStore.filter};
         filter.start_time = filterStore.filter.start_time.format(DATE_FORMAT_SQL);
         filter.end_time = filterStore.filter.end_time.format(DATE_FORMAT_SQL);
         this.props.loadData(filter);
-    }
+    };
 
 
     render() {
         let {filter, gensData, isLoading, coursesData, sourcesData, marketingCampaignData} = filterStore;
-        let {selectedBaseId, user, disabledCampaign, disabledSource} = this.props;
+        let {selectedBaseId, disabledCampaign, disabledSource} = this.props;
         if (isLoading) return (
             <div className="row gutter-20 margin-top-20">
                 <Loading/>
@@ -186,7 +186,7 @@ class Filter extends React.Component {
                 <div className="row gutter-20">
                     <div className="col-md-3">
                         <ReactSelect
-                            value={user && user.choice_province_id ? user.choice_province_id : 0}
+                            value={filter.province_id}
                             options={this.getProvincesData()}
                             onChange={this.onChangeProvince}
                             className="react-select-white-light-round cursor-pointer margin-bottom-20"
