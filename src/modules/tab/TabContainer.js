@@ -4,11 +4,10 @@ import {bindActionCreators} from 'redux';
 import PropTypes from 'prop-types';
 // import {Link} from "react-router";
 import * as tabsActions from './tabsActions';
-import * as helper from '../../helpers/helper';
+import {closeSidebar, getNewDomain, transformToTree} from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
-import {getNewDomain} from "../../helpers/helper";
 // Import actions here!!
-const TABIDS = [27, 213, 214, 5];
+const TABIDS = [27, 213, 214, 5, 151];
 
 
 class TabContainer extends React.Component {
@@ -31,7 +30,7 @@ class TabContainer extends React.Component {
         if (nextProps.tabsListData.length > this.props.tabsListData.length) {
 
             // tạo cây
-            let tabs = helper.transformToTree(nextProps.tabsListData, "id", "parent_id");
+            let tabs = transformToTree(nextProps.tabsListData, "id", "parent_id");
 
             this.setState({tabs: this.convertDataTabs({children: tabs}, nextProps.pathname)});
         }
@@ -81,7 +80,7 @@ class TabContainer extends React.Component {
                                         (
                                             <a href={this.newVersionTab(tab)} activeClassName="active"
                                                onClick={() => {
-                                                   helper.closeSidebar();
+                                                   closeSidebar();
                                                }}
                                             >
                                                 <p style={{paddingLeft: '10px'}}>{tab.name}</p>
@@ -90,7 +89,7 @@ class TabContainer extends React.Component {
                                         (
                                             <a href={this.newVersionTab(tab)}
                                                onClick={() => {
-                                                   helper.closeSidebar();
+                                                   closeSidebar();
                                                }}
                                             >
                                                 <p style={{paddingLeft: '10px'}}>{tab.name}</p>
@@ -147,7 +146,7 @@ class TabContainer extends React.Component {
                                     className={this.props.pathname === tab.url ? "active" : ""}>
                                     <a href={this.newVersionTab(tab)}
                                        onClick={() => {
-                                           helper.closeSidebar();
+                                           closeSidebar();
                                        }}
                                     >
                                         {//eslint-disable-next-line

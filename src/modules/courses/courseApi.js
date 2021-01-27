@@ -91,6 +91,7 @@ export function createEditCourse(data) {
         group_exams: [],
         lessons: [],
         terms: [],
+        classes: [],
     };
     return axios.post(url, data);
     //http://manageapi.keetool.tk/v2/course/create-edit?token=
