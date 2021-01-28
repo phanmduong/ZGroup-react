@@ -304,6 +304,7 @@ class coursesCreateEditGeneral extends React.Component {
                                                 {/*{this.state.tabEditorDetail == 2 ?*/}
                                                 <div>
                                                     <textarea
+                                                        maxLength="10000000"
                                                         type="text"
                                                         rows={20}
                                                         className="form-control"
