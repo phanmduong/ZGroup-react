@@ -89,10 +89,11 @@ export function editLesson(data) {
                 });
                 browserHistory.push("/teaching/courses/edit/" + data.course_id);
             })
-            .catch((err) => {
-                helper.sweetAlertError("Có lỗi xảy ra! " + err);
-                dispatch({ type: types.EDIT_LESSON_ERROR });
-            });
+            // .catch((err) => {
+            //     helper.sweetAlertError("Có lỗi xảy ra! " + err);
+            //     dispatch({ type: types.EDIT_LESSON_ERROR });
+            // })
+        ;
     };
 }
 export function loadTerms(courseId) {
