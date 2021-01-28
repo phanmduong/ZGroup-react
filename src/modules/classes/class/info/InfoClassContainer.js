@@ -420,9 +420,9 @@ class InfoClassContainer extends React.Component {
                                                                style={{fontSize: 22}}>more_horiz</i>
                                                         </div>
                                                         <ul className="dropdown-menu" style={{marginLeft: -125}}>
-                                                            {register.is_delete && <li>
-                                                                <a onClick={this.deleteRegister}>Xoá học viên</a>
-                                                            </li>}
+                                                            {/*{register.is_delete && <li>*/}
+                                                            {/*    <a onClick={this.deleteRegister}>Xoá học viên</a>*/}
+                                                            {/*</li>}*/}
                                                             {register.status <= 3 && <li>
 
                                                                 <a onClick={() => this.openModalChangeClass(register.id)}
