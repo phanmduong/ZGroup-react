@@ -1,5 +1,7 @@
 import axios from 'axios';
 import * as env from '../../constants/env';
+// eslint-disable-next-line import/named
+import {makeid} from "../../helpers/helper";
 
 export function loadGens() {
     let url = env.MANAGE_API_URL + "/gen/all";
@@ -22,7 +24,7 @@ export function loadBases() {
 }
 
 export function loadShiftRegisters(baseId, genId) {
-    let url = env.MANAGE_API_URL + `/shift-registers/current-shifts?base_id=${baseId}&gen_id=${genId}`;
+    let url = env.MANAGE_API_URL + `/shift-registers/current-shifts?base_id=${baseId}&gen_id=${genId}&c=${makeid(10)}`;
     let token = localStorage.getItem('token');
     if (token) {
         url += "&token=" + token;
