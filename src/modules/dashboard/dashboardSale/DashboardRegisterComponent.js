@@ -33,6 +33,13 @@ const optionsBarEnroll = {
     legend: {
         display: true,
         position: "bottom"
+    },
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true,
+            }
+        }]
     }
 };
 
@@ -53,6 +60,13 @@ const optionsBarMoney = {
     legend: {
         display: true,
         position: "bottom"
+    },
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true,
+            }
+        }]
     }
 };
 
@@ -73,6 +87,13 @@ const optionsBarRegister = {
     legend: {
         display: true,
         position: "bottom"
+    },
+    scales: {
+        yAxes: [{
+            ticks: {
+                beginAtZero: true,
+            }
+        }]
     }
 };
 
