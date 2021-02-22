@@ -24,7 +24,7 @@ branch_name=${branch_name:-HEAD}
 # fi
 
 
-project_folder=~/code/keetool-client-server-docker
+project_folder=~/code/keetool-client-server
 dest_folder=$project_folder/public/manage
 blade_file=$project_folder/resources/views/client/$module_name.blade.php
 
