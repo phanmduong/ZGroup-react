@@ -17,7 +17,6 @@ import ExpenseCampaignMarketing from "./ExpenseCampaignMarketing";
 import ExpenseSourceMarketing from "./ExpenseSourceMarketing";
 import {Bar} from "react-chartjs-2";
 import {URL} from "../../../constants/env";
-import filterStore from "../dashboardSale/filterStore";
 
 const optionsBarMoney = {
     tooltips: {
@@ -176,25 +175,19 @@ class DashboardLeadsComponent extends React.Component {
             end_time: filter.end_time,
             gen_id: filter.gen_id,
         };
-        // setCourseKpiStore.historyFilter = {
-        //     start_time: filter.start_time,
-        //     end_time: filter.end_time,
-        //     course_ids: courseIds
-        // };
-        // setCourseKpiStore.historyKpi({...setCourseKpiStore.historyFilter, base_id: filterStore.base_id});
         setLeadKpiStore.showModal = true;
-        // setCourseKpiStore.openHistoryPanel = openHistoryPanel;
         console.log("ok");
     }
 
-    openLinkLead = () =>{
+    openLinkLead = () => {
         let link = `https://${URL}/register/list?`;
-        const filter = {...filterStore.filter};
+        const filter = {...store.filter};
         const data = {
             startDate: filter.start_time.format('X'),
-            endDate:filter.end_time.format('X'),
-            // employees: JSON.stringify([filter.staff_id]),
-            provinces: JSON.stringify([filter.province_id]),
+            endDate: filter.end_time.format('X'),
+            creators: JSON.stringify([filter.imported_by]),
+            pics: JSON.stringify([filter.carer_id]),
+            provinces: JSON.stringify([filter.choice_province_id]),
             bases: JSON.stringify([filter.base_id]),
             sources: JSON.stringify([filter.source_id]),
             campaigns: JSON.stringify([filter.campaign_id]),
@@ -203,7 +196,7 @@ class DashboardLeadsComponent extends React.Component {
             const value = data[key] ? data[key] : "";
             link += `&${key}=${value}`;
         });
-        console.log(link);
+        console.log(filter, data, link);
         window.open(link, "_blank");
     }
 
