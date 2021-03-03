@@ -3,11 +3,8 @@ import PropTypes from 'prop-types';
 import {Bar, Line} from "react-chartjs-2";
 import _ from 'lodash';
 import moment from "moment";
-import {
-    DATE_FORMAT,
-} from "../../constants/constants";
+import {DATE_FORMAT,} from "../../constants/constants";
 import Loading from "../../components/common/Loading";
-import TooltipButton from "../../components/common/TooltipButton";
 import * as helper from "../../helpers/helper";
 import ReactSelect from "react-select";
 
@@ -155,15 +152,15 @@ class BarChartFilterDate extends React.Component {
                             </li>
                         );
                     })}
-                    <li>
-                        <TooltipButton placement="top" text={"Tải thống kê"}>
-                            <a onClick={this.downloadData}>
-                                <i className="material-icons" style={{padding: 0}}>
-                                    cloud_download
-                                </i>
-                            </a>
-                        </TooltipButton>
-                    </li>
+                    {/*<li>*/}
+                    {/*    <TooltipButton placement="top" text={"Tải thống kê"}>*/}
+                    {/*        <a onClick={this.downloadData}>*/}
+                    {/*            <i className="material-icons" style={{padding: 0}}>*/}
+                    {/*                cloud_download*/}
+                    {/*            </i>*/}
+                    {/*        </a>*/}
+                    {/*    </TooltipButton>*/}
+                    {/*</li>*/}
                 </ul>
                 <div style={{width: 130}}>
                     <ReactSelect

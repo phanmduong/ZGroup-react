@@ -12,7 +12,6 @@ import ReactTable from "react-table-v6";
 import Sort from "../../../components/common/ReactTable/Sort";
 import {convertDotMoneyToK, dotNumber} from "../../../helpers/helper";
 import SetKpiModal from "./SetKpiModal";
-import {URL} from "../../../constants/env";
 
 @observer
 class DashboardKpiComponent extends React.Component {
@@ -36,7 +35,8 @@ class DashboardKpiComponent extends React.Component {
             {
                 Header: <Sort title="Tên nhân viên"/>,
                 accessor: 'name',
-                Cell: props => <div onClick={() => this.openLinkRegister({saler_id: props.original.id}, true)}><strong>{props.value}</strong></div>
+                Cell: props => <div onClick={() => filterStore.openLinkRegister({saler_id: props.original.id}, true)}>
+                    <strong>{props.value}</strong></div>
             },
             {
                 Header: <Sort title="Thành phố"/>,
@@ -106,7 +106,7 @@ class DashboardKpiComponent extends React.Component {
                     <div
                         className="padding-vertical-10px padding-horizontal-20px white-light-round margin-right-10 btn-grey text-center font-weight-400 cursor-pointer"
                         style={{width: 120}}
-                        onClick={() => this.openLinkRegister({saler_id: props.value}, true)}
+                        onClick={() => filterStore.openLinkRegister({saler_id: props.value}, true)}
                     >Chi tiết đơn
                     </div>
                     <div
@@ -171,27 +171,6 @@ class DashboardKpiComponent extends React.Component {
         this.store.analyticsKpi(filter);
     }
 
-    openLinkRegister = (filter) => {
-        let link = `https://${URL}/register/list?`;
-        const filter2 = {...filterStore.filter,...filter};
-        const data = {
-            startDate: filter2.start_time.format('X'),
-            endDate:filter2.end_time.format('X'),
-            employees: JSON.stringify([filter2.staff_id]),
-            courses: JSON.stringify([filter2.course_id]),
-            provinces: JSON.stringify([filter2.province_id]),
-            bases: JSON.stringify([filter2.base_id]),
-            sources: JSON.stringify([filter2.source_id]),
-            campaigns: JSON.stringify([filter2.campaign_id]),
-        };
-        Object.keys(data).forEach((key) => {
-            const value = data[key] ? data[key] : "";
-            link += `&${key}=${value}`;
-        });
-        console.log(link);
-        window.open(link, "_blank");
-
-    }
 
     render() {
         let {isLoading, data, totalKpi} = this.store;

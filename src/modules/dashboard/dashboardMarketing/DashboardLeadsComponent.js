@@ -232,7 +232,7 @@ class DashboardLeadsComponent extends React.Component {
                 {/*    <div className="card margin-bottom-20 margin-top-0">*/}
                 {/*        <div className="card-content text-align-left">*/}
                 {/*            <div className="tab-content">*/}
-                {/*                <h4 className="card-title">*/}
+                {/*                <h4 className="card-title flex flex-align-items-center">*/}
                 {/*                    <strong>Phễu chuyển đổi</strong>*/}
                 {/*                </h4>*/}
                 {/*                <br/>*/}
@@ -284,8 +284,14 @@ class DashboardLeadsComponent extends React.Component {
                         <div className="card-content text-align-left">
                             <div className="tab-content">
                                 <div className="flex flex-row flex-space-between flex-align-items-center">
-                                    <h4 className="card-title">
+                                    <h4 className="card-title flex flex-align-items-center">
                                         <strong>Số Lead mới theo ngày tạo</strong>
+                                        <div
+                                            className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                            style={{fontSize: 12}}
+                                            onClick={() => this.openLinkLead()}
+                                        >Xem chi tiết
+                                        </div>
                                     </h4>
                                     <div
                                         className="padding-vertical-10px padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
@@ -333,8 +339,15 @@ class DashboardLeadsComponent extends React.Component {
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
-                                <h4 className="card-title">
+                                <h4 className="card-title flex flex-align-items-center">
                                     <strong>Số Lead chuyển đổi (Lead to Deal)</strong>
+                                    <div
+                                        className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                        style={{fontSize: 12}}
+                                        onClick={() => this.openLinkLead()}
+                                    >Xem chi tiết
+                                    </div>
+
                                 </h4>
                                 <br/>
                                 <br/>
@@ -368,8 +381,14 @@ class DashboardLeadsComponent extends React.Component {
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
-                                <h4 className="card-title">
+                                <h4 className="card-title flex flex-align-items-center">
                                     <strong>Tỉ lệ Lead theo trạng thái</strong>
+                                    <div
+                                        className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                        style={{fontSize: 12}}
+                                        onClick={() => this.openLinkLead()}
+                                    >Xem chi tiết
+                                    </div>
                                 </h4>
                                 <br/>
                                 <br/>
@@ -393,9 +412,15 @@ class DashboardLeadsComponent extends React.Component {
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
-                                <h4 className="card-title">
+                                <h4 className="card-title flex flex-align-items-center">
 
                                     <strong>Tỉ lệ Lead theo P.I.C</strong>
+                                    <div
+                                        className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                        style={{fontSize: 12}}
+                                        onClick={() => this.openLinkLead()}
+                                    >Xem chi tiết
+                                    </div>
                                 </h4>
                                 <br/>
                                 <br/>
@@ -419,8 +444,14 @@ class DashboardLeadsComponent extends React.Component {
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
-                                <h4 className="card-title">
+                                <h4 className="card-title flex flex-align-items-center">
                                     <strong>Tỉ lệ Lead theo nguồn</strong>
+                                    <div
+                                        className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                        style={{fontSize: 12}}
+                                        onClick={() => this.openLinkLead()}
+                                    >Xem chi tiết
+                                    </div>
                                 </h4>
                                 <br/>
                                 <br/>
@@ -444,8 +475,14 @@ class DashboardLeadsComponent extends React.Component {
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
-                                <h4 className="card-title">
+                                <h4 className="card-title flex flex-align-items-center">
                                     <strong>Tỉ lệ Lead theo chiến dịch</strong>
+                                    <div
+                                        className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                        style={{fontSize: 12}}
+                                        onClick={() => this.openLinkLead()}
+                                    >Xem chi tiết
+                                    </div>
                                 </h4>
                                 <br/>
                                 <br/>
@@ -469,8 +506,14 @@ class DashboardLeadsComponent extends React.Component {
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
-                                <h4 className="card-title">
+                                <h4 className="card-title flex flex-align-items-center">
                                     <strong>Chi phí chiến dịch marketing</strong>
+                                    <div
+                                        className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                        style={{fontSize: 12}}
+                                        onClick={() => this.openLinkLead()}
+                                    >Xem chi tiết
+                                    </div>
                                 </h4>
                                 <div>
                                     {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}
@@ -488,9 +531,16 @@ class DashboardLeadsComponent extends React.Component {
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
-                                <h4 className="card-title">
+                                <h4 className="card-title flex flex-align-items-center">
 
                                     <strong>Thống kê chi phí chiến dịch marketing</strong>
+
+                                    <div
+                                        className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                        style={{fontSize: 12}}
+                                        onClick={() => this.openLinkLead()}
+                                    >Xem chi tiết
+                                    </div>
                                 </h4>
                                 <div>
                                     {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}
@@ -521,8 +571,14 @@ class DashboardLeadsComponent extends React.Component {
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
-                                <h4 className="card-title">
+                                <h4 className="card-title flex flex-align-items-center">
                                     <strong>Chi phí nguồn marketing</strong>
+                                    <div
+                                        className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                        style={{fontSize: 12}}
+                                        onClick={() => this.openLinkLead()}
+                                    >Xem chi tiết
+                                    </div>
                                 </h4>
                                 <div>
                                     {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}
@@ -540,9 +596,15 @@ class DashboardLeadsComponent extends React.Component {
                     <div className="card margin-bottom-20 margin-top-0">
                         <div className="card-content text-align-left">
                             <div className="tab-content">
-                                <h4 className="card-title">
+                                <h4 className="card-title flex flex-align-items-center">
 
                                     <strong>Thống kê chi phí nguồn marketing</strong>
+                                    <div
+                                        className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                        style={{fontSize: 12}}
+                                        onClick={() => this.openLinkLead()}
+                                    >Xem chi tiết
+                                    </div>
                                 </h4>
                                 <div>
                                     {store.filter.start_time.format(DATE_VN_FORMAT)} - {store.filter.end_time.format(DATE_VN_FORMAT)}

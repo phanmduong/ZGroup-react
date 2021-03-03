@@ -3,7 +3,6 @@ import {observer} from 'mobx-react';
 import Loading from "../../../components/common/Loading";
 import filterStore from "./filterStore";
 import {convertDotMoneyToK, dotNumber} from "../../../helpers/helper";
-import {URL} from "../../../constants/env";
 
 // import {isEmpty, removeObservable} from "../../../helpers/entity/mobx";
 
@@ -21,27 +20,6 @@ class CardRealRevenue extends React.Component {
         //     cardRevenueStore.analyticsRevenue(filter);
     }
 
-    openLinkRegister = (filter) => {
-        let link = `https://${URL}/register/list?`;
-        const filter2 = {...filterStore.filter, ...filter};
-        const data = {
-            startDate: filter2.start_time.format('X'),
-            endDate:filter2.end_time.format('X'),
-            employees: JSON.stringify([filter2.staff_id]),
-            courses: JSON.stringify([filter2.course_id]),
-            provinces: JSON.stringify([filter2.province_id]),
-            bases: JSON.stringify([filter2.base_id]),
-            sources: JSON.stringify([filter2.source_id]),
-            campaigns: JSON.stringify([filter2.campaign_id]),
-        };
-        Object.keys(data).forEach((key) => {
-            const value = data[key] ? data[key] : "";
-            link += `&${key}=${value}`;
-        });
-        console.log(link);
-        window.open(link, "_blank");
-
-    }
 
     render() {
         const {isLoading, data} = this.props.store;
@@ -58,7 +36,7 @@ class CardRealRevenue extends React.Component {
                                 </div>
                             }
                             <div
-                                onClick={() => this.openLinkRegister({money_filter: 1})}
+                                onClick={() => filterStore.openLinkRegister({money_filter: 1})}
                                 className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">
                                 Xem chi tiết
                             </div>
@@ -78,7 +56,7 @@ class CardRealRevenue extends React.Component {
                 {/*                </div>*/}
                 {/*            }*/}
                 {/*            <div*/}
-                {/*                onClick={() => this.openLinkRegister({money_filter: '0'})}*/}
+                {/*                onClick={() => filterStore.openLinkRegister({money_filter: '0'})}*/}
                 {/*                className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">*/}
                 {/*                Xem chi tiết*/}
                 {/*            </div>*/}
@@ -99,7 +77,7 @@ class CardRealRevenue extends React.Component {
                 {/*                </div>*/}
                 {/*            }*/}
                 {/*            <div*/}
-                {/*                onClick={() => this.openLinkRegister({money_filter: 1})}*/}
+                {/*                onClick={() => filterStore.openLinkRegister({money_filter: 1})}*/}
                 {/*                className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">*/}
                 {/*                Xem chi tiết*/}
                 {/*            </div>*/}
@@ -120,7 +98,7 @@ class CardRealRevenue extends React.Component {
                 {/*                </div>*/}
                 {/*            }*/}
                 {/*            <div*/}
-                {/*                onClick={() => this.openLinkRegister({money_filter: 1})}*/}
+                {/*                onClick={() => filterStore.openLinkRegister({money_filter: 1})}*/}
                 {/*                className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">*/}
                 {/*                Xem chi tiết*/}
                 {/*            </div>*/}

@@ -3,7 +3,7 @@ import {loadGens} from "../dashboardApi";
 import {showErrorNotification} from "../../../helpers/helper";
 import moment from 'moment';
 import {searchStaffs} from "../../lead/leadApi";
-import {NO_AVATAR} from "../../../constants/env";
+import {NO_AVATAR, URL} from "../../../constants/env";
 import {parallel} from "async";
 import {getCourseActiveApi, getMarketingCampaignsApi, getSourcesApi} from "./dashboardSaleApi";
 
@@ -61,6 +61,29 @@ class FilterStore {
         return [allStaff, ...this.staffs.map(staff => {
             return {value: staff.id, label: staff.name};
         })];
+    }
+
+    @action
+    openLinkRegister = (filter) => {
+        let link = `https://${URL}/register/list?`;
+        const filter2 = {...this.filter, ...filter};
+        const data = {
+            startDate: filter2.start_time.format('X'),
+            endDate: filter2.end_time.format('X'),
+            employees: JSON.stringify([filter2.staff_id]),
+            courses: JSON.stringify([filter2.course_id]),
+            provinces: JSON.stringify([filter2.province_id]),
+            bases: JSON.stringify([filter2.base_id]),
+            sources: JSON.stringify([filter2.source_id]),
+            campaigns: JSON.stringify([filter2.campaign_id]),
+        };
+        Object.keys(data).forEach((key) => {
+            const value = data[key] ? data[key] : "";
+            link += `&${key}=${value}`;
+        });
+        console.log(link);
+        window.open(link, "_blank");
+
     }
 
     @action

@@ -69,8 +69,14 @@ class DashboardRealRevenueComponent extends React.Component {
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
-                                        <h4 className="card-title">
+                                        <h4 className="card-title flex flex-align-items-center">
                                             <strong>Doanh thu thực</strong>
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
+                                            </div>
                                         </h4>
                                         {
                                             data.dates && data.dates.length > 0 &&
@@ -103,9 +109,16 @@ class DashboardRealRevenueComponent extends React.Component {
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
-                                        <h4 className="card-title">
+                                        <h4 className="card-title flex flex-align-items-center">
                                             <strong>Doanh thu</strong>
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
+                                            </div>
                                         </h4>
+
                                         {
                                             data.dates && data.dates.length > 0 &&
                                             <BarChartFilterDate

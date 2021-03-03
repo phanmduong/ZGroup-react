@@ -198,8 +198,15 @@ class DashboardRegisterComponent extends React.Component {
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
-                                        <h4 className="card-title">
+                                        <h4 className="card-title flex flex-align-items-center">
                                             <strong>Số lượng đăng kí </strong>
+
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
+                                            </div>
                                         </h4>
                                         {
                                             data.dates && data.dates.length > 0 &&
@@ -243,6 +250,12 @@ class DashboardRegisterComponent extends React.Component {
                                                 style={{fontSize: 12}}
                                                 onClick={() => this.openModalSetSaleTarget()}
                                             >Đặt mục tiêu
+                                            </div>
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
                                             </div>
                                         </h4>
                                         {
@@ -288,6 +301,13 @@ class DashboardRegisterComponent extends React.Component {
                                                 onClick={() => this.openModalSetCourseTarget()}
                                             >Đặt mục tiêu
                                             </div>
+
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
+                                            </div>
                                         </h4>
                                         {
                                             data.dates && data.dates.length > 0 &&
@@ -324,7 +344,7 @@ class DashboardRegisterComponent extends React.Component {
                         {/*    <div className="card margin-bottom-20 margin-top-0">*/}
                         {/*        <div className="card-content text-align-left">*/}
                         {/*            <div className="tab-content">*/}
-                        {/*                <h4 className="card-title">*/}
+                        {/*                <h4 className="card-title flex flex-align-items-center">*/}
                         {/*                    <strong>Tỉ lệ học viên mới - cũ</strong>*/}
                         {/*                </h4>*/}
                         {/*                {*/}
@@ -361,8 +381,15 @@ class DashboardRegisterComponent extends React.Component {
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
-                                        <h4 className="card-title">
+                                        <h4 className="card-title flex flex-align-items-center">
                                             <strong>New Deal - Retention Deal</strong>
+
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
+                                            </div>
                                         </h4>
                                         {
                                             data.dates && data.dates.length > 0 &&
@@ -400,8 +427,15 @@ class DashboardRegisterComponent extends React.Component {
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
-                                        <h4 className="card-title">
+                                        <h4 className="card-title flex flex-align-items-center">
                                             <strong>New Enrollment - Retention Enrollment</strong>
+
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
+                                            </div>
                                         </h4>
                                         {
                                             data.dates && data.dates.length > 0 &&
@@ -439,8 +473,15 @@ class DashboardRegisterComponent extends React.Component {
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
-                                        <h4 className="card-title">
+                                        <h4 className="card-title flex flex-align-items-center">
                                             <strong>New Deal - Retention Deal theo chương trình học</strong>
+
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
+                                            </div>
                                         </h4>
                                         {
                                             data.programs && data.programs.length > 0 &&
@@ -479,8 +520,15 @@ class DashboardRegisterComponent extends React.Component {
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
-                                        <h4 className="card-title">
+                                        <h4 className="card-title flex flex-align-items-center">
                                             <strong>New Enrollment - Retention Enrollment theo chương trình học</strong>
+
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
+                                            </div>
                                         </h4>
                                         {
                                             data.programs && data.programs.length > 0 &&
@@ -519,8 +567,15 @@ class DashboardRegisterComponent extends React.Component {
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
-                                        <h4 className="card-title">
+                                        <h4 className="card-title flex flex-align-items-center">
                                             <strong>Tỉ lệ trạng thái </strong>
+
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
+                                            </div>
                                         </h4>
                                         {
                                             data.dates && data.dates.length > 0 &&
@@ -551,8 +606,15 @@ class DashboardRegisterComponent extends React.Component {
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
-                                        <h4 className="card-title">
+                                        <h4 className="card-title flex flex-align-items-center">
                                             <strong>Tỉ lệ đăng kí theo nguồn</strong>
+
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
+                                            </div>
                                         </h4>
                                         {
                                             data.dates && data.dates.length > 0 &&
@@ -583,8 +645,15 @@ class DashboardRegisterComponent extends React.Component {
                             <div className="card margin-bottom-20 margin-top-0">
                                 <div className="card-content text-align-left">
                                     <div className="tab-content">
-                                        <h4 className="card-title">
+                                        <h4 className="card-title flex flex-align-items-center">
                                             <strong>Tỉ lệ đăng kí theo chiến dịch</strong>
+
+                                            <div
+                                                className="margin-left-10 padding-horizontal-20px white-light-round btn-grey text-center font-weight-400 cursor-pointer"
+                                                style={{fontSize: 12}}
+                                                onClick={() => filterStore.openLinkRegister()}
+                                            >Xem chi tiết
+                                            </div>
                                         </h4>
                                         {
                                             data.dates && data.dates.length > 0 &&
