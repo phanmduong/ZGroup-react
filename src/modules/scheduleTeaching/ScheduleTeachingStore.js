@@ -11,11 +11,13 @@ import {findUser} from "../registerStudentsV3/registerListApi";
 import {NO_AVATAR} from "../../constants/env";
 import moment from "moment";
 import * as roomApi from "../roomRegisterListTrongDong/roomApi";
+import * as classApi from "../classes/classApi";
 
 const defaultSelectObject = {id: '', avatar_url: NO_AVATAR, name: 'Tất cả', label: 'Tất cả', value: 'Tất cả'};
 // const defaultEmptySelectObject = {id :'-1', avatar_url: NO_AVATAR, name:'Không có', label:'Không có', value:''};
 export default new class ScheduleTeachingStore {
     @observable isLoadingClasses = false;
+    @observable isLoadingCourses = false;
     // @observable isLoadingGens = false;
     // @observable isLoadingBases = false;
     @observable isShowClassModal = false;
@@ -39,6 +41,16 @@ export default new class ScheduleTeachingStore {
         start_time: moment().subtract(30, 'days'),
         end_time: moment(),
     };
+
+    @action
+    loadCourses(){
+        this.isLoadingCourses = true;
+        classApi.loadCoursesApi().then(res=>{
+           this.courses = res.data.data.courses;
+        }).finally(()=>{
+            this.isLoadingCourses = false;
+        });
+    }
 
     @action
     loadClasses() {
@@ -243,6 +255,24 @@ export default new class ScheduleTeachingStore {
     //         ...basesData,
     //     ];
     // }
+
+    @computed
+    get getCourses() {
+        let res = this.courses.map(function (course) {
+            return {
+                ...course,
+                key: course.id,
+                value: course.name,
+            };
+        });
+        return [
+            {
+                key: 0,
+                value: "Tất cả môn học"
+            },
+            ...res,
+        ];
+    }
 
 
 }();

@@ -6,6 +6,7 @@ import filterStore from "./filterStore";
 import {convertDotMoneyToK, dotNumber} from "../../../helpers/helper";
 import {DATE_FORMAT_SQL} from "../../../constants/constants";
 import {isEmpty, removeObservable} from "../../../helpers/entity/mobx";
+import {URL} from "../../../constants/env";
 
 @observer
 class CardRevenue extends React.Component {
@@ -22,16 +23,25 @@ class CardRevenue extends React.Component {
     }
 
     openLinkRegister = (filter) => {
-        let link = "/sales/registerlist?";
-        const filter2 = {...filterStore.filter};
-        filter2.start_time = filterStore.filter.start_time.format(DATE_FORMAT_SQL);
-        filter2.end_time = filterStore.filter.end_time.format(DATE_FORMAT_SQL);
-        const data = {...filter2, saler_id: filter2.staff_id, ...filter};
+        let link = `https://${URL}/register/list?`;
+        const filter2 = {...filterStore.filter,...filter};
+        const data = {
+            startDate: filter2.start_time.format('X'),
+            endDate:filter2.end_time.format('X'),
+            employees: JSON.stringify([filter2.staff_id]),
+            courses: JSON.stringify([filter2.course_id]),
+            provinces: JSON.stringify([filter2.province_id]),
+            bases: JSON.stringify([filter2.base_id]),
+            sources: JSON.stringify([filter2.source_id]),
+            campaigns: JSON.stringify([filter2.campaign_id]),
+        };
         Object.keys(data).forEach((key) => {
             const value = data[key] ? data[key] : "";
             link += `&${key}=${value}`;
         });
+        console.log(link);
         window.open(link, "_blank");
+
     }
 
     render() {

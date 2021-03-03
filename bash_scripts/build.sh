@@ -3,7 +3,6 @@
 # Those rules must be obeyed
 # syntax: ./build.sh module_name branch_name
 # module_name == public/manage/folder_name == views/client/blade_file_name
-
 module_name=$1
 
 echo "Build module: $module_name"

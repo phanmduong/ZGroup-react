@@ -25,6 +25,7 @@ class ScheduleClassContainer extends Component {
         // store.loadBases();
         store.loadClasses();
         store.loadRooms();
+        store.loadCourses();
     }
 
     onChangeFilter = (field, value) => {
@@ -132,7 +133,7 @@ class ScheduleClassContainer extends Component {
         currentDate = new Date(currentDate.toISOString());
 
 
-        let showContents = store.isLoadingClasses || store.isLoadingBases;
+        let showContents = store.isLoadingClasses || store.isLoadingBases || store.isLoadingCourses;
         let rooms = this.getRooms();
         let provinces = this.getProvinces();
         let bases = this.getBases();
@@ -161,6 +162,17 @@ class ScheduleClassContainer extends Component {
                         {/*        className="btn btn-white"*/}
                         {/*    />*/}
                         {/*</div>*/}
+                        <div className="col-md-3">
+                            <Select
+                                defaultMessage="Chọn môn học"
+                                options={store.getCourses}
+                                value={filter.course_id}
+                                onChange={val => this.onChangeFilter('course_id', val)}
+                                name="type"
+                                wrapClassName="react-select-white-light-round radius-5"
+                                className="btn btn-white"
+                            />
+                        </div>
                         <div className="col-md-3">
                             <ReactSelect.Async
                                 loadOptions={(p1, p2) => store.searchCourses(p1, p2)}
@@ -214,6 +226,10 @@ class ScheduleClassContainer extends Component {
                             />
                         </div>
 
+
+
+                    </div>}
+                    {!showContents && <div className="row gutter-20">
                         <div className="col-md-3">
                             <Select
                                 defaultMessage="Chọn trạng thái"
@@ -225,10 +241,6 @@ class ScheduleClassContainer extends Component {
                                 className="btn btn-white"
                             />
                         </div>
-
-                    </div>}
-                    {!showContents && <div className="row gutter-20">
-
                         <div className="col-md-3">
                             <Select
                                 defaultMessage="Chọn thành phố"
@@ -263,7 +275,7 @@ class ScheduleClassContainer extends Component {
                             />
                         </div>
 
-                        <div className="col-md-3"/>
+                        {/*<div className="col-md-3"/>*/}
 
 
                     </div>}

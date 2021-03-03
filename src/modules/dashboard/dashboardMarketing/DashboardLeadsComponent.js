@@ -16,6 +16,8 @@ import SetLeadKpiModal from "./SetLeadKpiModal";
 import ExpenseCampaignMarketing from "./ExpenseCampaignMarketing";
 import ExpenseSourceMarketing from "./ExpenseSourceMarketing";
 import {Bar} from "react-chartjs-2";
+import {URL} from "../../../constants/env";
+import filterStore from "../dashboardSale/filterStore";
 
 const optionsBarMoney = {
     tooltips: {
@@ -185,6 +187,26 @@ class DashboardLeadsComponent extends React.Component {
         console.log("ok");
     }
 
+    openLinkLead = () =>{
+        let link = `https://${URL}/register/list?`;
+        const filter = {...filterStore.filter};
+        const data = {
+            startDate: filter.start_time.format('X'),
+            endDate:filter.end_time.format('X'),
+            // employees: JSON.stringify([filter.staff_id]),
+            provinces: JSON.stringify([filter.province_id]),
+            bases: JSON.stringify([filter.base_id]),
+            sources: JSON.stringify([filter.source_id]),
+            campaigns: JSON.stringify([filter.campaign_id]),
+        };
+        Object.keys(data).forEach((key) => {
+            const value = data[key] ? data[key] : "";
+            link += `&${key}=${value}`;
+        });
+        console.log(link);
+        window.open(link, "_blank");
+    }
+
     render() {
         this.path = this.props.location.pathname;
         let {isLoading} = store;
@@ -201,6 +223,7 @@ class DashboardLeadsComponent extends React.Component {
                                     <p className="category">{card.title}</p>
                                     <h3 className="card-title">{store.getSumArray(card.field) || 0}</h3>
                                     <div
+                                        onClick={this.openLinkLead}
                                         className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">
                                         Xem chi tiết
                                     </div>
