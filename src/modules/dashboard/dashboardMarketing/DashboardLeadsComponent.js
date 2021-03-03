@@ -180,7 +180,7 @@ class DashboardLeadsComponent extends React.Component {
     }
 
     openLinkLead = () => {
-        let link = `https://${URL}/register/list?`;
+        let link = `https://${URL}/lead/list?`;
         const filter = {...store.filter};
         const data = {
             startDate: filter.start_time.format('X'),
