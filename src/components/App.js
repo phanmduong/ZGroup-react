@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import TabContainer from "../modules/tab/TabContainer";
 import {Link} from "react-router";
 import * as helper from "../helpers/helper";
-import NotificationContainer from "../modules/notification/NotificationContainer";
+// import NotificationContainer from "../modules/notification/NotificationContainer";
 // import Select from "./common/Select";
 //  import {getValueFromKey} from "../helpers/entity/object";
 // import Select from "./common/Select";
@@ -225,7 +225,7 @@ class App extends React.Component {
                                     {/*        <p className="hidden-lg hidden-md">Quy định</p>*/}
                                     {/*    </a>*/}
                                     {/*</li>*/}
-                                    <NotificationContainer/>
+                                    {/*<NotificationContainer/>*/}
                                     <li>
                                         <a
                                             onClick={this.props.onLogOut}
