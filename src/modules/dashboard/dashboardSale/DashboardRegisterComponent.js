@@ -25,7 +25,7 @@ const optionsBarEnroll = {
                 if (label) {
                     label += ': ';
                 }
-                label += `${dotNumber(Number.parseInt(tooltipItem.value))} lượt`;
+                label += `${dotNumber(Math.round(tooltipItem.value))} lượt`;
                 return label;
             }
         }
@@ -52,7 +52,7 @@ const optionsBarMoney = {
                 if (label) {
                     label += ': ';
                 }
-                label += `${dotNumber(tooltipItem.value)}đ`;
+                label += `${dotNumber(Math.round(tooltipItem.value))}đ`;
                 return label;
             }
         }
@@ -79,7 +79,7 @@ const optionsBarRegister = {
                 if (label) {
                     label += ': ';
                 }
-                label += `${dotNumber(tooltipItem.value)} đơn`;
+                label += `${dotNumber(Math.round(tooltipItem.value))} đơn`;
                 return label;
             }
         }
@@ -114,7 +114,7 @@ const optionsBarStackRegister = {
                 if (label) {
                     label += ': ';
                 }
-                label += `${dotNumber(tooltipItem.value)} đơn`;
+                label += `${dotNumber(Math.round(tooltipItem.value))} đơn`;
                 return label;
             }
         }
