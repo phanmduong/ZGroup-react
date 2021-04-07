@@ -33,6 +33,7 @@ class HistoryCollectMoneyContainer extends React.Component {
             end_time: moment(),
         };
         this.timeOut = null;
+        this.loadHistoryCollectMoney = this.loadHistoryCollectMoney.bind(this);
         this.registersSearchChange = this.registersSearchChange.bind(this);
         this.loadHistoryCollectMoneyByCollector = this.loadHistoryCollectMoneyByCollector.bind(this);
     }
@@ -60,10 +61,11 @@ class HistoryCollectMoneyContainer extends React.Component {
 
     }
 
-    // loadHistoryCollectMoney(page = 1) {
-    //     this.setState({page});
-    //     this.load(this.state);
-    // }
+    loadHistoryCollectMoney(page = 1) {
+        console.log("loadHistoryCollectMoney", page);
+        this.setState({page});
+        this.load({...this.state, page});
+    }
 
     loadHistoryCollectMoneyByCollector(collectorId) {
         this.setState({
@@ -204,7 +206,7 @@ class HistoryCollectMoneyContainer extends React.Component {
                             <Pagination
                                 totalPages={this.props.totalPages}
                                 currentPage={this.state.page}
-                                loadDataPage={this.loadHistoryCollectMoney}
+                                loadDataPage={page => this.loadHistoryCollectMoney(page)}
                             />
                         </div>
 

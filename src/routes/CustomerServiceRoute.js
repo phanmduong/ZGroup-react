@@ -7,16 +7,16 @@ import TicketContainer from "../modules/tickets/TicketContainer";
 
 export default [
     {
-        path: "/customer-services/my-leads",
+        path: "/customer-services/my-leads-old",
         type: "my-leads",
         component: LeadContainer
     },
     {
-        path: "/customer-services/leads",
+        path: "/customer-services/leads-old",
         component: LeadContainer
     },
     {
-        path: "/customer-services/distribution-leads",
+        path: "/customer-services/distribution-leads-old",
         component: LeadContainer,
         type: "distribution"
     },
