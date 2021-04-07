@@ -20,7 +20,7 @@ const optionsBarMoney = {
                 if (label) {
                     label += ': ';
                 }
-                label += `${dotNumber(tooltipItem.value)}đ`;
+                label += `${dotNumber(Math.round(tooltipItem.value))}đ`;
                 return label;
             }
         }
