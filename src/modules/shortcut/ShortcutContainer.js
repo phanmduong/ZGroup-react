@@ -18,7 +18,8 @@ const SHORTCUTS = [
         name: 'Lớp học',
         description: 'Quản lý danh sách lớp học, môn học, điểm danh',
         color: '#FFEEAF',
-        link: '/teaching/classes',
+        link: '/class/list',
+        newLink: `${getNewDomain()}/class/list`,
         icon: 'http://d1j8r0kxyu9tj8.cloudfront.net/files/1607504473nCe7jgS1wfhk1H4.png'
     },
     {

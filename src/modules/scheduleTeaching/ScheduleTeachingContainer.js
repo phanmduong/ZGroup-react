@@ -291,7 +291,7 @@ class ScheduleClassContainer extends Component {
                                             onClick={(value) => {
                                                 // console.log(store.class_id,value.class_id, "schedule");
                                                 // store.class_id = value.class_id;
-                                                window.open(`/teaching/class/${value.class_id}`, "_blank");
+                                                window.open(`https://${window.location.hostname}/class/${value.class_id}`, "_blank");
                                                 // store.isShowClassModal = true;
                                                 // store.loadClass(value.class_id);
                                             }}

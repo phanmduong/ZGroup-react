@@ -45,7 +45,7 @@ class ListRegister extends React.Component {
                                     </TooltipButton>
                                 </td>
                                 <td>
-                                    <a href={`/sales/info-student/${register.student.id}`}
+                                    <a href="#"
                                           className="text-name-student-register">
                                         {register.student.name}
                                     </a>
