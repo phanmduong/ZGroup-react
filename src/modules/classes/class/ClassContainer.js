@@ -801,10 +801,10 @@ class ClassContainer extends React.Component {
                                 </div>
 
                             </CreateRegisterOverlay>}
-                            {(this.path == `${this.routePrefix}/history-teaching` || this.path == `${this.routePrefix}/score`) &&
-                            <div onClick={this.showModalUpdateClass} className="btn btn-actions button-green radius-5">
-                                <i className="material-icons">cached</i>&nbsp;&nbsp;&nbsp;&nbsp;Cập nhật chương trình
-                            </div>}
+                            {/*{(this.path == `${this.routePrefix}/history-teaching` || this.path == `${this.routePrefix}/score`) &&*/}
+                            {/*<div onClick={this.showModalUpdateClass} className="btn btn-actions button-green radius-5">*/}
+                            {/*    <i className="material-icons">cached</i>&nbsp;&nbsp;&nbsp;&nbsp;Cập nhật chương trình*/}
+                            {/*</div>}*/}
                             {(this.path == `${this.routePrefix}/history-teaching` || this.path == `${this.routePrefix}/score`)
                             && classData.course &&
                             <a className="btn btn-actions radius-5"
