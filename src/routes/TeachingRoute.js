@@ -39,37 +39,37 @@ import coursesCreateEditExamTemplate from "../modules/courses/coursesForm/course
 export default [
 
     {
-        path: "/teaching/teaching-schedule",
+        path: "/teaching/teaching-schedule-old",
         // path: "/manage/scheduleclass",
         component: ScheduleTeachingContainer
     },
     {
-        path: "/teaching/scheduleclass",
+        path: "/teaching/scheduleclass-old",
         // path: "/manage/scheduleclass",
         component: ScheduleClassContainer
     },
     {
-        path: "/teaching/studysession",
+        path: "/teaching/studysession-old",
         // path: "/manage/studysession",
         component: StudySessionContainer
     },
     {
-        path: "/teaching/gens",
+        path: "/teaching/gens-old",
         // path: "/manage/gens",
         component: GensContainer
     },
     {
-        path: "/teaching/courses",
+        path: "/teaching/courses-old",
         // path: "/manage/courses",
         component: CoursesContainer
     },
     {
-        path: "/teaching/courses/lessons/edit/:courseId/:lessonId",
+        path: "/teaching/courses/lessons/edit/:courseId/:lessonId/old",
         // path: "/manage/courses/lessons/edit/:lessonId",
         component: LessonsContainer
     },
     {
-        path: "/teaching/courses/lessons/create/:courseId",
+        path: "/teaching/courses/lessons/create/:courseId/old",
         // path: "/manage/courses/lessons/create/:courseId",
         component: LessonsContainer
     },
