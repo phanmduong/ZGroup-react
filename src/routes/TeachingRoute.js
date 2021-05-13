@@ -164,7 +164,7 @@ export default [
         ]
     },
     {
-        path: "/teaching/class/:classId",
+        path: "/teaching/class-old/:classId",
         // path: "/manage/courses/create",
         component: ClassContainer,
         // path children ko có / phía trước nhé ( "/documents" thế này là sai) đúng là "documents"
@@ -192,7 +192,7 @@ export default [
         ]
     },
     {
-        path: "/teaching/info-student/:studentId",
+        path: "/teaching/info-student-old/:studentId",
         // path: "/manage/courses/create",
         component: InfoStudentContainer,
         // path children ko có / phía trước nhé ( "/documents" thế này là sai) đúng là "documents"
