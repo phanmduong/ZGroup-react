@@ -96,12 +96,12 @@ class SettingContainer extends React.Component {
     render() {
         const {isLoading, isSaving} = this.store;
         const {currentTab} = this.state;
-        let settingCreateShift, settingCreateShiftValue, settingCreateWorkShift, settingCreateWorkShiftValue;
+        let settingCreateShift, settingCreateShiftValue;
         if (this.store.settings.length > 0) {
             settingCreateShift = this.getSetting("time_auto_create_shift");
-            settingCreateWorkShift = this.getSetting("time_auto_create_work_shift");
+            // settingCreateWorkShift = this.getSetting("time_auto_create_work_shift");
             settingCreateShiftValue = JSON.parse(this.getSetting("time_auto_create_shift").value);
-            settingCreateWorkShiftValue = JSON.parse(this.getSetting("time_auto_create_work_shift").value);
+            // settingCreateWorkShiftValue = JSON.parse(this.getSetting("time_auto_create_work_shift").value);
         }
         return (
             <div className="margin-top-10">
@@ -244,28 +244,29 @@ class SettingContainer extends React.Component {
                                                         />
                                                     </div>
                                                 </div>}
-                                                {currentTab == 'info' && <div>
-                                                    <label>Thời gian tự động tạo lịch làm việc: (Hàng tuần vào
-                                                        lúc)</label>
-                                                    <div className="flex flex-row flex-wrap">
-                                                        <ReactSelect
-                                                            style={{width: '200px', marginRight: 10, marginTop: 5}}
-                                                            options={DAY_CREATE_SHIFT}
-                                                            onChange={(e) => this.updateValueIndex(settingCreateWorkShift, e ? e.value : "", 0)}
-                                                            value={settingCreateWorkShiftValue[0]}
-                                                            placeholder={"Chọn ngày"}
-                                                            clearable={false}
-                                                        />
-                                                        <ReactSelect
-                                                            style={{width: '200px', marginTop: 5}}
-                                                            options={TIME_SELECTS}
-                                                            onChange={(e) => this.updateValueIndex(settingCreateWorkShift, e ? e.value : "", 1)}
-                                                            value={settingCreateWorkShiftValue[1]}
-                                                            placeholder={"Chọn giờ"}
-                                                            clearable={false}
-                                                        />
-                                                    </div>
-                                                </div>}
+
+                                                {/*{currentTab == 'info' && <div>*/}
+                                                {/*    <label>Thời gian tự động tạo lịch làm việc: (Hàng tuần vào*/}
+                                                {/*        lúc)</label>*/}
+                                                {/*    <div className="flex flex-row flex-wrap">*/}
+                                                {/*        <ReactSelect*/}
+                                                {/*            style={{width: '200px', marginRight: 10, marginTop: 5}}*/}
+                                                {/*            options={DAY_CREATE_SHIFT}*/}
+                                                {/*            onChange={(e) => this.updateValueIndex(settingCreateWorkShift, e ? e.value : "", 0)}*/}
+                                                {/*            value={settingCreateWorkShiftValue[0]}*/}
+                                                {/*            placeholder={"Chọn ngày"}*/}
+                                                {/*            clearable={false}*/}
+                                                {/*        />*/}
+                                                {/*        <ReactSelect*/}
+                                                {/*            style={{width: '200px', marginTop: 5}}*/}
+                                                {/*            options={TIME_SELECTS}*/}
+                                                {/*            onChange={(e) => this.updateValueIndex(settingCreateWorkShift, e ? e.value : "", 1)}*/}
+                                                {/*            value={settingCreateWorkShiftValue[1]}*/}
+                                                {/*            placeholder={"Chọn giờ"}*/}
+                                                {/*            clearable={false}*/}
+                                                {/*        />*/}
+                                                {/*    </div>*/}
+                                                {/*</div>}*/}
 
                                                 <div className=" flex flex-end">
                                                     {isSaving ?
