@@ -17,7 +17,7 @@ module_name="${file_name%.*}"
 echo "${i} : ${file_name%.*}"
 ./build.sh $module_name $branch_name &
 i=$((i+1))
-if ! (( i % 2 ));
+if ! (( i % 5 ));
 then
   secs=$((145))
   while [ $secs -gt 0 ]; do
