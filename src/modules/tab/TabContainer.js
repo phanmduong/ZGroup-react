@@ -7,7 +7,7 @@ import * as tabsActions from './tabsActions';
 import {closeSidebar, getNewDomain, transformToTree} from '../../helpers/helper';
 import Loading from "../../components/common/Loading";
 // Import actions here!!
-const TABIDS = [27, 213, 214, 5, 151, 7, 9, 176, 212, 110];
+const TABIDS = [27, 213, 214, 5, 151, 7, 9, 176, 212, 110,19];
 
 
 class TabContainer extends React.Component {
