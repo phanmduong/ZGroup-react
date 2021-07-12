@@ -64,8 +64,8 @@ class FilterStore {
     }
 
     @action
-    openLinkRegister = (filter) => {
-        let link = `https://${URL}/register/list?`;
+    openLinkRegister = (filter, path = 'register') => {
+        let link = `https://${URL}/${path}/list?`;
         const filter2 = {...this.filter, ...filter};
         const data = {
             startDate: filter2.start_time.format('X'),

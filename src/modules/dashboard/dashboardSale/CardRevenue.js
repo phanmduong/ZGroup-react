@@ -36,7 +36,7 @@ class CardRevenue extends React.Component {
                                 </div>
                             }
                             <div
-                                onClick={() => filterStore.openLinkRegister({money_filter: 1})}
+                                onClick={() => filterStore.openLinkRegister({money_filter: 1},'payment')}
                                 className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">
                                 Xem chi tiết
                             </div>
@@ -58,7 +58,7 @@ class CardRevenue extends React.Component {
                                 </div>
                             }
                             <div
-                                onClick={() => filterStore.openLinkRegister({money_filter: 1})}
+                                onClick={() => filterStore.openLinkRegister({money_filter: 1}, 'payment')}
                                 className="padding-vertical-20px padding-horizontal-20px white-light-round btn-grey width-100 text-center font-weight-400 cursor-pointer">
                                 Xem chi tiết
                             </div>

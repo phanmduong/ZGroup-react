@@ -1,3 +1,5 @@
+nvm use 8
+
 branch=$1
 sudo rm -rf ../dist/
 if [ -z "$branch" ]; then
